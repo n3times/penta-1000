@@ -1,0 +1,10 @@
+expect=../golden/number2fraction.golden
+python test_number2fraction.py < $expect > actual
+wc=`diff $expect actual | wc -l`
+rm actual
+if [ $wc = 0 ]
+then
+  echo "PASS"
+else
+  echo "*** FAIL ***"
+fi
