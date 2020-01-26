@@ -1,10 +1,23 @@
-expect=../golden/number2fraction.golden
-python test_number2fraction.py < $expect > actual
-wc=`diff $expect actual | wc -l`
+test=test_number_to_compound_fraction.py
+golden=../golden/test_number_to_compound_fraction.golden
+python $test < $golden > actual
+wc=`diff $golden actual | wc -l`
 rm actual
 if [ $wc = 0 ]
 then
-  echo "PASS"
+  echo "PASS", $test
 else
-  echo "*** FAIL ***"
+  echo "*** FAIL ***", $test
+fi
+
+test=test_number_to_simple_fraction.py
+golden=../golden/test_number_to_simple_fraction.golden
+python $test < $golden > actual
+wc=`diff $golden actual | wc -l`
+rm actual
+if [ $wc = 0 ]
+then
+  echo "PASS", $test
+else
+  echo "*** FAIL ***", $test
 fi
