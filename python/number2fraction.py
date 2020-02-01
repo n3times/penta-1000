@@ -4,8 +4,10 @@ Public Functions
 
 """
 
-# Converts x into a compound fraction if possible.
-def number_to_displayable_compound_fraction(x):
+# Converts x into a mixed fraction if possible.
+def number_to_displayable_mixed_fraction(x):
+    if x == 0:
+        return (0,)
     is_negative = x < 0
     abs_x = abs(x)
     (a, b, c) = number2fraction(abs_x)
@@ -17,6 +19,8 @@ def number_to_displayable_compound_fraction(x):
     if (not fraction_fits_in_display):
         return None
     if b == 0:
+        if is_negative:
+            a = -a
         return (a,)
     if a == 0:
         if is_negative:
@@ -28,7 +32,7 @@ def number_to_displayable_compound_fraction(x):
 
 # Converts x into simple fraction if possible.
 def number_to_displayable_simple_fraction(x):
-    f = number_to_displayable_compound_fraction(x)
+    f = number_to_displayable_mixed_fraction(x)
     if f != None and len(f) == 3:
         if f[0] < 0:
             f = (f[0] * f[2] - f[1], f[2])

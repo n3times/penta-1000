@@ -1,23 +1,19 @@
-test=test_number_to_compound_fraction.py
-golden=../golden/test_number_to_compound_fraction.golden
-python $test < $golden > actual
-wc=`diff $golden actual | wc -l`
-rm actual
-if [ $wc = 0 ]
-then
-  echo "PASS", $test
-else
-  echo "*** FAIL ***", $test
-fi
+function test() {
+    test=$1
+    golden=$2
+    python $test < $golden > actual
+    wc=`diff $golden actual | wc -l`
+    rm actual
+    if [ $wc = 0 ]
+    then
+      echo "PASS", $test
+    else
+      echo "*** FAIL ***", $test
+    fi
+}
 
-test=test_number_to_simple_fraction.py
-golden=../golden/test_number_to_simple_fraction.golden
-python $test < $golden > actual
-wc=`diff $golden actual | wc -l`
-rm actual
-if [ $wc = 0 ]
-then
-  echo "PASS", $test
-else
-  echo "*** FAIL ***", $test
-fi
+test test_number_to_flo_mode.py ../golden/number_to_flo_mode.golden
+test test_number_to_sci_mode.py ../golden/number_to_sci_mode.golden
+test test_number_to_eng_mode.py ../golden/number_to_eng_mode.golden
+test test_number_to_mix_mode.py ../golden/number_to_mix_mode.golden
+test test_number_to_smp_mode.py ../golden/number_to_smp_mode.golden
