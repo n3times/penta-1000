@@ -1,0 +1,19 @@
+function test() {
+    test=$1
+    golden=../../../golden/$2
+    python $test < $golden > actual
+    wc=`diff $golden actual | wc -l`
+    rm actual
+    if [ $wc = 0 ]
+    then
+      echo "PASS", $test
+    else
+      echo "*** FAIL ***", $test
+    fi
+}
+
+test test_number_to_flo_mode.py number_to_flo_mode.golden
+test test_number_to_sci_mode.py number_to_sci_mode.golden
+test test_number_to_eng_mode.py number_to_eng_mode.golden
+test test_number_to_mix_mode.py number_to_mix_mode.golden
+test test_number_to_sim_mode.py number_to_sim_mode.golden

@@ -21,7 +21,7 @@ class Mode:
     SCI = 2
     ENG = 3
     MIX = 4
-    SMP = 5
+    SIM = 5
 
 def fraction_to_string(f):
     if len(f) == 1:
@@ -48,7 +48,7 @@ def number_to_display(mant, exp, mode):
             mode = Mode.FLO
         else:
             return fraction_to_string(value)
-    elif mode == Mode.SMP:
+    elif mode == Mode.SIM:
         value = number_to_displayable_simple_fraction(number)
         if value == None or len(value) == 1:
             mode == Mode.FLO
