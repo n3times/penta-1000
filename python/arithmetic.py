@@ -31,7 +31,7 @@ def add(n1, n2):
         x = x1 + x2
 
     n = x_to_n(x)
-    return OpResult(n, True)
+    return OpResult(n, OpError.OK)
 
 def substract(n1, n2):
     x1 = n_to_x(n1)
@@ -43,7 +43,7 @@ def substract(n1, n2):
         x = x1 - x2
 
     n = x_to_n(x)
-    return OpResult(n, True)
+    return OpResult(n, OpError.OK)
 
 def multiply(n1, n2):
     x1 = n_to_x(n1)
@@ -52,14 +52,14 @@ def multiply(n1, n2):
     x = x1 * x2
 
     n = x_to_n(x)
-    return OpResult(n, True)
+    return OpResult(n, OpError.OK)
 
 def divide(n1, n2):
     x1 = n_to_x(n1)
     x2 = n_to_x(n2)
 
     if x2 == 0:
-        ok = False
+        error = OpError.DATA_ERROR
         if x1 == 0:
             x = 1
         elif x1 > 0:
@@ -67,24 +67,25 @@ def divide(n1, n2):
         else:
             x = -MAX
     else:
-        ok = True
+        error = OpError.OK
         x = x1 / x2
 
     n = x_to_n(x)
-    return OpResult(n, ok)
+    return OpResult(n, error)
 
 def power(n1, n2):
     x1 = n_to_x(n1)
     x2 = n_to_x(n2)
 
     is_negative = x1 < 0 and x2 % 2 == 1
-    ok = True
+    error = OpError.OK
     if x1 < 0 and x2 % 1 != 0:
-        ok = False
+        error = OpError.DATA_ERROR
     x1 = abs(x1)
     exp = math.log10(x1) * x2
     if exp >= 100:
         x = MAX
+
     elif exp <= -100:
         x = 0
     else:
@@ -93,4 +94,4 @@ def power(n1, n2):
         x = -x
 
     n = x_to_n(x)
-    return OpResult(n, True)
+    return OpResult(n, OpError.OK)

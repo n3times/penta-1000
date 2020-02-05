@@ -15,10 +15,15 @@ class Number:
         self.mant = mant
         self.exp = exp
 
+class OpError:
+    OK = 1
+    DATA_ERROR = 2
+    OVERFLOW = 3
+
 class OpResult:
     n = 0
-    ok = True
+    error = OpError.OK
 
     def __init__(self, n, ok):
         self.n = n
-        self.ok = ok
+        self.error = OpError.OK
