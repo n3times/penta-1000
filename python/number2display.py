@@ -61,7 +61,7 @@ def number_to_display(mant, exp, mode):
         output = (TEN(SCI_DIGIT_COUNT) - 1) / TEN(SCI_DIGIT_COUNT - 1)
         if mant < 0:
             output = '-' + str(output)
-        return str(output) + ' 99?'
+        return str(output) + ' 99'
 
     # Decide whether to use scientific notation.
     is_small = exp <= -FLO_DIGIT_COUNT - 2 \

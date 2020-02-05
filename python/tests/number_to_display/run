@@ -1,6 +1,8 @@
+ROOT=../../..
+
 function test() {
     test=$1
-    golden=../../../golden/$2
+    golden=$ROOT/golden/number_to_display/$2
     python $test < $golden > actual
     wc=`diff $golden actual | wc -l`
     rm actual
