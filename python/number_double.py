@@ -8,6 +8,9 @@ TEN = pow(10, DIGIT_COUNT)
 def n_to_x(n):
     return n.mant * pow(10, n.exp - DIGIT_COUNT + 1)
 
+def x_from_n(n):
+    return n_to_x(n)
+
 def x_to_n(x):
     if x == 0:
         return Number(0, 0)
@@ -28,3 +31,6 @@ def x_to_n(x):
         mant = -mant
 
     return Number(mant, exp)
+
+def n_from_x(x):
+    return x_to_n(x)
