@@ -2,7 +2,10 @@ from number import *
 from arithmetic import *
 
 class LeftParenthesis:
-    LEFT_PARENTHESIS = 1
+    def description(self):
+        return '('
+
+LeftParenthesis.LEFT_PARENTHESIS = LeftParenthesis()
 
 class OperatorType:
     PLUS = 1
@@ -13,16 +16,20 @@ class OperatorType:
     INV_POW = 6
 
 class Operator:
-    def __init__(self, operatorType, priority):
+    def __init__(self, operatorType, priority, description):
         self.operatorType = operatorType
         self.priority = priority
+        self.desc = description
 
-Operator.PLUS = Operator(OperatorType.PLUS, 1)
-Operator.MINUS = Operator(OperatorType.MINUS, 1)
-Operator.TIMES = Operator(OperatorType.TIMES, 2)
-Operator.DIVIDE = Operator(OperatorType.DIVIDE, 2)
-Operator.POW = Operator(OperatorType.POW, 3)
-Operator.INV_POW = Operator(OperatorType.INV_POW, 3)
+    def description(self):
+        return self.desc
+
+Operator.PLUS = Operator(OperatorType.PLUS, 1, '+')
+Operator.MINUS = Operator(OperatorType.MINUS, 1, '-')
+Operator.TIMES = Operator(OperatorType.TIMES, 2, '*')
+Operator.DIVIDE = Operator(OperatorType.DIVIDE, 2, '/')
+Operator.POW = Operator(OperatorType.POW, 3, '^')
+Operator.INV_POW = Operator(OperatorType.INV_POW, 3, '^')
 
 class Stack:
     def __init__(self):
@@ -108,7 +115,6 @@ class Stack:
             self.elements.pop()
 
         while True:
-            print(self.size())
             assert self.size() > 0
             if self.size() == 1:
                 # Done reducing.
@@ -131,6 +137,13 @@ class Stack:
         self.elements.append(operator)
         return True
 
+    def description(self):
+        descr = ''
+        for element in self.elements:
+            descr += element.description() + ' '
+        return descr
+
+
 def compute(a, op, b):
     if op == Operator.PLUS:
         return add(a, b).n
@@ -145,15 +158,34 @@ def compute(a, op, b):
     if op == Operator.INV_POW:
         return inv_power(a, b).n
 
+# 2 * (3 - 4*5^(2-9*2 + 25
 def test():
+    operators = [
+        Number(20000000000000, 0),
+        Operator.TIMES,
+        LeftParenthesis.LEFT_PARENTHESIS,
+        Number(30000000000000, 0),
+        Operator.MINUS,
+        Number(40000000000000, 0),
+        Operator.TIMES,
+        Number(50000000000000, 0),
+        Operator.POW,
+        LeftParenthesis.LEFT_PARENTHESIS,
+        Number(20000000000000, 0),
+        Operator.MINUS,
+        Number(90000000000000, 0),
+        Operator.TIMES,
+        Number(20000000000000, 0),
+        Operator.PLUS,
+        Number(25000000000000, 1),
+    ]
+
     stack = Stack()
-    stack.push(Number(20000000000000, 0))
-    stack.push(Operator.TIMES)
-    stack.push(Number(30000000000000, 0))
-    stack.push(Operator.PLUS)
-    stack.push(Number(50000000000000, 0))
-    stack.push(Operator.POW)
-    stack.push(Number(20000000000000, 0))
+    for op in operators:
+        stack.push(op)
+        print(stack.description())
     stack.reduce_all()
     n = stack.top()
-    print(n.mant)
+    print(str(n.mant) + ' ' + str(n.exp))
+
+test()

@@ -1,4 +1,6 @@
 import math
+from number2display import number_to_display
+from number2display import Mode
 
 DIGIT_COUNT = 14
 ONE = pow(10, DIGIT_COUNT - 1)
@@ -14,6 +16,9 @@ class Number:
         assert(abs(exp) <= 99)
         self.mant = mant
         self.exp = exp
+
+    def description(self):
+        return number_to_display(self.mant, self.exp, Mode.FLO)
 
 class OpError:
     OK = 1
