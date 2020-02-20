@@ -1,8 +1,10 @@
 typedef struct state_s state_t;
 
+void new_state(state_t **state);
+
 /* INPUT */
 
-typedef enum(
+typedef enum {
     KEY_0       = 0,
     KEY_1       = 1,
     KEY_2       = 2,
@@ -14,7 +16,7 @@ typedef enum(
     KEY_8       = 8,
     KEY_9       = 9,
     KEY_DOT     = 10,
-    KEY_CHS     = 11
+    KEY_CHS     = 11,
     KEY_PLUS    = 12,
     KEY_MINUS   = 13,
     KEY_TIMES   = 14,
@@ -22,18 +24,10 @@ typedef enum(
     KEY_EQUAL   = 16,
     KEY_PERCENT = 17,
     KEY_CLEAR   = 18,
-) key_t;
+} key_t;
 
-void press_key(state_t *state, key_t *key); 
+void press_key(state_t *state, key_t key); 
 
 /* OUTPUT */
 
-typedef struct display_char_s {
-    int has_dot;
-
-    /* 0-9, A-Z, +, -, *, / */
-    char character;
-} display_char_t;
-
-/* 0 <= index < 12, left to right. Otherwise the return value is null */
-display_char_t *get_display_char(state_t *state, int index);
+void get_display(state_t *state, char *display);
