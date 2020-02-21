@@ -19,24 +19,28 @@ void get_display(state_t *state, char *display) {
             char *op;
             switch(state->current_op) {
                 case KEY_PLUS:
-                    op = "+";
+                    op = " + ";
                     break;
                 case KEY_MINUS:
-                    op = "-";
+                    op = " - ";
                     break;
                 case KEY_TIMES:
-                    op = "*";
+                    op = " * ";
                     break;
                 case KEY_DIVIDE:
-                    op = "/";
+                    op = " / ";
                     break;
                 default:
-                    op = "?";
+                    op = " ? ";
                     break;
             }
             strcat(extended_display, op);
         }
-        if (state->is_number_editing) {
+        if (state->stack_depth == 3) {
+            char number[30];
+            sprintf(number, "%lli", (long long)state->next_number); 
+            strcat(extended_display, number);
+        } else if (state->is_number_editing) {
             strcat(extended_display, state->number_editing);
         }
     }

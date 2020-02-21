@@ -12,7 +12,11 @@ void press_key(state_t *state, key_t key) {
     if (state->is_error && key != KEY_CLEAR) return;
 
     if (key == KEY_CLEAR) {
-        memset(state, 0, sizeof(*state));
+        if (state->stack_depth == 2 && state->is_number_editing) {
+            state->is_number_editing = 0;
+        } else {
+            memset(state, 0, sizeof(*state));
+        }
     } else if (is_number_edit_key(state, key)) {
         edit_number(state, key);
     } else {

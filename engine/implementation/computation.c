@@ -34,6 +34,11 @@ void compute(state_t *state, key_t op) {
     if (op == KEY_CHS) {
         *number *= -1;
     } else if (op == KEY_PERCENT) {
+        if (state->stack_depth == 3) {
+            if (state->current_op == KEY_PLUS || state->current_op == KEY_MINUS) {
+                *number *= state->current_number;
+            }
+        }
         *number /= 100;
     } else {
         reduce_stack(state);
