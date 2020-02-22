@@ -3,13 +3,15 @@
 struct state_s {
     int is_error;
     int stack_depth;
-    double current_number;
-    key_t current_op;
-    double next_number;
+    double number_1;
+    key_t op_1;
+    double number_2;
+    key_t op_2;
+    double number_3;
     int is_number_editing;
-    char number_editing[24];
+    char number_editing[25];
 };
 
-void compute(state_t *state, key_t op);
+void handle_op(state_t *state, key_t op);
 void edit_number(state_t *state, key_t key);
 void resolve_edit_number(state_t *state);

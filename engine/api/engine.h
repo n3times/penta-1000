@@ -1,6 +1,23 @@
+/* USAGE:
+ *
+ *   // Get a new blank state.
+ *   state_t *state = nil;
+ *   new_state(&state);
+ *
+ *   // Repeatedly, report any key pressed and update display.
+ *   press_key(state, <SOME_KEY>);
+ *   char display[25];
+ *   get_display(state, display);
+ *   // Update display from UI...
+ *
+ *   // Quit calculator, when done.
+ *   release_state(state);
+ */
+
 typedef struct state_s state_t;
 
 void new_state(state_t **state);
+void release_state(state_t *state);
 
 /* INPUT */
 

@@ -23,6 +23,6 @@ void press_key(state_t *state, key_t key) {
         if(state->is_number_editing) {
            resolve_edit_number(state);
         }
-        compute(state, key);
+        handle_op(state, key);
     }
 }

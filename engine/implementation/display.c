@@ -12,12 +12,12 @@ void get_display(state_t *state, char *display) {
    } else {
         if (state->stack_depth >= 1) {
             char number[30];
-            sprintf(number, "%lli", (long long)state->current_number); 
+            sprintf(number, "%lli", (long long)state->number_1); 
             strcat(extended_display, number);
         }
         if (state->stack_depth >= 2) {
             char *op;
-            switch(state->current_op) {
+            switch(state->op_1) {
                 case KEY_PLUS:
                     op = " + ";
                     break;
@@ -38,7 +38,7 @@ void get_display(state_t *state, char *display) {
         }
         if (state->stack_depth == 3) {
             char number[30];
-            sprintf(number, "%lli", (long long)state->next_number); 
+            sprintf(number, "%lli", (long long)state->number_2); 
             strcat(extended_display, number);
         } else if (state->is_number_editing) {
             strcat(extended_display, state->number_editing);

@@ -7,3 +7,7 @@ void new_state(state_t **state) {
     *state = malloc(sizeof(state_t));
     memset(*state, 0, sizeof(state_t));
 }
+
+void release_state(state_t *state) {
+    free(state);
+}
