@@ -5,6 +5,17 @@
 #include <string.h>
 
 void edit_number(state_t *state, key_t key) {
+    if (!state->is_number_editing) {
+        if (key == KEY_DOT || key == KEY_CHS) {
+            return;
+        }
+    }
+    if (!strcmp(state->number_editing, "0")) {
+        if (key == KEY_0) {
+            return;
+        }
+    }
+
     if (state->stack_depth == 1) state->stack_depth = 0;
     if (key == KEY_DOT) {
         if (!strchr(state->number_editing, '.')) {
@@ -26,7 +37,7 @@ void edit_number(state_t *state, key_t key) {
 }
 
 void resolve_edit_number(state_t *state) {
-    double result = atoll(state->number_editing);
+    double result = atof(state->number_editing);
     double *number =
         state->stack_depth == 0 ? &state->number_1 : &state->number_2;
     *number = result;

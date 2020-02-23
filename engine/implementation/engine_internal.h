@@ -1,7 +1,9 @@
 #include "engine.h"
 
 struct state_s {
-    int is_error;
+    int is_new;
+    int is_data_error;
+    int is_overflow;
     int stack_depth;
     double number_1;
     key_t op_1;

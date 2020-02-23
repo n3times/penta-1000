@@ -41,6 +41,7 @@ typedef enum {
     KEY_EQUAL   = 16,
     KEY_PERCENT = 17,
     KEY_CLEAR   = 18,
+    KEY_GAME    = 19,
 } key_t;
 
 void press_key(state_t *state, key_t key); 

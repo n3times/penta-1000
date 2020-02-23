@@ -9,11 +9,14 @@ static int is_number_edit_key(state_t *state, key_t key) {
 }
 
 void press_key(state_t *state, key_t key) {
-    if (state->is_error && key != KEY_CLEAR) return;
+    state->is_new = 0;
+    int is_error = state->is_data_error || state->is_overflow;
+    if (is_error && key != KEY_CLEAR) return;
 
     if (key == KEY_CLEAR) {
         if (state->stack_depth == 2 && state->is_number_editing) {
             state->is_number_editing = 0;
+            state->number_editing[0] = 0;
         } else {
             memset(state, 0, sizeof(*state));
         }
