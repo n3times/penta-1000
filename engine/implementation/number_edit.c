@@ -4,16 +4,38 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_DIGITS_NUM 10
+
 void edit_number(state_t *state, key_t key) {
     if (!state->is_number_editing) {
-        if (key == KEY_DOT || key == KEY_CHS) {
+        if (key == KEY_DOT) {
+            return;
+        }
+    }
+    if (!strcmp(state->number_editing, "-")) {
+        if (key == KEY_DOT) {
             return;
         }
     }
     if (!strcmp(state->number_editing, "0")) {
-        if (key == KEY_0) {
+        if (key != KEY_DOT && key != KEY_CHS) {
             return;
         }
+    }
+    if (!strcmp(state->number_editing, "-0")) {
+        if (key != KEY_DOT && key != KEY_CHS) {
+            return;
+        }
+    }
+    if (KEY_0 <= key && key <= KEY_9) {
+        int number_of_digits = 0;
+        for (int i = 0; i < strlen(state->number_editing); i++) {
+            char c = state->number_editing[i];
+            if ('0' <= c && c <= '9') {
+                number_of_digits++;
+            }
+        }
+        if (number_of_digits == MAX_DIGITS_NUM) return;
     }
 
     if (state->stack_depth == 1) state->stack_depth = 0;

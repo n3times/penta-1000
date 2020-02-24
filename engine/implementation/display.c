@@ -4,9 +4,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_DIGITS_NUM 10
+
 static void x_to_d(char *formatted, double x, int len);
+static void get_game_display(state_t *state, char *display);
 
 void get_display(state_t *state, char *display) {
+    if (state->is_game) {
+        get_game_display(state, display);
+        return;
+    }
+
     char extended_display[100];
     memset(extended_display, 0, 100);
 
@@ -19,7 +27,7 @@ void get_display(state_t *state, char *display) {
     } else {
         if (state->stack_depth >= 1) {
             char number[30];
-            x_to_d(number, state->number_1, 10);
+            x_to_d(number, state->number_1, MAX_DIGITS_NUM);
             strcat(extended_display, number);
         }
         if (state->stack_depth >= 2) {
@@ -44,8 +52,9 @@ void get_display(state_t *state, char *display) {
             strcat(extended_display, op);
         }
         if (state->stack_depth == 3) {
+            printf("===>\n");
             char number[30];
-            x_to_d(number, state->number_1, 10);
+            x_to_d(number, state->number_1, MAX_DIGITS_NUM);
             strcat(extended_display, number);
         }
         if (state->is_number_editing) {
@@ -53,7 +62,7 @@ void get_display(state_t *state, char *display) {
         }
     }
     if (extended_display[0] == '\0') {
-	strcpy(extended_display, "READY");
+        strcpy(extended_display, "READY");
     }
     int offset = strlen(extended_display) - 12;
     if (offset < 0) {
@@ -77,9 +86,9 @@ static void x_to_d(char *formatted, double x, int len) {
         is_big = (strlen(s) > len);
 
         int is_small = 0;
-        sprintf(s, "%.0f", x);
         sprintf(f, "%%.%df", len - 1);
-        is_small = !strcmp(s, "0.00000");
+        sprintf(s, f, x);
+        is_small = !strcmp(s, "0.000000000");
 
         if (is_big || is_small) { 
             sprintf(s, "%.6e", x);
@@ -97,9 +106,32 @@ static void x_to_d(char *formatted, double x, int len) {
             }
         }
         if (is_negative) {
-            memmove(s + 1, s, strlen(s));
+            memmove(s + 1, s, strlen(s) + 1);
             s[0] = '-';
         }
     }
     strcpy(formatted, result);
+}
+
+static void get_game_display(state_t *state, char *display) {
+    game_t *game = &state->game;
+
+    if (game->is_number_editing) {
+        sprintf(display, "GUESS %d  %s", game->index, game->number_editing); 
+    } else {
+        char *score = "";
+        if (game->guess == game->target) {
+            score = "YOU WON";
+        } else if (game->index > 10) {
+            score = "YOU LOST";
+        } else {
+            int delta = game->guess - game->target;
+            if (delta > 0) {
+                score = "TOO HIGH";
+            } else {
+                score = "TOO LOW";
+            }
+        }
+        sprintf(display, "%s %d", score, game->guess); 
+    }
 }

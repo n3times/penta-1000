@@ -1,7 +1,18 @@
 #include "engine.h"
 
+typedef struct game_s {
+    int target;
+    int is_number_editing;
+    char number_editing[4];
+    int guess;
+    int previous_guess;
+    int index;
+} game_t;
+
 struct state_s {
     int is_new;
+    int is_game;
+    game_t game;
     int is_data_error;
     int is_overflow;
     int stack_depth;
