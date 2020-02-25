@@ -17,6 +17,9 @@ int main() {
     printf("[ ]  %12s\n", display);
 
     while (1) {
+        // The system calls make sure the pressed characters are not buffered
+        // and therefore are immediately available (without the user pressing
+        // the return key.
         system("/bin/stty raw");
         char c = tolower(getchar());
         system("/bin/stty cooked");

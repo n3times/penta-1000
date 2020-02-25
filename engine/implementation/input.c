@@ -21,7 +21,7 @@ static void reset_game(game_t * game) {
     srand((unsigned) time(&t));
     game->target = rand() % 1000;
 
-    game->guess = 557;
+    game->guess = -1;
     strcpy(game->number_editing, "___");
     game->index = 1;
 }
@@ -42,7 +42,7 @@ void press_key_in_game(game_t *game, key_t key) {
             strcpy(game->number_editing, "___");
         }
     } else {
-        if (game->index == 10) {
+        if (game->index == 10 || game->guess == game->target) {
             if (key == KEY_CLEAR) {
                 reset_game(game);
             }
@@ -75,7 +75,7 @@ int press_key(calc_t *calc, key_t key) {
 
     calc->is_new = 0;
 
-    int is_error = calc->is_data_error || calc->is_overflow;
+    int is_error = calc->error != ERROR_NONE;
     if (is_error && key != KEY_CLEAR) return 0;
 
     if (key == KEY_CLEAR) {

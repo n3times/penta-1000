@@ -44,7 +44,7 @@ typedef enum {
     KEY_GAME    = 19,
 } key_t;
 
-int press_key(calc_t *calc, key_t key); 
+int press_key(calc_t *calc, key_t key);
 
 /* OUTPUT */
 

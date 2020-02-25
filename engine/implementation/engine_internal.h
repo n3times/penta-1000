@@ -1,5 +1,11 @@
 #include "engine.h"
 
+typedef enum error_e {
+    ERROR_NONE = 0,
+    ERROR_ILLEGAL_OP = 1,
+    ERROR_OVERFLOW = 2,
+} error_t;
+
 typedef struct aos_s {
     int stack_depth;
     double number_1;
@@ -20,8 +26,7 @@ typedef struct game_s {
 struct calc_s {
     int is_new;
     int is_game;
-    int is_data_error;
-    int is_overflow;
+    error_t error;
     int is_number_editing;
     char number_editing[25];
     aos_t aos;

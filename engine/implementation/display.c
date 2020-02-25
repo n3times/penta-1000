@@ -8,10 +8,9 @@
 
 static void x_to_d(char *formatted, double x, int len);
 static void get_game_display(calc_t *calc, char *display);
+static char get_op_char(key_t key);
 
 void get_display(calc_t *calc, char *display) {
-    aos_t *aos = &calc->aos;
-
     if (calc->is_game) {
         get_game_display(calc, display);
         return;
@@ -19,12 +18,13 @@ void get_display(calc_t *calc, char *display) {
 
     char extended_display[100];
     memset(extended_display, 0, 100);
+    aos_t *aos = &calc->aos;
 
     if (calc->is_new) {
         strcpy(extended_display, "PENTATRONICS");
-    } else if (calc->is_data_error) {
+    } else if (calc->error == ERROR_ILLEGAL_OP) {
         strcpy(extended_display, "ILLEGAL OP");
-    } else if (calc->is_overflow) {
+    } else if (calc->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
     } else {
         if (aos->stack_depth >= 1) {
@@ -33,31 +33,24 @@ void get_display(calc_t *calc, char *display) {
             strcat(extended_display, number);
         }
         if (aos->stack_depth >= 2) {
-            char *op;
-            switch(aos->op_1) {
-                case KEY_PLUS:
-                    op = "+";
-                    break;
-                case KEY_MINUS:
-                    op = "-";
-                    break;
-                case KEY_TIMES:
-                    op = "*";
-                    break;
-                case KEY_DIVIDE:
-                    op = "/";
-                    break;
-                default:
-                    op = "?";
-                    break;
-            }
-            strcat(extended_display, op);
+            char op = get_op_char(aos->op_1);
+            char op_string[2];
+            op_string[0] = op;
+            op_string[1] = 0;
+            strcat(extended_display, op_string);
         }
-        if (aos->stack_depth == 3) {
+        if (aos->stack_depth >= 3) {
             printf("===>\n");
             char number[30];
-            x_to_d(number, aos->number_1, MAX_DIGITS_NUM);
+            x_to_d(number, aos->number_2, MAX_DIGITS_NUM);
             strcat(extended_display, number);
+        }
+        if (aos->stack_depth >= 4) {
+            char op = get_op_char(aos->op_2);
+            char op_string[2];
+            op_string[0] = op;
+            op_string[1] = 0;
+            strcat(extended_display, op_string);
         }
         if (calc->is_number_editing) {
             strcat(extended_display, calc->number_editing);
@@ -92,7 +85,7 @@ static void x_to_d(char *formatted, double x, int len) {
         sprintf(s, f, x);
         is_small = !strcmp(s, "0.000000000");
 
-        if (is_big || is_small) { 
+        if (is_big || is_small) {
             sprintf(s, "%.6e", x);
         } else {
             sprintf(s, "%.0f", x);
@@ -120,9 +113,9 @@ static void get_game_display(calc_t *calc, char *display) {
 
     if (game->is_number_editing) {
 	if (game->index == 10) {
-            sprintf(display, "GUESS %d  %s", game->index, game->number_editing); 
+            sprintf(display, "GUESS %d  %s", game->index, game->number_editing);
         } else {
-            sprintf(display, "GUESS %d   %s", game->index, game->number_editing); 
+            sprintf(display, "GUESS %d   %s", game->index, game->number_editing);
         }
     } else {
         char *score = "";
@@ -131,7 +124,7 @@ static void get_game_display(calc_t *calc, char *display) {
         } else if (game->index >= 10) {
             score = "YOU LOST ";
             sprintf(display, "%s %d", score, game->target);
-            return; 
+            return;
         } else {
             int delta = game->guess - game->target;
             if (delta > 0) {
@@ -140,6 +133,11 @@ static void get_game_display(calc_t *calc, char *display) {
                 score = "TOO LOW  ";
             }
         }
-        sprintf(display, "%s %d", score, game->guess); 
+        sprintf(display, "%s %03d", score, game->guess);
     }
+}
+
+static char get_op_char(key_t key) {
+    char *ops = "+-*/";
+    return ops[key - KEY_PLUS];
 }

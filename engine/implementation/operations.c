@@ -13,14 +13,17 @@ static void reduce_stack(calc_t *calc) {
         result = aos->number_1 * aos->number_2;
     } else if (aos->op_1 == KEY_DIVIDE) {
         if (aos->number_2 == 0) {
-            calc->is_data_error = 1;
+            calc->error = ERROR_ILLEGAL_OP;
             return;
         }
         result = aos->number_1 / aos->number_2;
     }
     if (result >= 1e100 || result <= -1e100) {
-        calc->is_overflow = 1;
+        calc->error = ERROR_OVERFLOW;
         return;
+    }
+    if (-1e-100 <= result && result <= 1e-100) {
+        result = 0;
     }
     aos->number_1 = result;
     aos->stack_depth = 1;
@@ -31,8 +34,13 @@ void handle_op(calc_t *calc, key_t op) {
     aos_t *aos = &calc->aos;
 
     if (aos->stack_depth == 0) return;
-    if (aos->stack_depth == 2) return;
-    if (aos->stack_depth == 4) return;
+
+    if (aos->stack_depth % 2 == 0) {
+        if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
+            aos->op_1 = op;
+        }
+        return;
+    }
 
     double *number =
         aos->stack_depth == 1 ? &aos->number_1 : &aos->number_2;
