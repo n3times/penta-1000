@@ -1,23 +1,23 @@
 /* USAGE:
  *
- *   // Get a new blank state.
- *   state_t *state = nil;
- *   new_state(&state);
+ *   // Get a new calc object.
+ *   calc_t *calc = nil;
+ *   new_calc(&calc);
  *
  *   // Repeatedly, report any key pressed and update display.
- *   press_key(state, <SOME_KEY>);
+ *   press_key(calc, <SOME_KEY>);
  *   char display[25];
- *   get_display(state, display);
+ *   get_display(calc, display);
  *   // Update display from UI...
  *
  *   // Quit calculator, when done.
- *   release_state(state);
+ *   release_calc(calc);
  */
 
-typedef struct state_s state_t;
+typedef struct calc_s calc_t;
 
-void new_state(state_t **state);
-void release_state(state_t *state);
+void new_calc(calc_t **calc);
+void release_calc(calc_t *calc);
 
 /* INPUT */
 
@@ -44,8 +44,8 @@ typedef enum {
     KEY_GAME    = 19,
 } key_t;
 
-int press_key(state_t *state, key_t key); 
+int press_key(calc_t *calc, key_t key); 
 
 /* OUTPUT */
 
-void get_display(state_t *state, char *display);
+void get_display(calc_t *calc, char *display);

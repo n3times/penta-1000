@@ -6,31 +6,31 @@
 
 #define MAX_DIGITS_NUM 10
 
-void edit_number(state_t *state, key_t key) {
-    if (!state->is_number_editing) {
+void edit_number(calc_t *calc, key_t key) {
+    if (!calc->is_number_editing) {
         if (key == KEY_DOT) {
             return;
         }
     }
-    if (!strcmp(state->number_editing, "-")) {
+    if (!strcmp(calc->number_editing, "-")) {
         if (key == KEY_DOT) {
             return;
         }
     }
-    if (!strcmp(state->number_editing, "0")) {
+    if (!strcmp(calc->number_editing, "0")) {
         if (key != KEY_DOT && key != KEY_CHS) {
             return;
         }
     }
-    if (!strcmp(state->number_editing, "-0")) {
+    if (!strcmp(calc->number_editing, "-0")) {
         if (key != KEY_DOT && key != KEY_CHS) {
             return;
         }
     }
     if (KEY_0 <= key && key <= KEY_9) {
         int number_of_digits = 0;
-        for (int i = 0; i < strlen(state->number_editing); i++) {
-            char c = state->number_editing[i];
+        for (int i = 0; i < strlen(calc->number_editing); i++) {
+            char c = calc->number_editing[i];
             if ('0' <= c && c <= '9') {
                 number_of_digits++;
             }
@@ -38,32 +38,32 @@ void edit_number(state_t *state, key_t key) {
         if (number_of_digits == MAX_DIGITS_NUM) return;
     }
 
-    if (state->stack_depth == 1) state->stack_depth = 0;
+    if (calc->aos.stack_depth == 1) calc->aos.stack_depth = 0;
     if (key == KEY_DOT) {
-        if (!strchr(state->number_editing, '.')) {
-            strcat(state->number_editing, ".");
+        if (!strchr(calc->number_editing, '.')) {
+            strcat(calc->number_editing, ".");
         }
     } else if (key == KEY_CHS) {
-        if (state->number_editing[0] == '-') {
-            sprintf(state->number_editing, "%s", state->number_editing + 1);
+        if (calc->number_editing[0] == '-') {
+            sprintf(calc->number_editing, "%s", calc->number_editing + 1);
         } else {
-            memmove(state->number_editing + 1,
-                    state->number_editing, 
-                    strlen(state->number_editing));
-            state->number_editing[0] = '-';
+            memmove(calc->number_editing + 1,
+                    calc->number_editing, 
+                    strlen(calc->number_editing));
+            calc->number_editing[0] = '-';
         }
     } else {
-        sprintf(state->number_editing, "%s%i", state->number_editing, key);
+        sprintf(calc->number_editing, "%s%i", calc->number_editing, key);
     }
-    state->is_number_editing = 1;
+    calc->is_number_editing = 1;
 }
 
-void resolve_edit_number(state_t *state) {
-    double result = atof(state->number_editing);
+void resolve_edit_number(calc_t *calc) {
+    double result = atof(calc->number_editing);
     double *number =
-        state->stack_depth == 0 ? &state->number_1 : &state->number_2;
+        calc->aos.stack_depth == 0 ? &calc->aos.number_1 : &calc->aos.number_2;
     *number = result;
-    state->stack_depth++;
-    state->is_number_editing = 0;
-    memset(state->number_editing, 0, sizeof(state->number_editing));
+    calc->aos.stack_depth++;
+    calc->is_number_editing = 0;
+    memset(calc->number_editing, 0, sizeof(calc->number_editing));
 }

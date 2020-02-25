@@ -7,32 +7,34 @@
 #define MAX_DIGITS_NUM 10
 
 static void x_to_d(char *formatted, double x, int len);
-static void get_game_display(state_t *state, char *display);
+static void get_game_display(calc_t *calc, char *display);
 
-void get_display(state_t *state, char *display) {
-    if (state->is_game) {
-        get_game_display(state, display);
+void get_display(calc_t *calc, char *display) {
+    aos_t *aos = &calc->aos;
+
+    if (calc->is_game) {
+        get_game_display(calc, display);
         return;
     }
 
     char extended_display[100];
     memset(extended_display, 0, 100);
 
-    if (state->is_new) {
+    if (calc->is_new) {
         strcpy(extended_display, "PENTATRONICS");
-    } else if (state->is_data_error) {
+    } else if (calc->is_data_error) {
         strcpy(extended_display, "ILLEGAL OP");
-    } else if (state->is_overflow) {
+    } else if (calc->is_overflow) {
         strcpy(extended_display, "OVERFLOW");
     } else {
-        if (state->stack_depth >= 1) {
+        if (aos->stack_depth >= 1) {
             char number[30];
-            x_to_d(number, state->number_1, MAX_DIGITS_NUM);
+            x_to_d(number, aos->number_1, MAX_DIGITS_NUM);
             strcat(extended_display, number);
         }
-        if (state->stack_depth >= 2) {
+        if (aos->stack_depth >= 2) {
             char *op;
-            switch(state->op_1) {
+            switch(aos->op_1) {
                 case KEY_PLUS:
                     op = "+";
                     break;
@@ -51,14 +53,14 @@ void get_display(state_t *state, char *display) {
             }
             strcat(extended_display, op);
         }
-        if (state->stack_depth == 3) {
+        if (aos->stack_depth == 3) {
             printf("===>\n");
             char number[30];
-            x_to_d(number, state->number_1, MAX_DIGITS_NUM);
+            x_to_d(number, aos->number_1, MAX_DIGITS_NUM);
             strcat(extended_display, number);
         }
-        if (state->is_number_editing) {
-            strcat(extended_display, state->number_editing);
+        if (calc->is_number_editing) {
+            strcat(extended_display, calc->number_editing);
         }
     }
     if (extended_display[0] == '\0') {
@@ -113,23 +115,29 @@ static void x_to_d(char *formatted, double x, int len) {
     strcpy(formatted, result);
 }
 
-static void get_game_display(state_t *state, char *display) {
-    game_t *game = &state->game;
+static void get_game_display(calc_t *calc, char *display) {
+    game_t *game = &calc->game;
 
     if (game->is_number_editing) {
-        sprintf(display, "GUESS %d  %s", game->index, game->number_editing); 
+	if (game->index == 10) {
+            sprintf(display, "GUESS %d  %s", game->index, game->number_editing); 
+        } else {
+            sprintf(display, "GUESS %d   %s", game->index, game->number_editing); 
+        }
     } else {
         char *score = "";
         if (game->guess == game->target) {
-            score = "YOU WON";
-        } else if (game->index > 10) {
-            score = "YOU LOST";
+            score = "YOU WON  ";
+        } else if (game->index >= 10) {
+            score = "YOU LOST ";
+            sprintf(display, "%s %d", score, game->target);
+            return; 
         } else {
             int delta = game->guess - game->target;
             if (delta > 0) {
-                score = "TOO HIGH";
+                score = "TOO HIGH ";
             } else {
-                score = "TOO LOW";
+                score = "TOO LOW  ";
             }
         }
         sprintf(display, "%s %d", score, game->guess); 

@@ -5,9 +5,9 @@
 
 static char *key_strings = "0123456789.~+-*/=%C";
 
-static void print_display(state_t *state) {
+static void print_display(calc_t *calc) {
     char display[100];    
-    get_display(state, display);
+    get_display(calc, display);
     printf("%s\n", display);
 }
 
@@ -16,15 +16,15 @@ static void print_key(key_t key) {
 }
 
 static void test_sequence(key_t *sequence, int count, char *title) {
-    state_t *state;
-    new_state(&state);
+    calc_t *calc;
+    new_calc(&calc);
 
     printf("=== %s ===\n\n", title);
-    print_display(state);
+    print_display(calc);
     for (int i = 0; i < count; i++) { 
-       press_key(state, sequence[i]);
+       press_key(calc, sequence[i]);
        print_key(sequence[i]);
-       print_display(state);
+       print_display(calc);
     }
     printf("\n");
 }
