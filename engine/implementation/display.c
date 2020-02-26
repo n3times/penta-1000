@@ -113,24 +113,24 @@ static void get_game_display(calc_t *calc, char *display) {
 
     if (game->is_number_editing) {
 	if (game->index == 10) {
-            sprintf(display, "GUESS %d  %s", game->index, game->number_editing);
+            sprintf(display, "GUESS %d %s", game->index, game->number_editing);
         } else {
-            sprintf(display, "GUESS %d   %s", game->index, game->number_editing);
+            sprintf(display, "GUESS %d  %s", game->index, game->number_editing);
         }
     } else {
         char *score = "";
         if (game->guess == game->target) {
-            score = "YOU WON  ";
+            score = "YOU WON ";
         } else if (game->index >= 10) {
-            score = "YOU LOST ";
+            score = "YOU LOST";
             sprintf(display, "%s %d", score, game->target);
             return;
         } else {
             int delta = game->guess - game->target;
             if (delta > 0) {
-                score = "TOO HIGH ";
+                score = "TOO HIGH";
             } else {
-                score = "TOO LOW  ";
+                score = "TOO LOW ";
             }
         }
         sprintf(display, "%s %03d", score, game->guess);
