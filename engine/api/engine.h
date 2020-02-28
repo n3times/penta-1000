@@ -1,16 +1,17 @@
-/* USAGE:
+/**
+ *  USAGE:
  *
- *   // Get a new calc object.
- *   calc_t *calc = new_calc(&calc);
+ *  // Get a new calc object.
+ *  calc_t *calc = new_calc(&calc);
  *
- *   // Repeatedly, report any key pressed and update display.
- *   press_key(calc, <SOME_KEY>);
- *   char display[25];
- *   get_display(calc, display);
- *   // Update display from UI...
+ *  // Repeatedly, report any key pressed and update display.
+ *  press_key(calc, <SOME_KEY>);
+ *  char display[25];
+ *  get_display(calc, display);
+ *  // Update display from UI...
  *
- *   // Quit calculator, when done.
- *   release_calc(calc);
+ *  // Quit calculator, when done.
+ *  release_calc(calc);
  */
 
 typedef struct calc_s calc_t;
@@ -48,3 +49,19 @@ int press_key(calc_t *calc, key_t key);
 /* OUTPUT */
 
 void get_display(calc_t *calc, char *display);
+
+/* ANIMATION */
+
+/**
+ * Gets the number of milliseconds one should wait between the last successful
+ * event (new_calc, press_key or advance) before calling advance.
+ * Those calls are successful if they return anything different from 0.
+ * Returns 0 if one should not call advance.
+ */
+long get_ms_wait_to_advance(calc_t *calc);
+
+/** 
+ * Advances to the next frame of the animation.
+ * Call get_display to get the new animation frame.
+ */
+int advance(calc_t *calc);

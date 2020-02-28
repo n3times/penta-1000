@@ -5,12 +5,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <pthread.h>
+#include <unistd.h>
+
 static void set_calc_display() {
     printf("\033[91;40m");
 }
 
 static void reset_display() {
     printf("\033[39;49m");
+}
+
+static void quit() {
+    reset_display();
+    system("/bin/stty cooked");
+    exit(0);
 }
 
 int main() {
@@ -24,18 +33,15 @@ int main() {
     get_display(calc, display);
     printf("  %12s \r", display);
 
+    // Make sure the pressed keys are immediately available, without the user
+    // having to press the return key.
     system("/bin/stty raw");
 
     while (1) {
-        // The system calls make sure the pressed characters are not buffered
-        // and therefore are immediately available (without the user pressing
-        // the return key).
         char c = tolower(getchar());
 
         if (c == 'q') {
-            reset_display();
-            system("/bin/stty cooked");
-            exit(0);
+            quit();
         }
 
         char *char_to_key_map = "0123456789.~+-*/=%cg";
@@ -44,6 +50,13 @@ int main() {
                 if (press_key(calc, i)) {
                     get_display(calc, display);
                     printf("  %12s\r", display);
+                    int ms;
+                    while ((ms = get_ms_wait_to_advance(calc))) {
+                        usleep(ms * 1000);
+                        advance(calc);
+                        get_display(calc, display);
+                        printf("  %12s\r", display);
+                    }
                 }
                 break;
             }

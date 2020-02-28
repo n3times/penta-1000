@@ -13,3 +13,16 @@ calc_t *new_calc() {
 void release_calc(calc_t *calc) {
     free(calc);
 }
+
+long get_ms_wait_to_advance(calc_t *calc) {
+    return calc->wait_ms;
+}
+
+int advance(calc_t *calc) {
+    if (calc->is_game) {
+        advance_game(&calc->game);
+    } else {
+        advance_calc(calc);
+    }
+    return 1;
+}
