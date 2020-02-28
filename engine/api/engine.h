@@ -1,8 +1,7 @@
 /* USAGE:
  *
  *   // Get a new calc object.
- *   calc_t *calc = nil;
- *   new_calc(&calc);
+ *   calc_t *calc = new_calc(&calc);
  *
  *   // Repeatedly, report any key pressed and update display.
  *   press_key(calc, <SOME_KEY>);
@@ -16,7 +15,7 @@
 
 typedef struct calc_s calc_t;
 
-void new_calc(calc_t **calc);
+calc_t *new_calc();
 void release_calc(calc_t *calc);
 
 /* INPUT */

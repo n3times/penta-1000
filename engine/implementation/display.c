@@ -57,7 +57,7 @@ void get_display(calc_t *calc, char *display) {
         }
     }
     if (extended_display[0] == '\0') {
-        strcpy(extended_display, "READY");
+        strcpy(extended_display, "RDY");
     }
     int offset = strlen(extended_display) - 12;
     if (offset < 0) {

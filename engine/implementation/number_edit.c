@@ -10,10 +10,7 @@
 // . can only follow a digit
 void edit_number(calc_t *calc, key_t key) {
     if (key == KEY_DOT) {
-        if (!calc->is_number_editing) return;
         if (strchr(calc->number_editing, '.')) return;
-        if (!strcmp(calc->number_editing, "")) return;
-        if (!strcmp(calc->number_editing, "-")) return;
     }
     if (KEY_0 <= key && key <= KEY_9) {
         if (!strcmp(calc->number_editing, "0")) return;
@@ -27,7 +24,11 @@ void edit_number(calc_t *calc, key_t key) {
 
     if (calc->aos.stack_depth == 1) calc->aos.stack_depth = 0;
     if (key == KEY_DOT) {
-        strcat(calc->number_editing, ".");
+        char *str = ".";
+        if (!calc->is_number_editing) str = "0.";
+        if (!strcmp(calc->number_editing, "")) str = "0.";
+        if (!strcmp(calc->number_editing, "-")) str = "0.";
+        strcat(calc->number_editing, str);
     } else if (key == KEY_CHS) {
         if (calc->number_editing[0] == '-') {
             sprintf(calc->number_editing, "%s", calc->number_editing + 1);
