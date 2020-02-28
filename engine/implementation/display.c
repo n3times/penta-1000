@@ -7,15 +7,9 @@
 #define MAX_DIGITS_NUM 10
 
 static void x_to_d(char *formatted, double x, int len);
-static void get_game_display(calc_t *calc, char *display);
 static char get_op_char(key_t key);
 
-void get_display(calc_t *calc, char *display) {
-    if (calc->is_game) {
-        get_game_display(calc, display);
-        return;
-    }
-
+static void get_calc_display(calc_t *calc, char *display) {
     char extended_display[100];
     memset(extended_display, 0, 100);
     aos_t *aos = &calc->aos;
@@ -66,6 +60,13 @@ void get_display(calc_t *calc, char *display) {
     strcpy(display, extended_display + offset);
 }
 
+char *get_display(calc_t *calc) {
+    if (calc->is_game) {
+    } else {
+        get_calc_display(calc, calc->display);
+    }
+    return calc->display;
+}
 
 static void x_to_d(char *formatted, double x, int len) {
     char s[200];
@@ -106,35 +107,6 @@ static void x_to_d(char *formatted, double x, int len) {
         }
     }
     strcpy(formatted, result);
-}
-
-static void get_game_display(calc_t *calc, char *display) {
-    game_t *game = &calc->game;
-
-    if (game->is_number_editing) {
-	if (game->index == 10) {
-            sprintf(display, "GUESS %d %s", game->index, game->number_editing);
-        } else {
-            sprintf(display, "GUESS %d  %s", game->index, game->number_editing);
-        }
-    } else {
-        char *score = "";
-        if (game->guess == game->target) {
-            score = "YOU WON ";
-        } else if (game->index >= 10) {
-            score = "YOU LOST";
-            sprintf(display, "%s %d", score, game->target);
-            return;
-        } else {
-            int delta = game->guess - game->target;
-            if (delta > 0) {
-                score = "TOO HIGH";
-            } else {
-                score = "TOO LOW ";
-            }
-        }
-        sprintf(display, "%s %03d", score, game->guess);
-    }
 }
 
 static char get_op_char(key_t key) {

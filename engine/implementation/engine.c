@@ -20,7 +20,7 @@ long get_ms_wait_to_advance(calc_t *calc) {
 
 int advance(calc_t *calc) {
     if (calc->is_game) {
-        advance_game(&calc->game);
+        advance_game(calc);
     } else {
         advance_calc(calc);
     }

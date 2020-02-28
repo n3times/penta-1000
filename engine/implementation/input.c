@@ -14,62 +14,18 @@ static int is_number_edit_key(calc_t *calc, key_t key) {
     return 0;
 }
 
-static void reset_game(game_t * game) {
-    game->is_number_editing = 1;
-
-    time_t t;
-    srand((unsigned) time(&t));
-    game->target = rand() % 1000;
-
-    game->guess = -1;
-    strcpy(game->number_editing, "___");
-    game->index = 1;
-}
-
-void press_key_in_game(game_t *game, key_t key) {
-    if (game->is_number_editing) {
-        if (KEY_0 <= key && key <= KEY_9) {
-            if (game->number_editing[0] == '_') {
-                game->number_editing[0] = '0' + key;
-            } else if (game->number_editing[1] == '_') {
-                game->number_editing[1] = '0' + key;
-            } else if (game->number_editing[2] == '_') {
-                game->number_editing[2] = '0' + key;
-                game->is_number_editing = 0;
-                game->guess = atoi(game->number_editing);
-            }
-        } else if (key == KEY_CLEAR) {
-            strcpy(game->number_editing, "___");
-        }
-    } else {
-        if (game->index == 10 || game->guess == game->target) {
-            if (key == KEY_CLEAR) {
-                reset_game(game);
-            }
-            return;
-        }
-
-        if (KEY_0 <= key && key <= KEY_9) {
-            game->is_number_editing = 1;
-            game->index++;
-            strcpy(game->number_editing, "___");
-            game->number_editing[0] = '0' + key;
-        }
-    }
-}
-
 int press_key(calc_t *calc, key_t key) {
     if (key == KEY_GAME) {
         if (calc->is_game) {
             calc->is_game = 0;
         } else {
             calc->is_game = 1;
-            reset_game(&calc->game);
+            reset_game(calc);
         }
     }
 
     if (calc->is_game) {
-        press_key_in_game(&calc->game, key);
+        press_key_in_game(calc, key);
         return 1;
     }
 

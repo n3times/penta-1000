@@ -48,7 +48,7 @@ int press_key(calc_t *calc, key_t key);
 
 /* OUTPUT */
 
-void get_display(calc_t *calc, char *display);
+char *get_display(calc_t *calc);
 
 /* ANIMATION */
 

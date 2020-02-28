@@ -24,13 +24,13 @@ static void quit() {
 
 int main() {
     calc_t *calc = 0;
-    char display[25];
+    char *display = 0;
 
     calc = new_calc();
 
     set_calc_display();
 
-    get_display(calc, display);
+    display = get_display(calc);
     printf("  %12s \r", display);
 
     // Make sure the pressed keys are immediately available, without the user
@@ -48,14 +48,15 @@ int main() {
         for (int i = 0; i < strlen(char_to_key_map); i++) {
             if (char_to_key_map[i] == c) {
                 if (press_key(calc, i)) {
-                    get_display(calc, display);
+                    display = get_display(calc);
                     printf("  %12s\r", display);
                     int ms;
                     while ((ms = get_ms_wait_to_advance(calc))) {
                         usleep(ms * 1000);
                         advance(calc);
-                        get_display(calc, display);
+                        display = get_display(calc);
                         printf("  %12s\r", display);
+                        fflush(stdout);
                     }
                 }
                 break;
