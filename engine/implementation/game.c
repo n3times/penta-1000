@@ -11,7 +11,7 @@ void reset_game(calc_t *calc) {
 
     time_t t;
     srand((unsigned) time(&t));
-    game->target = rand() % 1000;
+    game->target = 100 + rand() % 900;
 
     game->guess = -1;
     strcpy(game->number_editing, "___");
@@ -47,7 +47,7 @@ static void set_game_display(calc_t *calc) {
     } else {
         char *score = "";
         if (game->guess == game->target) {
-            score = "YOU WON ";
+            score = "YOU WON";
         } else if (game->index >= 10) {
             score = "YOU LOST";
             sprintf(display, "%s %d", score, game->target);
@@ -66,14 +66,15 @@ static void set_game_display(calc_t *calc) {
 
 int press_key_in_game(calc_t *calc, key_t key) {
     game_t *game = &calc->game;
-    if (game->is_number_editing) {
-        if (KEY_0 <= key && key <= KEY_9) {
-            if (game->number_editing[0] == '_') {
-                game->number_editing[0] = '0' + key;
-            } else if (game->number_editing[1] == '_') {
-                game->number_editing[1] = '0' + key;
-            } else if (game->number_editing[2] == '_') {
-                game->number_editing[2] = '0' + key;
+    int is_digit = KEY_0 <= key && key <= KEY_9;
+    if (game->is_number_editing && is_digit) {
+        int i = 0;
+        for (i = 0; i < 3; i++) {
+            if (game->number_editing[i] == '_') break;
+        }
+        if (i > 0 || key > KEY_0) {
+            game->number_editing[i] = '0' + key;
+            if (i == 2) {
                 game->is_number_editing = 0;
                 game->guess = atoi(game->number_editing);
             }
@@ -89,7 +90,7 @@ int press_key_in_game(calc_t *calc, key_t key) {
             return 1;
         }
 
-        if (KEY_0 <= key && key <= KEY_9) {
+        if (KEY_0 < key && key <= KEY_9) {
             game->is_number_editing = 1;
             game->index++;
             strcpy(game->number_editing, "___");
