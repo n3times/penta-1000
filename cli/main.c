@@ -47,17 +47,15 @@ int main() {
         char *char_to_key_map = "0123456789.~+-*/=%cg";
         for (int i = 0; i < strlen(char_to_key_map); i++) {
             if (char_to_key_map[i] == c) {
-                if (press_key(calc, i)) {
-                    display = get_display(calc);
+                long ms = press_key(calc, i);
+                display = get_display(calc);
+                printf("  %12s\r", display);
+                while (ms) {
+		    usleep(ms * 1000);
+		    ms = advance(calc);
+	 	    display = get_display(calc);
                     printf("  %12s\r", display);
-                    int ms;
-                    while ((ms = get_ms_wait_to_advance(calc))) {
-                        usleep(ms * 1000);
-                        advance(calc);
-                        display = get_display(calc);
-                        printf("  %12s\r", display);
-                        fflush(stdout);
-                    }
+                    fflush(stdout);
                 }
                 break;
             }

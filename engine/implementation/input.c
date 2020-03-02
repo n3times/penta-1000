@@ -14,7 +14,7 @@ static int is_number_edit_key(calc_t *calc, key_t key) {
     return 0;
 }
 
-int press_key(calc_t *calc, key_t key) {
+long press_key(calc_t *calc, key_t key) {
     if (key == KEY_GAME) {
         if (calc->is_game) {
             calc->is_game = 0;
@@ -25,14 +25,13 @@ int press_key(calc_t *calc, key_t key) {
     }
 
     if (calc->is_game) {
-        press_key_in_game(calc, key);
-        return 1;
+        return press_key_in_game(calc, key);
     }
 
     calc->is_new = 0;
 
     int is_error = calc->error != ERROR_NONE;
-    if (is_error && key != KEY_CLEAR) return 0;
+    if (is_error && key != KEY_CLEAR) return calc->wait_ms;
 
     if (key == KEY_CLEAR) {
         if (calc->aos.stack_depth == 2 && calc->is_number_editing) {
@@ -43,15 +42,15 @@ int press_key(calc_t *calc, key_t key) {
         } else {
             memset(calc, 0, sizeof(*calc));
         }
-        return 1;
+        return calc->wait_ms;
     } else if (is_number_edit_key(calc, key)) {
         edit_number(calc, key);
-        return 1;
+        return calc->wait_ms;
     } else {
         if(calc->is_number_editing) {
            resolve_edit_number(calc);
         }
         handle_op(calc, key);
-        return 1;
+        return calc->wait_ms;
     }
 }

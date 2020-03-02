@@ -43,5 +43,5 @@ void resolve_edit_number(calc_t *calc);
 int advance_calc(calc_t *calc);
 
 void reset_game(calc_t *calc);
-int press_key_in_game(calc_t *calc, key_t key);
+long press_key_in_game(calc_t *calc, key_t key);
 int advance_game(calc_t *calc);

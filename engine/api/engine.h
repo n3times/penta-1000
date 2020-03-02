@@ -1,5 +1,5 @@
 /**
- *  USAGE:
+ *  SIMPLE USAGE (no animations):
  *
  *  // Get a new calc object.
  *  calc_t *calc = new_calc(&calc);
@@ -44,24 +44,37 @@ typedef enum {
     KEY_GAME    = 19,
 } key_t;
 
-int press_key(calc_t *calc, key_t key);
+#define ADVANCE_NONE 0
+#define ADVANCE_NOW -1
+#define ADVANCE_SAME -2
+
+/**
+ * Returns the number of milliseconds after which "advance" should be called.
+ *
+ * If > 0, call "advance" after n milliseconds.
+ * If 0, do not "advance".
+ * If ADVANCE_NOW, "advance" right away, without updating display.
+ * If ADVANCE_SAME, "advance" when previously scheduled, that is the timer
+ * is not reset.
+ */
+long press_key(calc_t *calc, key_t key);
 
 /* OUTPUT */
 
+/**
+ * Gets the display as a null terminated string with at most 24 effective
+ * characters.
+ *
+ * The text should be right justified on the display. A dot ('.') modifies the
+ * character just before it.
+ */
 char *get_display(calc_t *calc);
 
 /* ANIMATION */
 
-/**
- * Gets the number of milliseconds one should wait between the last successful
- * event (new_calc, press_key or advance) before calling advance.
- * Those calls are successful if they return anything different from 0.
- * Returns 0 if one should not call advance.
- */
-long get_ms_wait_to_advance(calc_t *calc);
-
 /** 
  * Advances to the next frame of the animation.
- * Call get_display to get the new animation frame.
+ *
+ * See "press_key" for meaning of the return value.
  */
-int advance(calc_t *calc);
+long advance(calc_t *calc);
