@@ -16,22 +16,41 @@ static void reset_display() {
     printf("\033[39;49m");
 }
 
+static void print_display(calc_t *calc) {
+    char *display = get_display(calc);
+    printf("  %12s \r", display);
+    fflush(stdout);
+}
+
 static void quit() {
     reset_display();
     system("/bin/stty cooked");
     exit(0);
 }
 
+static int is_animating;
+
+void *animation_loop(void *args) {
+    calc_t *calc = args;
+    long ms = 10;
+    while (ms) {
+        usleep(ms * 1000);
+        ms = advance(calc);
+        print_display(calc);
+    }
+    is_animating = 0;
+    return 0;
+}
+
 int main() {
     calc_t *calc = 0;
-    char *display = 0;
+    pthread_t animation_thread;
 
     calc = new_calc();
 
     set_calc_display();
 
-    display = get_display(calc);
-    printf("  %12s \r", display);
+    print_display(calc);
 
     // Make sure the pressed keys are immediately available, without the user
     // having to press the return key.
@@ -39,6 +58,8 @@ int main() {
 
     while (1) {
         char c = tolower(getchar());
+
+        if (is_animating) continue;
 
         if (c == 'q') {
             quit();
@@ -48,14 +69,10 @@ int main() {
         for (int i = 0; i < strlen(char_to_key_map); i++) {
             if (char_to_key_map[i] == c) {
                 long ms = press_key(calc, i);
-                display = get_display(calc);
-                printf("  %12s\r", display);
-                while (ms) {
-		    usleep(ms * 1000);
-		    ms = advance(calc);
-	 	    display = get_display(calc);
-                    printf("  %12s\r", display);
-                    fflush(stdout);
+                print_display(calc);
+                if (ms) {
+                    is_animating = 1;
+                    pthread_create(&animation_thread, 0, animation_loop, calc);
                 }
                 break;
             }
