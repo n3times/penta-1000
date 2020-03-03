@@ -18,7 +18,7 @@ void reset_game(calc_t *calc) {
     game->index = 1;
 
     game->animation_frame = 0;
-    calc->wait_ms = 10;
+    game->wait_ms = 10;
 }
 
 int advance_game(calc_t *calc) {
@@ -27,15 +27,15 @@ int advance_game(calc_t *calc) {
     
     if (game->animation_frame == 71) {
         sprintf(calc->display, "___");
-        calc->wait_ms = ADVANCE_NONE;
+        game->wait_ms = ADVANCE_NONE;
     } else if (game->animation_frame == 70) {
         sprintf(calc->display, "???");
-        calc->wait_ms = 500;
+        game->wait_ms = 500;
     } else {
-        calc->wait_ms = 10;
+        game->wait_ms = 10;
         sprintf(calc->display, "%03d", rand() % 1000);
     }
-    return calc->wait_ms;
+    return game->wait_ms;
 }
 
 static void set_game_display(calc_t *calc) {
@@ -87,7 +87,7 @@ long press_key_in_game(calc_t *calc, key_t key) {
                 reset_game(calc);
             }
             set_game_display(calc);
-            return calc->wait_ms;
+            return game->wait_ms;
         }
 
         if (KEY_0 < key && key <= KEY_9) {
@@ -98,5 +98,5 @@ long press_key_in_game(calc_t *calc, key_t key) {
         }
     }
     set_game_display(calc);
-    return calc->wait_ms;
+    return game->wait_ms;
 }

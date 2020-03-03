@@ -5,9 +5,11 @@
 #include <time.h>
 
 static int is_number_edit_key(calc_t *calc, key_t key) {
+    comp_t *comp = &calc->comp;
+
     if (KEY_0 <= key && key < KEY_CHS) return 1;
     if (key == KEY_CHS) {
-        if (calc->aos.stack_depth % 2 == 0) {
+        if (comp->aos.stack_depth % 2 == 0) {
             return 1;
         }
     }
@@ -15,6 +17,8 @@ static int is_number_edit_key(calc_t *calc, key_t key) {
 }
 
 long press_key(calc_t *calc, key_t key) {
+    comp_t *comp = &calc->comp;
+
     if (key == KEY_GAME) {
         if (calc->is_game) {
             calc->is_game = 0;
@@ -30,27 +34,27 @@ long press_key(calc_t *calc, key_t key) {
 
     calc->is_new = 0;
 
-    int is_error = calc->error != ERROR_NONE;
-    if (is_error && key != KEY_CLEAR) return calc->wait_ms;
+    int is_error = comp->error != ERROR_NONE;
+    if (is_error && key != KEY_CLEAR) return 0;
 
     if (key == KEY_CLEAR) {
-        if (calc->aos.stack_depth == 2 && calc->is_number_editing) {
-            calc->is_number_editing = 0;
-            memset(calc->number_editing, 0, sizeof(calc->number_editing));
-        } else if (calc->aos.stack_depth == 2) {
-            calc->aos.stack_depth = 1;
+        if (comp->aos.stack_depth == 2 && comp->is_number_editing) {
+            comp->is_number_editing = 0;
+            memset(comp->number_editing, 0, sizeof(comp->number_editing));
+        } else if (comp->aos.stack_depth == 2) {
+            comp->aos.stack_depth = 1;
         } else {
-            memset(calc, 0, sizeof(*calc));
+            memset(comp, 0, sizeof(*calc));
         }
-        return calc->wait_ms;
+        return 0;
     } else if (is_number_edit_key(calc, key)) {
         edit_number(calc, key);
-        return calc->wait_ms;
+        return 0;
     } else {
-        if(calc->is_number_editing) {
+        if(comp->is_number_editing) {
            resolve_edit_number(calc);
         }
         handle_op(calc, key);
-        return calc->wait_ms;
+        return 0;
     }
 }

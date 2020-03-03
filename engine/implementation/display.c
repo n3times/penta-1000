@@ -10,15 +10,16 @@ static void x_to_d(char *formatted, double x, int len);
 static char get_op_char(key_t key);
 
 static void get_calc_display(calc_t *calc, char *display) {
+    comp_t *comp = &calc->comp;
     char extended_display[100];
     memset(extended_display, 0, 100);
-    aos_t *aos = &calc->aos;
+    aos_t *aos = &comp->aos;
 
     if (calc->is_new) {
         strcpy(extended_display, "PENTATRONICS");
-    } else if (calc->error == ERROR_ILLEGAL_OP) {
+    } else if (comp->error == ERROR_ILLEGAL_OP) {
         strcpy(extended_display, "ILLEGAL OP");
-    } else if (calc->error == ERROR_OVERFLOW) {
+    } else if (comp->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
     } else {
         if (aos->stack_depth >= 1) {
@@ -46,8 +47,8 @@ static void get_calc_display(calc_t *calc, char *display) {
             op_string[1] = 0;
             strcat(extended_display, op_string);
         }
-        if (calc->is_number_editing) {
-            strcat(extended_display, calc->number_editing);
+        if (comp->is_number_editing) {
+            strcat(extended_display, comp->number_editing);
         }
     }
     if (extended_display[0] == '\0') {

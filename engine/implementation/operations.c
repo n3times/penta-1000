@@ -1,7 +1,7 @@
 #include "engine_internal.h"
 
 static void reduce_stack(calc_t *calc) {
-    aos_t *aos = &calc->aos;
+    aos_t *aos = &calc->comp.aos;
 
     if (aos->stack_depth != 3) return;
     double result = 0;
@@ -13,13 +13,13 @@ static void reduce_stack(calc_t *calc) {
         result = aos->number_1 * aos->number_2;
     } else if (aos->op_1 == KEY_DIVIDE) {
         if (aos->number_2 == 0) {
-            calc->error = ERROR_ILLEGAL_OP;
+            calc->comp.error = ERROR_ILLEGAL_OP;
             return;
         }
         result = aos->number_1 / aos->number_2;
     }
     if (result >= 1e100 || result <= -1e100) {
-        calc->error = ERROR_OVERFLOW;
+        calc->comp.error = ERROR_OVERFLOW;
         return;
     }
     if (-1e-100 <= result && result <= 1e-100) {
@@ -31,7 +31,7 @@ static void reduce_stack(calc_t *calc) {
 
 /** Assumes, no error and no number editing */
 void handle_op(calc_t *calc, key_t op) {
-    aos_t *aos = &calc->aos;
+    aos_t *aos = &calc->comp.aos;
 
     if (aos->stack_depth == 0) return;
 
