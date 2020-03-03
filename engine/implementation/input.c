@@ -23,13 +23,13 @@ long press_key_comp(calc_t *calc, key_t key) {
     if (is_error && key != KEY_CLEAR) return 0;
 
     if (key == KEY_CLEAR) {
-        if (comp->aos.stack_depth == 2 && comp->is_number_editing) {
+        if (comp->aos.stack_depth <= 1) {
+            memset(comp, 0, sizeof(*calc));
+        } else if (comp->is_number_editing) {
             comp->is_number_editing = 0;
             memset(comp->number_editing, 0, sizeof(comp->number_editing));
-        } else if (comp->aos.stack_depth == 2) {
-            comp->aos.stack_depth = 1;
         } else {
-            memset(comp, 0, sizeof(*calc));
+            comp->aos.stack_depth -= 1;
         }
         return 0;
     } else if (is_number_edit_key(calc, key)) {

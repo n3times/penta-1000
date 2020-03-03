@@ -50,8 +50,7 @@ void resolve_edit_number(calc_t *calc) {
     comp_t *comp = &calc->comp;
 
     double result = atof(comp->number_editing);
-    double *number =
-        comp->aos.stack_depth == 0 ? &comp->aos.number_1 : &comp->aos.number_2;
+    double *number = &comp->aos.numbers[comp->aos.stack_depth / 2];
 
     *number = result;
     comp->aos.stack_depth++;

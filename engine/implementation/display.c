@@ -22,30 +22,20 @@ static void get_calc_display(calc_t *calc, char *display) {
     } else if (comp->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
     } else {
-        if (aos->stack_depth >= 1) {
-            char number[30];
-            x_to_d(number, aos->number_1, MAX_DIGITS_NUM);
-            strcat(extended_display, number);
-        }
-        if (aos->stack_depth >= 2) {
-            char op = get_op_char(aos->op_1);
-            char op_string[2];
-            op_string[0] = op;
-            op_string[1] = 0;
-            strcat(extended_display, op_string);
-        }
-        if (aos->stack_depth >= 3) {
-            printf("===>\n");
-            char number[30];
-            x_to_d(number, aos->number_2, MAX_DIGITS_NUM);
-            strcat(extended_display, number);
-        }
-        if (aos->stack_depth >= 4) {
-            char op = get_op_char(aos->op_2);
-            char op_string[2];
-            op_string[0] = op;
-            op_string[1] = 0;
-            strcat(extended_display, op_string);
+        for (int i = 1; i <= aos->stack_depth; i++) {
+            if (i % 2 == 1) {
+                int index = (i - 1) / 2;
+                char number[30];
+                x_to_d(number, aos->numbers[index], MAX_DIGITS_NUM);
+                strcat(extended_display, number);
+            } else {
+                int index = (i - 2) / 2;
+                char op = get_op_char(aos->ops[index]);
+                char op_string[2];
+                op_string[0] = op;
+                op_string[1] = 0;
+                strcat(extended_display, op_string);
+            }
         }
         if (comp->is_number_editing) {
             strcat(extended_display, comp->number_editing);
