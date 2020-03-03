@@ -62,7 +62,7 @@ static void get_calc_display(calc_t *calc, char *display) {
 }
 
 char *get_display(calc_t *calc) {
-    if (!calc->is_game) {
+    if (!calc->is_in_game) {
         get_calc_display(calc, calc->display);
     }
     return calc->display;

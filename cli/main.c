@@ -8,8 +8,8 @@
 #include <pthread.h>
 #include <unistd.h>
 
-static void set_calc_display() {
-    printf("\033[91;40m");
+static void set_calc_display(int bgcolor) {
+    printf("\033[%d;40m", bgcolor);
 }
 
 static void reset_display() {
@@ -42,13 +42,15 @@ void *animation_loop(void *args) {
     return 0;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     calc_t *calc = 0;
     pthread_t animation_thread;
 
     calc = new_calc();
 
-    set_calc_display();
+    int fgcolor = 91;
+    if (argc == 2) fgcolor = atoi(argv[1]);
+    set_calc_display(fgcolor);
 
     print_display(calc);
 

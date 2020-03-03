@@ -21,7 +21,7 @@ void reset_game(calc_t *calc) {
     game->wait_ms = 10;
 }
 
-int advance_game(calc_t *calc) {
+long advance_game(calc_t *calc) {
     game_t *game = &calc->game;
     game->animation_frame++;
     
@@ -64,7 +64,7 @@ static void set_game_display(calc_t *calc) {
     }
 }
 
-long press_key_in_game(calc_t *calc, key_t key) {
+long press_key_game(calc_t *calc, key_t key) {
     game_t *game = &calc->game;
     int is_digit = KEY_0 <= key && key <= KEY_9;
     if (game->is_number_editing && is_digit) {
@@ -78,14 +78,12 @@ long press_key_in_game(calc_t *calc, key_t key) {
                 game->is_number_editing = 0;
                 game->guess = atoi(game->number_editing);
             }
-        } else if (key == KEY_CLEAR) {
-            strcpy(game->number_editing, "___");
         }
+    } else if (game->is_number_editing && key == KEY_CLEAR) {
+        strcpy(game->number_editing, "___");
     } else {
-        if (game->index == 10 || game->guess == game->target) {
-            if (key == KEY_CLEAR) {
-                reset_game(calc);
-            }
+        if (key == KEY_CLEAR) {
+            reset_game(calc);
             set_game_display(calc);
             return game->wait_ms;
         }

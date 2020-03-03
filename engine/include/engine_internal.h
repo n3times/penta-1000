@@ -3,9 +3,11 @@
 #include "comp.h"
 #include "game.h"
 
+#include <stdbool.h>
+
 struct calc_s {
     int is_new;
-    int is_game;
+    bool is_in_game;
     game_t game;
     comp_t comp;
     char display[25];

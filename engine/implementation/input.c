@@ -16,23 +16,8 @@ static int is_number_edit_key(calc_t *calc, key_t key) {
     return 0;
 }
 
-long press_key(calc_t *calc, key_t key) {
+long press_key_comp(calc_t *calc, key_t key) {
     comp_t *comp = &calc->comp;
-
-    if (key == KEY_GAME) {
-        if (calc->is_game) {
-            calc->is_game = 0;
-        } else {
-            calc->is_game = 1;
-            reset_game(calc);
-        }
-    }
-
-    if (calc->is_game) {
-        return press_key_in_game(calc, key);
-    }
-
-    calc->is_new = 0;
 
     int is_error = comp->error != ERROR_NONE;
     if (is_error && key != KEY_CLEAR) return 0;
