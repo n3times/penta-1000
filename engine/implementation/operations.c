@@ -3,36 +3,54 @@
 static void resolve_stack(calc_t *calc) {
     aos_t *aos = &calc->comp.aos;
 
-    double result = aos->numbers[0];
-    int i = 1;
-    while (i + 2 <= aos->stack_depth) {
-        key_t op = aos->ops[i / 2];
-        double number = aos->numbers[i / 2 + 1];
+    int bottom = 0;
+    int top = aos->stack_depth - 1;
+
+    while (top - bottom > 0) {
+        double left = aos->numbers[bottom/2];
+        double right = aos->numbers[bottom/2 + 1];
+        key_t op = aos->ops[bottom/2];
+        bool special = false;
+        if (top - bottom > 3) {
+            if (aos->ops[bottom/2 + 1]/2 > op/2) {
+                op = aos->ops[bottom/2 + 1];
+                left = aos->numbers[bottom/2 + 1];
+                right = aos->numbers[bottom/2 + 2];
+                special = true;
+            }
+        }
         if (op == KEY_PLUS) {
-            result += number;
+            left += right;
         } else if (op == KEY_MINUS) {
-            result -= number;
+            left -= right;
         } else if (op == KEY_TIMES) {
-            result *= number;
+            left *= right;
         } else if (op == KEY_DIVIDE) {
-            if (number == 0) {
+            if (right == 0) {
                 aos->stack_depth = 0;
                 calc->comp.error = ERROR_ILLEGAL_OP;
                 return;
             }
-            result /= number;
+            left /= right;
         }
-        if (result >= 1e100 || result <= -1e100) {
+        if (left >= 1e100 || left <= -1e100) {
             aos->stack_depth = 0;
             calc->comp.error = ERROR_OVERFLOW;
             return;
         }
-        if (-1e-100 <= result && result <= 1e-100) {
-            result = 0;
+        if (-1e-100 <= left && left <= 1e-100) {
+            left = 0;
         }
-        i += 2;
+        bottom += 2;
+        if (special) {
+            aos->numbers[bottom/2 + 1] = left;
+            aos->numbers[bottom/2] = aos->numbers[bottom/2 - 1];
+            aos->ops[bottom/2] = aos->ops[bottom/2 - 1];
+        } else {
+            aos->numbers[bottom/2] = left;
+        }
     }
-    aos->numbers[0] = result;
+    aos->numbers[0] = aos->numbers[bottom/2];
     aos->stack_depth = 1;
 }
 
