@@ -6,7 +6,7 @@
 calc_t *new_calc() {
     calc_t *calc = malloc(sizeof(calc_t));
     memset(calc, 0, sizeof(calc_t));
-    calc->is_new = 1;
+    calc->is_new = true;
     return calc;
 }
 
@@ -23,7 +23,7 @@ long advance(calc_t *calc) {
 }
 
 long press_key(calc_t *calc, key_t key) {
-    calc->is_new = 0;
+    calc->is_new = false;
 
     if (key == KEY_GAME) {
         if (calc->is_in_game) {

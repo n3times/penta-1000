@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 
     calc = new_calc();
 
-    int fgcolor = 91;
+    int fgcolor = 97;
     if (argc == 2) fgcolor = atoi(argv[1]);
     set_calc_display(fgcolor);
 

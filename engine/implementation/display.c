@@ -26,11 +26,11 @@ static void get_calc_display(calc_t *calc, char *display) {
             if (i % 2 == 1) {
                 int index = (i - 1) / 2;
                 char number[30];
-                x_to_d(number, aos->numbers[index], MAX_DIGITS_NUM);
+                x_to_d(number, aos->operands[index], MAX_DIGITS_NUM);
                 strcat(extended_display, number);
             } else {
                 int index = (i - 2) / 2;
-                char op = get_op_char(aos->ops[index]);
+                char op = get_op_char(aos->operators[index]);
                 char op_string[2];
                 op_string[0] = op;
                 op_string[1] = 0;
@@ -42,7 +42,7 @@ static void get_calc_display(calc_t *calc, char *display) {
         }
     }
     if (extended_display[0] == '\0') {
-        strcpy(extended_display, "RDY");
+        strcpy(extended_display, "READY");
     }
     int offset = strlen(extended_display) - 12;
     if (offset < 0) {
@@ -63,15 +63,17 @@ static void x_to_d(char *formatted, double x, int len) {
     char f[5];
     char *result = s;
     int is_negative = x < 0;
+
     if (is_negative) x = -x;
     if (x == 0) {
         result = "0";
     } else {
-        int is_big = 0;
+        bool is_big;
+        bool is_small;
+
         sprintf(s, "%.0f", x);
         is_big = (strlen(s) > len);
 
-        int is_small = 0;
         sprintf(f, "%%.%df", len - 1);
         sprintf(s, f, x);
         is_small = !strcmp(s, "0.000000000");
@@ -100,6 +102,6 @@ static void x_to_d(char *formatted, double x, int len) {
 }
 
 static char get_op_char(key_t key) {
-    char *ops = "+-*/";
-    return ops[key - KEY_PLUS];
+    char *operators = "+-*/";
+    return operators[key - KEY_PLUS];
 }

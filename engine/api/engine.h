@@ -2,12 +2,11 @@
  *  SIMPLE USAGE (no animations):
  *
  *  // Get a new calc object.
- *  calc_t *calc = new_calc(&calc);
+ *  calc_t *calc = new_calc();
  *
  *  // Repeatedly, report any key pressed and update display.
  *  press_key(calc, <SOME_KEY>);
- *  char display[25];
- *  get_display(calc, display);
+ *  char *display = get_display(calc, display);
  *  // Update display from UI...
  *
  *  // Quit calculator, when done.
@@ -15,6 +14,8 @@
  */
 
 typedef struct calc_s calc_t;
+
+/* SETUP */
 
 calc_t *new_calc();
 void release_calc(calc_t *calc);
@@ -51,11 +52,11 @@ typedef enum {
 /**
  * Returns the number of milliseconds after which "advance" should be called.
  *
- * If > 0, call "advance" after n milliseconds.
+ * If > 0, "advance" after n milliseconds.
  * If 0, do not "advance".
- * If ADVANCE_NOW, "advance" right away, without updating display.
- * If ADVANCE_SAME, "advance" when previously scheduled, that is the timer
- * is not reset.
+ * If ADVANCE_NOW, "advance" right away, without updating the display.
+ * If ADVANCE_SAME, "advance" as previously scheduled, that is the timer is not
+ * reset.
  */
 long press_key(calc_t *calc, key_t key);
 

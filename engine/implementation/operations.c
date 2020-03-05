@@ -7,15 +7,15 @@ static void resolve_stack(calc_t *calc) {
     int top = aos->stack_depth - 1;
 
     while (top - bottom > 0) {
-        double left = aos->numbers[bottom/2];
-        double right = aos->numbers[bottom/2 + 1];
-        key_t op = aos->ops[bottom/2];
+        double left = aos->operands[bottom/2];
+        double right = aos->operands[bottom/2 + 1];
+        key_t op = aos->operators[bottom/2];
         bool special = false;
         if (top - bottom > 3) {
-            if (aos->ops[bottom/2 + 1]/2 > op/2) {
-                op = aos->ops[bottom/2 + 1];
-                left = aos->numbers[bottom/2 + 1];
-                right = aos->numbers[bottom/2 + 2];
+            if (aos->operators[bottom/2 + 1]/2 > op/2) {
+                op = aos->operators[bottom/2 + 1];
+                left = aos->operands[bottom/2 + 1];
+                right = aos->operands[bottom/2 + 2];
                 special = true;
             }
         }
@@ -43,14 +43,14 @@ static void resolve_stack(calc_t *calc) {
         }
         bottom += 2;
         if (special) {
-            aos->numbers[bottom/2 + 1] = left;
-            aos->numbers[bottom/2] = aos->numbers[bottom/2 - 1];
-            aos->ops[bottom/2] = aos->ops[bottom/2 - 1];
+            aos->operands[bottom/2 + 1] = left;
+            aos->operands[bottom/2] = aos->operands[bottom/2 - 1];
+            aos->operators[bottom/2] = aos->operators[bottom/2 - 1];
         } else {
-            aos->numbers[bottom/2] = left;
+            aos->operands[bottom/2] = left;
         }
     }
-    aos->numbers[0] = aos->numbers[bottom/2];
+    aos->operands[0] = aos->operands[bottom/2];
     aos->stack_depth = 1;
 }
 
@@ -63,18 +63,18 @@ void handle_op(calc_t *calc, key_t op) {
     if (aos->stack_depth % 2 == 0) {
         int index = aos->stack_depth / 2 - 1;
         if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
-            aos->ops[index] = op;
+            aos->operators[index] = op;
         }
         return;
     }
 
-    double *number = &aos->numbers[aos->stack_depth / 2];
+    double *number = &aos->operands[aos->stack_depth / 2];
     if (op == KEY_CHS) {
         *number *= -1;
     } else if (op == KEY_PERCENT) {
         if (aos->stack_depth == 3) {
-            if (aos->ops[0] == KEY_PLUS || aos->ops[0] == KEY_MINUS) {
-                *number *= aos->numbers[0];
+            if (aos->operators[0] == KEY_PLUS || aos->operators[0] == KEY_MINUS) {
+                *number *= aos->operands[0];
             }
         }
         *number /= 100;
@@ -82,7 +82,7 @@ void handle_op(calc_t *calc, key_t op) {
        resolve_stack(calc);
     } else {
         if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
-            aos->ops[aos->stack_depth / 2] = op;
+            aos->operators[aos->stack_depth / 2] = op;
             aos->stack_depth++;
         }
     }

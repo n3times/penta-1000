@@ -6,8 +6,8 @@ typedef enum error_e {
 
 typedef struct aos_s {
     int stack_depth;
-    double numbers[100];
-    key_t ops[100];
+    double operands[100];
+    key_t operators[100];
 } aos_t;
 
 typedef struct comp_s {

@@ -6,9 +6,9 @@
 #include <stdbool.h>
 
 struct calc_s {
-    int is_new;
+    bool is_new;
     bool is_in_game;
-    game_t game;
     comp_t comp;
+    game_t game;
     char display[25];
 };
