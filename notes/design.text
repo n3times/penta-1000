@@ -1,0 +1,46 @@
+/*
+ * Public API 
+ */
+
+// Allocates a new calc and inits it.
+// After call, update display and start animating if necessary.
+calc_t *new_calc()
+
+// Resets calc.
+// After call, update display and check animation.
+void reset(calc_t *)
+
+// Should be called as soon as a key is pressed.
+// After call, update display and check animation.
+void press_key(calc_t *, key_t)
+
+// Should be called every 10 ms.
+// After call, update display and check animation.
+void advance(calc_t *)
+
+// Gets the display.
+display_t *get_display(calc_t *)
+
+// Checks whether animation is going on and therefore advance() should be
+// called.
+bool is_animating()
+
+// True if display has changed after last call to get_display().
+bool is_display_dirty()
+
+/*
+ * Implementing an App 
+ */
+
+app_t *new_app_xxx()
+
+void reset()
+
+void press_key(key_t key)
+void appear()
+void disappear()
+void advance()
+display_t *get_display()
+
+bool is_animating()
+bool is_display_dirty()
