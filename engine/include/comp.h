@@ -21,5 +21,5 @@ void handle_op(calc_t *calc, key_t op);
 void edit_number(calc_t *calc, key_t key);
 void resolve_edit_number(calc_t *calc);
 
-long press_key_comp(calc_t *calc, key_t key);
-long advance_comp(calc_t *calc);
+void press_key_comp(calc_t *calc, key_t key);
+void advance_comp(calc_t *calc);

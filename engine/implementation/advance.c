@@ -1,5 +1,4 @@
 #include "engine_internal.h"
 
-long advance_comp(calc_t *calc) {
-    return 1;
+void advance_comp(calc_t *calc) {
 }

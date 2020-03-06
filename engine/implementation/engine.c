@@ -14,31 +14,39 @@ void release_calc(calc_t *calc) {
     free(calc);
 }
 
-long advance(calc_t *calc) {
+void advance(calc_t *calc) {
     if (calc->is_in_game) {
-        return advance_game(calc);
+        advance_game(calc);
     } else {
-        return advance_comp(calc);
+        advance_comp(calc);
     }
 }
 
-long press_key(calc_t *calc, key_t key) {
+void press_key(calc_t *calc, key_t key) {
     calc->is_new = false;
 
     if (key == KEY_GAME) {
         if (calc->is_in_game) {
             calc->is_in_game = false;
-            return 0;
+            calc->game.wait_ms = 0;
         } else {
             calc->is_in_game = true;
             reset_game(calc);
-            return calc->game.wait_ms;
         }
     }
 
     if (calc->is_in_game) {
-        return press_key_game(calc, key);
+        press_key_game(calc, key);
     } else {
-        return press_key_comp(calc, key);
+        press_key_comp(calc, key);
+    }
+}
+
+
+bool is_animating(calc_t *calc) {
+    if (calc->is_in_game) {
+        return calc->game.wait_ms;
+    } else {
+        return false;
     }
 }

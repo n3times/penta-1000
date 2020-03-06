@@ -28,17 +28,14 @@ static void quit() {
     exit(0);
 }
 
-static int is_animating;
-
 void *animation_loop(void *args) {
     calc_t *calc = args;
-    long ms = 10;
-    while (ms) {
+    while (is_animating(calc)) {
+        long ms = 10;
         usleep(ms * 1000);
-        ms = advance(calc);
+        advance(calc);
         print_display(calc);
     }
-    is_animating = 0;
     return 0;
 }
 
@@ -61,7 +58,7 @@ int main(int argc, char *argv[]) {
     while (1) {
         char c = tolower(getchar());
 
-        if (is_animating) continue;
+        if (is_animating(calc) && c != 'q') continue;
 
         if (c == 'q') {
             quit();
@@ -70,10 +67,9 @@ int main(int argc, char *argv[]) {
         char *char_to_key_map = "0123456789.~+-*/=%cg";
         for (int i = 0; i < strlen(char_to_key_map); i++) {
             if (char_to_key_map[i] == c) {
-                long ms = press_key(calc, i);
+                press_key(calc, i);
                 print_display(calc);
-                if (ms) {
-                    is_animating = 1;
+                if (is_animating(calc)) {
                     pthread_create(&animation_thread, 0, animation_loop, calc);
                 }
                 break;

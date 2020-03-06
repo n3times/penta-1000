@@ -10,5 +10,5 @@ typedef struct game_s {
 
 void reset_game(calc_t *calc);
 
-long press_key_game(calc_t *calc, key_t key);
-long advance_game(calc_t *calc);
+void press_key_game(calc_t *calc, key_t key);
+void advance_game(calc_t *calc);

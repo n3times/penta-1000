@@ -16,11 +16,11 @@ static int is_number_edit_key(calc_t *calc, key_t key) {
     return 0;
 }
 
-long press_key_comp(calc_t *calc, key_t key) {
+void press_key_comp(calc_t *calc, key_t key) {
     comp_t *comp = &calc->comp;
 
     int is_error = comp->error != ERROR_NONE;
-    if (is_error && key != KEY_CLEAR) return 0;
+    if (is_error && key != KEY_CLEAR) return;
 
     if (key == KEY_CLEAR) {
         if (comp->aos.stack_depth <= 1) {
@@ -31,15 +31,15 @@ long press_key_comp(calc_t *calc, key_t key) {
         } else {
             comp->aos.stack_depth -= 1;
         }
-        return 0;
+        return;
     } else if (is_number_edit_key(calc, key)) {
         edit_number(calc, key);
-        return 0;
+        return;
     } else {
         if(comp->is_number_editing) {
            resolve_edit_number(calc);
         }
         handle_op(calc, key);
-        return 0;
+        return;
     }
 }

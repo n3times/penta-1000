@@ -13,11 +13,17 @@
  *  release_calc(calc);
  */
 
+#include <stdbool.h>
+
 typedef struct calc_s calc_t;
 
 /* SETUP */
 
+// Allocates a new calc and inits it.
+// After call, update display and start animating if necessary.
 calc_t *new_calc();
+
+// Deallocates calc.
 void release_calc(calc_t *calc);
 
 /* INPUT */
@@ -45,37 +51,23 @@ typedef enum {
     KEY_GAME    = 19,
 } key_t;
 
-#define ADVANCE_NONE 0
-#define ADVANCE_NOW -1
-#define ADVANCE_SAME -2
-
-/**
- * Returns the number of milliseconds after which "advance" should be called.
- *
- * If > 0, "advance" after n milliseconds.
- * If 0, do not "advance".
- * If ADVANCE_NOW, "advance" right away, without updating the display.
- * If ADVANCE_SAME, "advance" as previously scheduled, that is the timer is not
- * reset.
- */
-long press_key(calc_t *calc, key_t key);
+// Should be called as soon as a key is pressed.
+// After call, update display and check animation.
+void press_key(calc_t *calc, key_t key);
 
 /* OUTPUT */
 
-/**
- * Gets the display as a null terminated string with at most 24 effective
- * characters.
- *
- * The text should be right justified on the display. A dot ('.') modifies the
- * character just before it.
- */
+//  Gets the display as a null terminated string with at most 24 effective
+// characters.
+//
+// The text should be right justified on the display. A dot ('.') modifies the
+// character just before it.
 char *get_display(calc_t *calc);
 
 /* ANIMATION */
 
-/** 
- * Advances to the next frame of the animation.
- *
- * See "press_key" for meaning of the return value.
- */
-long advance(calc_t *calc);
+// Should be called every 10 ms.
+// After call, update display and check animation.
+void advance(calc_t *calc);
+
+bool is_animating(calc_t *calc);

@@ -21,13 +21,15 @@ void reset_game(calc_t *calc) {
     game->wait_ms = 10;
 }
 
-long advance_game(calc_t *calc) {
+void advance_game(calc_t *calc) {
     game_t *game = &calc->game;
     game->animation_frame++;
     
-    if (game->animation_frame == 71) {
+    if (game->animation_frame == 121) {
         sprintf(calc->display, "___");
-        game->wait_ms = ADVANCE_NONE;
+        game->wait_ms = 0;
+    } else if (game->animation_frame > 70) {
+        game->wait_ms = 10;
     } else if (game->animation_frame == 70) {
         sprintf(calc->display, "???");
         game->wait_ms = 500;
@@ -35,7 +37,6 @@ long advance_game(calc_t *calc) {
         game->wait_ms = 10;
         sprintf(calc->display, "%03d", rand() % 1000);
     }
-    return game->wait_ms;
 }
 
 static void set_game_display(calc_t *calc) {
@@ -64,7 +65,7 @@ static void set_game_display(calc_t *calc) {
     }
 }
 
-long press_key_game(calc_t *calc, key_t key) {
+void press_key_game(calc_t *calc, key_t key) {
     game_t *game = &calc->game;
     int is_digit = KEY_0 <= key && key <= KEY_9;
     if (game->is_number_editing && is_digit) {
@@ -85,7 +86,7 @@ long press_key_game(calc_t *calc, key_t key) {
         if (key == KEY_CLEAR) {
             reset_game(calc);
             set_game_display(calc);
-            return game->wait_ms;
+            return;
         }
 
         if (KEY_0 < key && key <= KEY_9) {
@@ -96,5 +97,4 @@ long press_key_game(calc_t *calc, key_t key) {
         }
     }
     set_game_display(calc);
-    return game->wait_ms;
 }
