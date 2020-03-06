@@ -8,6 +8,9 @@
 #include <pthread.h>
 #include <unistd.h>
 
+static pthread_mutex_t wait_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t wait_cond = PTHREAD_COND_INITIALIZER;
+
 static void set_calc_display(int bgcolor) {
     printf("\033[%d;40m", bgcolor);
 }
@@ -28,22 +31,47 @@ static void quit() {
     exit(0);
 }
 
-void *animation_loop(void *args) {
+static char mess = 0;
+
+static void *animation_loop(void *args) {
     calc_t *calc = args;
-    while (is_animating(calc)) {
-        long ms = 10;
-        usleep(ms * 1000);
-        advance(calc);
-        print_display(calc);
+
+    for (int i = 0; ; i++) {
+        // Wait more or less time, depending on the value of 'inc'.
+	while (!is_animating(calc)) {
+            pthread_cond_wait(&wait_cond, &wait_mutex);
+        }
+        while (is_animating(calc)) {
+            struct timespec ts;
+            clock_gettime(CLOCK_REALTIME, &ts);
+            long nsec = ts.tv_nsec + 10 * 1000L * 1000L;
+            ts.tv_sec += nsec / 1000000000L;
+            ts.tv_nsec = nsec % 1000000000L;
+            pthread_cond_timedwait(&wait_cond, &wait_mutex, &ts);
+            advance(calc);
+            print_display(calc);
+
+            if (mess == 'q') {
+               // Quit.
+               pthread_mutex_unlock(&wait_mutex);
+               return 0;
+            }
+        }
+        mess = 0;
+        pthread_mutex_unlock(&wait_mutex);
     }
     return 0;
 }
 
 int main(int argc, char *argv[]) {
-    calc_t *calc = 0;
+    calc_t *calc = NULL;
     pthread_t animation_thread;
 
+    mess = 0;
+
     calc = new_calc();
+
+    pthread_create(&animation_thread, 0, animation_loop, calc);
 
     int fgcolor = 97;
     if (argc == 2) fgcolor = atoi(argv[1]);
@@ -57,8 +85,11 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         char c = tolower(getchar());
+        mess = c;
 
-        if (is_animating(calc) && c != 'q') continue;
+        if (is_animating(calc)) {
+	    pthread_cond_signal(&wait_cond);
+        }
 
         if (c == 'q') {
             quit();
