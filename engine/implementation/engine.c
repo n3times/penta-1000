@@ -26,13 +26,11 @@ void press_key(calc_t *calc, key_t key) {
     calc->is_new = false;
 
     if (key == KEY_GAME) {
+        calc->is_in_game = !calc->is_in_game;
         if (calc->is_in_game) {
-            calc->is_in_game = false;
-            calc->game.is_animating = false;
-        } else {
-            calc->is_in_game = true;
-            reset_game(calc);
+            appear_game(calc);
         }
+        return;
     }
 
     if (calc->is_in_game) {
@@ -45,7 +43,7 @@ void press_key(calc_t *calc, key_t key) {
 
 bool is_animating(calc_t *calc) {
     if (calc->is_in_game) {
-        return calc->game.is_animating;
+        return is_animating_game(calc);
     } else {
         return false;
     }

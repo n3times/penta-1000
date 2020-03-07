@@ -1,5 +1,5 @@
 /**
- *  SIMPLE USAGE (no animations):
+ *  SIMPLE USAGE:
  *
  *  // Get a new calc object.
  *  calc_t *calc = new_calc();
@@ -70,4 +70,5 @@ char *get_display(calc_t *calc);
 // After call, update display and check animation.
 void advance(calc_t *calc);
 
+// True if animate() should be called in the animation thread. 
 bool is_animating(calc_t *calc);

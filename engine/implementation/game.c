@@ -5,9 +5,9 @@
 #include <string.h>
 #include <time.h>
 
-void reset_game(calc_t *calc) {
+static void reset_game(calc_t *calc) {
     game_t *game = &calc->game;
-    game->is_number_editing = 1;
+    game->is_number_editing = 0;
 
     time_t t;
     srand((unsigned) time(&t));
@@ -18,34 +18,44 @@ void reset_game(calc_t *calc) {
     game->index = 1;
 
     game->frame = 0;
-    game->is_animating = true;
-    game->state = GAME_STATE_STARTING;
+    game->state = GAME_STATE_START;
+}
+
+void appear_game(calc_t *calc) {
+    game_t *game = &calc->game;
+    game->frame = 0;
+    game->state = GAME_STATE_APPEAR;
+    game->is_number_editing = 0;
 }
 
 void advance_game(calc_t *calc) {
     game_t *game = &calc->game;
 
     game->frame++;
-    if (game->state == GAME_STATE_STARTING) {
+    if (game->state == GAME_STATE_APPEAR) {
         if (game->frame == 1) {
             sprintf(calc->display, "");
         } else if (game->frame == 20) {
-            sprintf(calc->display, "HI-LO GAME");
-        } else if (game->frame == 100) {
+            sprintf(calc->display, " HI-LO GAME ");
+        } else if (game->frame == 90) {
+            reset_game(calc);
+        }
+    } else if (game->state == GAME_STATE_START) {
+        if (game->frame == 1) {
             sprintf(calc->display, "");
-        } else if (120 < game->frame && game->frame < 190) {
+        } else if (20 < game->frame && game->frame < 90) {
             sprintf(calc->display, "%03d", rand() % 1000);
-        } else if (game->frame == 190) {
+        } else if (game->frame == 90) {
             sprintf(calc->display, "???");
-        } else if (game->frame == 260) {
+        } else if (game->frame == 160) {
             sprintf(calc->display, "___");
-            game->is_animating = false;
-            game->is_number_editing = 0;
-            game->state = GAME_STATE_PLAYING;
+            game->state = GAME_STATE_PLAY;
         }
     } else if (game->state == GAME_STATE_OVER) {
         bool did_win = game->guess == game->target;
-        if (game->frame == 1 || game->frame % 100 == 0) {
+        if (game->frame < 50) {
+            sprintf(calc->display, "%03d", game->guess);
+        } else if (game->frame % 100 == 0) {
             sprintf(calc->display,
                     "YOU %s %03d", did_win ? "WON" : "LOST", game->target);
         } else if (game->frame % 100 == 50) {
@@ -64,12 +74,10 @@ static void set_game_display(calc_t *calc) {
         char *score = "";
         if (game->guess == game->target) {
             game->state = GAME_STATE_OVER;
-            game->is_animating = true;
             game->frame = 0;
             return;
         } else if (game->index >= 10) {
             game->state = GAME_STATE_OVER;
-            game->is_animating = true;
             game->frame = 0;
             return;
         } else {
@@ -104,11 +112,10 @@ void press_key_game(calc_t *calc, key_t key) {
     } else {
         if (key == KEY_CLEAR) {
             reset_game(calc);
-            set_game_display(calc);
             return;
         }
 
-        if (game->state == GAME_STATE_PLAYING && KEY_0 < key && key <= KEY_9) {
+        if (game->state == GAME_STATE_PLAY && KEY_0 < key && key <= KEY_9) {
             game->is_number_editing = 1;
             game->index++;
             strcpy(game->number_editing, "___");
@@ -116,4 +123,9 @@ void press_key_game(calc_t *calc, key_t key) {
         }
     }
     set_game_display(calc);
+}
+
+bool is_animating_game(calc_t *calc) {
+    game_t *game = &calc->game;
+    return game->state != GAME_STATE_PLAY;
 }
