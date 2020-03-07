@@ -1,3 +1,5 @@
+#include "app.h"
+
 typedef enum error_e {
     ERROR_NONE = 0,
     ERROR_ILLEGAL_OP = 1,
@@ -11,6 +13,7 @@ typedef struct aos_s {
 } aos_t;
 
 typedef struct comp_s {
+    app_t app;
     error_t error;
     int is_number_editing;
     char number_editing[25];
@@ -21,5 +24,4 @@ void handle_op(calc_t *calc, key_t op);
 void edit_number(calc_t *calc, key_t key);
 void resolve_edit_number(calc_t *calc);
 
-void press_key_comp(calc_t *calc, key_t key);
-void advance_comp(calc_t *calc);
+void new_comp(calc_t *calc);

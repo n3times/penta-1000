@@ -5,12 +5,27 @@
 #include <string.h>
 #include <time.h>
 
+static void enter_game(calc_t *calc);
+static void press_key_game(calc_t *calc, key_t key);
+static void advance_frame_game(calc_t *calc);
+static bool is_animating_game(calc_t *calc);
+
+void new_game(calc_t *calc) {
+    game_t *game = &calc->game;
+
+    time_t t;
+    srand((unsigned) time(&t));
+
+    game->app.enter = enter_game;
+    game->app.press_key = press_key_game;
+    game->app.advance_frame = advance_frame_game;
+    game->app.is_animating = is_animating_game;
+}
+
 static void reset_game(calc_t *calc) {
     game_t *game = &calc->game;
     game->is_number_editing = 0;
 
-    time_t t;
-    srand((unsigned) time(&t));
     game->target = 100 + rand() % 900;
 
     game->guess = -1;
@@ -21,14 +36,14 @@ static void reset_game(calc_t *calc) {
     game->state = GAME_STATE_START;
 }
 
-void appear_game(calc_t *calc) {
+static void enter_game(calc_t *calc) {
     game_t *game = &calc->game;
     game->frame = 0;
     game->state = GAME_STATE_APPEAR;
     game->is_number_editing = 0;
 }
 
-void advance_game(calc_t *calc) {
+static void advance_frame_game(calc_t *calc) {
     game_t *game = &calc->game;
 
     game->frame++;
@@ -92,7 +107,7 @@ static void set_game_display(calc_t *calc) {
     }
 }
 
-void press_key_game(calc_t *calc, key_t key) {
+static void press_key_game(calc_t *calc, key_t key) {
     game_t *game = &calc->game;
     int is_digit = KEY_0 <= key && key <= KEY_9;
     if (game->is_number_editing && is_digit) {
@@ -125,7 +140,7 @@ void press_key_game(calc_t *calc, key_t key) {
     set_game_display(calc);
 }
 
-bool is_animating_game(calc_t *calc) {
+static bool is_animating_game(calc_t *calc) {
     game_t *game = &calc->game;
     return game->state != GAME_STATE_PLAY;
 }

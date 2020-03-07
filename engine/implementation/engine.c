@@ -7,6 +7,8 @@ calc_t *new_calc() {
     calc_t *calc = malloc(sizeof(calc_t));
     memset(calc, 0, sizeof(calc_t));
     calc->is_new = true;
+    new_game(calc);
+    new_comp(calc);
     return calc;
 }
 
@@ -15,11 +17,8 @@ void release_calc(calc_t *calc) {
 }
 
 void advance(calc_t *calc) {
-    if (calc->is_in_game) {
-        advance_game(calc);
-    } else {
-        advance_comp(calc);
-    }
+    app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
+    app->advance_frame(calc);
 }
 
 void press_key(calc_t *calc, key_t key) {
@@ -28,23 +27,17 @@ void press_key(calc_t *calc, key_t key) {
     if (key == KEY_GAME) {
         calc->is_in_game = !calc->is_in_game;
         if (calc->is_in_game) {
-            appear_game(calc);
+            calc->game.app.enter(calc);
         }
         return;
     }
 
-    if (calc->is_in_game) {
-        press_key_game(calc, key);
-    } else {
-        press_key_comp(calc, key);
-    }
+    app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
+    app->press_key(calc, key);
 }
 
 
 bool is_animating(calc_t *calc) {
-    if (calc->is_in_game) {
-        return is_animating_game(calc);
-    } else {
-        return false;
-    }
+    app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
+    return app->is_animating(calc);
 }

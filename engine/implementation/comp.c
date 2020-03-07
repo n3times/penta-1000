@@ -1,8 +1,32 @@
 #include "engine_internal.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include <time.h>
+
+static void enter_comp(calc_t *calc);
+static void press_key_comp(calc_t *calc, key_t key);
+static void advance_frame_comp(calc_t *calc);
+static bool is_animating_comp(calc_t *calc);
+
+void new_comp(calc_t *calc) {
+    comp_t *comp = &calc->comp;
+
+    comp->app.enter = enter_comp;
+    comp->app.press_key = press_key_comp;
+    comp->app.advance_frame = advance_frame_comp;
+    comp->app.is_animating = is_animating_comp;
+}
+
+static void enter_comp(calc_t *calc) {
+}
+
+static void advance_frame_comp(calc_t *calc) {
+}
+
+static bool is_animating_comp(calc_t *calc) {
+    return false;
+}
 
 static int is_number_edit_key(calc_t *calc, key_t key) {
     comp_t *comp = &calc->comp;
@@ -16,7 +40,7 @@ static int is_number_edit_key(calc_t *calc, key_t key) {
     return 0;
 }
 
-void press_key_comp(calc_t *calc, key_t key) {
+static void press_key_comp(calc_t *calc, key_t key) {
     comp_t *comp = &calc->comp;
 
     int is_error = comp->error != ERROR_NONE;
