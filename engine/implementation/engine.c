@@ -25,10 +25,10 @@ void press_key(calc_t *calc, key_t key) {
     calc->is_new = false;
 
     if (key == KEY_GAME) {
+        app_t *app =
+            calc->is_in_game ? (app_t *)&calc->comp : (app_t *)&calc->game;
         calc->is_in_game = !calc->is_in_game;
-        if (calc->is_in_game) {
-            calc->game.app.enter(calc);
-        }
+        app->enter(calc);
         return;
     }
 

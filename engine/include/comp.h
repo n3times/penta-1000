@@ -1,5 +1,10 @@
 #include "app.h"
 
+typedef enum comp_state_e {
+    COMP_STATE_APPEAR,
+    COMP_STATE_COMPUTE,
+} comp_state_t;
+
 typedef enum error_e {
     ERROR_NONE = 0,
     ERROR_ILLEGAL_OP = 1,
@@ -14,9 +19,11 @@ typedef struct aos_s {
 
 typedef struct comp_s {
     app_t app;
+    comp_state_t state;
     error_t error;
     int is_number_editing;
     char number_editing[25];
+    int frame;
     aos_t aos;
 } comp_t;
 

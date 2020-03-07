@@ -51,7 +51,7 @@ static void advance_frame_game(calc_t *calc) {
         if (game->frame == 1) {
             sprintf(calc->display, "");
         } else if (game->frame == 20) {
-            sprintf(calc->display, " HI-LO GAME ");
+            sprintf(calc->display, "> HI-LO GAME");
         } else if (game->frame == 90) {
             reset_game(calc);
         }
