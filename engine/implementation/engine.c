@@ -28,7 +28,7 @@ void press_key(calc_t *calc, key_t key) {
     if (key == KEY_GAME) {
         if (calc->is_in_game) {
             calc->is_in_game = false;
-            calc->game.wait_ms = 0;
+            calc->game.is_animating = false;
         } else {
             calc->is_in_game = true;
             reset_game(calc);
@@ -45,7 +45,7 @@ void press_key(calc_t *calc, key_t key) {
 
 bool is_animating(calc_t *calc) {
     if (calc->is_in_game) {
-        return calc->game.wait_ms;
+        return calc->game.is_animating;
     } else {
         return false;
     }

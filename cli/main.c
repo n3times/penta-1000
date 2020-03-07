@@ -38,7 +38,7 @@ static void *animation_loop(void *args) {
 
     for (int i = 0; ; i++) {
         // Wait more or less time, depending on the value of 'inc'.
-	while (!is_animating(calc)) {
+        while (!is_animating(calc)) {
             pthread_cond_wait(&wait_cond, &wait_mutex);
         }
         while (is_animating(calc)) {
@@ -87,10 +87,6 @@ int main(int argc, char *argv[]) {
         char c = tolower(getchar());
         mess = c;
 
-        if (is_animating(calc)) {
-	    pthread_cond_signal(&wait_cond);
-        }
-
         if (c == 'q') {
             quit();
         }
@@ -100,9 +96,7 @@ int main(int argc, char *argv[]) {
             if (char_to_key_map[i] == c) {
                 press_key(calc, i);
                 print_display(calc);
-                if (is_animating(calc)) {
-                    pthread_create(&animation_thread, 0, animation_loop, calc);
-                }
+                pthread_cond_signal(&wait_cond);
                 break;
             }
         }

@@ -14,28 +14,43 @@ void reset_game(calc_t *calc) {
     game->target = 100 + rand() % 900;
 
     game->guess = -1;
-    strcpy(game->number_editing, "___");
+    strcpy(game->number_editing, "");
     game->index = 1;
 
-    game->animation_frame = 0;
-    game->wait_ms = 10;
+    game->frame = 0;
+    game->is_animating = true;
+    game->state = GAME_STATE_STARTING;
 }
 
 void advance_game(calc_t *calc) {
     game_t *game = &calc->game;
-    game->animation_frame++;
-    
-    if (game->animation_frame == 121) {
-        sprintf(calc->display, "___");
-        game->wait_ms = 0;
-    } else if (game->animation_frame > 70) {
-        game->wait_ms = 10;
-    } else if (game->animation_frame == 70) {
-        sprintf(calc->display, "???");
-        game->wait_ms = 500;
-    } else {
-        game->wait_ms = 10;
-        sprintf(calc->display, "%03d", rand() % 1000);
+
+    game->frame++;
+    if (game->state == GAME_STATE_STARTING) {
+        if (game->frame == 1) {
+            sprintf(calc->display, "");
+        } else if (game->frame == 20) {
+            sprintf(calc->display, "HI-LO GAME");
+        } else if (game->frame == 100) {
+            sprintf(calc->display, "");
+        } else if (120 < game->frame && game->frame < 190) {
+            sprintf(calc->display, "%03d", rand() % 1000);
+        } else if (game->frame == 190) {
+            sprintf(calc->display, "???");
+        } else if (game->frame == 260) {
+            sprintf(calc->display, "___");
+            game->is_animating = false;
+            game->is_number_editing = 0;
+            game->state = GAME_STATE_PLAYING;
+        }
+    } else if (game->state == GAME_STATE_OVER) {
+        bool did_win = game->guess == game->target;
+        if (game->frame == 1 || game->frame % 100 == 0) {
+            sprintf(calc->display,
+                    "YOU %s %03d", did_win ? "WON" : "LOST", game->target);
+        } else if (game->frame % 100 == 50) {
+            sprintf(calc->display, "");
+        }
     }
 }
 
@@ -48,17 +63,21 @@ static void set_game_display(calc_t *calc) {
     } else {
         char *score = "";
         if (game->guess == game->target) {
-            score = "YOU WON";
+            game->state = GAME_STATE_OVER;
+            game->is_animating = true;
+            game->frame = 0;
+            return;
         } else if (game->index >= 10) {
-            score = "YOU LOST";
-            sprintf(display, "%s %d", score, game->target);
+            game->state = GAME_STATE_OVER;
+            game->is_animating = true;
+            game->frame = 0;
             return;
         } else {
             int delta = game->guess - game->target;
             if (delta > 0) {
                 score = "TOO HIGH";
             } else {
-                score = "TOO LOW ";
+                score = "TOO LOW";
             }
         }
         sprintf(display, "%s %03d", score, game->guess);
@@ -89,7 +108,7 @@ void press_key_game(calc_t *calc, key_t key) {
             return;
         }
 
-        if (KEY_0 < key && key <= KEY_9) {
+        if (game->state == GAME_STATE_PLAYING && KEY_0 < key && key <= KEY_9) {
             game->is_number_editing = 1;
             game->index++;
             strcpy(game->number_editing, "___");
