@@ -30,7 +30,7 @@ static void reset_game(calc_t *calc) {
 
     game->guess = -1;
     strcpy(game->number_editing, "");
-    game->index = 1;
+    game->index = 0;
 
     game->frame = 0;
     game->state = GAME_STATE_START;
@@ -70,6 +70,8 @@ static void advance_frame_game(calc_t *calc) {
         bool did_win = game->guess == game->target;
         if (game->frame < 50) {
             sprintf(calc->display, "%03d", game->guess);
+        } else if (game->frame % 200 == 0 && did_win) {
+            sprintf(calc->display, "%d GUESSES", game->index);
         } else if (game->frame % 100 == 0) {
             sprintf(calc->display,
                     "YOU %s %03d", did_win ? "WON" : "LOST", game->target);
@@ -109,6 +111,11 @@ static void set_game_display(calc_t *calc) {
 
 static void press_key_game(calc_t *calc, key_t key) {
     game_t *game = &calc->game;
+
+    if (game->state == GAME_STATE_APPEAR || game->state == GAME_STATE_START) {
+        return;
+    }
+
     int is_digit = KEY_0 <= key && key <= KEY_9;
     if (game->is_number_editing && is_digit) {
         int i = 0;
