@@ -43,7 +43,7 @@ void edit_number(calc_t *calc, key_t key) {
     } else {
         sprintf(comp->number_editing, "%s%i", comp->number_editing, key);
     }
-    comp->is_number_editing = 1;
+    comp->is_number_editing = true;
 }
 
 void resolve_edit_number(calc_t *calc) {
@@ -54,6 +54,6 @@ void resolve_edit_number(calc_t *calc) {
 
     *number = result;
     comp->aos.stack_depth++;
-    comp->is_number_editing = 0;
+    comp->is_number_editing = false;
     memset(comp->number_editing, 0, sizeof(comp->number_editing));
 }

@@ -1,7 +1,9 @@
 #include "app.h"
 
+#include <stdbool.h>
+
 typedef enum comp_state_e {
-    COMP_STATE_APPEAR,
+    COMP_STATE_ENTER,
     COMP_STATE_COMPUTE,
 } comp_state_t;
 
@@ -20,10 +22,10 @@ typedef struct aos_s {
 typedef struct comp_s {
     app_t app;
     comp_state_t state;
-    error_t error;
-    int is_number_editing;
-    char number_editing[25];
     int frame;
+    error_t error;
+    bool is_number_editing;
+    char number_editing[25];
     aos_t aos;
 } comp_t;
 

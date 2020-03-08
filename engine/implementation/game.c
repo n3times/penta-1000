@@ -107,6 +107,7 @@ static void press_key_game(calc_t *calc, key_t key) {
 }
 
 static void advance_frame_game(calc_t *calc) {
+    static int dum = 0;
     game_t *game = &calc->game;
 
     game->frame++;
@@ -114,21 +115,18 @@ static void advance_frame_game(calc_t *calc) {
     if (game->state == GAME_STATE_ENTER) {
         // Announce game.
         if (game->frame == 1) {
-            sprintf(calc->display, "");
-        } else if (game->frame == 20) {
             sprintf(calc->display, "> HI-LO GAME");
-        } else if (game->frame == 90) {
+        } else if (game->frame == 80) {
             start_game(calc);
         }
     } else if (game->state == GAME_STATE_INIT) {
         // "Generate" random number.
-        if (game->frame == 1) {
-            sprintf(calc->display, "");
-        } else if (20 < game->frame && game->frame < 90) {
+        if (1 <= game->frame && game->frame < 70) {
             sprintf(calc->display, "%03d", rand() % 1000);
-        } else if (game->frame == 90) {
+            sprintf(calc->display, "%03d", dum++);
+        } else if (game->frame == 70) {
             sprintf(calc->display, "???");
-        } else if (game->frame == 160) {
+        } else if (game->frame == 140) {
             sprintf(calc->display, "___");
             game->state = GAME_STATE_PLAY;
         }
