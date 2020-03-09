@@ -61,6 +61,9 @@ static void press_key_game(calc_t *calc, key_t key) {
     // GAME_STATE_PLAY mode.
 
     int is_digit = KEY_0 <= key && key <= KEY_9;
+
+    if (!(is_digit || key == KEY_CLEAR)) return;
+
     if (game->is_number_editing && is_digit) {
         int i = 0;
         for (i = 0; i < 3; i++) {
