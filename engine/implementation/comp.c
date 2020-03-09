@@ -49,7 +49,7 @@ static void press_key_comp(calc_t *calc, key_t key) {
 
     if (key == KEY_CLEAR) {
         if (comp->aos.stack_depth <= 1) {
-            memset(comp, 0, sizeof(*calc));
+            memset(comp, 0, sizeof(*comp));
             new_comp(calc);
         } else if (comp->is_number_editing) {
             comp->is_number_editing = false;
