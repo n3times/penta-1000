@@ -100,41 +100,56 @@ static void press_key_game(calc_t *calc, key_t key) {
     if (game->is_number_editing) {
         sprintf(calc->display, "%s", game->number_editing);
     } else {
-        bool high = (game->guess - game->target) > 0;
-        sprintf(calc->display, 
-                "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
+        if (game->index == 9) {
+            game->state = GAME_STATE_LAST_GUESS;
+            game->frame = 0;
+            sprintf(calc->display, "1 MORE GUESS");
+        } else {
+            bool high = (game->guess - game->target) > 0;
+            sprintf(calc->display, 
+                    "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
+        }
     }
 }
 
 static void advance_frame_game(calc_t *calc) {
-    static int dum = 0;
     game_t *game = &calc->game;
 
     game->frame++;
 
-    if (game->state == GAME_STATE_ENTER) {
+    bool did_win = game->guess == game->target;
+
+    switch (game->state) {
+    case GAME_STATE_ENTER:
         // Announce game.
         if (game->frame == 1) {
             sprintf(calc->display, "> HI-LO GAME");
         } else if (game->frame == 80) {
             start_game(calc);
         }
-    } else if (game->state == GAME_STATE_INIT) {
+        break;
+    case GAME_STATE_INIT:
         // "Generate" random number.
         if (1 <= game->frame && game->frame < 70) {
             sprintf(calc->display, "%03d", rand() % 1000);
-            sprintf(calc->display, "%03d", dum++);
         } else if (game->frame == 70) {
             sprintf(calc->display, "???");
         } else if (game->frame == 140) {
             sprintf(calc->display, "___");
             game->state = GAME_STATE_PLAY;
         }
-    } else if (game->state == GAME_STATE_PLAY) {
-        // No animation.
-    } else if (game->state == GAME_STATE_OVER) {
+        break;
+    case GAME_STATE_PLAY:
+        break;
+    case GAME_STATE_LAST_GUESS:
+        if (game->frame == 100) {
+            bool high = (game->guess - game->target) > 0;
+            sprintf(calc->display, 
+                    "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
+        }
+        break;
+    case GAME_STATE_OVER:
         // Animate indefinitely.
-        bool did_win = game->guess == game->target;
         if (game->frame == 1) {
             sprintf(calc->display, "%03d", game->guess);
         } else if (game->frame % 200 == 0 && did_win) {
@@ -145,6 +160,7 @@ static void advance_frame_game(calc_t *calc) {
         } else if (game->frame % 100 == 50) {
             sprintf(calc->display, "");
         }
+        break;
     }
 }
 

@@ -6,6 +6,7 @@ typedef enum game_state_e {
     GAME_STATE_ENTER,
     GAME_STATE_INIT,
     GAME_STATE_PLAY,
+    GAME_STATE_LAST_GUESS,
     GAME_STATE_OVER,
 } game_state_t;
 
