@@ -15,9 +15,6 @@ void edit_number(calc_t *calc, key_t key) {
         if (strchr(comp->number_editing, '.')) return;
     }
     if (KEY_0 <= key && key <= KEY_9) {
-        if (!strcmp(comp->number_editing, "0")) return;
-        if (!strcmp(comp->number_editing, "-0")) return;
-
         int number_of_digits = strlen(comp->number_editing);
         if (strchr(comp->number_editing, '.')) number_of_digits--;
         if (strchr(comp->number_editing, '-')) number_of_digits--;
@@ -41,6 +38,13 @@ void edit_number(calc_t *calc, key_t key) {
             comp->number_editing[0] = '-';
         }
     } else {
+        if (!strcmp(comp->number_editing, "0")) {
+            strcpy(comp->number_editing, "");
+        }
+        if (!strcmp(comp->number_editing, "-0")) {
+            strcpy(comp->number_editing, "-");
+        }
+
         sprintf(comp->number_editing, "%s%i", comp->number_editing, key);
     }
     comp->is_number_editing = true;
