@@ -21,4 +21,16 @@ Note: instead of '+', we can have '-', and instead of '*', we can have '/'.
 
 Evaluating e:
   n    => n (done)
-  n%   => n/100 except in [e + n%]: [e + n% = e + e.n/100]
+  n%   => n/100 except in:
+             [n1 + n2%]: [n1 + n2% = n1 + n1.n2/100]
+             [n1% + n2%]: [(n1+n2)%] (keep percent)
+
+20  + 30  = 50
+20  + 30% = 20 + 6 = 26
+20% + 30  = .2 + 30 = 30.2
+20% + 30% = 50%
+
+20  * 30  = 50
+20  * 30% = 20 * .3 = 6
+20% * 30  = .2 * 30 = 6
+20% * 30% = .2 * .3 = .06

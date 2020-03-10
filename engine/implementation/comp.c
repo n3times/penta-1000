@@ -56,7 +56,7 @@ static void press_key_comp(calc_t *calc, key_t key) {
             if (aos->stack_depth % 2 == 1
                     && aos->operands[aos->stack_depth / 2].has_percent) {
                 comp->aos.operands[aos->stack_depth / 2].has_percent = false;
-            } else {
+            } else if (comp->aos.stack_depth > 0) {
                 comp->aos.stack_depth -= 1;
             }
         }

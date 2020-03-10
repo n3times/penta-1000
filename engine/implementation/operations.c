@@ -19,19 +19,19 @@ static void resolve_stack(calc_t *calc) {
                 special = true;
             }
         }
-        if (left.has_percent) {
-            left.number /= 100;
-        }
-        if (right.has_percent) {
-            right.number /= 100;
+        bool keep_percent = left.has_percent && right.has_percent
+                && (op == KEY_PLUS || op == KEY_MINUS);
+        if (!keep_percent) {
+            if (left.has_percent) left.number /= 100;
+            if (right.has_percent) right.number /= 100;
         }
         if (op == KEY_PLUS) {
-            if (right.has_percent) {
+            if (!left.has_percent && right.has_percent) {
                 right.number *= left.number;
             }
             left.number += right.number;
         } else if (op == KEY_MINUS) {
-            if (right.has_percent) {
+            if (!left.has_percent && right.has_percent) {
                 right.number *= left.number;
             }
             left.number -= right.number;
@@ -54,8 +54,10 @@ static void resolve_stack(calc_t *calc) {
             left.number = 0;
         }
         bottom += 2;
-        left.has_percent = false;
-        right.has_percent = false;
+        if (!keep_percent) {
+            left.has_percent = false;
+            right.has_percent = false;
+        }
         if (special) {
             aos->operands[bottom/2 + 1] = left;
             aos->operands[bottom/2] = aos->operands[bottom/2 - 1];
@@ -65,10 +67,6 @@ static void resolve_stack(calc_t *calc) {
         }
     }
     aos->operands[0] = aos->operands[bottom/2];
-    if (aos->operands[0].has_percent) {
-        aos->operands[0].number /= 100;
-        aos->operands[0].has_percent = false;
-    }
     aos->stack_depth = 1;
 }
 
