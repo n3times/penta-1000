@@ -7,15 +7,15 @@ static void resolve_stack(calc_t *calc) {
     int top = aos->stack_depth - 1;
 
     while (top - bottom > 0) {
-        double left = aos->operands[bottom/2];
-        double right = aos->operands[bottom/2 + 1];
+        double left = aos->operands[bottom/2].number;
+        double right = aos->operands[bottom/2 + 1].number;
         key_t op = aos->operators[bottom/2];
         bool special = false;
         if (top - bottom > 3) {
             if (aos->operators[bottom/2 + 1]/2 > op/2) {
                 op = aos->operators[bottom/2 + 1];
-                left = aos->operands[bottom/2 + 1];
-                right = aos->operands[bottom/2 + 2];
+                left = aos->operands[bottom/2 + 1].number;
+                right = aos->operands[bottom/2 + 2].number;
                 special = true;
             }
         }
@@ -43,14 +43,14 @@ static void resolve_stack(calc_t *calc) {
         }
         bottom += 2;
         if (special) {
-            aos->operands[bottom/2 + 1] = left;
-            aos->operands[bottom/2] = aos->operands[bottom/2 - 1];
+            aos->operands[bottom/2 + 1].number = left;
+            aos->operands[bottom/2].number = aos->operands[bottom/2 - 1].number;
             aos->operators[bottom/2] = aos->operators[bottom/2 - 1];
         } else {
-            aos->operands[bottom/2] = left;
+            aos->operands[bottom/2].number = left;
         }
     }
-    aos->operands[0] = aos->operands[bottom/2];
+    aos->operands[0].number = aos->operands[bottom/2].number;
     aos->stack_depth = 1;
 }
 
@@ -68,16 +68,12 @@ void handle_op(calc_t *calc, key_t op) {
         return;
     }
 
-    double *number = &aos->operands[aos->stack_depth / 2];
+    double *number = &aos->operands[aos->stack_depth / 2].number;
     if (op == KEY_CHS) {
         *number *= -1;
     } else if (op == KEY_PERCENT) {
-        if (aos->stack_depth == 3) {
-            if (aos->operators[0] == KEY_PLUS || aos->operators[0] == KEY_MINUS) {
-                *number *= aos->operands[0];
-            }
-        }
-        *number /= 100;
+        aos->operands[aos->stack_depth / 2].has_percent =
+            !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == KEY_EQUAL) {
        resolve_stack(calc);
     } else {

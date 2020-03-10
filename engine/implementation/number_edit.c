@@ -48,12 +48,14 @@ void edit_number(calc_t *calc, key_t key) {
 
 void resolve_edit_number(calc_t *calc) {
     comp_t *comp = &calc->comp;
+    aos_t *aos = &comp->aos;
 
     double result = atof(comp->number_editing);
-    double *number = &comp->aos.operands[comp->aos.stack_depth / 2];
+    double *number = &aos->operands[aos->stack_depth / 2].number;
+    aos->operands[aos->stack_depth / 2].has_percent = false;
 
     *number = result;
-    comp->aos.stack_depth++;
+    aos->stack_depth++;
     comp->is_number_editing = false;
     memset(comp->number_editing, 0, sizeof(comp->number_editing));
 }

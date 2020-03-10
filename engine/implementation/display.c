@@ -18,7 +18,7 @@ static void get_calc_display(calc_t *calc, char *display) {
     if (calc->is_new) {
         strcpy(extended_display, "PENTATRONICS");
     } else if (comp->error == ERROR_ILLEGAL_OP) {
-        strcpy(extended_display, "ILLEGAL OP");
+        strcpy(extended_display, "DIV BY ZERO");
     } else if (comp->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
     } else {
@@ -26,8 +26,11 @@ static void get_calc_display(calc_t *calc, char *display) {
             if (i % 2 == 1) {
                 int index = (i - 1) / 2;
                 char number[30];
-                x_to_d(number, aos->operands[index], MAX_DIGITS_NUM);
+                x_to_d(number, aos->operands[index].number, MAX_DIGITS_NUM);
                 strcat(extended_display, number);
+                if (aos->operands[index].has_percent) {
+                    strcat(extended_display, "%");
+                }
             } else {
                 int index = (i - 2) / 2;
                 char op = get_op_char(aos->operators[index]);

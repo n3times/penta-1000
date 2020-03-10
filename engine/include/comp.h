@@ -13,9 +13,14 @@ typedef enum error_e {
     ERROR_OVERFLOW = 2,
 } error_t;
 
+typedef struct operand_s {
+    double number;
+    bool has_percent;
+} operand_t;
+
 typedef struct aos_s {
     int stack_depth;
-    double operands[100];
+    operand_t operands[100];
     key_t operators[100];
 } aos_t;
 
