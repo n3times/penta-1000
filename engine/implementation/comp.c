@@ -44,18 +44,21 @@ static void enter_comp(calc_t *calc) {
 
 static void press_key_comp(calc_t *calc, key_t key) {
     comp_t *comp = &calc->comp;
+    aos_t *aos = &comp->aos;
 
     if (comp->state == COMP_STATE_ENTER) return;
 
     if (key == KEY_CLEAR) {
-        if (comp->aos.stack_depth <= 1) {
-            memset(comp, 0, sizeof(*comp));
-            new_comp(calc);
-        } else if (comp->is_number_editing) {
+        if (comp->is_number_editing) {
             comp->is_number_editing = false;
             memset(comp->number_editing, 0, sizeof(comp->number_editing));
         } else {
-            comp->aos.stack_depth -= 1;
+            if (aos->stack_depth % 2 == 1
+                    && aos->operands[aos->stack_depth / 2].has_percent) {
+                comp->aos.operands[aos->stack_depth / 2].has_percent = false;
+            } else {
+                comp->aos.stack_depth -= 1;
+            }
         }
     } else if (is_number_edit_key(calc, key)) {
         bool is_error = comp->error != ERROR_NONE;
