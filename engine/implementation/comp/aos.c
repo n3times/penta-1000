@@ -1,6 +1,6 @@
 #include "engine_internal.h"
 
-static void resolve_stack(calc_t *calc) {
+void aos_eval(calc_t *calc) {
     aos_t *aos = &calc->comp.aos;
 
     int bottom = 0;
@@ -70,8 +70,7 @@ static void resolve_stack(calc_t *calc) {
     aos->stack_depth = 1;
 }
 
-/** Assumes, no error and no number editing */
-void handle_op(calc_t *calc, key_t op) {
+void aos_push_operator(calc_t *calc, key_t op) {
     aos_t *aos = &calc->comp.aos;
 
     if (aos->stack_depth == 0) return;
@@ -91,11 +90,24 @@ void handle_op(calc_t *calc, key_t op) {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == KEY_EQUAL) {
-       resolve_stack(calc);
+       aos_eval(calc);
     } else {
         if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
             aos->operators[aos->stack_depth / 2] = op;
             aos->stack_depth++;
         }
+    }
+}
+
+void aos_pop(calc_t *calc) {
+    aos_t *aos = &calc->comp.aos;
+
+    if (aos->stack_depth <= 0) return;
+
+    if (aos->stack_depth % 2 == 1
+            && aos->operands[aos->stack_depth / 2].has_percent) {
+        aos->operands[aos->stack_depth / 2].has_percent = false;
+    } else {
+        aos->stack_depth -= 1;
     }
 }

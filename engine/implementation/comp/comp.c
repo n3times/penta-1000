@@ -45,20 +45,20 @@ static void enter_comp(calc_t *calc) {
 static void press_key_comp(calc_t *calc, key_t key) {
     comp_t *comp = &calc->comp;
     aos_t *aos = &comp->aos;
+    bool is_error = comp->error != ERROR_NONE;
 
     if (comp->state == COMP_STATE_ENTER) return;
+    if (is_error && key != KEY_CLEAR) return;
 
     if (key == KEY_CLEAR) {
-        if (comp->is_number_editing) {
+        if (is_error) {
+            aos->stack_depth = 0;
+            comp->error = ERROR_NONE;
+        } else if (comp->is_number_editing) {
             comp->is_number_editing = false;
             memset(comp->number_editing, 0, sizeof(comp->number_editing));
         } else {
-            if (aos->stack_depth % 2 == 1
-                    && aos->operands[aos->stack_depth / 2].has_percent) {
-                comp->aos.operands[aos->stack_depth / 2].has_percent = false;
-            } else if (comp->aos.stack_depth > 0) {
-                comp->aos.stack_depth -= 1;
-            }
+            aos_pop(calc);
         }
     } else if (is_number_edit_key(calc, key)) {
         bool is_error = comp->error != ERROR_NONE;
@@ -69,7 +69,7 @@ static void press_key_comp(calc_t *calc, key_t key) {
             if(comp->is_number_editing) {
                resolve_edit_number(calc);
             }
-            handle_op(calc, key);
+            aos_push_operator(calc, key);
         }
     }
 }

@@ -38,4 +38,9 @@ void handle_op(calc_t *calc, key_t op);
 void edit_number(calc_t *calc, key_t key);
 void resolve_edit_number(calc_t *calc);
 
+void aos_push_number(calc_t *calc, double number);
+void aos_push_operator(calc_t *calc, key_t op);
+void aos_pop(calc_t *calc);
+void aos_eval(calc_t *calc);
+
 void new_comp(calc_t *calc);
