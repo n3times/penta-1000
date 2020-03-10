@@ -24,7 +24,7 @@ void edit_number(calc_t *calc, key_t key) {
         if (number_of_digits == MAX_DIGITS_NUM) return;
     }
 
-    if (comp->aos.stack_depth == 1) comp->aos.stack_depth = 0;
+    if (comp->aos.stack_depth % 2 == 1) comp->aos.stack_depth--;
     if (key == KEY_DOT) {
         char *str = ".";
         if (!comp->is_number_editing) str = "0.";
