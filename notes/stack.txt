@@ -1,0 +1,24 @@
+EVALUATING AOS STACK
+
+Stack is of the form: e1 o1 e2 o2 ... ek
+where ei is either of the form n or n%
+
+n  = number
+n% = number followed by the % sign
+o  = operator
+e  = extended number (n or n%)
+
+Evaluation is from left to right:
+  if there is only 1 element, we are done
+  otherwise the size of the stack decrements by 1 at each step, as follows:
+    e1               => e1 (done)
+    e1 * e2 ...      => [e1 * e2] ...
+    e1 + e2          => [e1 + e2] + ...
+    e1 + e2 + ...    => [e1 + e2] + ...
+    e1 + e2 * e3 ... => e1 + [e2 * e3] ...
+
+Note: instead of '+', we can have '-', and instead of '*', we can have '/'.
+
+Evaluating e:
+  n    => n (done)
+  n%   => n/100 except in [e + n%]: [e + n% = e + e.n/100]
