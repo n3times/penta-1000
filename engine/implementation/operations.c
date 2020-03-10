@@ -7,50 +7,68 @@ static void resolve_stack(calc_t *calc) {
     int top = aos->stack_depth - 1;
 
     while (top - bottom > 0) {
-        double left = aos->operands[bottom/2].number;
-        double right = aos->operands[bottom/2 + 1].number;
+        operand_t left = aos->operands[bottom/2];
+        operand_t right = aos->operands[bottom/2 + 1];
         key_t op = aos->operators[bottom/2];
         bool special = false;
         if (top - bottom > 3) {
             if (aos->operators[bottom/2 + 1]/2 > op/2) {
                 op = aos->operators[bottom/2 + 1];
-                left = aos->operands[bottom/2 + 1].number;
-                right = aos->operands[bottom/2 + 2].number;
+                left = aos->operands[bottom/2 + 1];
+                right = aos->operands[bottom/2 + 2];
                 special = true;
             }
         }
+        if (left.has_percent) {
+            left.number /= 100;
+        }
+        if (right.has_percent) {
+            right.number /= 100;
+        }
         if (op == KEY_PLUS) {
-            left += right;
+            if (right.has_percent) {
+                right.number *= left.number;
+            }
+            left.number += right.number;
         } else if (op == KEY_MINUS) {
-            left -= right;
+            if (right.has_percent) {
+                right.number *= left.number;
+            }
+            left.number -= right.number;
         } else if (op == KEY_TIMES) {
-            left *= right;
+            left.number *= right.number;
         } else if (op == KEY_DIVIDE) {
-            if (right == 0) {
+            if (right.number == 0) {
                 aos->stack_depth = 0;
                 calc->comp.error = ERROR_ILLEGAL_OP;
                 return;
             }
-            left /= right;
+            left.number /= right.number;
         }
-        if (left >= 1e100 || left <= -1e100) {
+        if (left.number >= 1e100 || left.number <= -1e100) {
             aos->stack_depth = 0;
             calc->comp.error = ERROR_OVERFLOW;
             return;
         }
-        if (-1e-100 <= left && left <= 1e-100) {
-            left = 0;
+        if (-1e-100 <= left.number && left.number <= 1e-100) {
+            left.number = 0;
         }
         bottom += 2;
+        left.has_percent = false;
+        right.has_percent = false;
         if (special) {
-            aos->operands[bottom/2 + 1].number = left;
-            aos->operands[bottom/2].number = aos->operands[bottom/2 - 1].number;
+            aos->operands[bottom/2 + 1] = left;
+            aos->operands[bottom/2] = aos->operands[bottom/2 - 1];
             aos->operators[bottom/2] = aos->operators[bottom/2 - 1];
         } else {
-            aos->operands[bottom/2].number = left;
+            aos->operands[bottom/2] = left;
         }
     }
-    aos->operands[0].number = aos->operands[bottom/2].number;
+    aos->operands[0] = aos->operands[bottom/2];
+    if (aos->operands[0].has_percent) {
+        aos->operands[0].number /= 100;
+        aos->operands[0].has_percent = false;
+    }
     aos->stack_depth = 1;
 }
 
