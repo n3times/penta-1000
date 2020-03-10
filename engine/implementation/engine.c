@@ -7,8 +7,8 @@ calc_t *new_calc() {
     calc_t *calc = malloc(sizeof(calc_t));
     memset(calc, 0, sizeof(calc_t));
     calc->is_new = true;
-    new_game(calc);
     new_comp(calc);
+    init_game(calc);
     return calc;
 }
 

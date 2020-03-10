@@ -13,12 +13,12 @@ typedef enum game_state_e {
 typedef struct game_s {
     app_t app;
     int target;
-    int index;
     int guess;
-    bool is_number_editing;
-    char number_editing[4];
-    int frame;
+    int index;
+    char guess_textfield[4];
+    bool is_guess_editing;
     game_state_t state;
+    int frame;
 } game_t;
 
-void new_game(calc_t *calc);
+void init_game(calc_t *calc);

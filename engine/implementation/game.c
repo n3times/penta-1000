@@ -10,7 +10,7 @@ static void press_key_game(calc_t *calc, key_t key);
 static void advance_frame_game(calc_t *calc);
 static bool is_animating_game(calc_t *calc);
 
-void new_game(calc_t *calc) {
+void init_game(calc_t *calc) {
     game_t *game = &calc->game;
 
     time_t t;
@@ -28,11 +28,8 @@ static void start_game(calc_t *calc) {
     game->target = 100 + rand() % 900;
     game->guess = -1;
     game->index = 0;
+    game->is_guess_editing = false;
 
-    game->is_number_editing = false;
-    strcpy(game->number_editing, "");
-
-    // Start init sequence.
     game->state = GAME_STATE_INIT;
     game->frame = 0;
 }
@@ -42,7 +39,6 @@ static void enter_game(calc_t *calc) {
 
     game->state = GAME_STATE_ENTER;
     game->frame = 0;
-    game->is_number_editing = false;
 }
 
 static void press_key_game(calc_t *calc, key_t key) {
@@ -64,19 +60,19 @@ static void press_key_game(calc_t *calc, key_t key) {
 
     if (!(is_digit || key == KEY_CLEAR)) return;
 
-    if (game->is_number_editing && is_digit) {
+    if (game->is_guess_editing && is_digit) {
         int i = 0;
         for (i = 0; i < 3; i++) {
-            if (game->number_editing[i] == '_') break;
+            if (game->guess_textfield[i] == '_') break;
         }
         if (i > 0 || key > KEY_0) {
-            game->number_editing[i] = '0' + key;
+            game->guess_textfield[i] = '0' + key;
             if (i == 2) {
-                game->is_number_editing = false;
-                game->guess = atoi(game->number_editing);
+                game->is_guess_editing = false;
+                game->guess = atoi(game->guess_textfield);
             }
         }
-        if (!game->is_number_editing) {
+        if (!game->is_guess_editing) {
             bool over = game->index >= 10 || game->guess == game->target;
             if (over) {
                 game->state = GAME_STATE_OVER;
@@ -84,8 +80,8 @@ static void press_key_game(calc_t *calc, key_t key) {
                 return;
             } 
         }
-    } else if (game->is_number_editing && key == KEY_CLEAR) {
-        strcpy(game->number_editing, "___");
+    } else if (game->is_guess_editing && key == KEY_CLEAR) {
+        strcpy(game->guess_textfield, "___");
     } else {
         if (key == KEY_CLEAR) {
             start_game(calc);
@@ -93,15 +89,15 @@ static void press_key_game(calc_t *calc, key_t key) {
         }
 
         if (KEY_0 < key && key <= KEY_9) {
-            game->is_number_editing = true;
+            game->is_guess_editing = true;
             game->index++;
-            strcpy(game->number_editing, "___");
-            game->number_editing[0] = '0' + key;
+            strcpy(game->guess_textfield, "___");
+            game->guess_textfield[0] = '0' + key;
         }
     }
 
-    if (game->is_number_editing) {
-        sprintf(calc->display, "%s", game->number_editing);
+    if (game->is_guess_editing) {
+        sprintf(calc->display, "%s", game->guess_textfield);
     } else {
         if (game->index == 9) {
             game->state = GAME_STATE_LAST_GUESS;
@@ -169,6 +165,5 @@ static void advance_frame_game(calc_t *calc) {
 
 static bool is_animating_game(calc_t *calc) {
     game_t *game = &calc->game;
-
     return game->state != GAME_STATE_PLAY;
 }
