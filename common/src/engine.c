@@ -16,7 +16,7 @@ void release_calc(calc_t *calc) {
     free(calc);
 }
 
-void advance(calc_t *calc) {
+void advance_frame(calc_t *calc) {
     app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
     app->advance_frame(calc);
 }

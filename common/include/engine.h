@@ -1,16 +1,12 @@
 /**
- *  SIMPLE USAGE:
+ * API that clients can use as a black box to implement a Pentatronics 1000
+ * emulator.
  *
- *  // Get a new calc object.
- *  calc_t *calc = new_calc();
+ * The client should use 2 threads, one (possibly the main thread) to handle
+ * user input (key presses) and another one to run the display animations.
  *
- *  // Repeatedly, report any key pressed and update display.
- *  press_key(calc, <SOME_KEY>);
- *  char *display = get_display(calc, display);
- *  // Update display from UI...
- *
- *  // Quit calculator, when done.
- *  release_calc(calc);
+ * The animation thread should call "advance_frame" every 10 ms as long as
+ * "is_animating" is true.
  */
 
 #include <stdbool.h>
@@ -68,7 +64,7 @@ char *get_display(calc_t *calc);
 
 // Should be called every 10 ms.
 // After call, update display and check animation.
-void advance(calc_t *calc);
+void advance_frame(calc_t *calc);
 
 // True if animate() should be called in the animation thread. 
 bool is_animating(calc_t *calc);
