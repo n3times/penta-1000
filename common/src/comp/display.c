@@ -9,7 +9,7 @@
 static void x_to_d(char *formatted, double x, int len);
 static char get_op_char(key_t key);
 
-static void get_calc_display(calc_t *calc, char *display) {
+void get_calc_display(calc_t *calc, char *display) {
     comp_t *comp = &calc->comp;
     char extended_display[100];
     memset(extended_display, 0, 100);
@@ -52,13 +52,6 @@ static void get_calc_display(calc_t *calc, char *display) {
         offset = 0;
     }
     strcpy(display, extended_display + offset);
-}
-
-char *get_display(calc_t *calc) {
-    if (!calc->is_in_game && calc->comp.state == COMP_STATE_COMPUTE) {
-        get_calc_display(calc, calc->display);
-    }
-    return calc->display;
 }
 
 static void x_to_d(char *formatted, double x, int len) {

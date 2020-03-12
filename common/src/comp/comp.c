@@ -6,6 +6,7 @@
 
 static void enter_comp(calc_t *calc);
 static void press_key_comp(calc_t *calc, key_t key);
+static char *get_display_comp(calc_t *calc);
 static void advance_frame_comp(calc_t *calc);
 static bool is_animating_comp(calc_t *calc);
 
@@ -26,6 +27,7 @@ void new_comp(calc_t *calc) {
 
     comp->app.enter = enter_comp;
     comp->app.press_key = press_key_comp;
+    comp->app.get_display = get_display_comp;
     comp->app.advance_frame = advance_frame_comp;
     comp->app.is_animating = is_animating_comp;
 
@@ -72,6 +74,10 @@ static void press_key_comp(calc_t *calc, key_t key) {
             aos_push_operator(calc, key);
         }
     }
+}
+
+static char *get_display_comp(calc_t *calc) {
+    return calc->display;
 }
 
 static void advance_frame_comp(calc_t *calc) {

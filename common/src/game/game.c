@@ -7,6 +7,7 @@
 
 static void enter_game(calc_t *calc);
 static void press_key_game(calc_t *calc, key_t key);
+static char *get_display_game(calc_t *calc);
 static void advance_frame_game(calc_t *calc);
 static bool is_animating_game(calc_t *calc);
 
@@ -18,6 +19,7 @@ void init_game(calc_t *calc) {
 
     game->app.enter = enter_game;
     game->app.press_key = press_key_game;
+    game->app.get_display = get_display_game;
     game->app.advance_frame = advance_frame_game;
     game->app.is_animating = is_animating_game;
 }
@@ -111,6 +113,10 @@ static void press_key_game(calc_t *calc, key_t key) {
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
     }
+}
+
+static char *get_display_game(calc_t *calc) {
+    return calc->display;
 }
 
 static void advance_frame_game(calc_t *calc) {

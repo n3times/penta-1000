@@ -16,11 +16,6 @@ void release_calc(calc_t *calc) {
     free(calc);
 }
 
-void advance_frame(calc_t *calc) {
-    app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
-    app->advance_frame(calc);
-}
-
 void press_key(calc_t *calc, key_t key) {
     calc->is_new = false;
 
@@ -36,6 +31,19 @@ void press_key(calc_t *calc, key_t key) {
     app->press_key(calc, key);
 }
 
+char *get_display(calc_t *calc) {
+    if (!calc->is_in_game && calc->comp.state == COMP_STATE_COMPUTE) {
+        get_calc_display(calc, calc->display);
+    }
+
+    app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
+    return app->get_display(calc);
+}
+
+void advance_frame(calc_t *calc) {
+    app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;
+    app->advance_frame(calc);
+}
 
 bool is_animating(calc_t *calc) {
     app_t *app = calc->is_in_game ? (app_t *)&calc->game : (app_t *)&calc->comp;

@@ -34,9 +34,9 @@ typedef struct comp_s {
     aos_t aos;
 } comp_t;
 
-void handle_op(calc_t *calc, key_t op);
 void edit_number(calc_t *calc, key_t key);
 void resolve_edit_number(calc_t *calc);
+void get_calc_display(calc_t *calc, char *display);
 
 void aos_push_number(calc_t *calc, double number);
 void aos_push_operator(calc_t *calc, key_t op);
