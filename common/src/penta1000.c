@@ -20,6 +20,10 @@ void p1000_release(p1000_t *p1000) {
 void p1000_press_key(p1000_t *p1000, char key) {
     if (!p1000->current_app) {
         p1000->current_app = (app_t *)&p1000->calc;
+        p1000->current_app->enter(p1000);
+        while (p1000->current_app->is_animating(p1000)) {
+            p1000->current_app->advance_frame(p1000);
+        }
     }
     if (key == 'g') {
         if (p1000->current_app == (app_t *)&p1000->calc) {
