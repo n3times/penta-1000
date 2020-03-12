@@ -6,8 +6,7 @@
 #include <stdbool.h>
 
 struct p1000_s {
-    bool is_new;
-    bool is_in_game;
+    app_t *current_app;
     calc_t calc;
     game_t game;
     char display[25];
