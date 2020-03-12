@@ -9,14 +9,14 @@
 static void x_to_d(char *formatted, double x, int len);
 
 void get_p1000_display(p1000_t *p1000, char *display) {
-    comp_t *comp = &p1000->comp;
+    calc_t *calc = &p1000->calc;
     char extended_display[100];
     memset(extended_display, 0, 100);
-    aos_t *aos = &comp->aos;
+    aos_t *aos = &calc->aos;
 
-    if (comp->error == ERROR_ILLEGAL_OP) {
+    if (calc->error == ERROR_ILLEGAL_OP) {
         strcpy(extended_display, "DIV BY ZERO");
-    } else if (comp->error == ERROR_OVERFLOW) {
+    } else if (calc->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
     } else {
         for (int i = 1; i <= aos->stack_depth; i++) {
@@ -37,8 +37,8 @@ void get_p1000_display(p1000_t *p1000, char *display) {
                 strcat(extended_display, op_string);
             }
         }
-        if (comp->is_number_editing) {
-            strcat(extended_display, comp->number_editing);
+        if (calc->is_number_editing) {
+            strcat(extended_display, calc->number_editing);
         }
     }
     if (extended_display[0] == '\0') {

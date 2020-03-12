@@ -5,7 +5,7 @@
 
 static app_t *get_current_app(p1000_t *p1000) {
     app_t *app =
-        p1000->is_in_game ? (app_t *)&p1000->game : (app_t *)&p1000->comp;
+        p1000->is_in_game ? (app_t *)&p1000->game : (app_t *)&p1000->calc;
     return app;
 }
 
@@ -15,7 +15,7 @@ p1000_t *p1000_new() {
     p1000_t *p1000 = malloc(sizeof(p1000_t));
     memset(p1000, 0, sizeof(p1000_t));
     p1000->is_new = true;
-    new_comp(p1000);
+    new_calc(p1000);
     init_game(p1000);
     return p1000;
 }
@@ -39,7 +39,7 @@ void p1000_press_key(p1000_t *p1000, char key) {
 char *p1000_get_display(p1000_t *p1000) {
     if (p1000->is_new) return "PENTATRONICS";
 
-    if (!p1000->is_in_game && p1000->comp.state == COMP_STATE_COMPUTE) {
+    if (!p1000->is_in_game && p1000->calc.state == CALC_STATE_COMPUTE) {
         get_p1000_display(p1000, p1000->display);
     }
 

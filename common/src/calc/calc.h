@@ -2,10 +2,10 @@
 
 #include <stdbool.h>
 
-typedef enum comp_state_e {
-    COMP_STATE_ENTER,
-    COMP_STATE_COMPUTE,
-} comp_state_t;
+typedef enum calc_state_e {
+    CALC_STATE_ENTER,
+    CALC_STATE_COMPUTE,
+} calc_state_t;
 
 typedef enum error_e {
     ERROR_NONE = 0,
@@ -24,15 +24,15 @@ typedef struct aos_s {
     char operators[100];
 } aos_t;
 
-typedef struct comp_s {
+typedef struct calc_s {
     app_t app;
-    comp_state_t state;
+    calc_state_t state;
     int frame;
     error_t error;
     bool is_number_editing;
     char number_editing[25];
     aos_t aos;
-} comp_t;
+} calc_t;
 
 void edit_number(p1000_t *p1000, char key);
 void resolve_edit_number(p1000_t *p1000);
@@ -43,4 +43,4 @@ void aos_push_operator(p1000_t *p1000, char op);
 void aos_pop(p1000_t *p1000);
 void aos_eval(p1000_t *p1000);
 
-void new_comp(p1000_t *p1000);
+void new_calc(p1000_t *p1000);

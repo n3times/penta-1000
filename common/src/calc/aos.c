@@ -5,7 +5,7 @@ static bool is_arithmetic(char op) {
 }
 
 void aos_eval(p1000_t *p1000) {
-    aos_t *aos = &p1000->comp.aos;
+    aos_t *aos = &p1000->calc.aos;
 
     int bottom = 0;
     int top = aos->stack_depth - 1;
@@ -46,14 +46,14 @@ void aos_eval(p1000_t *p1000) {
         } else if (op == '/') {
             if (right.number == 0) {
                 aos->stack_depth = 0;
-                p1000->comp.error = ERROR_ILLEGAL_OP;
+                p1000->calc.error = ERROR_ILLEGAL_OP;
                 return;
             }
             left.number /= right.number;
         }
         if (left.number >= 1e100 || left.number <= -1e100) {
             aos->stack_depth = 0;
-            p1000->comp.error = ERROR_OVERFLOW;
+            p1000->calc.error = ERROR_OVERFLOW;
             return;
         }
         if (-1e-100 <= left.number && left.number <= 1e-100) {
@@ -77,7 +77,7 @@ void aos_eval(p1000_t *p1000) {
 }
 
 void aos_push_operator(p1000_t *p1000, char op) {
-    aos_t *aos = &p1000->comp.aos;
+    aos_t *aos = &p1000->calc.aos;
 
     if (aos->stack_depth == 0) return;
 
@@ -106,7 +106,7 @@ void aos_push_operator(p1000_t *p1000, char op) {
 }
 
 void aos_pop(p1000_t *p1000) {
-    aos_t *aos = &p1000->comp.aos;
+    aos_t *aos = &p1000->calc.aos;
 
     if (aos->stack_depth <= 0) return;
 
