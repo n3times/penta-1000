@@ -21,4 +21,4 @@ typedef struct game_s {
     int frame;
 } game_t;
 
-void init_game(calc_t *calc);
+void init_game(p1000_t *p1000);

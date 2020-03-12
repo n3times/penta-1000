@@ -1,7 +1,7 @@
 #include "engine_internal.h"
 
-void aos_eval(calc_t *calc) {
-    aos_t *aos = &calc->comp.aos;
+void aos_eval(p1000_t *p1000) {
+    aos_t *aos = &p1000->comp.aos;
 
     int bottom = 0;
     int top = aos->stack_depth - 1;
@@ -40,14 +40,14 @@ void aos_eval(calc_t *calc) {
         } else if (op == KEY_DIVIDE) {
             if (right.number == 0) {
                 aos->stack_depth = 0;
-                calc->comp.error = ERROR_ILLEGAL_OP;
+                p1000->comp.error = ERROR_ILLEGAL_OP;
                 return;
             }
             left.number /= right.number;
         }
         if (left.number >= 1e100 || left.number <= -1e100) {
             aos->stack_depth = 0;
-            calc->comp.error = ERROR_OVERFLOW;
+            p1000->comp.error = ERROR_OVERFLOW;
             return;
         }
         if (-1e-100 <= left.number && left.number <= 1e-100) {
@@ -70,8 +70,8 @@ void aos_eval(calc_t *calc) {
     aos->stack_depth = 1;
 }
 
-void aos_push_operator(calc_t *calc, key_t op) {
-    aos_t *aos = &calc->comp.aos;
+void aos_push_operator(p1000_t *p1000, key_t op) {
+    aos_t *aos = &p1000->comp.aos;
 
     if (aos->stack_depth == 0) return;
 
@@ -90,7 +90,7 @@ void aos_push_operator(calc_t *calc, key_t op) {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == KEY_EQUAL) {
-       aos_eval(calc);
+       aos_eval(p1000);
     } else {
         if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
             aos->operators[aos->stack_depth / 2] = op;
@@ -99,8 +99,8 @@ void aos_push_operator(calc_t *calc, key_t op) {
     }
 }
 
-void aos_pop(calc_t *calc) {
-    aos_t *aos = &calc->comp.aos;
+void aos_pop(p1000_t *p1000) {
+    aos_t *aos = &p1000->comp.aos;
 
     if (aos->stack_depth <= 0) return;
 

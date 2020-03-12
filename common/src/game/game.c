@@ -5,14 +5,14 @@
 #include <string.h>
 #include <time.h>
 
-static void enter_game(calc_t *calc);
-static void press_key_game(calc_t *calc, key_t key);
-static char *get_display_game(calc_t *calc);
-static void advance_frame_game(calc_t *calc);
-static bool is_animating_game(calc_t *calc);
+static void enter_game(p1000_t *p1000);
+static void press_key_game(p1000_t *p1000, key_t key);
+static char *get_display_game(p1000_t *p1000);
+static void advance_frame_game(p1000_t *p1000);
+static bool is_animating_game(p1000_t *p1000);
 
-void init_game(calc_t *calc) {
-    game_t *game = &calc->game;
+void init_game(p1000_t *p1000) {
+    game_t *game = &p1000->game;
 
     time_t t;
     srand((unsigned) time(&t));
@@ -24,8 +24,8 @@ void init_game(calc_t *calc) {
     game->app.is_animating = is_animating_game;
 }
 
-static void start_game(calc_t *calc) {
-    game_t *game = &calc->game;
+static void start_game(p1000_t *p1000) {
+    game_t *game = &p1000->game;
 
     game->target = 100 + rand() % 900;
     game->guess = -1;
@@ -36,22 +36,22 @@ static void start_game(calc_t *calc) {
     game->frame = 0;
 }
 
-static void enter_game(calc_t *calc) {
-    game_t *game = &calc->game;
+static void enter_game(p1000_t *p1000) {
+    game_t *game = &p1000->game;
 
     game->state = GAME_STATE_ENTER;
     game->frame = 0;
 }
 
-static void press_key_game(calc_t *calc, key_t key) {
-    game_t *game = &calc->game;
+static void press_key_game(p1000_t *p1000, key_t key) {
+    game_t *game = &p1000->game;
 
     if (game->state == GAME_STATE_ENTER || game->state == GAME_STATE_INIT) {
         return;
     }
     if (game->state == GAME_STATE_OVER) {
         if (key == KEY_CLEAR) {
-            start_game(calc);
+            start_game(p1000);
         }
         return;
     }
@@ -86,7 +86,7 @@ static void press_key_game(calc_t *calc, key_t key) {
         strcpy(game->guess_textfield, "___");
     } else {
         if (key == KEY_CLEAR) {
-            start_game(calc);
+            start_game(p1000);
             return;
         }
 
@@ -101,26 +101,26 @@ static void press_key_game(calc_t *calc, key_t key) {
     }
 
     if (game->is_guess_editing) {
-        sprintf(calc->display, "%s", game->guess_textfield);
+        sprintf(p1000->display, "%s", game->guess_textfield);
     } else {
         if (game->index == 9) {
             game->state = GAME_STATE_LAST_GUESS;
             game->frame = 0;
-            sprintf(calc->display, "1 MORE GUESS");
+            sprintf(p1000->display, "1 MORE GUESS");
         } else {
             bool high = (game->guess - game->target) > 0;
-            sprintf(calc->display,
+            sprintf(p1000->display,
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
     }
 }
 
-static char *get_display_game(calc_t *calc) {
-    return calc->display;
+static char *get_display_game(p1000_t *p1000) {
+    return p1000->display;
 }
 
-static void advance_frame_game(calc_t *calc) {
-    game_t *game = &calc->game;
+static void advance_frame_game(p1000_t *p1000) {
+    game_t *game = &p1000->game;
 
     game->frame++;
 
@@ -130,19 +130,19 @@ static void advance_frame_game(calc_t *calc) {
     case GAME_STATE_ENTER:
         // Announce game.
         if (game->frame == 1) {
-            sprintf(calc->display, "> HI-LO GAME");
+            sprintf(p1000->display, "> HI-LO GAME");
         } else if (game->frame == 80) {
-            start_game(calc);
+            start_game(p1000);
         }
         break;
     case GAME_STATE_INIT:
         // "Generate" random number.
         if (1 <= game->frame && game->frame < 70) {
-            sprintf(calc->display, "%03d", rand() % 1000);
+            sprintf(p1000->display, "%03d", rand() % 1000);
         } else if (game->frame == 70) {
-            sprintf(calc->display, "???");
+            sprintf(p1000->display, "???");
         } else if (game->frame == 140) {
-            sprintf(calc->display, "___");
+            sprintf(p1000->display, "___");
             game->state = GAME_STATE_PLAY;
         }
         break;
@@ -151,27 +151,27 @@ static void advance_frame_game(calc_t *calc) {
     case GAME_STATE_LAST_GUESS:
         if (game->frame == 100) {
             bool high = (game->guess - game->target) > 0;
-            sprintf(calc->display,
+            sprintf(p1000->display,
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
         break;
     case GAME_STATE_OVER:
         // Animate indefinitely.
         if (game->frame == 1) {
-            sprintf(calc->display, "%03d", game->guess);
+            sprintf(p1000->display, "%03d", game->guess);
         } else if (game->frame % 200 == 0 && did_win) {
-            sprintf(calc->display, "%d GUESSES", game->index);
+            sprintf(p1000->display, "%d GUESSES", game->index);
         } else if (game->frame % 100 == 0) {
-            sprintf(calc->display,
+            sprintf(p1000->display,
                     "YOU %s %03d", did_win ? "WON" : "LOST", game->target);
         } else if (game->frame % 100 == 50) {
-            sprintf(calc->display, "");
+            sprintf(p1000->display, "");
         }
         break;
     }
 }
 
-static bool is_animating_game(calc_t *calc) {
-    game_t *game = &calc->game;
+static bool is_animating_game(p1000_t *p1000) {
+    game_t *game = &p1000->game;
     return game->state != GAME_STATE_PLAY;
 }

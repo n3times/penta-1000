@@ -1,13 +1,13 @@
-#include "engine.h"
+#include "p1000.h"
 
 #include <stdio.h>
 #include <string.h>
 
 static char *key_strings = "0123456789.~+-*/=%C";
 
-static void print_display(calc_t *calc) {
+static void print_display(p1000_t *p1000) {
     char display[100];    
-    get_display(calc, display);
+    get_display(p1000, display);
     printf("%s\n", display);
 }
 
@@ -16,15 +16,15 @@ static void print_key(key_t key) {
 }
 
 static void test_sequence(key_t *sequence, int count, char *title) {
-    calc_t *calc;
-    new_calc(&calc);
+    p1000_t *p1000;
+    new_p1000(&p1000);
 
     printf("=== %s ===\n\n", title);
-    print_display(calc);
+    print_display(p1000);
     for (int i = 0; i < count; i++) { 
-       press_key(calc, sequence[i]);
+       press_key(p1000, sequence[i]);
        print_key(sequence[i]);
-       print_display(calc);
+       print_display(p1000);
     }
     printf("\n");
 }

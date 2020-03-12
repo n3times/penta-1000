@@ -5,22 +5,22 @@
  * The client should use 2 threads, one (possibly the main thread) to handle
  * user input (key presses) and another one to run the display animations.
  *
- * The animation thread should call "advance_frame" every 10 ms as long as
- * "is_animating" is true.
+ * The animation thread should call "p1000_advance_frame" every 10 ms as long as
+ * "p1000_is_animating" is true.
  */
 
 #include <stdbool.h>
 
-typedef struct calc_s calc_t;
+typedef struct p1000_s p1000_t;
 
 /* SETUP */
 
-// Allocates a new calc and inits it.
+// Allocates a new Pentatronics 1000 object and inits it.
 // After call, update display and start animating if necessary.
-calc_t *new_calc();
+p1000_t *p1000_new();
 
-// Deallocates calc.
-void release_calc(calc_t *calc);
+// Deallocates p1000.
+void p1000_release(p1000_t *p1000);
 
 /* INPUT */
 
@@ -49,22 +49,22 @@ typedef enum {
 
 // Should be called as soon as a key is pressed.
 // After call, update display and check animation.
-void press_key(calc_t *calc, key_t key);
+void p1000_press_key(p1000_t *p1000, key_t key);
 
 /* OUTPUT */
 
-//  Gets the display as a null terminated string with at most 24 effective
+// Gets the display as a null terminated string with at most 24 effective
 // characters.
 //
 // The text should be right justified on the display. A dot ('.') modifies the
 // character just before it.
-char *get_display(calc_t *calc);
+char *p1000_get_display(p1000_t *p1000);
 
 /* ANIMATION */
 
 // Should be called every 10 ms.
 // After call, update display and check animation.
-void advance_frame(calc_t *calc);
+void p1000_advance_frame(p1000_t *p1000);
 
 // True if animate() should be called in the animation thread. 
-bool is_animating(calc_t *calc);
+bool p1000_is_animating(p1000_t *p1000);

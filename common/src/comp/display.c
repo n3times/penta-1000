@@ -9,15 +9,13 @@
 static void x_to_d(char *formatted, double x, int len);
 static char get_op_char(key_t key);
 
-void get_calc_display(calc_t *calc, char *display) {
-    comp_t *comp = &calc->comp;
+void get_p1000_display(p1000_t *p1000, char *display) {
+    comp_t *comp = &p1000->comp;
     char extended_display[100];
     memset(extended_display, 0, 100);
     aos_t *aos = &comp->aos;
 
-    if (calc->is_new) {
-        strcpy(extended_display, "PENTATRONICS");
-    } else if (comp->error == ERROR_ILLEGAL_OP) {
+    if (comp->error == ERROR_ILLEGAL_OP) {
         strcpy(extended_display, "DIV BY ZERO");
     } else if (comp->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");

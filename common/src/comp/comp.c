@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void enter_comp(calc_t *calc);
-static void press_key_comp(calc_t *calc, key_t key);
-static char *get_display_comp(calc_t *calc);
-static void advance_frame_comp(calc_t *calc);
-static bool is_animating_comp(calc_t *calc);
+static void enter_comp(p1000_t *p1000);
+static void press_key_comp(p1000_t *p1000, key_t key);
+static char *get_display_comp(p1000_t *p1000);
+static void advance_frame_comp(p1000_t *p1000);
+static bool is_animating_comp(p1000_t *p1000);
 
-static bool is_number_edit_key(calc_t *calc, key_t key) {
-    comp_t *comp = &calc->comp;
+static bool is_number_edit_key(p1000_t *p1000, key_t key) {
+    comp_t *comp = &p1000->comp;
 
     if (KEY_0 <= key && key < KEY_CHS) return true;
     if (key == KEY_CHS) {
@@ -22,8 +22,8 @@ static bool is_number_edit_key(calc_t *calc, key_t key) {
     return false;
 }
 
-void new_comp(calc_t *calc) {
-    comp_t *comp = &calc->comp;
+void new_comp(p1000_t *p1000) {
+    comp_t *comp = &p1000->comp;
 
     comp->app.enter = enter_comp;
     comp->app.press_key = press_key_comp;
@@ -38,14 +38,14 @@ void new_comp(calc_t *calc) {
  *  App interface.
  */
 
-static void enter_comp(calc_t *calc) {
-    comp_t *comp = &calc->comp;
+static void enter_comp(p1000_t *p1000) {
+    comp_t *comp = &p1000->comp;
     comp->state = COMP_STATE_ENTER;
     comp->frame = 0;
 }
 
-static void press_key_comp(calc_t *calc, key_t key) {
-    comp_t *comp = &calc->comp;
+static void press_key_comp(p1000_t *p1000, key_t key) {
+    comp_t *comp = &p1000->comp;
     aos_t *aos = &comp->aos;
     bool is_error = comp->error != ERROR_NONE;
 
@@ -60,35 +60,35 @@ static void press_key_comp(calc_t *calc, key_t key) {
             comp->is_number_editing = false;
             memset(comp->number_editing, 0, sizeof(comp->number_editing));
         } else {
-            aos_pop(calc);
+            aos_pop(p1000);
         }
-    } else if (is_number_edit_key(calc, key)) {
+    } else if (is_number_edit_key(p1000, key)) {
         bool is_error = comp->error != ERROR_NONE;
-        if (!is_error) edit_number(calc, key);
+        if (!is_error) edit_number(p1000, key);
     } else {
         bool is_error = comp->error != ERROR_NONE;
         if (!is_error) {
             if(comp->is_number_editing) {
-               resolve_edit_number(calc);
+               resolve_edit_number(p1000);
             }
-            aos_push_operator(calc, key);
+            aos_push_operator(p1000, key);
         }
     }
 }
 
-static char *get_display_comp(calc_t *calc) {
-    return calc->display;
+static char *get_display_comp(p1000_t *p1000) {
+    return p1000->display;
 }
 
-static void advance_frame_comp(calc_t *calc) {
-    comp_t *comp = &calc->comp;
+static void advance_frame_comp(p1000_t *p1000) {
+    comp_t *comp = &p1000->comp;
 
     comp->frame++;
 
     switch (comp->state) {
     case COMP_STATE_ENTER:
         if (comp->frame == 1) {
-            sprintf(calc->display, ">  CALC MODE");
+            sprintf(p1000->display, ">  CALC MODE");
         } else if (comp->frame == 80) {
             comp->state = COMP_STATE_COMPUTE;
         }
@@ -98,7 +98,7 @@ static void advance_frame_comp(calc_t *calc) {
     }
 }
 
-static bool is_animating_comp(calc_t *calc) {
-    comp_t *comp = &calc->comp;
+static bool is_animating_comp(p1000_t *p1000) {
+    comp_t *comp = &p1000->comp;
     return comp->state == COMP_STATE_ENTER;
 }

@@ -1,11 +1,11 @@
-#include "engine.h"
+#include "p1000.h"
 
 #include "comp.h"
 #include "game.h"
 
 #include <stdbool.h>
 
-struct calc_s {
+struct p1000_s {
     bool is_new;
     bool is_in_game;
     comp_t comp;

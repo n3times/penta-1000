@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "p1000.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -16,7 +16,7 @@
 static pthread_mutex_t wait_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t wait_cond = PTHREAD_COND_INITIALIZER;
 
-static void set_calc_display(int bgcolor) {
+static void set_display(int bgcolor) {
 #if SUPPORT_CUSTOM_COLORS
     printf("\033[%d;40m", bgcolor);
 #endif
@@ -28,8 +28,8 @@ static void reset_display() {
 #endif
 }
 
-static void print_display(calc_t *calc) {
-    char *display = get_display(calc);
+static void print_display(p1000_t *p1000) {
+    char *display = p1000_get_display(p1000);
     printf("  %12s \r", display);
     fflush(stdout);
 }
@@ -43,13 +43,13 @@ static void quit() {
 static char mess = 0;
 
 static void *animation_loop(void *args) {
-    calc_t *calc = args;
+    p1000_t *p1000 = args;
 
     while (true) {
-        while (!is_animating(calc)) {
+        while (!p1000_is_animating(p1000)) {
             pthread_cond_wait(&wait_cond, &wait_mutex);
         }
-        while (is_animating(calc)) {
+        while (p1000_is_animating(p1000)) {
             struct timespec ts;
             clock_gettime(CLOCK_REALTIME, &ts);
             long nsec = ts.tv_nsec + ANIMATION_MS * NANO_IN_ONE_MS;
@@ -64,8 +64,8 @@ static void *animation_loop(void *args) {
                return 0;
             }
 
-            advance_frame(calc);
-            print_display(calc);
+            p1000_advance_frame(p1000);
+            print_display(p1000);
         }
         pthread_mutex_unlock(&wait_mutex);
     }
@@ -73,20 +73,20 @@ static void *animation_loop(void *args) {
 }
 
 int main(int argc, char *argv[]) {
-    calc_t *calc = NULL;
+    p1000_t *p1000 = NULL;
     pthread_t animation_thread;
 
     mess = 0;
 
-    calc = new_calc();
+    p1000 = p1000_new();
 
-    pthread_create(&animation_thread, 0, animation_loop, calc);
+    pthread_create(&animation_thread, 0, animation_loop, p1000);
 
     int fgcolor = 97;
     if (argc == 2) fgcolor = atoi(argv[1]);
-    set_calc_display(fgcolor);
+    set_display(fgcolor);
 
-    print_display(calc);
+    print_display(p1000);
 
     // Make sure the pressed keys are immediately available, without the user
     // having to press the return key.
@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
         char *char_to_key_map = "0123456789.~+-*/=%cg";
         for (int i = 0; i < strlen(char_to_key_map); i++) {
             if (char_to_key_map[i] == c) {
-                press_key(calc, i);
-                print_display(calc);
+                p1000_press_key(p1000, i);
+                print_display(p1000);
                 pthread_cond_signal(&wait_cond);
                 break;
             }
