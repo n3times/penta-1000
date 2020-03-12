@@ -1,4 +1,4 @@
-#include "p1000.h"
+#include "penta1000.h"
 
 #include "comp.h"
 #include "game.h"

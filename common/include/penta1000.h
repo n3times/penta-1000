@@ -1,6 +1,5 @@
 /**
- * API that clients can use as a black box to implement a Pentatronics 1000
- * emulator.
+ * API that clients can use to implement a Pentatronics 1000 emulator.
  *
  * The client should use 2 threads, one (possibly the main thread) to handle
  * user input (key presses) and another one to run the display animations.
@@ -17,16 +16,17 @@ typedef struct p1000_s p1000_t;
 // After call, update display and start animating if necessary.
 p1000_t *p1000_new();
 
-// Deallocates p1000.
+// Deallocates the Pentatronics 1000 object.
 void p1000_release(p1000_t *p1000);
 
 // Should be called as soon as a key is pressed.
 // After call, update display and check animation.
 //
-// key is in '0123456789..~+-*/=%cg' with:
-// ~ : +/-
-// c : clear
-// g game
+// key is in '0123456789.~+-*/=%cg' with the 10 digits, the 4 arithmetics
+// operations, percentage, equal, dot and:
+// ~ for +/-
+// c for clear
+// g for game (swiches between game and calc mode)
 void p1000_press_key(p1000_t *p1000, char key);
 
 // Gets the display as a null terminated string with at most 24 effective
@@ -40,5 +40,5 @@ char *p1000_get_display(p1000_t *p1000);
 // After call, update display and check animation.
 void p1000_advance_frame(p1000_t *p1000);
 
-// True if animate() should be called in the animation thread. 
+// True if "p1000_advance_frame" should be called. 
 bool p1000_is_animating(p1000_t *p1000);
