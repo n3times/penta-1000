@@ -26,7 +26,7 @@ void p1000_release(p1000_t *p1000);
 // operations, percentage, equal, dot and:
 // ~ for +/-
 // c for clear
-// g for game (swiches between game and calc mode)
+// g for game (switches between game and calc mode)
 void p1000_press_key(p1000_t *p1000, char key);
 
 // Gets the display as a null terminated string with at most 24 effective
