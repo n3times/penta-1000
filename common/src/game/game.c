@@ -78,7 +78,7 @@ static void press_key_game(calc_t *calc, key_t key) {
                 game->state = GAME_STATE_OVER;
                 game->frame = 0;
                 return;
-            } 
+            }
         }
     } else if (game->is_guess_editing && key == KEY_CLEAR) {
         strcpy(game->guess_textfield, "___");
@@ -93,6 +93,8 @@ static void press_key_game(calc_t *calc, key_t key) {
             game->index++;
             strcpy(game->guess_textfield, "___");
             game->guess_textfield[0] = '0' + key;
+        } else if (key == KEY_0) {
+            return;
         }
     }
 
@@ -105,7 +107,7 @@ static void press_key_game(calc_t *calc, key_t key) {
             sprintf(calc->display, "1 MORE GUESS");
         } else {
             bool high = (game->guess - game->target) > 0;
-            sprintf(calc->display, 
+            sprintf(calc->display,
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
     }
@@ -143,7 +145,7 @@ static void advance_frame_game(calc_t *calc) {
     case GAME_STATE_LAST_GUESS:
         if (game->frame == 100) {
             bool high = (game->guess - game->target) > 0;
-            sprintf(calc->display, 
+            sprintf(calc->display,
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
         break;
