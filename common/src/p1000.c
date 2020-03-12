@@ -24,11 +24,11 @@ void p1000_release(p1000_t *p1000) {
     free(p1000);
 }
 
-void p1000_press_key(p1000_t *p1000, key_t key) {
+void p1000_press_key(p1000_t *p1000, char key) {
     p1000->is_new = false;
 
     app_t *app = get_current_app(p1000);
-    if (key == KEY_GAME) {
+    if (key == 'g') {
         p1000->is_in_game = !p1000->is_in_game;
         app->enter(p1000);
         return;

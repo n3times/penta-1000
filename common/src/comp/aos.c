@@ -1,5 +1,9 @@
 #include "engine_internal.h"
 
+static bool is_arithmetic(char op) {
+    return op == '+' || op == '-' || op == '*' || op == '/';
+}
+
 void aos_eval(p1000_t *p1000) {
     aos_t *aos = &p1000->comp.aos;
 
@@ -9,10 +13,12 @@ void aos_eval(p1000_t *p1000) {
     while (top - bottom > 0) {
         operand_t left = aos->operands[bottom/2];
         operand_t right = aos->operands[bottom/2 + 1];
-        key_t op = aos->operators[bottom/2];
+        char op = aos->operators[bottom/2];
         bool special = false;
         if (top - bottom > 3) {
-            if (aos->operators[bottom/2 + 1]/2 > op/2) {
+            char op1 = op;
+            char op2 = aos->operators[bottom/2 + 1];
+            if ((op1 == '+' || op1 == '-') && (op2 == '*' || op2 == '/')) {
                 op = aos->operators[bottom/2 + 1];
                 left = aos->operands[bottom/2 + 1];
                 right = aos->operands[bottom/2 + 2];
@@ -20,24 +26,24 @@ void aos_eval(p1000_t *p1000) {
             }
         }
         bool keep_percent = left.has_percent && right.has_percent
-                && (op == KEY_PLUS || op == KEY_MINUS);
+                && (op == '+' || op == '-');
         if (!keep_percent) {
             if (left.has_percent) left.number /= 100;
             if (right.has_percent) right.number /= 100;
         }
-        if (op == KEY_PLUS) {
+        if (op == '+') {
             if (!left.has_percent && right.has_percent) {
                 right.number *= left.number;
             }
             left.number += right.number;
-        } else if (op == KEY_MINUS) {
+        } else if (op == '-') {
             if (!left.has_percent && right.has_percent) {
                 right.number *= left.number;
             }
             left.number -= right.number;
-        } else if (op == KEY_TIMES) {
+        } else if (op == '*') {
             left.number *= right.number;
-        } else if (op == KEY_DIVIDE) {
+        } else if (op == '/') {
             if (right.number == 0) {
                 aos->stack_depth = 0;
                 p1000->comp.error = ERROR_ILLEGAL_OP;
@@ -70,29 +76,29 @@ void aos_eval(p1000_t *p1000) {
     aos->stack_depth = 1;
 }
 
-void aos_push_operator(p1000_t *p1000, key_t op) {
+void aos_push_operator(p1000_t *p1000, char op) {
     aos_t *aos = &p1000->comp.aos;
 
     if (aos->stack_depth == 0) return;
 
     if (aos->stack_depth % 2 == 0) {
         int index = aos->stack_depth / 2 - 1;
-        if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
+        if (is_arithmetic(op)) {
             aos->operators[index] = op;
         }
         return;
     }
 
     double *number = &aos->operands[aos->stack_depth / 2].number;
-    if (op == KEY_CHS) {
+    if (op == '~') {
         *number *= -1;
-    } else if (op == KEY_PERCENT) {
+    } else if (op == '%') {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
-    } else if (op == KEY_EQUAL) {
+    } else if (op == '=') {
        aos_eval(p1000);
     } else {
-        if (KEY_PLUS <= op && op <= KEY_DIVIDE) {
+        if (is_arithmetic(op)) {
             aos->operators[aos->stack_depth / 2] = op;
             aos->stack_depth++;
         }

@@ -8,13 +8,13 @@
 
 // 0-9, +/- can start edit
 // . can only follow a digit
-void edit_number(p1000_t *p1000, key_t key) {
+void edit_number(p1000_t *p1000, char key) {
     comp_t *comp = &p1000->comp;
 
-    if (key == KEY_DOT) {
+    if (key == '.') {
         if (strchr(comp->number_editing, '.')) return;
     }
-    if (KEY_0 <= key && key <= KEY_9) {
+    if ('0' <= key && key <= '9') {
         int number_of_digits = strlen(comp->number_editing);
         if (strchr(comp->number_editing, '.')) number_of_digits--;
         if (strchr(comp->number_editing, '-')) number_of_digits--;
@@ -22,13 +22,13 @@ void edit_number(p1000_t *p1000, key_t key) {
     }
 
     if (comp->aos.stack_depth % 2 == 1) comp->aos.stack_depth--;
-    if (key == KEY_DOT) {
+    if (key == '.') {
         char *str = ".";
         if (!comp->is_number_editing) str = "0.";
         if (!strcmp(comp->number_editing, "")) str = "0.";
         if (!strcmp(comp->number_editing, "-")) str = "0.";
         strcat(comp->number_editing, str);
-    } else if (key == KEY_CHS) {
+    } else if (key == '~') {
         if (comp->number_editing[0] == '-') {
             sprintf(comp->number_editing, "%s", comp->number_editing + 1);
         } else {
@@ -45,7 +45,7 @@ void edit_number(p1000_t *p1000, key_t key) {
             strcpy(comp->number_editing, "-");
         }
 
-        sprintf(comp->number_editing, "%s%i", comp->number_editing, key);
+        sprintf(comp->number_editing, "%s%c", comp->number_editing, key);
     }
     comp->is_number_editing = true;
 }

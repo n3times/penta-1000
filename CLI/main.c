@@ -100,14 +100,8 @@ int main(int argc, char *argv[]) {
             quit();
         }
 
-        char *char_to_key_map = "0123456789.~+-*/=%cg";
-        for (int i = 0; i < strlen(char_to_key_map); i++) {
-            if (char_to_key_map[i] == c) {
-                p1000_press_key(p1000, i);
-                print_display(p1000);
-                pthread_cond_signal(&wait_cond);
-                break;
-            }
-        }
+        p1000_press_key(p1000, c);
+        print_display(p1000);
+        pthread_cond_signal(&wait_cond);
     }
 }

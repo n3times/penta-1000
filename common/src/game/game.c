@@ -6,7 +6,7 @@
 #include <time.h>
 
 static void enter_game(p1000_t *p1000);
-static void press_key_game(p1000_t *p1000, key_t key);
+static void press_key_game(p1000_t *p1000, char key);
 static char *get_display_game(p1000_t *p1000);
 static void advance_frame_game(p1000_t *p1000);
 static bool is_animating_game(p1000_t *p1000);
@@ -43,14 +43,14 @@ static void enter_game(p1000_t *p1000) {
     game->frame = 0;
 }
 
-static void press_key_game(p1000_t *p1000, key_t key) {
+static void press_key_game(p1000_t *p1000, char key) {
     game_t *game = &p1000->game;
 
     if (game->state == GAME_STATE_ENTER || game->state == GAME_STATE_INIT) {
         return;
     }
     if (game->state == GAME_STATE_OVER) {
-        if (key == KEY_CLEAR) {
+        if (key == 'c') {
             start_game(p1000);
         }
         return;
@@ -58,17 +58,17 @@ static void press_key_game(p1000_t *p1000, key_t key) {
 
     // GAME_STATE_PLAY mode.
 
-    int is_digit = KEY_0 <= key && key <= KEY_9;
+    int is_digit = '0' <= key && key <= '9';
 
-    if (!(is_digit || key == KEY_CLEAR)) return;
+    if (!(is_digit || key == 'c')) return;
 
     if (game->is_guess_editing && is_digit) {
         int i = 0;
         for (i = 0; i < 3; i++) {
             if (game->guess_textfield[i] == '_') break;
         }
-        if (i > 0 || key > KEY_0) {
-            game->guess_textfield[i] = '0' + key;
+        if (i > 0 || key != '0') {
+            game->guess_textfield[i] = key;
             if (i == 2) {
                 game->is_guess_editing = false;
                 game->guess = atoi(game->guess_textfield);
@@ -82,20 +82,20 @@ static void press_key_game(p1000_t *p1000, key_t key) {
                 return;
             }
         }
-    } else if (game->is_guess_editing && key == KEY_CLEAR) {
+    } else if (game->is_guess_editing && key == 'c') {
         strcpy(game->guess_textfield, "___");
     } else {
-        if (key == KEY_CLEAR) {
+        if (key == 'c') {
             start_game(p1000);
             return;
         }
 
-        if (KEY_0 < key && key <= KEY_9) {
+        if ('0' < key && key <= '9') {
             game->is_guess_editing = true;
             game->index++;
             strcpy(game->guess_textfield, "___");
-            game->guess_textfield[0] = '0' + key;
-        } else if (key == KEY_0) {
+            game->guess_textfield[0] = key;
+        } else if (key == '0') {
             return;
         }
     }

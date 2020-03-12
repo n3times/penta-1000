@@ -21,7 +21,7 @@ typedef struct operand_s {
 typedef struct aos_s {
     int stack_depth;
     operand_t operands[100];
-    key_t operators[100];
+    char operators[100];
 } aos_t;
 
 typedef struct comp_s {
@@ -34,12 +34,12 @@ typedef struct comp_s {
     aos_t aos;
 } comp_t;
 
-void edit_number(p1000_t *p1000, key_t key);
+void edit_number(p1000_t *p1000, char key);
 void resolve_edit_number(p1000_t *p1000);
 void get_p1000_display(p1000_t *p1000, char *display);
 
 void aos_push_number(p1000_t *p1000, double number);
-void aos_push_operator(p1000_t *p1000, key_t op);
+void aos_push_operator(p1000_t *p1000, char op);
 void aos_pop(p1000_t *p1000);
 void aos_eval(p1000_t *p1000);
 

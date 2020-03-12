@@ -7,7 +7,6 @@
 #define MAX_DIGITS_NUM 10
 
 static void x_to_d(char *formatted, double x, int len);
-static char get_op_char(key_t key);
 
 void get_p1000_display(p1000_t *p1000, char *display) {
     comp_t *comp = &p1000->comp;
@@ -31,7 +30,7 @@ void get_p1000_display(p1000_t *p1000, char *display) {
                 }
             } else {
                 int index = (i - 2) / 2;
-                char op = get_op_char(aos->operators[index]);
+                char op = aos->operators[index];
                 char op_string[2];
                 op_string[0] = op;
                 op_string[1] = 0;
@@ -93,9 +92,4 @@ static void x_to_d(char *formatted, double x, int len) {
         }
     }
     strcpy(formatted, result);
-}
-
-static char get_op_char(key_t key) {
-    char *operators = "+-*/";
-    return operators[key - KEY_PLUS];
 }

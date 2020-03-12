@@ -5,16 +5,17 @@
 #include <string.h>
 
 static void enter_comp(p1000_t *p1000);
-static void press_key_comp(p1000_t *p1000, key_t key);
+static void press_key_comp(p1000_t *p1000, char key);
 static char *get_display_comp(p1000_t *p1000);
 static void advance_frame_comp(p1000_t *p1000);
 static bool is_animating_comp(p1000_t *p1000);
 
-static bool is_number_edit_key(p1000_t *p1000, key_t key) {
+static bool is_number_edit_key(p1000_t *p1000, char key) {
     comp_t *comp = &p1000->comp;
 
-    if (KEY_0 <= key && key < KEY_CHS) return true;
-    if (key == KEY_CHS) {
+    if ('0' <= key && key <= '9') return true;
+    if (key == '.') return true;
+    if (key == '~') {
         if (comp->aos.stack_depth % 2 == 0) {
             return true;
         }
@@ -44,15 +45,15 @@ static void enter_comp(p1000_t *p1000) {
     comp->frame = 0;
 }
 
-static void press_key_comp(p1000_t *p1000, key_t key) {
+static void press_key_comp(p1000_t *p1000, char key) {
     comp_t *comp = &p1000->comp;
     aos_t *aos = &comp->aos;
     bool is_error = comp->error != ERROR_NONE;
 
     if (comp->state == COMP_STATE_ENTER) return;
-    if (is_error && key != KEY_CLEAR) return;
+    if (is_error && key != 'c') return;
 
-    if (key == KEY_CLEAR) {
+    if (key == 'c') {
         if (is_error) {
             aos->stack_depth = 0;
             comp->error = ERROR_NONE;
