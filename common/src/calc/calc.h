@@ -37,7 +37,7 @@ typedef struct calc_s {
     aos_t aos;
 } calc_t;
 
-void get_p1_display(p1_t *p1, char *display);
+void get_calc_display(calc_t *calc, char *display);
 
 void init_calc(p1_t *p1);
 

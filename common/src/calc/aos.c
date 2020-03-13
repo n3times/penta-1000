@@ -1,4 +1,4 @@
-#include "p1000_internal.h"
+#include "calc.h"
 
 static bool is_arithmetic_op(char op) {
     return op == '+' || op == '-' || op == '*' || op == '/';

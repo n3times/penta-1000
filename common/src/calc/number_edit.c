@@ -1,4 +1,4 @@
-#include "p1000_internal.h"
+#include "calc.h"
 
 #include <stdlib.h>
 #include <stdio.h>

@@ -1,4 +1,4 @@
-#include "p1000_internal.h"
+#include "penta1000_internal.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -55,7 +55,7 @@ char *p1_get_display(p1_t *p1) {
     app_t *app = get_current_app(p1);
     if (!app) return "PENTATRONICS";
     if (app == (app_t *)&p1->calc && p1->calc.state == CALC_STATE_COMPUTE) {
-        get_p1_display(p1, p1->display);
+        get_calc_display(&p1->calc, p1->display);
     }
     return app->get_display(p1);
 }

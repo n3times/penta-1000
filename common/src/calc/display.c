@@ -1,4 +1,4 @@
-#include "p1000_internal.h"
+#include "calc.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +8,7 @@
 
 static void x_to_d(char *formatted, double x, int len);
 
-void get_p1_display(p1_t *p1, char *display) {
-    calc_t *calc = &p1->calc;
+void get_calc_display(calc_t *calc, char *display) {
     char extended_display[100];
     memset(extended_display, 0, 100);
     aos_t *aos = &calc->aos;

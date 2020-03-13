@@ -1,4 +1,4 @@
-#include "p1000_internal.h"
+#include "penta1000_internal.h"
 
 #include <stdlib.h>
 #include <stdio.h>

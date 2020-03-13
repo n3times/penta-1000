@@ -1,4 +1,5 @@
-#include "p1000_internal.h"
+#include "penta1000_internal.h"
+
 #include "aos.h"
 #include "number_edit.h"
 
