@@ -28,8 +28,8 @@ static void reset_display() {
 #endif
 }
 
-static void print_display(p1000_t *p1000) {
-    char *display = p1000_get_display(p1000);
+static void print_display(p1_t *p1) {
+    char *display = p1_get_display(p1);
     printf("  %12s \r", display);
     fflush(stdout);
 }
@@ -43,13 +43,13 @@ static void quit() {
 static char mess = 0;
 
 static void *animation_loop(void *args) {
-    p1000_t *p1000 = args;
+    p1_t *p1 = args;
 
     while (true) {
-        while (!p1000_is_animating(p1000)) {
+        while (!p1_is_animating(p1)) {
             pthread_cond_wait(&wait_cond, &wait_mutex);
         }
-        while (p1000_is_animating(p1000)) {
+        while (p1_is_animating(p1)) {
             struct timespec ts;
             clock_gettime(CLOCK_REALTIME, &ts);
             long nsec = ts.tv_nsec + ANIMATION_MS * NANO_IN_ONE_MS;
@@ -64,8 +64,8 @@ static void *animation_loop(void *args) {
                return 0;
             }
 
-            p1000_advance_frame(p1000);
-            print_display(p1000);
+            p1_advance_frame(p1);
+            print_display(p1);
         }
         pthread_mutex_unlock(&wait_mutex);
     }
@@ -73,26 +73,26 @@ static void *animation_loop(void *args) {
 }
 
 int main(int argc, char *argv[]) {
-    p1000_t *p1000 = NULL;
+    p1_t *p1 = NULL;
     pthread_t animation_thread;
 
     mess = 0;
 
-    p1000 = p1000_new();
+    p1 = p1_new();
 
-    pthread_create(&animation_thread, 0, animation_loop, p1000);
+    pthread_create(&animation_thread, 0, animation_loop, p1);
 
     int fgcolor = 97;
     if (argc == 2) fgcolor = atoi(argv[1]);
     set_display(fgcolor);
 
-    print_display(p1000);
+    print_display(p1);
 
     // Make sure the pressed keys are immediately available, without the user
     // having to press the return key.
     system("/bin/stty raw");
 
-    while (1) {
+    while (true) {
         char c = tolower(getchar());
         mess = c;
 
@@ -100,8 +100,8 @@ int main(int argc, char *argv[]) {
             quit();
         }
 
-        p1000_press_key(p1000, c);
-        print_display(p1000);
+        p1_press_key(p1, c);
+        print_display(p1);
         pthread_cond_signal(&wait_cond);
     }
 }

@@ -34,13 +34,13 @@ typedef struct calc_s {
     aos_t aos;
 } calc_t;
 
-void edit_number(p1000_t *p1000, char key);
-void resolve_edit_number(p1000_t *p1000);
-void get_p1000_display(p1000_t *p1000, char *display);
+void edit_number(p1_t *p1, char key);
+void resolve_edit_number(p1_t *p1);
+void get_p1_display(p1_t *p1, char *display);
 
-void aos_push_number(p1000_t *p1000, double number);
-void aos_push_operator(p1000_t *p1000, char op);
-void aos_pop(p1000_t *p1000);
-void aos_eval(p1000_t *p1000);
+void aos_push_number(p1_t *p1, double number);
+void aos_push_operator(p1_t *p1, char op);
+void aos_pop(p1_t *p1);
+void aos_eval(p1_t *p1);
 
-void new_calc(p1000_t *p1000);
+void new_calc(p1_t *p1);

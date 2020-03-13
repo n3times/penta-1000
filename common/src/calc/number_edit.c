@@ -8,8 +8,8 @@
 
 // 0-9, +/- can start edit
 // . can only follow a digit
-void edit_number(p1000_t *p1000, char key) {
-    calc_t *calc = &p1000->calc;
+void edit_number(p1_t *p1, char key) {
+    calc_t *calc = &p1->calc;
 
     if (key == '.') {
         if (strchr(calc->number_editing, '.')) return;
@@ -50,8 +50,8 @@ void edit_number(p1000_t *p1000, char key) {
     calc->is_number_editing = true;
 }
 
-void resolve_edit_number(p1000_t *p1000) {
-    calc_t *calc = &p1000->calc;
+void resolve_edit_number(p1_t *p1) {
+    calc_t *calc = &p1->calc;
     aos_t *aos = &calc->aos;
 
     double result = atof(calc->number_editing);

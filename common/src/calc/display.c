@@ -8,8 +8,8 @@
 
 static void x_to_d(char *formatted, double x, int len);
 
-void get_p1000_display(p1000_t *p1000, char *display) {
-    calc_t *calc = &p1000->calc;
+void get_p1_display(p1_t *p1, char *display) {
+    calc_t *calc = &p1->calc;
     char extended_display[100];
     memset(extended_display, 0, 100);
     aos_t *aos = &calc->aos;

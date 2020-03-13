@@ -11,7 +11,7 @@ typedef enum apps_type_e {
     APP_TYPE_GAME = 2,
 } app_type_t;
 
-struct p1000_s {
+struct p1_s {
     app_type_t current_app_type;
     calc_t calc;
     game_t game;

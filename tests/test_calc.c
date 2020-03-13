@@ -3,19 +3,19 @@
 #include <stdio.h>
 #include <string.h>
 
-static char *get_display_for_key_sequence(p1000_t *p1000, char *keys) {
+static char *get_display_for_key_sequence(p1_t *p1, char *keys) {
     for (int i = 0; i < strlen(keys); i++) {
-        p1000_press_key(p1000, keys[i]);
-        while (p1000_is_animating(p1000)) {
-            p1000_advance_frame(p1000);
+        p1_press_key(p1, keys[i]);
+        while (p1_is_animating(p1)) {
+            p1_advance_frame(p1);
         }
     }
-    return p1000_get_display(p1000);
+    return p1_get_display(p1);
 }
 
 static void test(char *keys, char *expected) {
-    p1000_t *p1000 = p1000_new();
-    char * result = get_display_for_key_sequence(p1000, keys);
+    p1_t *p1 = p1_new();
+    char * result = get_display_for_key_sequence(p1, keys);
     printf("%s %s\n", keys, result);
     if (strcmp(result, expected)) {
         printf("\nError!!! result: %s expected: %s\n\n", result, expected);
