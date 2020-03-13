@@ -1,4 +1,4 @@
-#Command line interface for MacOS
+# Command line interface for MacOS
 Instructions: from this directory, build with "make" and run with "a.out".
 
 To port to other systems, note that this CLI uses:
