@@ -14,9 +14,9 @@ void get_p1_display(p1_t *p1, char *display) {
     memset(extended_display, 0, 100);
     aos_t *aos = &calc->aos;
 
-    if (calc->error == ERROR_ILLEGAL_OP) {
+    if (aos->error == ERROR_ILLEGAL_OP) {
         strcpy(extended_display, "DIV BY ZERO");
-    } else if (calc->error == ERROR_OVERFLOW) {
+    } else if (aos->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
     } else {
         for (int i = 1; i <= aos->stack_depth; i++) {

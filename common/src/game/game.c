@@ -36,6 +36,8 @@ static void start_game(p1_t *p1) {
     game->frame = 0;
 }
 
+/** Implementation of the app interface. */
+
 static void enter_game(p1_t *p1) {
     game_t *game = &p1->game;
 

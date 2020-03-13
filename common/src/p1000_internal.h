@@ -1,3 +1,6 @@
+#ifndef P1000_INTERNAL_H
+#define P1000_INTERNAL_H
+
 #include "penta1000.h"
 
 #include "calc.h"
@@ -17,3 +20,5 @@ struct p1_s {
     game_t game;
     char display[25];
 };
+
+#endif /* P1000_INTERNAL_H */

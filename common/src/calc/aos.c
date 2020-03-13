@@ -1,12 +1,10 @@
 #include "p1000_internal.h"
 
-static bool is_arithmetic(char op) {
+static bool is_arithmetic_op(char op) {
     return op == '+' || op == '-' || op == '*' || op == '/';
 }
 
-void aos_eval(p1_t *p1) {
-    aos_t *aos = &p1->calc.aos;
-
+void aos_eval(aos_t *aos) {
     int bottom = 0;
     int top = aos->stack_depth - 1;
 
@@ -46,14 +44,14 @@ void aos_eval(p1_t *p1) {
         } else if (op == '/') {
             if (right.number == 0) {
                 aos->stack_depth = 0;
-                p1->calc.error = ERROR_ILLEGAL_OP;
+                aos->error = ERROR_ILLEGAL_OP;
                 return;
             }
             left.number /= right.number;
         }
         if (left.number >= 1e100 || left.number <= -1e100) {
             aos->stack_depth = 0;
-            p1->calc.error = ERROR_OVERFLOW;
+            aos->error = ERROR_OVERFLOW;
             return;
         }
         if (-1e-100 <= left.number && left.number <= 1e-100) {
@@ -76,14 +74,12 @@ void aos_eval(p1_t *p1) {
     aos->stack_depth = 1;
 }
 
-void aos_push_operator(p1_t *p1, char op) {
-    aos_t *aos = &p1->calc.aos;
-
+void aos_push_operator(aos_t *aos, char op) {
     if (aos->stack_depth == 0) return;
 
     if (aos->stack_depth % 2 == 0) {
         int index = aos->stack_depth / 2 - 1;
-        if (is_arithmetic(op)) {
+        if (is_arithmetic_op(op)) {
             aos->operators[index] = op;
         }
         return;
@@ -96,18 +92,16 @@ void aos_push_operator(p1_t *p1, char op) {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == '=') {
-       aos_eval(p1);
+       aos_eval(aos);
     } else {
-        if (is_arithmetic(op)) {
+        if (is_arithmetic_op(op)) {
             aos->operators[aos->stack_depth / 2] = op;
             aos->stack_depth++;
         }
     }
 }
 
-void aos_pop(p1_t *p1) {
-    aos_t *aos = &p1->calc.aos;
-
+void aos_pop(aos_t *aos) {
     if (aos->stack_depth <= 0) return;
 
     if (aos->stack_depth % 2 == 1

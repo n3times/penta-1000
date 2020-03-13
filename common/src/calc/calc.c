@@ -1,4 +1,6 @@
 #include "p1000_internal.h"
+#include "aos.h"
+#include "number_edit.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +25,7 @@ static bool is_number_edit_key(p1_t *p1, char key) {
     return false;
 }
 
-void new_calc(p1_t *p1) {
+void init_calc(p1_t *p1) {
     calc_t *calc = &p1->calc;
 
     calc->app.enter = enter_calc;
@@ -35,9 +37,7 @@ void new_calc(p1_t *p1) {
     calc->state = CALC_STATE_COMPUTE;
 }
 
-/*
- *  App interface.
- */
+/* App interface. */
 
 static void enter_calc(p1_t *p1) {
     calc_t *calc = &p1->calc;
@@ -48,7 +48,7 @@ static void enter_calc(p1_t *p1) {
 static void press_key_calc(p1_t *p1, char key) {
     calc_t *calc = &p1->calc;
     aos_t *aos = &calc->aos;
-    bool is_error = calc->error != ERROR_NONE;
+    bool is_error = aos->error != ERROR_NONE;
 
     if (calc->state == CALC_STATE_ENTER) return;
     if (is_error && key != 'c') return;
@@ -56,23 +56,23 @@ static void press_key_calc(p1_t *p1, char key) {
     if (key == 'c') {
         if (is_error) {
             aos->stack_depth = 0;
-            calc->error = ERROR_NONE;
+            aos->error = ERROR_NONE;
         } else if (calc->is_number_editing) {
             calc->is_number_editing = false;
             memset(calc->number_editing, 0, sizeof(calc->number_editing));
         } else {
-            aos_pop(p1);
+            aos_pop(aos);
         }
     } else if (is_number_edit_key(p1, key)) {
-        bool is_error = calc->error != ERROR_NONE;
-        if (!is_error) edit_number(p1, key);
+        bool is_error = aos->error != ERROR_NONE;
+        if (!is_error) number_edit_handle_key(calc, key);
     } else {
-        bool is_error = calc->error != ERROR_NONE;
+        bool is_error = aos->error != ERROR_NONE;
         if (!is_error) {
             if(calc->is_number_editing) {
-               resolve_edit_number(p1);
+               number_edit_done_editing(calc);
             }
-            aos_push_operator(p1, key);
+            aos_push_operator(aos, key);
         }
     }
 }

@@ -18,7 +18,7 @@ static app_t *get_current_app(p1_t *p1) {
 p1_t *p1_new() {
     p1_t *p1 = malloc(sizeof(p1_t));
     memset(p1, 0, sizeof(p1_t));
-    new_calc(p1);
+    init_calc(p1);
     init_game(p1);
     return p1;
 }
