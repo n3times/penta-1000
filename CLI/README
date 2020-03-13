@@ -2,5 +2,7 @@ Command line interface for MacOS.
 
 Uses:
 - printf("...\r") to print in place
-- ANSI escape codes to imitate an LED display (white or red characters on black backgroud)
-- pthreads for the animation
+- ANSI escape codes to imitate an LED display: white or red characters on black backgroud
+- pthreads to animate the display
+
+Instructions: Do "make" and run with "./a.out"
