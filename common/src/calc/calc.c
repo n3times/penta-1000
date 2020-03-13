@@ -57,6 +57,8 @@ static void press_key_calc(p1_t *p1, char key) {
     if (key == 'c') {
         if (is_error) {
             aos->stack_depth = 0;
+            calc->is_number_editing = false;
+            memset(calc->number_editing, 0, sizeof(calc->number_editing));
             aos->error = ERROR_NONE;
         } else if (calc->is_number_editing) {
             calc->is_number_editing = false;

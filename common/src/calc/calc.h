@@ -14,6 +14,7 @@ typedef enum error_e {
     ERROR_NONE = 0,
     ERROR_ILLEGAL_OP = 1,
     ERROR_OVERFLOW = 2,
+    ERROR_OUT_OF_MEM = 3,
 } error_t;
 
 typedef struct operand_s {

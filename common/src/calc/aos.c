@@ -95,8 +95,8 @@ void aos_push_operator(aos_t *aos, char op) {
        aos_eval(aos);
     } else {
         if (is_arithmetic_op(op)) {
-            aos->operators[aos->stack_depth / 2] = op;
             aos->stack_depth++;
+            aos->operators[(aos->stack_depth - 1) / 2] = op;
         }
     }
 }

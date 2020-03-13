@@ -17,8 +17,14 @@ void get_calc_display(calc_t *calc, char *display) {
         strcpy(extended_display, "DIV BY ZERO");
     } else if (aos->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
+    } else if (aos->error == ERROR_OUT_OF_MEM) {
+        strcpy(extended_display, "OUT OF MEM");
     } else {
-        for (int i = 1; i <= aos->stack_depth; i++) {
+        int i = 1;
+        if (aos->stack_depth > 10) {
+            i = aos->stack_depth - 10;
+        }
+        for (; i <= aos->stack_depth; i++) {
             if (i % 2 == 1) {
                 int index = (i - 1) / 2;
                 char number[30];

@@ -73,6 +73,10 @@ void number_edit_done_editing(calc_t *calc) {
     aos_t *aos = &calc->aos;
 
     // Place number at the top of the stack.
+    if (aos->stack_depth  / 2 == 100) {
+        aos->error = ERROR_OUT_OF_MEM;
+        return;
+    }
     operand_t *operand = &aos->operands[aos->stack_depth / 2];
     operand->number = atof(calc->number_editing);
     operand->has_percent = false;
