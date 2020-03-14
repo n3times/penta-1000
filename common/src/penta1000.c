@@ -74,9 +74,14 @@ long p1_size_of() {
     return sizeof(p1_t);
 }
 
-p1_t *p1_restore_from_raw(void *raw) {
+p1_t *p1_restore_from_raw_data(void *raw) {
     p1_t *p1 = (p1_t *)raw;
     init_calc(p1);
     init_game(p1, p1->game.rng);
+    return p1;
+}
+
+void *p1_get_raw_data(p1_t *p1, long *byte_count_out) {
+    if (byte_count_out) *byte_count_out = sizeof(p1_t);
     return p1;
 }

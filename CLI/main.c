@@ -87,30 +87,43 @@ static void *animation_loop(void *args) {
     }
 }
 
-static void write_p1(p1_t *p1, char *filename) {
+// Stores Pentatronics 1000 object in file.
+static void serialize(p1_t *p1, char *filename) {
+    // Get p1 as raw data.
+    long raw_data_size;
+    void *raw_data = p1_get_raw_data(p1, &raw_data_size);
+
+    // Store raw data into file.
     FILE *file = fopen(filename, "w");
-    long size = p1_size_of();
-    fwrite(p1, size, 1, file);
+    fwrite(raw_data, raw_data_size, 1, file);
     fclose(file);
 }
 
-static p1_t *read_p1(char *filename) {
+// Retrieves Pentatronics 1000 object from file.
+static p1_t *deserialize(char *filename) {
+    // Get size of raw data.
+    long raw_data_size;
+    (void)p1_get_raw_data(NULL, &raw_data_size);
+
     FILE *file = fopen(filename, "r");
     if (!file) return NULL;
-    long size = p1_size_of();
-    void *raw = malloc(size);
-    fread(raw, size, 1, file);
+
+    // Read raw data from file.
+    void *raw_data = malloc(raw_data_size);
+    fread(raw_data, raw_data_size, 1, file);
     fclose(file);
-    p1_t *p1 = p1_restore_from_raw(raw);
+
+    p1_t *p1 = p1_restore_from_raw_data(raw_data);
     return p1;
 }
 
 int main(int argc, char *argv[]) {
-    time_t t;
-    srand((unsigned) time(&t));
-    p1_t *p1 = read_p1("penta1000.dat");
-    if (!p1) p1 = p1_new(t);
-    pthread_t animation_thread;
+    p1_t *p1 = deserialize("penta1000.dat");
+    if (!p1) {
+        time_t t;
+        srand((unsigned) time(&t));
+        p1 = p1_new(t);
+    }
 
     int fgcolor = BGCOLOR_RED;
     if (argc == 2) fgcolor = atoi(argv[1]);
@@ -122,6 +135,7 @@ int main(int argc, char *argv[]) {
     // having to press the return key.
     system("/bin/stty raw");
 
+    pthread_t animation_thread;
     pthread_create(&animation_thread, 0, animation_loop, p1);
 
     while (true) {
@@ -141,6 +155,6 @@ int main(int argc, char *argv[]) {
         pthread_cond_signal(&wait_cond);
     }
     pthread_join(animation_thread, NULL);
-    write_p1(p1, "penta1000.dat");
+    serialize(p1, "penta1000.dat");
     return 0;
 }
