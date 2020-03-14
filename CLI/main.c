@@ -16,8 +16,14 @@
 #define BGCOLOR_RED 91
 #define BGCOLOR_WHITE 97
 
+#define SAVE_FILENAME "penta1000.dat"
+
 static pthread_mutex_t wait_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t wait_cond = PTHREAD_COND_INITIALIZER;
+static char pressed_key = 0;
+
+/* Display. */
+
 static void set_display(int bgcolor) {
 #if SUPPORT_CUSTOM_COLORS
     printf("\033[%d;40m", bgcolor);
@@ -36,7 +42,7 @@ static void print_display(p1_t *p1) {
     fflush(stdout);
 }
 
-static char pressed_key = 0;
+/* Animation Thread. */
 
 static void *animation_loop(void *args) {
     p1_t *p1 = args;
@@ -87,8 +93,9 @@ static void *animation_loop(void *args) {
     }
 }
 
-// Stores Pentatronics 1000 object in file.
-static void serialize(p1_t *p1, char *filename) {
+/* Serialization and deserialization. */
+
+static void save_session(p1_t *p1, char *filename) {
     // Get p1 as raw data.
     long raw_data_size;
     void *raw_data = p1_get_raw_data(p1, &raw_data_size);
@@ -99,14 +106,14 @@ static void serialize(p1_t *p1, char *filename) {
     fclose(file);
 }
 
-// Retrieves Pentatronics 1000 object from file.
-static p1_t *deserialize(char *filename) {
+static p1_t *load_session(char *filename) {
+    // Make sure there is a saved session.
+    FILE *file = fopen(filename, "r");
+    if (!file) return NULL;
+
     // Get size of raw data.
     long raw_data_size;
     (void)p1_get_raw_data(NULL, &raw_data_size);
-
-    FILE *file = fopen(filename, "r");
-    if (!file) return NULL;
 
     // Read raw data from file.
     void *raw_data = malloc(raw_data_size);
@@ -117,8 +124,12 @@ static p1_t *deserialize(char *filename) {
     return p1;
 }
 
+/* Main. */
+
 int main(int argc, char *argv[]) {
-    p1_t *p1 = deserialize("penta1000.dat");
+    // Restore previous session if possible.
+    // Otherwise, get new object.
+    p1_t *p1 = load_session(SAVE_FILENAME);
     if (!p1) {
         time_t t;
         srand((unsigned) time(&t));
@@ -135,9 +146,11 @@ int main(int argc, char *argv[]) {
     // having to press the return key.
     system("/bin/stty raw");
 
+    // Start animation.
     pthread_t animation_thread;
     pthread_create(&animation_thread, 0, animation_loop, p1);
 
+    // Get user input.
     while (true) {
         pressed_key = tolower(getchar());
 
@@ -154,7 +167,12 @@ int main(int argc, char *argv[]) {
         pthread_mutex_unlock(&wait_mutex);
         pthread_cond_signal(&wait_cond);
     }
+
+    // After quitting, wait for the animation thread.
     pthread_join(animation_thread, NULL);
-    serialize(p1, "penta1000.dat");
+
+    // Save session.
+    save_session(p1, SAVE_FILENAME);
+
     return 0;
 }

@@ -6,6 +6,8 @@
  *
  * The animation thread should call "p1_advance_frame" every 10 ms as long as
  * "p1_is_animating" is true.
+ *
+ * Clients can also serialize and deserialize Pentatronics 1000 objets.
  */
 
 #include <stdbool.h>
@@ -50,12 +52,14 @@ void p1_advance_frame(p1_t *p1);
 // Returns true if "p1_advance_frame" should be called.
 bool p1_is_animating(p1_t *p1);
 
-// Gets the raw data of a p1_t object as an array of bytes.
+// Gets a pointer to the raw data of a p1_t object.
 //
-// This data can be used for serialization.
-void *p1_get_raw_data(p1_t *p1, long *byte_count_out);
+// This raw data can be stored in a file and retrieved later.
+// To get the size of the raw data only, pass p1 = NULL.
+void *p1_get_raw_data(p1_t *p1, long *raw_data_size_out);
 
-// Restores a p1_t object from raw data.
+// Makes a p1_t object from its raw data.
 //
-// This can be used by the client for deserializion.
-p1_t *p1_restore_from_raw_data(void *raw);
+// The raw data may have been retrieved from a file for example.
+// Note that p1 will be stored at the same location as raw_data.
+p1_t *p1_restore_from_raw_data(void *raw_data);

@@ -2,3 +2,4 @@ __pycache__/
 a.out
 *.o
 *.a
+*.dat

@@ -70,18 +70,14 @@ bool p1_is_animating(p1_t *p1) {
     return app ? app->is_animating(p1) : false;
 }
 
-long p1_size_of() {
-    return sizeof(p1_t);
-}
-
-p1_t *p1_restore_from_raw_data(void *raw) {
-    p1_t *p1 = (p1_t *)raw;
+p1_t *p1_restore_from_raw_data(void *raw_data) {
+    p1_t *p1 = (p1_t *)raw_data;
     init_calc(p1);
     init_game(p1, p1->game.rng);
     return p1;
 }
 
-void *p1_get_raw_data(p1_t *p1, long *byte_count_out) {
-    if (byte_count_out) *byte_count_out = sizeof(p1_t);
+void *p1_get_raw_data(p1_t *p1, long *raw_data_size_out) {
+    if (raw_data_size_out) *raw_data_size_out = sizeof(p1_t);
     return p1;
 }
