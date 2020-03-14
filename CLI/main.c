@@ -13,6 +13,9 @@
 #define NANO_IN_ONE_MS 1000000L
 #define NANO_IN_ONE_S 1000000000L
 
+#define BGCOLOR_RED 91
+#define BGCOLOR_WHITE 97
+
 static pthread_mutex_t wait_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t wait_cond = PTHREAD_COND_INITIALIZER;
 
@@ -40,36 +43,50 @@ static void quit() {
     exit(0);
 }
 
-static char mess = 0;
+static char pressed_key = 0;
 
 static void *animation_loop(void *args) {
     p1_t *p1 = args;
 
     while (true) {
-        while (!p1_is_animating(p1)) {
-            pthread_cond_wait(&wait_cond, &wait_mutex);
+        // Wait until there is an animation, which may happen after a key press.
+        while (true) {
+            pthread_mutex_lock(&wait_mutex);
+            if (!p1_is_animating(p1)) {
+                pthread_cond_wait(&wait_cond, &wait_mutex);
+            }
+            if (p1_is_animating(p1)) {
+                break;
+            }
+            pthread_mutex_unlock(&wait_mutex);
         }
-        while (p1_is_animating(p1)) {
+        pthread_mutex_unlock(&wait_mutex);
+
+        // Animate while 'p1_is_animating' is true.
+        while (true) {
+            pthread_mutex_lock(&wait_mutex);
+            if (!p1_is_animating(p1)) {
+                pthread_mutex_unlock(&wait_mutex);
+                break;
+            }
             struct timespec ts;
             clock_gettime(CLOCK_REALTIME, &ts);
             long nsec = ts.tv_nsec + ANIMATION_MS * NANO_IN_ONE_MS;
             ts.tv_sec += nsec / NANO_IN_ONE_S;
             ts.tv_nsec = nsec % NANO_IN_ONE_S;
-            mess = 0;
             pthread_cond_timedwait(&wait_cond, &wait_mutex, &ts);
 
-            if (mess == 'q') {
+            if (pressed_key == 'q') {
                // Quit.
                pthread_mutex_unlock(&wait_mutex);
-               return 0;
+               return NULL;
             }
 
             p1_advance_frame(p1);
             print_display(p1);
+            pthread_mutex_unlock(&wait_mutex);
         }
-        pthread_mutex_unlock(&wait_mutex);
     }
-    return 0;
 }
 
 int main(int argc, char *argv[]) {
@@ -78,12 +95,7 @@ int main(int argc, char *argv[]) {
     p1_t *p1 = p1_new(t);
     pthread_t animation_thread;
 
-    mess = 0;
-
-
-    pthread_create(&animation_thread, 0, animation_loop, p1);
-
-    int fgcolor = 97;
+    int fgcolor = BGCOLOR_RED;
     if (argc == 2) fgcolor = atoi(argv[1]);
     set_display(fgcolor);
 
@@ -93,16 +105,19 @@ int main(int argc, char *argv[]) {
     // having to press the return key.
     system("/bin/stty raw");
 
-    while (true) {
-        char c = tolower(getchar());
-        mess = c;
+    pthread_create(&animation_thread, 0, animation_loop, p1);
 
-        if (c == 'q') {
+    while (true) {
+        pressed_key = tolower(getchar());
+
+        if (pressed_key == 'q') {
             quit();
         }
 
-        p1_press_key(p1, c);
+        pthread_mutex_lock(&wait_mutex);
+        p1_press_key(p1, pressed_key);
         print_display(p1);
+        pthread_mutex_unlock(&wait_mutex);
         pthread_cond_signal(&wait_cond);
     }
 }
