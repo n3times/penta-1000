@@ -18,7 +18,6 @@
 
 static pthread_mutex_t wait_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t wait_cond = PTHREAD_COND_INITIALIZER;
-
 static void set_display(int bgcolor) {
 #if SUPPORT_CUSTOM_COLORS
     printf("\033[%d;40m", bgcolor);
@@ -37,12 +36,6 @@ static void print_display(p1_t *p1) {
     fflush(stdout);
 }
 
-static void quit() {
-    reset_display();
-    system("/bin/stty cooked");
-    exit(0);
-}
-
 static char pressed_key = 0;
 
 static void *animation_loop(void *args) {
@@ -54,6 +47,11 @@ static void *animation_loop(void *args) {
             pthread_mutex_lock(&wait_mutex);
             if (!p1_is_animating(p1)) {
                 pthread_cond_wait(&wait_cond, &wait_mutex);
+            }
+            if (pressed_key == 'q') {
+               // Quit.
+               pthread_mutex_unlock(&wait_mutex);
+               return NULL;
             }
             if (p1_is_animating(p1)) {
                 break;
@@ -89,10 +87,29 @@ static void *animation_loop(void *args) {
     }
 }
 
+static void write_p1(p1_t *p1, char *filename) {
+    FILE *file = fopen(filename, "w");
+    long size = p1_size_of();
+    fwrite(p1, size, 1, file);
+    fclose(file);
+}
+
+static p1_t *read_p1(char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (!file) return NULL;
+    long size = p1_size_of();
+    void *raw = malloc(size);
+    fread(raw, size, 1, file);
+    fclose(file);
+    p1_t *p1 = p1_restore_from_raw(raw);
+    return p1;
+}
+
 int main(int argc, char *argv[]) {
     time_t t;
     srand((unsigned) time(&t));
-    p1_t *p1 = p1_new(t);
+    p1_t *p1 = read_p1("penta1000.dat");
+    if (!p1) p1 = p1_new(t);
     pthread_t animation_thread;
 
     int fgcolor = BGCOLOR_RED;
@@ -111,7 +128,10 @@ int main(int argc, char *argv[]) {
         pressed_key = tolower(getchar());
 
         if (pressed_key == 'q') {
-            quit();
+            reset_display();
+            system("/bin/stty cooked");
+            pthread_cond_signal(&wait_cond);
+            break;
         }
 
         pthread_mutex_lock(&wait_mutex);
@@ -120,4 +140,7 @@ int main(int argc, char *argv[]) {
         pthread_mutex_unlock(&wait_mutex);
         pthread_cond_signal(&wait_cond);
     }
+    pthread_join(animation_thread, NULL);
+    write_p1(p1, "penta1000.dat");
+    return 0;
 }

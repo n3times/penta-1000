@@ -69,3 +69,14 @@ bool p1_is_animating(p1_t *p1) {
     app_t *app = get_current_app(p1);
     return app ? app->is_animating(p1) : false;
 }
+
+long p1_size_of() {
+    return sizeof(p1_t);
+}
+
+p1_t *p1_restore_from_raw(void *raw) {
+    p1_t *p1 = (p1_t *)raw;
+    init_calc(p1);
+    init_game(p1, p1->game.rng);
+    return p1;
+}

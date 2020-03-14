@@ -49,3 +49,15 @@ void p1_advance_frame(p1_t *p1);
 
 // Returns true if "p1_advance_frame" should be called.
 bool p1_is_animating(p1_t *p1);
+
+// Sets correctely the function pointers of the app_t interfaces for calc and
+// game in a p1_t object.
+//
+// This can be used by the client when deserializing a p1_t object.
+p1_t *p1_restore_from_raw(void *raw);
+
+// Returns the size of p1_t.
+//
+// This function is necessary for the client to effectively serialize and 
+// deserialize a p1_t object (p1_t is opaque).
+long p1_size_of();

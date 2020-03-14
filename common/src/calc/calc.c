@@ -34,8 +34,6 @@ void init_calc(p1_t *p1) {
     calc->app.get_display = get_display_calc;
     calc->app.advance_frame = advance_frame_calc;
     calc->app.is_animating = is_animating_calc;
-
-    calc->state = CALC_STATE_COMPUTE;
 }
 
 /* App interface. */
