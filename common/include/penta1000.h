@@ -16,7 +16,7 @@ typedef struct p1_s p1_t;
 //
 // After the allocation, the client should update the display and start
 // animations if necessary.
-p1_t *p1_new();
+p1_t *p1_new(long seed);
 
 // Deallocates the Pentatronics 1000 object.
 void p1_release(p1_t *p1);

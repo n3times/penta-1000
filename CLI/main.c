@@ -73,12 +73,13 @@ static void *animation_loop(void *args) {
 }
 
 int main(int argc, char *argv[]) {
-    p1_t *p1 = NULL;
+    time_t t;
+    srand((unsigned) time(&t));
+    p1_t *p1 = p1_new(t);
     pthread_t animation_thread;
 
     mess = 0;
 
-    p1 = p1_new();
 
     pthread_create(&animation_thread, 0, animation_loop, p1);
 

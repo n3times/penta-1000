@@ -1,9 +1,8 @@
 #include "penta1000_internal.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 static void enter_game(p1_t *p1);
 static void press_key_game(p1_t *p1, char key);
@@ -11,23 +10,28 @@ static char *get_display_game(p1_t *p1);
 static void advance_frame_game(p1_t *p1);
 static bool is_animating_game(p1_t *p1);
 
-void init_game(p1_t *p1) {
+void init_game(p1_t *p1, long seed) {
     game_t *game = &p1->game;
-
-    time_t t;
-    srand((unsigned) time(&t));
 
     game->app.enter = enter_game;
     game->app.press_key = press_key_game;
     game->app.get_display = get_display_game;
     game->app.advance_frame = advance_frame_game;
     game->app.is_animating = is_animating_game;
+
+    game->rng = seed;
+}
+
+static int get_random_target(p1_t *p1) {
+    game_t *game = &p1->game;
+    game->rng = (1103515245 * game->rng + 12345) % (1 << 31);
+    return (int) (game->rng % 900 + 100);
 }
 
 static void start_game(p1_t *p1) {
     game_t *game = &p1->game;
 
-    game->target = 100 + rand() % 900;
+    game->target = get_random_target(p1);
     game->guess = -1;
     game->index = 0;
     game->is_guess_editing = false;

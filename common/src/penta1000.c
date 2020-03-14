@@ -15,11 +15,11 @@ static app_t *get_current_app(p1_t *p1) {
 
 /** Implementation of client interface. */
 
-p1_t *p1_new() {
+p1_t *p1_new(long seed) {
     p1_t *p1 = malloc(sizeof(p1_t));
     memset(p1, 0, sizeof(p1_t));
     init_calc(p1);
-    init_game(p1);
+    init_game(p1, seed);
     return p1;
 }
 

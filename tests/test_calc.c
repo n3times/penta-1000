@@ -14,7 +14,7 @@ static char *get_display_for_key_sequence(p1_t *p1, char *keys) {
 }
 
 static void test(char *keys, char *expected) {
-    p1_t *p1 = p1_new();
+    p1_t *p1 = p1_new(0);
     char * result = get_display_for_key_sequence(p1, keys);
     printf("%s %s\n", keys, result);
     if (strcmp(result, expected)) {

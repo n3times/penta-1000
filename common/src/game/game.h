@@ -12,6 +12,7 @@ typedef enum game_state_e {
 
 typedef struct game_s {
     app_t app;
+    long rng;
     int target;
     int guess;
     int index;
@@ -21,4 +22,4 @@ typedef struct game_s {
     int frame;
 } game_t;
 
-void init_game(p1_t *p1);
+void init_game(p1_t *p1, long seed);
