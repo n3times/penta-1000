@@ -164,10 +164,22 @@ int main(int argc, char *argv[]) {
             break;
         } else if (pressed_key == 'l') {
             int count = p1_get_log_entry_count(p1);
-            printf("** LOG **          \r\n");
+            printf("** LOG **          \r\n\n");
+            printf("---------------------\r\n");
             for (int i = 0; i < count/2; i++) {
-                printf("%s\r\n", p1_get_log_entry(p1, 2*i));
-                printf("%20s\r\n", p1_get_log_entry(p1, 2*i+1));
+                char *left = p1_get_log_entry(p1, 2*i);
+                char *right = p1_get_log_entry(p1, 2*i+1);
+                if (strlen(left) + strlen(right) + 2 <= 20) {
+                    printf(" %s", left);
+                    int spaces = 20 - strlen(left) - strlen(right);
+                    for (int j = 0; j < spaces; j++) printf(" ");
+                    printf("%s\r\n", right);
+                    printf("---------------------\r\n");
+                } else {
+                    printf(" %s\r\n", left);
+                    printf(" %20s\r\n", right);
+                    printf("---------------------\r\n");
+                }
             }
             printf("\n");
         } else if (pressed_key == 'k') {
