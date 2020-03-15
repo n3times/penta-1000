@@ -73,12 +73,17 @@ bool p1_is_animating(p1_t *p1) {
 }
 
 void *p1_serialize(p1_t *p1, long *size_out) {
-    if (size_out) *size_out = sizeof(p1_t);
+    long size = sizeof(p1_t);
+    if (size_out) *size_out = size;
+    void *serialized_object = malloc(size);
+    memcpy(serialized_object, p1, size);
     return p1;
 }
 
 p1_t *p1_deserialize(void *serialized_object) {
-    p1_t *p1 = (p1_t *)serialized_object;
+    long size = sizeof(p1_t);
+    p1_t *p1 = malloc(size);
+    memcpy(p1, serialized_object, size);
     init_calc(p1);
     init_game(p1, p1->game.rng);
     return p1;

@@ -63,9 +63,13 @@ bool p1_is_animating(p1_t *p1);
 //
 // The serialized object can then be stored in the file system and deserialized
 // later with 'p1_deserialize'.
+//
+// This object can later be freed with 'free'.
 void *p1_serialize(p1_t *p1, long *size_out);
 
-// Returns a p1_t object from its serialized version.
+// Returns a new p1_t object from its serialized version.
+//
+// This object can later be freed with 'p1_release'.
 p1_t *p1_deserialize(void *serialized_object);
 
 /*

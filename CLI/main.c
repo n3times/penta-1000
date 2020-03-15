@@ -102,6 +102,7 @@ static void save_session(p1_t *p1, char *filename) {
     FILE *file = fopen(filename, "w");
     fwrite(serialized_object, size, 1, file);
     fclose(file);
+    free(serialized_object);
 }
 
 static p1_t *load_session(char *filename) {
@@ -120,6 +121,7 @@ static p1_t *load_session(char *filename) {
     fclose(file);
 
     p1_t *p1 = p1_deserialize(serialized_object);
+    free(serialized_object);
     return p1;
 }
 
