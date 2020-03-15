@@ -31,7 +31,7 @@ typedef struct aos_s {
 
 typedef struct log_s {
     int count;
-    int indices[100];
+    int entry_offsets[100];
     char mem[2000];
 } log_t;
 

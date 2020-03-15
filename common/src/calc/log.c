@@ -7,17 +7,18 @@ int log_get_entry_count(log_t *log) {
 }
 
 char *log_get_entry(log_t *log, int i) {
-    return &log->mem[log->indices[i]];
+    int entry_offset = log->entry_offsets[i];
+    return &log->mem[entry_offset];
 }
 
 void log_add_entry(log_t *log, char *entry) {
-    int index = 0;
+    int offset = 0;
     if (log->count) {
-        int last_index = log->indices[log->count - 1];
-        index = last_index + strlen(&log->mem[last_index]) + 1;
+        int last_offset = log->entry_offsets[log->count - 1];
+        offset = last_offset + strlen(&log->mem[last_offset]) + 1;
     }
-    log->indices[log->count] = index;
-    strcpy(&log->mem[index], entry);
+    log->entry_offsets[log->count] = offset;
+    strcpy(&log->mem[offset], entry);
     log->count++;
 }
 
