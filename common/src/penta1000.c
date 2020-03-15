@@ -72,15 +72,15 @@ bool p1_is_animating(p1_t *p1) {
     return app ? app->is_animating(p1) : false;
 }
 
-p1_t *p1_restore_from_raw_data(void *raw_data) {
-    p1_t *p1 = (p1_t *)raw_data;
-    init_calc(p1);
-    init_game(p1, p1->game.rng);
+void *p1_serialize(p1_t *p1, long *size_out) {
+    if (size_out) *size_out = sizeof(p1_t);
     return p1;
 }
 
-void *p1_get_raw_data(p1_t *p1, long *raw_data_size_out) {
-    if (raw_data_size_out) *raw_data_size_out = sizeof(p1_t);
+p1_t *p1_deserialize(void *serialized_object) {
+    p1_t *p1 = (p1_t *)serialized_object;
+    init_calc(p1);
+    init_game(p1, p1->game.rng);
     return p1;
 }
 

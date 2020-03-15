@@ -96,13 +96,11 @@ static void *animation_loop(void *args) {
 /* Serialization and deserialization. */
 
 static void save_session(p1_t *p1, char *filename) {
-    // Get p1 as raw data.
-    long raw_data_size;
-    void *raw_data = p1_get_raw_data(p1, &raw_data_size);
+    long size;
+    void *serialized_object = p1_serialize(p1, &size);
 
-    // Store raw data into file.
     FILE *file = fopen(filename, "w");
-    fwrite(raw_data, raw_data_size, 1, file);
+    fwrite(serialized_object, size, 1, file);
     fclose(file);
 }
 
@@ -111,16 +109,17 @@ static p1_t *load_session(char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) return NULL;
 
-    // Get size of raw data.
-    long raw_data_size;
-    (void)p1_get_raw_data(NULL, &raw_data_size);
+    // Get size of serialized object.
+    fseek(file, 0L, SEEK_END);
+    long size = ftell(file);
+    fseek(file, 0L, SEEK_SET);
 
-    // Read raw data from file.
-    void *raw_data = malloc(raw_data_size);
-    fread(raw_data, raw_data_size, 1, file);
+    // Read serialized object from file.
+    void *serialized_object = malloc(size);
+    fread(serialized_object, size, 1, file);
     fclose(file);
 
-    p1_t *p1 = p1_restore_from_raw_data(raw_data);
+    p1_t *p1 = p1_deserialize(serialized_object);
     return p1;
 }
 
