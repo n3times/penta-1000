@@ -153,12 +153,25 @@ int main(int argc, char *argv[]) {
     // Get user input.
     while (true) {
         pressed_key = tolower(getchar());
+        if (pressed_key == '?') pressed_key = 'g';
+        if (pressed_key == 127) pressed_key = 'c';
+        if (pressed_key == 'x') pressed_key = '*';
 
         if (pressed_key == 'q') {
             reset_display();
             system("/bin/stty cooked");
             pthread_cond_signal(&wait_cond);
             break;
+        } else if (pressed_key == 'l') {
+            int count = p1_get_log_entry_count(p1);
+            printf("** LOG **          \r\n");
+            for (int i = 0; i < count/2; i++) {
+                printf("%s\r\n", p1_get_log_entry(p1, 2*i));
+                printf("%20s\r\n", p1_get_log_entry(p1, 2*i+1));
+            }
+            printf("\n");
+        } else if (pressed_key == 'k') {
+            p1_clear_log(p1);
         }
 
         pthread_mutex_lock(&wait_mutex);

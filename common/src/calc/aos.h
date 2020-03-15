@@ -5,5 +5,5 @@
 void aos_eval(aos_t *aos);
 
 void aos_push_number(aos_t *aos, double number);
-void aos_push_operator(aos_t *aos, char op);
+void aos_push_operator(calc_t *calc, char op);
 void aos_pop(aos_t *aos);

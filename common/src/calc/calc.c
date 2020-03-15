@@ -73,7 +73,7 @@ static void press_key_calc(p1_t *p1, char key) {
             if(calc->is_number_editing) {
                number_edit_done_editing(calc);
             }
-            aos_push_operator(aos, key);
+            aos_push_operator(calc, key);
         }
     }
 }

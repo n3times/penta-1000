@@ -1,5 +1,7 @@
 #include "penta1000_internal.h"
 
+#include "log.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -80,4 +82,19 @@ p1_t *p1_restore_from_raw_data(void *raw_data) {
 void *p1_get_raw_data(p1_t *p1, long *raw_data_size_out) {
     if (raw_data_size_out) *raw_data_size_out = sizeof(p1_t);
     return p1;
+}
+
+int p1_get_log_entry_count(p1_t *p1) {
+    log_t *log = &p1->calc.log;
+    return log_get_entry_count(log);
+}
+
+char *p1_get_log_entry(p1_t *p1, int i) {
+    log_t *log = &p1->calc.log;
+    return log_get_entry(log, i);
+}
+
+void p1_clear_log(p1_t *p1) {
+    log_t *log = &p1->calc.log;
+    log_clear(log);
 }

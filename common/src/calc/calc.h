@@ -29,6 +29,12 @@ typedef struct aos_s {
     error_t error;
 } aos_t;
 
+typedef struct log_s {
+    int count;
+    int indices[100];
+    char mem[2000];
+} log_t;
+
 typedef struct calc_s {
     app_t app;
     calc_state_t state;
@@ -36,6 +42,7 @@ typedef struct calc_s {
     bool is_number_editing;
     char number_editing[25];
     aos_t aos;
+    log_t log;
 } calc_t;
 
 void get_calc_display(calc_t *calc, char *display);

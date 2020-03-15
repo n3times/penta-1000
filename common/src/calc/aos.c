@@ -1,5 +1,7 @@
 #include "calc.h"
 
+#include "log.h"
+
 static bool is_arithmetic_op(char op) {
     return op == '+' || op == '-' || op == '*' || op == '/';
 }
@@ -74,7 +76,20 @@ void aos_eval(aos_t *aos) {
     aos->stack_depth = 1;
 }
 
-void aos_push_operator(aos_t *aos, char op) {
+static void log_aos(calc_t *calc) {
+    char display[100];
+    get_calc_display(calc, display);
+    log_add_entry(&calc->log, display);
+}
+
+static void log_display(calc_t *calc) {
+    char display[100];
+    get_calc_display(calc, display);
+    log_add_entry(&calc->log, display);
+}
+
+void aos_push_operator(calc_t *calc, char op) {
+    aos_t *aos = &calc->aos;
     if (aos->stack_depth == 0) return;
 
     if (aos->stack_depth % 2 == 0) {
@@ -92,7 +107,9 @@ void aos_push_operator(aos_t *aos, char op) {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == '=') {
-       aos_eval(aos);
+        log_aos(calc);
+        aos_eval(aos);
+        log_display(calc);
     } else {
         if (is_arithmetic_op(op)) {
             aos->stack_depth++;

@@ -63,3 +63,9 @@ void *p1_get_raw_data(p1_t *p1, long *raw_data_size_out);
 // The raw data may have been retrieved from a file for example.
 // Note that p1 will be stored at the same location as raw_data.
 p1_t *p1_restore_from_raw_data(void *raw_data);
+
+int p1_get_log_entry_count(p1_t *p1);
+
+char *p1_get_log_entry(p1_t *p1, int i);
+
+void p1_clear_log(p1_t *p1);
