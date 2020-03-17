@@ -8,6 +8,30 @@
 
 static void x_to_d(char *formatted, double x, int len);
 
+void aos_print(calc_t *calc, char *print) {
+    aos_t *aos = &calc->aos;
+
+    print[0] = 0;
+    for (int i = 1; i <= aos->stack_depth; i++) {
+        if (i % 2 == 1) {
+            int index = (i - 1) / 2;
+            char number[30];
+            x_to_d(number, aos->operands[index].number, MAX_DIGITS_NUM);
+            strcat(print, number);
+            if (aos->operands[index].has_percent) {
+                strcat(print, "%");
+            }
+        } else {
+            int index = (i - 2) / 2;
+            char op = aos->operators[index];
+            char op_string[2];
+            op_string[0] = op;
+            op_string[1] = 0;
+            strcat(print, op_string);
+        }
+    }
+}
+
 void get_calc_display(calc_t *calc, char *display) {
     char extended_display[100];
     memset(extended_display, 0, 100);

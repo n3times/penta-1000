@@ -76,11 +76,22 @@ p1_t *p1_deserialize(void *serialized_object);
  * Logging.
  */
 
-// Returns the number of entries in the log.
-int p1_get_log_entry_count(p1_t *p1);
+// Returns the index of the first and last available log entries.
+//
+// By convention returns 0 and 0 if no entry is available, for example after log
+// entries have been cleared.
+//
+// There are up to 100 available log entries but there may be less if individual
+// log entries are larger than average.
+void p1_get_log_available_interval(p1_t *p1,
+                                   long *first_index_out,
+                                   long *last_index_out);
 
-// Returns the ith entry in the log (starting at i = 0).
-char *p1_get_log_entry(p1_t *p1, int i);
+// Returns the entry of given index.
+//
+// The index must be such that:
+// first_available_index <= index <= last_available_index).
+char *p1_get_log_entry(p1_t *p1, long index);
 
 // Clears all log entries.
 void p1_clear_log(p1_t *p1);

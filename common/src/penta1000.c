@@ -89,14 +89,18 @@ p1_t *p1_deserialize(void *serialized_object) {
     return p1;
 }
 
-int p1_get_log_entry_count(p1_t *p1) {
+void p1_get_log_available_interval(p1_t *p1,
+                                   long *first_index_out,
+                                   long *last_index_out) {
     log_t *log = &p1->calc.log;
-    return log_get_entry_count(log);
+    return log_get_available_interval(log,
+                                      first_index_out,
+                                      last_index_out);
 }
 
-char *p1_get_log_entry(p1_t *p1, int i) {
+char *p1_get_log_entry(p1_t *p1, long index) {
     log_t *log = &p1->calc.log;
-    return log_get_entry(log, i);
+    return log_get_entry(log, index);
 }
 
 void p1_clear_log(p1_t *p1) {

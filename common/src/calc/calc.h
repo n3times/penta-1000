@@ -30,7 +30,8 @@ typedef struct aos_s {
 } aos_t;
 
 typedef struct log_s {
-    int count;
+    long first_index;
+    long last_index;
     int entry_offsets[100];
     char mem[2000];
 } log_t;
@@ -45,6 +46,7 @@ typedef struct calc_s {
     log_t log;
 } calc_t;
 
+void aos_print(calc_t *calc, char *print);
 void get_calc_display(calc_t *calc, char *display);
 
 void init_calc(p1_t *p1);

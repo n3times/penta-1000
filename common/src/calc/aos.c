@@ -2,6 +2,8 @@
 
 #include "log.h"
 
+#include <string.h>
+
 static bool is_arithmetic_op(char op) {
     return op == '+' || op == '-' || op == '*' || op == '/';
 }
@@ -76,18 +78,6 @@ void aos_eval(aos_t *aos) {
     aos->stack_depth = 1;
 }
 
-static void log_aos(calc_t *calc) {
-    char display[100];
-    get_calc_display(calc, display);
-    log_add_entry(&calc->log, display);
-}
-
-static void log_display(calc_t *calc) {
-    char display[100];
-    get_calc_display(calc, display);
-    log_add_entry(&calc->log, display);
-}
-
 void aos_push_operator(calc_t *calc, char op) {
     aos_t *aos = &calc->aos;
     if (aos->stack_depth == 0) return;
@@ -107,9 +97,13 @@ void aos_push_operator(calc_t *calc, char op) {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == '=') {
-        log_aos(calc);
+        char log[2000];
+        aos_print(calc, log);
+        long len = strlen(log);
         aos_eval(aos);
-        log_display(calc);
+        log[len] = '=';
+        get_calc_display(calc, log + len + 1);
+        log_add_entry(&calc->log, log);
     } else {
         if (is_arithmetic_op(op)) {
             aos->stack_depth++;

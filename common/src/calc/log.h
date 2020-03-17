@@ -1,8 +1,10 @@
 #include "calc.h"
 
-int log_get_entry_count(log_t *log);
+void log_get_available_interval(log_t *log,
+                                long *first_index_out,
+                                long *last_index_out);
 
-char *log_get_entry(log_t *log, int i);
+char *log_get_entry(log_t *log, int index);
 
 void log_add_entry(log_t *log, char *entry);
 
