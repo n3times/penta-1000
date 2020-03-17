@@ -125,28 +125,61 @@ static p1_t *load_session(char *filename) {
     return p1;
 }
 
+static bool is_operator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
 static void print_operation(char *operation) {
     if (strlen(operation) <= 24) {
         printf(" %s\r\n", operation);
     } else {
-        char *op = strchr(operation + 20, '+');
-        if (!op) op = strchr(operation + 20, '-');
-        if (!op) op = strchr(operation + 20, '*');
-        if (!op) op = strchr(operation + 20, '/');
-        if (!op) op = strchr(operation + 15, '+');
-        if (!op) op = strchr(operation + 15, '-');
-        if (!op) op = strchr(operation + 15, '*');
-        if (!op) op = strchr(operation + 15, '/');
-        if (!op) op = strchr(operation + 10, '+');
-        if (!op) op = strchr(operation + 10, '-');
-        if (!op) op = strchr(operation + 10, '*');
-        if (!op) op = strchr(operation + 10, '/');
-        char c = *op;
-        *op = 0;
-        printf(" %s\r\n", operation);
-        *op = c;
-        return print_operation(op);
+        int i;
+        for (i = 24; i >= 1; i--) {
+            if (is_operator(operation[i])) {
+                if (operation[i] == '-' && is_operator(operation[i-1])) {
+                    continue;
+                }
+                char c = operation[i];
+                operation[i] = 0;
+                printf(" %s\r\n", operation);
+                operation[i] = c;
+                break;
+            }
+        }
+        print_operation(operation + i);
     }
+}
+
+static void print_log(p1_t *p1) {
+    long first_available_index;
+    long last_available_index;
+    p1_get_log_available_interval(p1,
+                                  &first_available_index,
+                                  &last_available_index);
+    printf("** LOG **          \r\n\n");
+    printf("-------------------------\r\n");
+    for (long i = first_available_index; i <= last_available_index;
+         i++) {
+        if (!first_available_index) break;
+        char entry[2000];
+        strcpy(entry, p1_get_log_entry(p1, i));
+        char *equal = strchr(entry, '=');
+        *equal = 0;
+        char *operation = entry;
+        char *result = equal + 1;
+        if (strlen(operation) + strlen(result) + 2 <= 24) {
+            printf(" %s", operation);
+            int spaces = 24 - strlen(operation) - strlen(result);
+            for (int j = 0; j < spaces; j++) printf(" ");
+            printf("%s\r\n", result);
+            printf("-------------------------\r\n");
+        } else {
+            print_operation(operation);
+            printf(" %24s\r\n", result);
+            printf("-------------------------\r\n");
+        }
+    }
+    printf("\n");
 }
 
 /* Main. */
@@ -188,35 +221,7 @@ int main(int argc, char *argv[]) {
             pthread_cond_signal(&wait_cond);
             break;
         } else if (pressed_key == 'l') {
-            long first_available_index;
-            long last_available_index;
-            p1_get_log_available_interval(p1,
-                                          &first_available_index,
-                                          &last_available_index);
-            printf("** LOG **          \r\n\n");
-            printf("-------------------------\r\n");
-            for (long i = first_available_index; i <= last_available_index;
-                 i++) {
-                if (!first_available_index) break;
-                char entry[2000];
-                strcpy(entry, p1_get_log_entry(p1, i));
-                char *equal = strchr(entry, '=');
-                *equal = 0;
-                char *operation = entry;
-                char *result = equal + 1;
-                if (strlen(operation) + strlen(result) + 2 <= 24) {
-                    printf(" %s", operation);
-                    int spaces = 24 - strlen(operation) - strlen(result);
-                    for (int j = 0; j < spaces; j++) printf(" ");
-                    printf("%s\r\n", result);
-                    printf("-------------------------\r\n");
-                } else {
-                    print_operation(operation);
-                    printf(" %24s\r\n", result);
-                    printf("-------------------------\r\n");
-                }
-            }
-            printf("\n");
+            print_log(p1);
         } else if (pressed_key == 'k') {
             p1_clear_log(p1);
         }
