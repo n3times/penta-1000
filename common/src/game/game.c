@@ -19,12 +19,12 @@ void init_game(p1_t *p1, long seed) {
     game->app.advance_frame = advance_frame_game;
     game->app.is_animating = is_animating_game;
 
-    game->rng = seed;
+    game->rng = (unsigned int)seed;
 }
 
 static int get_random_target(p1_t *p1) {
     game_t *game = &p1->game;
-    game->rng = (1103515245 * game->rng + 12345) % (1 << 31);
+    game->rng = (110351524 * game->rng + 12345) % (1 << 31);
     return (int) (game->rng % 900 + 100);
 }
 
@@ -36,7 +36,7 @@ static void start_game(p1_t *p1) {
     game->index = 0;
     game->is_guess_editing = false;
 
-    game->state = GAME_STATE_INIT;
+    game->state = GAME_STATE_START;
     game->frame = 0;
 }
 
@@ -52,7 +52,7 @@ static void enter_game(p1_t *p1) {
 static void press_key_game(p1_t *p1, char key) {
     game_t *game = &p1->game;
 
-    if (game->state == GAME_STATE_ENTER || game->state == GAME_STATE_INIT) {
+    if (game->state == GAME_STATE_ENTER || game->state == GAME_STATE_START) {
         return;
     }
     if (game->state == GAME_STATE_OVER) {
@@ -141,7 +141,7 @@ static void advance_frame_game(p1_t *p1) {
             start_game(p1);
         }
         break;
-    case GAME_STATE_INIT:
+    case GAME_STATE_START:
         // "Generate" random number.
         if (1 <= game->frame && game->frame < 70) {
             sprintf(p1->display, "%03d", rand() % 1000);

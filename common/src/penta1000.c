@@ -15,7 +15,9 @@ static app_t *get_current_app(p1_t *p1) {
     return app;
 }
 
-/** Implementation of client interface. */
+/* Implementation of the client interface. */
+
+/* Core */
 
 p1_t *p1_new(long seed) {
     p1_t *p1 = malloc(sizeof(p1_t));
@@ -62,6 +64,8 @@ char *p1_get_display(p1_t *p1) {
     return app->get_display(p1);
 }
 
+/* Animation */
+
 void p1_advance_frame(p1_t *p1) {
     app_t *app = get_current_app(p1);
     if (app) app->advance_frame(p1);
@@ -71,6 +75,8 @@ bool p1_is_animating(p1_t *p1) {
     app_t *app = get_current_app(p1);
     return app ? app->is_animating(p1) : false;
 }
+
+/* Serialization */
 
 void *p1_serialize(p1_t *p1, long *size_out) {
     long size = sizeof(p1_t);
@@ -88,6 +94,8 @@ p1_t *p1_deserialize(void *serialized_object) {
     init_game(p1, p1->game.rng);
     return p1;
 }
+
+/* Logging */
 
 void p1_get_log_available_interval(p1_t *p1,
                                    long *first_index_out,

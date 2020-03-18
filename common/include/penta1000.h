@@ -27,17 +27,17 @@ void p1_release(p1_t *p1);
 // animations as necessary.
 //
 // 'key' is in '0123456789.~+-*/=%cg' which covers the 10 digits, the 4
-// arithmetic operations, percent, equal, dot and:
+// arithmetic operations, percent, equal, the decimal point and:
 // ~ for +/-
 // c for clear
 // g for game (switches between game and calc mode)
 void p1_press_key(p1_t *p1, char key);
 
-// Gets the display as a null terminated string with at most 24 effective
-// characters.
+// Gets the display as a null terminated string with at most 24 characters.
+//
 //
 // The text should be right justified on the display. A dot ('.') modifies the
-// character just before it.
+// character just before it. There are at most 12 non dot characters.
 char *p1_get_display(p1_t *p1);
 
 /*
@@ -79,10 +79,10 @@ p1_t *p1_deserialize(void *serialized_object);
 // Returns the index of the first and last available log entries.
 //
 // By convention returns 0 and 0 if no entry is available, for example after log
-// entries have been cleared.
+// entries have been cleared. Otherwise 1 <= first <= last.
 //
-// There are up to 100 available log entries but there may be less if individual
-// log entries are larger than average.
+// Only the latest log entries are available. There are up to 100 but there may
+// be less if individual log entries are larger than average.
 void p1_get_log_available_interval(p1_t *p1,
                                    long *first_index_out,
                                    long *last_index_out);
