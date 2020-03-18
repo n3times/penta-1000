@@ -125,6 +125,8 @@ static p1_t *load_session(char *filename) {
     return p1;
 }
 
+/* Logging. */
+
 static bool is_operator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
@@ -137,6 +139,7 @@ static void print_operation(char *operation) {
         for (i = 24; i >= 1; i--) {
             if (is_operator(operation[i])) {
                 if (operation[i] == '-' && is_operator(operation[i-1])) {
+                    // minus sign.
                     continue;
                 }
                 char c = operation[i];
