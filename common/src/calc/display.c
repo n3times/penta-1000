@@ -74,7 +74,8 @@ void get_calc_display(calc_t *calc, char *display) {
     if (extended_display[0] == '\0') {
         strcpy(extended_display, "READY");
     }
-    int offset = strlen(extended_display) - 14;
+    int offset = strlen(extended_display) - 12;
+    if (strchr(extended_display, '.')) offset -= 1;
     if (offset < 0) {
         offset = 0;
     }

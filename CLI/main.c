@@ -38,7 +38,7 @@ static void reset_display() {
 
 static void print_display(p1_t *p1) {
     char *display = p1_get_display(p1);
-    printf("  %14s \r", display);
+    printf("  %13s \r", display);
     fflush(stdout);
 }
 
