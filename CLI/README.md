@@ -1,4 +1,6 @@
-# Command line interface for MacOS
+# Pentatronics 1000 Command Line Interface for Unix systems.
+This is the reference implementation for Pentatronics 1000.
+
 From this directory, build with **make** and run with **./a.out**.
 
-Build with **make min** for a minimal client (needs ncurses) easier to port.
+Note that this has been tested under MacOs only.
