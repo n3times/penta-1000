@@ -4,11 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void enter_game(p1_t *p1);
-static void press_key_game(p1_t *p1, char key);
-static char *get_display_game(p1_t *p1);
-static void advance_frame_game(p1_t *p1);
-static bool is_animating_game(p1_t *p1);
+static void enter_game(app_t *app);
+static void press_key_game(app_t *app, char key);
+static char *get_display_game(app_t *app);
+static void advance_frame_game(app_t *app);
+static bool is_animating_game(app_t *app);
 
 void init_game(p1_t *p1, long seed) {
     game_t *game = &p1->game;
@@ -22,16 +22,13 @@ void init_game(p1_t *p1, long seed) {
     game->rng = (int)(seed >= 0 ? seed : -seed);
 }
 
-static int get_random_target(p1_t *p1) {
-    game_t *game = &p1->game;
+static int get_random_target(game_t *game) {
     game->rng = (110351524 * game->rng + 12345) % (1 << 31);
     return (int) (game->rng % 900 + 100);
 }
 
-static void start_game(p1_t *p1) {
-    game_t *game = &p1->game;
-
-    game->target = get_random_target(p1);
+static void start_game(game_t *game) {
+    game->target = get_random_target(game);
     game->guess = -1;
     game->index = 0;
     game->is_guess_editing = false;
@@ -42,22 +39,22 @@ static void start_game(p1_t *p1) {
 
 /** Implementation of the app interface. */
 
-static void enter_game(p1_t *p1) {
-    game_t *game = &p1->game;
+static void enter_game(app_t *app) {
+    game_t *game = (game_t *)app;
 
     game->state = GAME_STATE_ENTER;
     game->frame = 0;
 }
 
-static void press_key_game(p1_t *p1, char key) {
-    game_t *game = &p1->game;
+static void press_key_game(app_t *app, char key) {
+    game_t *game = (game_t *)app;
 
     if (game->state == GAME_STATE_ENTER || game->state == GAME_STATE_START) {
         return;
     }
     if (game->state == GAME_STATE_OVER) {
         if (key == 'c') {
-            start_game(p1);
+            start_game(game);
         }
         return;
     }
@@ -92,7 +89,7 @@ static void press_key_game(p1_t *p1, char key) {
         strcpy(game->guess_textfield, "___");
     } else {
         if (key == 'c') {
-            start_game(p1);
+            start_game(game);
             return;
         }
 
@@ -107,26 +104,27 @@ static void press_key_game(p1_t *p1, char key) {
     }
 
     if (game->is_guess_editing) {
-        sprintf(p1->display, "%s", game->guess_textfield);
+        sprintf(game->display, "%s", game->guess_textfield);
     } else {
         if (game->index == 9) {
             game->state = GAME_STATE_LAST_GUESS;
             game->frame = 0;
-            sprintf(p1->display, "1 MORE GUESS");
+            sprintf(game->display, "1 MORE GUESS");
         } else {
             bool high = (game->guess - game->target) > 0;
-            sprintf(p1->display,
+            sprintf(game->display,
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
     }
 }
 
-static char *get_display_game(p1_t *p1) {
-    return p1->display;
+static char *get_display_game(app_t *app) {
+    game_t *game = (game_t *)app;
+    return game->display;
 }
 
-static void advance_frame_game(p1_t *p1) {
-    game_t *game = &p1->game;
+static void advance_frame_game(app_t *app) {
+    game_t *game = (game_t *)app;
 
     game->frame++;
 
@@ -136,19 +134,19 @@ static void advance_frame_game(p1_t *p1) {
     case GAME_STATE_ENTER:
         // Announce game.
         if (game->frame == 1) {
-            sprintf(p1->display, "> HI-LO GAME");
+            sprintf(game->display, "> HI-LO GAME");
         } else if (game->frame == 80) {
-            start_game(p1);
+            start_game(game);
         }
         break;
     case GAME_STATE_START:
         // "Generate" random number.
         if (1 <= game->frame && game->frame < 70) {
-            sprintf(p1->display, "%03d", rand() % 1000);
+            sprintf(game->display, "%03d", rand() % 1000);
         } else if (game->frame == 70) {
-            sprintf(p1->display, "???");
+            sprintf(game->display, "???");
         } else if (game->frame == 140) {
-            sprintf(p1->display, "___");
+            sprintf(game->display, "___");
             game->state = GAME_STATE_PLAY;
         }
         break;
@@ -157,27 +155,27 @@ static void advance_frame_game(p1_t *p1) {
     case GAME_STATE_LAST_GUESS:
         if (game->frame == 100) {
             bool high = (game->guess - game->target) > 0;
-            sprintf(p1->display,
+            sprintf(game->display,
                     "TOO %s %03d", high ? "HIGH" : "LOW", game->guess);
         }
         break;
     case GAME_STATE_OVER:
         // Animate indefinitely.
         if (game->frame == 1) {
-            sprintf(p1->display, "%03d", game->guess);
+            sprintf(game->display, "%03d", game->guess);
         } else if (game->frame % 200 == 0 && did_win) {
-            sprintf(p1->display, "%d GUESSES", game->index);
+            sprintf(game->display, "%d GUESSES", game->index);
         } else if (game->frame % 100 == 0) {
-            sprintf(p1->display,
+            sprintf(game->display,
                     "YOU %s %03d", did_win ? "WON" : "LOST", game->target);
         } else if (game->frame % 100 == 50) {
-            sprintf(p1->display, "");
+            sprintf(game->display, "");
         }
         break;
     }
 }
 
-static bool is_animating_game(p1_t *p1) {
-    game_t *game = &p1->game;
+static bool is_animating_game(app_t *app) {
+    game_t *game = (game_t *)app;
     return game->state != GAME_STATE_PLAY;
 }

@@ -68,6 +68,8 @@ typedef struct calc_s {
     // Log entries, each one of the form operation=result. For example "1+1=2"
     // or "10+10%+10%=12.1".
     log_t log;
+    // The display.
+    char display[25];
 } calc_t;
 
 void init_calc(p1_t *p1);

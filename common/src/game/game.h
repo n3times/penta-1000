@@ -36,6 +36,8 @@ typedef struct game_s {
     game_state_t state;
     // The current frame animation within the current state.
     int frame;
+    // The display.
+    char display[25];
 } game_t;
 
 void init_game(p1_t *p1, long seed);

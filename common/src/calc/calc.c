@@ -7,15 +7,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void enter_calc(p1_t *p1);
-static void press_key_calc(p1_t *p1, char key);
-static char *get_display_calc(p1_t *p1);
-static void advance_frame_calc(p1_t *p1);
-static bool is_animating_calc(p1_t *p1);
+static void enter_calc(app_t *app);
+static void press_key_calc(app_t *app, char key);
+static char *get_display_calc(app_t *app);
+static void advance_frame_calc(app_t *app);
+static bool is_animating_calc(app_t *app);
 
-static bool is_number_edit_key(p1_t *p1, char key) {
-    calc_t *calc = &p1->calc;
-
+static bool is_number_edit_key(calc_t *calc, char key) {
     if ('0' <= key && key <= '9') return true;
     if (key == '.') return true;
     if (key == '~') {
@@ -26,7 +24,7 @@ static bool is_number_edit_key(p1_t *p1, char key) {
     return false;
 }
 
-static void update_display(calc_t *calc, char *display) {
+static void update_display(calc_t *calc) {
     char extended_display[40];
     memset(extended_display, 0, 40);
     aos_t *aos = &calc->aos;
@@ -51,7 +49,7 @@ static void update_display(calc_t *calc, char *display) {
     if (offset < 0) {
         offset = 0;
     }
-    strcpy(display, extended_display + offset);
+    strcpy(calc->display, extended_display + offset);
 }
 
 void init_calc(p1_t *p1) {
@@ -66,14 +64,14 @@ void init_calc(p1_t *p1) {
 
 /* App interface. */
 
-static void enter_calc(p1_t *p1) {
-    calc_t *calc = &p1->calc;
+static void enter_calc(app_t *app) {
+    calc_t *calc = (calc_t *)app;
     calc->state = CALC_STATE_ENTER;
     calc->frame = 0;
 }
 
-static void press_key_calc(p1_t *p1, char key) {
-    calc_t *calc = &p1->calc;
+static void press_key_calc(app_t *app, char key) {
+    calc_t *calc = (calc_t *)app;
     aos_t *aos = &calc->aos;
     bool is_error = aos->error != ERROR_NONE;
 
@@ -92,7 +90,7 @@ static void press_key_calc(p1_t *p1, char key) {
         } else {
             aos_pop(aos);
         }
-    } else if (is_number_edit_key(p1, key)) {
+    } else if (is_number_edit_key(calc, key)) {
         bool is_error = aos->error != ERROR_NONE;
         if (!is_error) number_edit_handle_key(calc, key);
     } else {
@@ -105,24 +103,26 @@ static void press_key_calc(p1_t *p1, char key) {
         }
     }
 
-    update_display(&p1->calc, p1->display);
+    update_display(calc);
 }
 
-static char *get_display_calc(p1_t *p1) {
-    return p1->display;
+static char *get_display_calc(app_t *app) {
+    calc_t *calc = (calc_t *)app;
+    return calc->display;
 }
 
-static void advance_frame_calc(p1_t *p1) {
-    calc_t *calc = &p1->calc;
+static void advance_frame_calc(app_t *app) {
+    calc_t *calc = (calc_t *)app;
 
     calc->frame++;
 
     switch (calc->state) {
     case CALC_STATE_ENTER:
         if (calc->frame == 1) {
-            sprintf(p1->display, ">  CALC MODE");
+            sprintf(calc->display, ">  CALC MODE");
         } else if (calc->frame == 80) {
             calc->state = CALC_STATE_COMPUTE;
+            update_display(calc);
         }
         break;
     case CALC_STATE_COMPUTE:
@@ -130,7 +130,7 @@ static void advance_frame_calc(p1_t *p1) {
     }
 }
 
-static bool is_animating_calc(p1_t *p1) {
-    calc_t *calc = &p1->calc;
+static bool is_animating_calc(app_t *app) {
+    calc_t *calc = (calc_t *)app;
     return calc->state == CALC_STATE_ENTER;
 }

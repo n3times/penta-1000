@@ -37,9 +37,9 @@ void p1_press_key(p1_t *p1, char key) {
         p1->current_app_type = APP_TYPE_CALC;
         app = get_current_app(p1);
         // Bypass enter animation.
-        app->enter(p1);
-        while (app->is_animating(p1)) {
-            app->advance_frame(p1);
+        app->enter(app);
+        while (app->is_animating(app)) {
+            app->advance_frame(app);
         }
     }
     if (key == 'g') {
@@ -49,28 +49,28 @@ void p1_press_key(p1_t *p1, char key) {
             p1->current_app_type = APP_TYPE_CALC;
         }
         app = get_current_app(p1);
-        app->enter(p1);
+        app->enter(app);
     } else {
-        app->press_key(p1, key);
+        app->press_key(app, key);
     }
 }
 
 char *p1_get_display(p1_t *p1) {
     app_t *app = get_current_app(p1);
     if (!app) return "PENTATRONICS";
-    return app->get_display(p1);
+    return app->get_display(app);
 }
 
 /* Animation */
 
 void p1_advance_frame(p1_t *p1) {
     app_t *app = get_current_app(p1);
-    if (app) app->advance_frame(p1);
+    if (app) app->advance_frame(app);
 }
 
 bool p1_is_animating(p1_t *p1) {
     app_t *app = get_current_app(p1);
-    return app ? app->is_animating(p1) : false;
+    return app ? app->is_animating(app) : false;
 }
 
 /* Serialization */
