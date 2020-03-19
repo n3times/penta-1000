@@ -26,6 +26,34 @@ static bool is_number_edit_key(p1_t *p1, char key) {
     return false;
 }
 
+static void update_display(calc_t *calc, char *display) {
+    char extended_display[40];
+    memset(extended_display, 0, 40);
+    aos_t *aos = &calc->aos;
+
+    if (aos->error == ERROR_ILLEGAL_OP) {
+        strcpy(extended_display, "DIV BY ZERO");
+    } else if (aos->error == ERROR_OVERFLOW) {
+        strcpy(extended_display, "OVERFLOW");
+    } else if (aos->error == ERROR_OUT_OF_MEM) {
+        strcpy(extended_display, "OUT OF MEM");
+    } else {
+        aos_print(calc, extended_display, 20);
+        if (calc->is_number_editing) {
+            strcat(extended_display, calc->number_editing);
+        }
+    }
+    if (extended_display[0] == '\0') {
+        strcpy(extended_display, "READY");
+    }
+    int offset = strlen(extended_display) - 12;
+    if (strchr(extended_display, '.')) offset -= 1;
+    if (offset < 0) {
+        offset = 0;
+    }
+    strcpy(display, extended_display + offset);
+}
+
 void init_calc(p1_t *p1) {
     calc_t *calc = &p1->calc;
 
@@ -76,6 +104,8 @@ static void press_key_calc(p1_t *p1, char key) {
             aos_push_operator(calc, key);
         }
     }
+
+    update_display(&p1->calc, p1->display);
 }
 
 static char *get_display_calc(p1_t *p1) {

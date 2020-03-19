@@ -193,7 +193,10 @@ void aos_push_operator(calc_t *calc, char op) {
         long len = strlen(log);
         aos_eval(aos);
         log[len] = '=';
-        get_calc_display(calc, log + len + 1);
+        log[len + 1] = 0;
+        char result[20];
+        aos_print(calc, result, 20);
+        strcat(log, result);
         log_add_entry(&calc->log, log);
     } else {
         if (is_arithmetic_op(op)) {

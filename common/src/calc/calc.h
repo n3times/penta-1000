@@ -70,8 +70,6 @@ typedef struct calc_s {
     log_t log;
 } calc_t;
 
-void get_calc_display(calc_t *calc, char *display);
-
 void init_calc(p1_t *p1);
 
 #endif // CALC_H
