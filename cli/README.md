@@ -1,4 +1,4 @@
-# Pentatronics 1000 Command Line Interface for Unix systems.
+# Pentatronics 1000 Command Line Interface app
 
 This can be seen as the reference implementation of the Pentatronics 1000.
 
