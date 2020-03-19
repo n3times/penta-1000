@@ -188,6 +188,12 @@ static void print_log(p1_t *p1) {
 /* Main. */
 
 int main(int argc, char *argv[]) {
+    printf("\nPentatronics 1000 game/calculator\n\n");
+    printf("  'q' quit\n");
+    printf("  'g' game\n");
+    printf("  'c' clear\n");
+    printf("  '~' change sign\n\n");
+
     // Restore previous session if possible.
     // Otherwise, get new object.
     p1_t *p1 = load_session(SAVE_FILENAME);
