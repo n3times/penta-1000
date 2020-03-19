@@ -40,4 +40,5 @@ typedef struct game_s {
     char display[25];
 } game_t;
 
-void init_game(p1_t *p1, long seed);
+void init_game(game_t *game, long seed);
+void deserialize_game(game_t *game);

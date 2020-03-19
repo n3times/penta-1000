@@ -1,7 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
-#include "penta1000.h"
+#include <stdbool.h>
 
 /* Interface that any app must implement. */
 

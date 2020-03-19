@@ -72,6 +72,7 @@ typedef struct calc_s {
     char display[25];
 } calc_t;
 
-void init_calc(p1_t *p1);
+void init_calc(calc_t *calc);
+void deserialize_calc(calc_t *calc);
 
 #endif // CALC_H

@@ -1,4 +1,4 @@
-#include "penta1000_internal.h"
+#include "game.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,16 +10,22 @@ static char *get_display_game(app_t *app);
 static void advance_frame_game(app_t *app);
 static bool is_animating_game(app_t *app);
 
-void init_game(p1_t *p1, long seed) {
-    game_t *game = &p1->game;
-
+static void setup_app_methods(game_t *game) {
     game->app.enter = enter_game;
     game->app.press_key = press_key_game;
     game->app.get_display = get_display_game;
     game->app.advance_frame = advance_frame_game;
     game->app.is_animating = is_animating_game;
+}
 
+void init_game(game_t *game, long seed) {
+    memset(game, 0, sizeof(game_t));
+    setup_app_methods(game);
     game->rng = (int)(seed >= 0 ? seed : -seed);
+}
+
+void deserialize_game(game_t *game) {
+    setup_app_methods(game);
 }
 
 static int get_random_target(game_t *game) {

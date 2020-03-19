@@ -21,9 +21,9 @@ static app_t *get_current_app(p1_t *p1) {
 
 p1_t *p1_new(long seed) {
     p1_t *p1 = malloc(sizeof(p1_t));
-    memset(p1, 0, sizeof(p1_t));
-    init_calc(p1);
-    init_game(p1, seed);
+    p1->current_app_type = APP_TYPE_NONE;
+    init_calc(&p1->calc);
+    init_game(&p1->game, seed);
     return p1;
 }
 
@@ -87,8 +87,8 @@ p1_t *p1_deserialize(void *serialized_object) {
     long size = sizeof(p1_t);
     p1_t *p1 = malloc(size);
     memcpy(p1, serialized_object, size);
-    init_calc(p1);
-    init_game(p1, p1->game.rng);
+    deserialize_calc(&p1->calc);
+    deserialize_game(&p1->game);
     return p1;
 }
 

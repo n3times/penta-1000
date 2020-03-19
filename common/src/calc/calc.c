@@ -52,14 +52,21 @@ static void update_display(calc_t *calc) {
     strcpy(calc->display, extended_display + offset);
 }
 
-void init_calc(p1_t *p1) {
-    calc_t *calc = &p1->calc;
-
+static void setup_app_methods(calc_t *calc) {
     calc->app.enter = enter_calc;
     calc->app.press_key = press_key_calc;
     calc->app.get_display = get_display_calc;
     calc->app.advance_frame = advance_frame_calc;
     calc->app.is_animating = is_animating_calc;
+}
+
+void init_calc(calc_t *calc) {
+    memset(calc, 0, sizeof(calc_t));
+    setup_app_methods(calc);
+}
+
+void deserialize_calc(calc_t *calc) {
+    setup_app_methods(calc);
 }
 
 /* App interface. */
