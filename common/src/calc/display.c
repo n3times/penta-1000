@@ -8,29 +8,47 @@
 
 static void number_to_display(double x, char *display_out);
 
-void aos_print(calc_t *calc, char *print_out) {
+void aos_print(calc_t *calc, char *buffer_out, int buffer_len) {
     aos_t *aos = &calc->aos;
+    char *buffer = buffer_out;
+    int offset = buffer_len;
 
-    print_out[0] = 0;
-    for (int i = 1; i <= aos->stack_depth; i++) {
+    if (offset == 0) return;
+
+    // Null terminate the buffer.
+    offset--;
+    buffer[offset] = 0;
+    if (offset == 0) return;
+
+    for (int i = aos->stack_depth; i >= 1; i--) {
         bool is_operand = (i % 2 == 1);
         if (is_operand) {
             int index = (i - 1) / 2;
-            char display[20];
-            number_to_display(aos->operands[index].number, display);
-            strcat(print_out, display);
             if (aos->operands[index].has_percent) {
-                strcat(print_out, "%");
+                offset--;
+                buffer[offset] = '%';
+                if (offset == 0) return;
             }
+            char display[200];
+            number_to_display(aos->operands[index].number, display);
+            offset -= strlen(display);
+            if (offset >= 0) {
+                memcpy(buffer + offset, display, strlen(display));
+            } else {
+                memcpy(buffer, display - offset, strlen(display) + offset);
+                offset = 0;
+            }
+            if (offset == 0) return;
         } else {
+            // Operator (1 character).
             int index = (i - 2) / 2;
-            char op = aos->operators[index];
-            char op_string[2];
-            op_string[0] = op;
-            op_string[1] = 0;
-            strcat(print_out, op_string);
+            offset--;
+            buffer[offset] = aos->operators[index];
+            if (offset == 0) return;
         }
     }
+
+    if (offset > 0) memmove(buffer, buffer + offset, buffer_len - offset);
 }
 
 void get_calc_display(calc_t *calc, char *display) {
@@ -45,28 +63,7 @@ void get_calc_display(calc_t *calc, char *display) {
     } else if (aos->error == ERROR_OUT_OF_MEM) {
         strcpy(extended_display, "OUT OF MEM");
     } else {
-        int i = 1;
-        if (aos->stack_depth > 10) {
-            i = aos->stack_depth - 10;
-        }
-        for (; i <= aos->stack_depth; i++) {
-            if (i % 2 == 1) {
-                int index = (i - 1) / 2;
-                char display[20];
-                number_to_display(aos->operands[index].number, display);
-                strcat(extended_display, display);
-                if (aos->operands[index].has_percent) {
-                    strcat(extended_display, "%");
-                }
-            } else {
-                int index = (i - 2) / 2;
-                char op = aos->operators[index];
-                char op_string[2];
-                op_string[0] = op;
-                op_string[1] = 0;
-                strcat(extended_display, op_string);
-            }
-        }
+        aos_print(calc, extended_display, 100);
         if (calc->is_number_editing) {
             strcat(extended_display, calc->number_editing);
         }

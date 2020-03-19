@@ -98,7 +98,7 @@ void aos_push_operator(calc_t *calc, char op) {
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == '=') {
         char log[2000];
-        aos_print(calc, log);
+        aos_print(calc, log, 2000);
         long len = strlen(log);
         aos_eval(aos);
         log[len] = '=';

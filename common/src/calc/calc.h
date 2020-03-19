@@ -70,8 +70,8 @@ typedef struct calc_s {
     log_t log;
 } calc_t;
 
-// Returns (in print_out) the current as a string. For example "1+2*3".
-void aos_print(calc_t *calc, char *print_out);
+// Returns (in buffer_out) the current stack as a string. For example "1+2*3".
+void aos_print(calc_t *calc, char *buffer_out, int buffer_len);
 
 void get_calc_display(calc_t *calc, char *display);
 
