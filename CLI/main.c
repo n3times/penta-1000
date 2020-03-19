@@ -38,7 +38,7 @@ static void reset_display() {
 
 static void print_display(p1_t *p1) {
     char *display = p1_get_display(p1);
-    printf("  %12s \r", display);
+    printf("  %14s \r", display);
     fflush(stdout);
 }
 
@@ -138,8 +138,8 @@ static void print_operation(char *operation) {
         int i;
         for (i = 24; i >= 1; i--) {
             if (is_operator(operation[i])) {
-                if (operation[i] == '-' && is_operator(operation[i-1])) {
-                    // minus sign.
+                if (operation[i-1] == 'e' || is_operator(operation[i-1])) {
+                    // minus/plus sign.
                     continue;
                 }
                 char c = operation[i];

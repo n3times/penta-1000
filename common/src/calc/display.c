@@ -4,22 +4,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_DIGITS_NUM 10
+#define MAX_MANTISSA_LEN 10
 
-static void x_to_d(char *formatted, double x, int len);
+static void number_to_display(double x, char *display_out);
 
-void aos_print(calc_t *calc, char *print) {
+void aos_print(calc_t *calc, char *print_out) {
     aos_t *aos = &calc->aos;
 
-    print[0] = 0;
+    print_out[0] = 0;
     for (int i = 1; i <= aos->stack_depth; i++) {
-        if (i % 2 == 1) {
+        bool is_operand = (i % 2 == 1);
+        if (is_operand) {
             int index = (i - 1) / 2;
-            char number[30];
-            x_to_d(number, aos->operands[index].number, MAX_DIGITS_NUM);
-            strcat(print, number);
+            char display[20];
+            number_to_display(aos->operands[index].number, display);
+            strcat(print_out, display);
             if (aos->operands[index].has_percent) {
-                strcat(print, "%");
+                strcat(print_out, "%");
             }
         } else {
             int index = (i - 2) / 2;
@@ -27,7 +28,7 @@ void aos_print(calc_t *calc, char *print) {
             char op_string[2];
             op_string[0] = op;
             op_string[1] = 0;
-            strcat(print, op_string);
+            strcat(print_out, op_string);
         }
     }
 }
@@ -51,9 +52,9 @@ void get_calc_display(calc_t *calc, char *display) {
         for (; i <= aos->stack_depth; i++) {
             if (i % 2 == 1) {
                 int index = (i - 1) / 2;
-                char number[30];
-                x_to_d(number, aos->operands[index].number, MAX_DIGITS_NUM);
-                strcat(extended_display, number);
+                char display[20];
+                number_to_display(aos->operands[index].number, display);
+                strcat(extended_display, display);
                 if (aos->operands[index].has_percent) {
                     strcat(extended_display, "%");
                 }
@@ -73,52 +74,50 @@ void get_calc_display(calc_t *calc, char *display) {
     if (extended_display[0] == '\0') {
         strcpy(extended_display, "READY");
     }
-    int offset = strlen(extended_display) - 12;
+    int offset = strlen(extended_display) - 14;
     if (offset < 0) {
         offset = 0;
     }
     strcpy(display, extended_display + offset);
 }
 
-static void x_to_d(char *formatted, double x, int len) {
-    char s[200];
-    char f[5];
-    char *result = s;
-    int is_negative = x < 0;
+static void number_to_display(double x, char *display_out) {
+    bool is_negative = x < 0;
 
     if (is_negative) x = -x;
+
     if (x == 0) {
-        result = "0";
+        strcpy(display_out, "0");
     } else {
         bool is_big;
         bool is_small;
+        char format[5];
 
-        sprintf(s, "%.0f", x);
-        is_big = (strlen(s) > len);
+        sprintf(display_out, "%.0f", x);
+        is_big = (strlen(display_out) > MAX_MANTISSA_LEN);
 
-        sprintf(f, "%%.%df", len - 1);
-        sprintf(s, f, x);
-        is_small = !strcmp(s, "0.000000000");
+        sprintf(format, "%%.%df", MAX_MANTISSA_LEN - 1);
+        sprintf(display_out, format, x);
+        is_small = !strcmp(display_out, "0.000000000");
 
         if (is_big || is_small) {
-            sprintf(s, "%.6e", x);
+            sprintf(display_out, "%.6e", x);
         } else {
-            sprintf(s, "%.0f", x);
-            sprintf(f, "%%.%luf", len - strlen(s));
-            sprintf(s, f, x);
-            if (strchr(s, '.')) {
-                int i = strlen(s);
-                while (s[i - 1] == '0') {
-                    s[i - 1] = 0;
+            sprintf(display_out, "%.0f", x);
+            sprintf(format, "%%.%luf", MAX_MANTISSA_LEN - strlen(display_out));
+            sprintf(display_out, format, x);
+            if (strchr(display_out, '.')) {
+                int i = strlen(display_out);
+                while (display_out[i - 1] == '0') {
+                    display_out[i - 1] = 0;
                     i--;
                 }
-                if (s[i - 1] == '.') s[i - 1] = 0;
+                if (display_out[i - 1] == '.') display_out[i - 1] = 0;
             }
         }
         if (is_negative) {
-            memmove(s + 1, s, strlen(s) + 1);
-            s[0] = '-';
+            memmove(display_out + 1, display_out, strlen(display_out) + 1);
+            display_out[0] = '-';
         }
     }
-    strcpy(formatted, result);
 }
