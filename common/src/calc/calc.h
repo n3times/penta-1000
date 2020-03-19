@@ -8,7 +8,7 @@
 typedef enum calc_state_e {
     // Enter animation sequence.
     CALC_STATE_ENTER,
-    // Normal state.
+    // Standard state either accepting user input or evaluating operation.
     CALC_STATE_COMPUTE,
 } calc_state_t;
 
@@ -36,7 +36,7 @@ typedef struct aos_s {
     operand_t operands[100];
     // The arithmetic operators in the stack.
     char operators[100];
-    // Error, if any, of the last operation.
+    // Error, if any, while trying to evaluate the last operation.
     error_t error;
 } aos_t;
 
@@ -55,7 +55,7 @@ typedef struct calc_s {
     // Pointers to the app methods. Note that they need to be set at creation
     // and deserialization time.
     app_t app;
-    // The current state of the game.
+    // The current state of the calculator.
     calc_state_t state;
     // The current frame animation within the current state.
     int frame;
@@ -63,6 +63,7 @@ typedef struct calc_s {
     bool is_number_editing;
     // The number being edited.
     char number_editing[25];
+    // The operation stack (AOS = Algebraic Operating System).
     aos_t aos;
     // Log entries, each one of the form operation=result. For example "1+1=2"
     // or "10+10%+10%=12.1".

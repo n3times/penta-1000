@@ -21,8 +21,7 @@ typedef struct app_s {
     // 'is_animating' is true.
     void (*advance_frame)(p1_t *);
     // Should return true if the app is "running", for example if the display
-    // is animating. Returns false if the app is paused/stopped, for example
-    // waiting for user input.
+    // is animating. Returns false if the app is idle.
     bool (*is_animating)(p1_t *);
 } app_t;
 

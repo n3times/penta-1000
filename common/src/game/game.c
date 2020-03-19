@@ -19,7 +19,7 @@ void init_game(p1_t *p1, long seed) {
     game->app.advance_frame = advance_frame_game;
     game->app.is_animating = is_animating_game;
 
-    game->rng = (unsigned int)seed;
+    game->rng = (int)(seed >= 0 ? seed : -seed);
 }
 
 static int get_random_target(p1_t *p1) {

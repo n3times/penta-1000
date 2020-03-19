@@ -223,6 +223,7 @@ int main(int argc, char *argv[]) {
         if (pressed_key == '?') pressed_key = 'g';
         if (pressed_key == 127) pressed_key = 'c';
         if (pressed_key == 'x') pressed_key = '*';
+        if (pressed_key == '\r') pressed_key = '=';
 
         if (pressed_key == 'q') {
             reset_display();

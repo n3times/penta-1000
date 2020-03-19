@@ -12,13 +12,13 @@
 
 typedef struct p1_s p1_t;
 
-// Allocates a new Pentatronics 1000 object and inits it.
+// Creates a new Pentatronics 1000 object and initializes it.
 //
-// After the allocation, the client should update the display and start
+// After the creation, the client should update the display and start
 // animations if necessary.
 p1_t *p1_new(long seed);
 
-// Deallocates a Pentatronics 1000 object.
+// Releases a Pentatronics 1000 object and the resources associated to it.
 void p1_release(p1_t *p1);
 
 // Reports a key press by the user.
@@ -26,18 +26,15 @@ void p1_release(p1_t *p1);
 // After calling this method, clients should update the display and perform
 // animations as necessary.
 //
-// 'key' is in '0123456789.~+-*/=%cg' which covers the 10 digits, the 4
-// arithmetic operations, percent, equal, the decimal point and:
-// ~ for +/-
-// c for clear
-// g for game (switches between game and calc mode)
+// 'key' is in '0123456789.~+-*/=%cg' which covers the 10 digits, the decimal
+// point, +/- ('~'), the 4 arithmetic operations, equal, percent, clear and 'g'
+// (switches between game and calc mode).
 void p1_press_key(p1_t *p1, char key);
 
 // Gets the display as a null terminated string with at most 24 characters.
 //
-//
 // The text should be right justified on the display. A dot ('.') modifies the
-// character just before it. There are at most 12 non dot characters.
+// character just before it. There are at most 12 non-dot characters.
 char *p1_get_display(p1_t *p1);
 
 /*
@@ -64,12 +61,13 @@ bool p1_is_animating(p1_t *p1);
 // The serialized object can then be stored in the file system and deserialized
 // later with 'p1_deserialize'.
 //
-// This object can later be freed with 'free'.
+// After using it, this object should be freed with 'free'.
 void *p1_serialize(p1_t *p1, long *size_out);
 
-// Returns a new p1_t object from its serialized version.
+// Returns a new p1_t object from its serialized version. Note that this is
+// similar to 'p1_new' but with an existing state rather than a blank one.
 //
-// This object can later be freed with 'p1_release'.
+// After using it, this object should be freed with 'p1_release'.
 p1_t *p1_deserialize(void *serialized_object);
 
 /*
@@ -81,8 +79,8 @@ p1_t *p1_deserialize(void *serialized_object);
 // By convention returns 0 and 0 if no entry is available, for example after log
 // entries have been cleared. Otherwise 1 <= first <= last.
 //
-// Only the latest log entries are available. There are up to 100 but there may
-// be less if individual log entries are larger than average.
+// Note that only the latest log entries are available. There are up to 100 but
+// there may be less if individual log entries are larger than average.
 void p1_get_log_available_interval(p1_t *p1,
                                    long *first_index_out,
                                    long *last_index_out);

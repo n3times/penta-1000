@@ -19,7 +19,7 @@ typedef struct game_s {
     // Pointers to the app methods. Note that they need to be set at creation
     // and deserialization time.
     app_t app;
-    // For the random number generator.
+    // Used by the random number generator.
     long rng;
     // Mystery number the user has to guess.
     int target;
@@ -27,10 +27,10 @@ typedef struct game_s {
     int guess;
     // Number of guesses in the current game.
     int index;
-    // The text field where the user inputs their guess. Starts with "---" and
+    // The text field where the user inputs the guess. Starts with "---" and
     // ends up with 3 digits.
     char guess_textfield[4];
-    // The user is inputing their guess.
+    // The user is inputing the guess.
     bool is_guess_editing;
     // The current state of the game.
     game_state_t state;
