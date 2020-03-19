@@ -1,5 +1,10 @@
 #include "calc.h"
 
+// Prints the operation (sequence of operands and operators) represented by the
+// stack. For example: "1+2*3". If there is not enough room, prints the end of
+// the operation only.
+void aos_print(calc_t *calc, char *buffer_out, int buffer_len);
+
 // Evaluates the whole arithmetic stack. The result (an operand_t) is placed as
 // the single element of the stack.
 void aos_eval(aos_t *aos);
