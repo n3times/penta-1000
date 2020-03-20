@@ -3,4 +3,5 @@
 int main() {
     test_calc();
     test_game();
+    test_logging();
 }

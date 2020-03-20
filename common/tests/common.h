@@ -12,3 +12,4 @@ void assert_display(test_t *test, char *display);
 
 void test_calc();
 void test_game();
+void test_logging();
