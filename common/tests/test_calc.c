@@ -1,26 +1,4 @@
-#include "penta1000.h"
-
-#include <stdio.h>
-#include <string.h>
-
-static char *get_display_for_key_sequence(p1_t *p1, char *keys) {
-    for (int i = 0; i < strlen(keys); i++) {
-        p1_press_key(p1, keys[i]);
-        while (p1_is_animating(p1)) {
-            p1_advance_frame(p1);
-        }
-    }
-    return p1_get_display(p1);
-}
-
-static void test(char *keys, char *expected) {
-    p1_t *p1 = p1_new(0);
-    char * result = get_display_for_key_sequence(p1, keys);
-    printf("%s %s\n", keys, result);
-    if (strcmp(result, expected)) {
-        printf("\nError!!! result: %s expected: %s\n\n", result, expected);
-    }
-}
+#include "common.h"
 
 static void test_plus() {
     test("1+1=", "2");
@@ -68,7 +46,7 @@ static void test_percent() {
     test("10+10%+10%=", "12.1");
 }
 
-int main() {
+void test_calc() {
     test_plus();
     test_minus();
     test_times();

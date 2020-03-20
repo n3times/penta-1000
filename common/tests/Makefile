@@ -1,9 +1,9 @@
 CC := gcc
-SRC := ../common/src
-INC := ../common/include
+SRC := ../src
+INC := ../include
 
 all: lib
-	$(CC) -Wall -I$(INC) -L. -lpenta1000 test_calc.c
+	$(CC) -Wall -I$(INC) -L. -lpenta1000 *.c
 
 lib:
 	gcc -c -Wall -I$(INC) -I$(SRC) -I$(SRC)/calc -I$(SRC)/game $(SRC)/*.c $(SRC)/calc/*.c $(SRC)/game/*.c
