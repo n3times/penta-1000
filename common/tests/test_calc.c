@@ -12,6 +12,8 @@ static void test_number_edit() {
     test("~2.3456789011", "-2.345678901");
     test("~2.3456789011%", "-2.345678901%");
     test("~2.3456789011%%", "-2.345678901");
+    test(".", "0.");
+    test("01", "1");
 }
 
 static void test_operation_edit() {
