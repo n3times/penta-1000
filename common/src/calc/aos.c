@@ -1,5 +1,6 @@
-#include "calc.h"
+#include "aos.h"
 
+#include "display.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -199,9 +200,8 @@ void aos_push_operator(calc_t *calc, char op) {
             aos_eval(aos);
             log[len] = '=';
             log[len + 1] = 0;
-            char result[20];
-            aos_print(calc, result, 20);
-            strcat(log, result);
+            update_display(calc);
+            strcat(log, calc->display);
             log_add_entry(&calc->log, log);
         }
     } else {
