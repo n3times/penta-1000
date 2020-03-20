@@ -144,7 +144,7 @@ void aos_eval(aos_t *aos) {
             }
             left.number /= right.number;
         }
-        if (left.number >= 1e100 || left.number <= -1e100) {
+        if (left.number >= 9.9999995e99 || left.number <= -9.9999995e99) {
             aos->stack_depth = 0;
             aos->error = ERROR_OVERFLOW;
             return;
