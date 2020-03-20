@@ -1,7 +1,7 @@
 all:
 	make -C cli
 	make -C minimalistic
-	make -C tests
+	make -C common/tests
 
 lib:
 	make lib -C cli
@@ -10,4 +10,4 @@ lib:
 clean:
 	make clean -C cli
 	make clean -C minimalistic
-	make clean -C tests
+	make clean -C common/tests

@@ -170,7 +170,9 @@ static void advance_frame_game(app_t *app) {
         if (game->frame == 1) {
             sprintf(game->display, "%03d", game->guess);
         } else if (game->frame % 200 == 0 && did_win) {
-            sprintf(game->display, "%d GUESSES", game->index);
+            char *str = "GUESSES";
+            if (game->index == 1) str = "GUESS";
+            sprintf(game->display, "%d %s", game->index, str);
         } else if (game->frame % 100 == 0) {
             sprintf(game->display,
                     "YOU %s %03d", did_win ? "WON" : "LOST", game->target);
