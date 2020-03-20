@@ -1,5 +1,11 @@
 # Pentatronics 1000
 
-Simulator of the classic Pentatronics 1000 calculator.
+Family of emulators for the classic Pentatronics 1000 calculator.
 
-Under MacOS, build with **make** and run with **cli/a.out** or **minimalistic/a.out**
+The engine itself is written in C (see **common** folder) and can be used to write emulators for different platforms.
+
+Currently, there are are 2 Command Line Interface emulators for MacOS:
+- **mini** is a minimalistic bare bones emulator that provides basic functionality.
+- **cli** is a more full featured emulator.
+
+Under MacOS, build with **make** and run with **cli/a.out** or **mini/a.out**

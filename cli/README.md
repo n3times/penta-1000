@@ -1,7 +1,5 @@
-# Pentatronics 1000 CLI app
+# Pentatronics 1000 CLI emulator
 
-This can be seen as the reference implementation of the Pentatronics 1000.
+This can be seen as a reference implementation for Pentatronics 1000 emulators.
 
-From this directory, build with **make** and run with **./a.out**.
-
-Note that this has been tested under MacOS only.
+Under MacOS, from this directory, build with **make** and run with **./a.out**.
