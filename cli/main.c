@@ -21,6 +21,7 @@
 static pthread_mutex_t wait_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t wait_cond = PTHREAD_COND_INITIALIZER;
 static char pressed_key = 0;
+static int fgcolor = BGCOLOR_RED;
 
 /* Display. */
 
@@ -159,8 +160,14 @@ static void print_log(p1_t *p1) {
     p1_get_log_available_interval(p1,
                                   &first_available_index,
                                   &last_available_index);
-    printf("** LOG **          \r\n\n");
-    printf("-------------------------\r\n");
+    reset_display();
+    printf("\n\n** LOG **\r\n\n");
+    bool empty = first_available_index == 0;
+    if (empty) {
+        printf("[EMPTY]\r\n\n");
+    } else {
+        printf("-------------------------\r\n");
+    }
     for (long i = first_available_index; i <= last_available_index;
          i++) {
         if (!first_available_index) break;
@@ -183,6 +190,7 @@ static void print_log(p1_t *p1) {
         }
     }
     printf("\n");
+    set_display(fgcolor);
 }
 
 /* Main. */
@@ -203,7 +211,6 @@ int main(int argc, char *argv[]) {
         p1 = p1_new(t);
     }
 
-    int fgcolor = BGCOLOR_RED;
     if (argc == 2) fgcolor = atoi(argv[1]);
     set_display(fgcolor);
 

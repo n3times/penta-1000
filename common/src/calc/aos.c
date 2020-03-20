@@ -188,16 +188,22 @@ void aos_push_operator(calc_t *calc, char op) {
         aos->operands[aos->stack_depth / 2].has_percent =
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == '=') {
+        bool loggable = aos->stack_depth > 1;
+        long len = 0;
         char log[2000];
-        aos_print(calc, log, 2000);
-        long len = strlen(log);
-        aos_eval(aos);
-        log[len] = '=';
-        log[len + 1] = 0;
-        char result[20];
-        aos_print(calc, result, 20);
-        strcat(log, result);
-        log_add_entry(&calc->log, log);
+        if (loggable) {
+            aos_print(calc, log, 2000);
+            len = strlen(log);
+        }
+        if (loggable) {
+            aos_eval(aos);
+            log[len] = '=';
+            log[len + 1] = 0;
+            char result[20];
+            aos_print(calc, result, 20);
+            strcat(log, result);
+            log_add_entry(&calc->log, log);
+        }
     } else {
         if (is_arithmetic_op(op)) {
             aos->stack_depth++;
