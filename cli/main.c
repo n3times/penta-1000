@@ -155,11 +155,8 @@ static void print_operation(char *operation) {
 }
 
 static void print_log(p1_t *p1) {
-    long first_available_index;
-    long last_available_index;
-    p1_get_log_available_interval(p1,
-                                  &first_available_index,
-                                  &last_available_index);
+    long first_available_index = p1_log_get_first_available_index(p1);
+    long last_available_index = p1_log_get_last_available_index(p1);
     reset_display();
     printf("\n\n** LOG **\r\n\n");
     bool empty = first_available_index == 0;
@@ -172,7 +169,7 @@ static void print_log(p1_t *p1) {
          i++) {
         if (!first_available_index) break;
         char entry[2000];
-        strcpy(entry, p1_get_log_entry(p1, i));
+        strcpy(entry, p1_log_get_entry(p1, i));
         char *equal = strchr(entry, '=');
         *equal = 0;
         char *operation = entry;
@@ -240,7 +237,7 @@ int main(int argc, char *argv[]) {
         } else if (pressed_key == 'l') {
             print_log(p1);
         } else if (pressed_key == 'k') {
-            p1_clear_log(p1);
+            p1_log_clear(p1);
         }
 
         pthread_mutex_lock(&wait_mutex);

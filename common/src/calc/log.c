@@ -17,8 +17,8 @@ static bool intersects(int a, int b, int c, int d) {
 void log_get_available_interval(log_t *log,
                                 long *first_index_out,
                                 long *last_index_out) {
-    *first_index_out = log->first_index;
-    *last_index_out = log->last_index;
+    if (first_index_out) *first_index_out = log->first_index;
+    if (last_index_out) *last_index_out = log->last_index;
 }
 
 char *log_get_entry(log_t *log, int index) {
