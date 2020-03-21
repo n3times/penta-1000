@@ -54,6 +54,10 @@ bool p1_is_animating(p1_t *p1);
  * State.
  */
 
+// Returns the size of the state.
+//
+// This can be used together with 'p1_get_state' to save a state into the file
+// system.
 long p1_get_state_size(p1_t *p1);
 
 // Returns the state of a p1_t object.
