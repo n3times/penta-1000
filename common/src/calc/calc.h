@@ -53,7 +53,7 @@ typedef struct log_s {
 
 typedef struct calc_s {
     // Pointers to the app methods. Note that they need to be set at creation
-    // and deserialization time.
+    // time and when the calc is recreates from a state.
     app_t app;
     // The current state of the calculator.
     calc_state_t state;
@@ -73,6 +73,6 @@ typedef struct calc_s {
 } calc_t;
 
 void init_calc(calc_t *calc);
-void deserialize_calc(calc_t *calc);
+void init_calc_from_state(char *state);
 
 #endif // CALC_H

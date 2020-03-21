@@ -38,8 +38,8 @@ void init_calc(calc_t *calc) {
     setup_app_methods(calc);
 }
 
-void deserialize_calc(calc_t *calc) {
-    setup_app_methods(calc);
+void init_calc_from_state(char *state) {
+    setup_app_methods((calc_t *)state);
 }
 
 /* App interface. */

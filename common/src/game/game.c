@@ -24,8 +24,8 @@ void init_game(game_t *game, long seed) {
     game->rng = (int)(seed >= 0 ? seed : -seed);
 }
 
-void deserialize_game(game_t *game) {
-    setup_app_methods(game);
+void init_game_from_state(char *state) {
+    setup_app_methods((game_t *)state);
 }
 
 static int get_random_target(game_t *game) {

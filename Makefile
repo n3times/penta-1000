@@ -2,7 +2,7 @@ all:
 	make -C cli
 	make -C mini
 	make -C common/tests
-	make python
+	make -C python
 
 clean:
 	make clean -C cli

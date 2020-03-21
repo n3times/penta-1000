@@ -51,24 +51,23 @@ void p1_advance_frame(p1_t *p1);
 bool p1_is_animating(p1_t *p1);
 
 /*
- * Serialization.
+ * State.
  */
 
-// Returns a serialized version of a p1_t object.
+// Returns the state of a p1_t object.
 //
-// The size of the object is stored in 'size_out'.
+// The size of the state is stored in 'size_out'.
 //
-// The serialized object can then be stored in the file system and deserialized
-// later with 'p1_deserialize'.
+// The state can then be stored in the file system and reconstructed later with
+// 'p1_new_from_state'.
 //
 // After using it, this object should be freed with 'free'.
-void *p1_serialize(p1_t *p1, long *size_out);
+char *p1_get_state(p1_t *p1, long *size_out);
 
-// Returns a new p1_t object from its serialized version. Note that this is
-// similar to 'p1_new' but with an existing state rather than a blank one.
+// Returns a p1_t object initialized from a given state.
 //
 // After using it, this object should be freed with 'p1_release'.
-p1_t *p1_deserialize(void *serialized_object);
+p1_t *p1_new_from_state(char *state);
 
 /*
  * Logging.

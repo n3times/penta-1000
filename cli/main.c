@@ -94,16 +94,16 @@ static void *animation_loop(void *args) {
     }
 }
 
-/* Serialization and deserialization. */
+/* State. */
 
 static void save_session(p1_t *p1, char *filename) {
     long size;
-    void *serialized_object = p1_serialize(p1, &size);
+    char *state = p1_get_state(p1, &size);
 
     FILE *file = fopen(filename, "w");
-    fwrite(serialized_object, size, 1, file);
+    fwrite(state, size, 1, file);
     fclose(file);
-    free(serialized_object);
+    free(state);
 }
 
 static p1_t *load_session(char *filename) {
@@ -111,18 +111,18 @@ static p1_t *load_session(char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) return NULL;
 
-    // Get size of serialized object.
+    // Get size of saved object.
     fseek(file, 0L, SEEK_END);
     long size = ftell(file);
     fseek(file, 0L, SEEK_SET);
 
-    // Read serialized object from file.
-    void *serialized_object = malloc(size);
-    fread(serialized_object, size, 1, file);
+    // Read saved object from file.
+    char *state = malloc(size);
+    fread(state, size, 1, file);
     fclose(file);
 
-    p1_t *p1 = p1_deserialize(serialized_object);
-    free(serialized_object);
+    p1_t *p1 = p1_new_from_state(state);
+    free(state);
     return p1;
 }
 

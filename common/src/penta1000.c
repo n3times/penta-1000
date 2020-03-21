@@ -73,22 +73,22 @@ bool p1_is_animating(p1_t *p1) {
     return app ? app->is_animating(app) : false;
 }
 
-/* Serialization */
+/* State */
 
-void *p1_serialize(p1_t *p1, long *size_out) {
+char *p1_get_state(p1_t *p1, long *size_out) {
     long size = sizeof(p1_t);
     if (size_out) *size_out = size;
-    void *serialized_object = malloc(size);
-    memcpy(serialized_object, p1, size);
-    return p1;
+    void *state = malloc(size);
+    memcpy(state, p1, size);
+    return (char *)state;
 }
 
-p1_t *p1_deserialize(void *serialized_object) {
+p1_t *p1_new_from_state(char *state) {
     long size = sizeof(p1_t);
     p1_t *p1 = malloc(size);
-    memcpy(p1, serialized_object, size);
-    deserialize_calc(&p1->calc);
-    deserialize_game(&p1->game);
+    memcpy(p1, state, size);
+    init_calc_from_state((char *)&p1->calc);
+    init_game_from_state((char *)&p1->game);
     return p1;
 }
 

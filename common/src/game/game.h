@@ -17,7 +17,7 @@ typedef enum game_state_e {
 
 typedef struct game_s {
     // Pointers to the app methods. Note that they need to be set at creation
-    // and deserialization time.
+    // time and when the game is recreates from a state.
     app_t app;
     // Used by the random number generator.
     long rng;
@@ -41,4 +41,4 @@ typedef struct game_s {
 } game_t;
 
 void init_game(game_t *game, long seed);
-void deserialize_game(game_t *game);
+void init_game_from_state(char *state);
