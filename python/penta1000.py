@@ -17,10 +17,10 @@ def p1_new(random_seed):
     libp1.p1_is_animating.argtypes = [ctypes.c_void_p]
     libp1.p1_is_animating.restype = ctypes.c_bool
     # serialization
-    libp1.p1_serialize.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
-    libp1.p1_serialize.restype = ctypes.c_void_p
-    libp1.p1_deserialize.argtypes = [ctypes.c_void_p]
-    libp1.p1_deserialize.restype = ctypes.c_void_p
+    libp1.p1_get_state.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+    libp1.p1_get_state.restype = ctypes.c_void_p
+    libp1.p1_new_from_state.argtypes = [ctypes.c_void_p]
+    libp1.p1_new_from_state.restype = ctypes.c_void_p
     # logging
     libp1.p1_log_get_first_available_index.argtypes = [ctypes.c_void_p]
     libp1.p1_log_get_first_available_index.restype = ctypes.c_long
