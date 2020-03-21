@@ -75,9 +75,12 @@ bool p1_is_animating(p1_t *p1) {
 
 /* State */
 
-char *p1_get_state(p1_t *p1, long *size_out) {
+long p1_get_state_size(p1_t *p1) {
+    return sizeof(p1_t);
+}
+
+char *p1_get_state(p1_t *p1) {
     long size = sizeof(p1_t);
-    if (size_out) *size_out = size;
     void *state = malloc(size);
     memcpy(state, p1, size);
     return (char *)state;

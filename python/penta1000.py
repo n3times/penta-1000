@@ -17,7 +17,9 @@ def p1_new(random_seed):
     libp1.p1_is_animating.argtypes = [ctypes.c_void_p]
     libp1.p1_is_animating.restype = ctypes.c_bool
     # serialization
-    libp1.p1_get_state.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+    libp1.p1_get_state_size.argtypes = [ctypes.c_void_p]
+    libp1.p1_get_state_size.restype = ctypes.c_long
+    libp1.p1_get_state.argtypes = [ctypes.c_void_p]
     libp1.p1_get_state.restype = ctypes.c_void_p
     libp1.p1_new_from_state.argtypes = [ctypes.c_void_p]
     libp1.p1_new_from_state.restype = ctypes.c_void_p

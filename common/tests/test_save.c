@@ -12,8 +12,8 @@
 /* Saving and loading of state. */
 
 static void save_session(p1_t *p1, char *filename) {
-    long size;
-    char *state = p1_get_state(p1, &size);
+    long size = p1_get_state_size(p1);
+    char *state = p1_get_state(p1);
 
     FILE *file = fopen(filename, "w");
     fwrite(state, size, 1, file);

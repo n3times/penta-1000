@@ -54,15 +54,15 @@ bool p1_is_animating(p1_t *p1);
  * State.
  */
 
+long p1_get_state_size(p1_t *p1);
+
 // Returns the state of a p1_t object.
-//
-// The size of the state is stored in 'size_out'.
 //
 // The state can then be stored in the file system and reconstructed later with
 // 'p1_new_from_state'.
 //
 // After using it, this object should be freed with 'free'.
-char *p1_get_state(p1_t *p1, long *size_out);
+char *p1_get_state(p1_t *p1);
 
 // Returns a p1_t object initialized from a given state.
 //
