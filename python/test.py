@@ -1,31 +1,63 @@
 from penta1000 import *
 
-def example():
-    # core
+def assert_display(expected):
+    actual = p1_get_display(p1)
+    if actual != expected:
+        print("error: expected = %s actual = %s" %(expected, actual))
+    else:
+        print("success:", actual)
+
+def assert_log(index, expected):
+    actual = p1_log_get_entry(p1, index)
+    if actual != expected:
+        print("error: expected = %s actual = %s" %(expected, actual))
+    else:
+        print("success:", actual)
+
+def assert_log_interval(expected_first, expected_last):
+    actual = p1_log_get_first_available_index(p1)
+    expected = expected_first
+    if actual != expected:
+        print("error: expected = %s actual = %s" %(expected, actual))
+    else:
+        print("success:", actual)
+    actual = p1_log_get_last_available_index(p1)
+    expected = expected_last
+    if actual != expected:
+        print("error: expected = %s actual = %s" %(expected, actual))
+    else:
+        print("success:", actual)
+
+def test():
+    global p1
     p1 = p1_new(0)
-    print(p1_get_display(p1))
+
+    # core
+    assert_display("PENTATRONICS")
+
     p1_press_key(p1,'1')
     p1_press_key(p1,'+')
     p1_press_key(p1,'1')
     p1_press_key(p1,'=')
+    assert_display("2")
+
     p1_press_key(p1,'/')
     p1_press_key(p1,'0')
     p1_press_key(p1,'=')
-    print(p1_get_display(p1))
+    assert_display("DIV BY ZERO")
+
     p1_press_key(p1,'g')
-    print(p1_get_display(p1))
+    assert_display("")
+
     # animation
     p1_advance_frame(p1)
-    print(p1_get_display(p1))
+    assert_display("> HI-LO GAME")
+
     # logging
-    first = p1_log_get_first_available_index(p1)
-    last = p1_log_get_last_available_index(p1)
-    print(first, last, p1_log_get_entry(p1, first))
-    print(first, last, p1_log_get_entry(p1, last))
+    assert_log_interval(1, 2)
     p1_log_clear(p1)
-    first = p1_log_get_first_available_index(p1)
-    last = p1_log_get_last_available_index(p1)
-    print(first, last)
+    assert_log_interval(0, 0)
+
     # save state
     file = open('penta1000.dat', 'wb')
     size = p1_get_state_size(p1)
@@ -33,12 +65,13 @@ def example():
     data = bytearray(ctypes.string_at(state, size))
     file.write(data)
     file.close()
+
     # read state
     file = open('penta1000.dat', 'rb')
     p1_from_state = p1_new_from_state(file.read())
     file.close()
-    print(p1_get_display(p1_from_state))
+    assert_display("> HI-LO GAME")
     p1_release(p1)
     p1_release(p1_from_state)
 
-example()
+test()
