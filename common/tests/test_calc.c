@@ -39,7 +39,7 @@ static void test_operation_edit() {
     test("1234567890+1234567890+c", "0+1234567890");
     test("1234567890+1234567890+cc", "1234567890+");
     test("1234567890+1234567890+ccc", "1234567890");
-    test("1234567890+1234567890+cccc", "README");
+    test("1234567890+1234567890+cccc", "READY");
 }
 
 static void test_arithmetic() {

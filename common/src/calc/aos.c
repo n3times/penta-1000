@@ -1,6 +1,5 @@
 #include "aos.h"
 
-#include "display.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -200,8 +199,20 @@ void aos_push_operator(calc_t *calc, char op) {
             aos_eval(aos);
             log[len] = '=';
             log[len + 1] = 0;
-            update_display(calc);
-            strcat(log, calc->display);
+            switch(aos->error) {
+            case ERROR_ILLEGAL_OP:
+                strcat(log,  "DIV BY ZERO");
+                break;
+            case ERROR_OVERFLOW:
+                strcat(log, "OVERFLOW");
+                break;
+            case ERROR_OUT_OF_MEM:
+                strcat(log, "OUT OF MEM");
+                break;
+            case ERROR_NONE:
+                aos_print(calc, log + len + 1, 2000 - len - 1);
+                break;
+            }
             log_add_entry(&calc->log, log);
         }
     } else {
