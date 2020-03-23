@@ -79,6 +79,8 @@ static void enter_calc(app_t *app) {
 }
 
 static void press_key_calc(app_t *app, char key) {
+    if (!strchr("01234567890.~%+-*/=c", key)) return;
+
     calc_t *calc = (calc_t *)app;
     aos_t *aos = &calc->aos;
     bool is_error = aos->error != ERROR_NONE;
@@ -102,7 +104,7 @@ static void press_key_calc(app_t *app, char key) {
     } else if (is_number_edit_key(calc, key)) {
         bool is_error = aos->error != ERROR_NONE;
         if (!is_error) number_edit_handle_key(calc, key);
-    } else if (strchr("+-*/=~%", key)) {
+    } else {
         if (calc->is_number_editing) {
            number_edit_done_editing(calc);
         }
@@ -114,7 +116,15 @@ static void press_key_calc(app_t *app, char key) {
         }
     }
 
+    char old_display[25];
+    strcpy(old_display, calc->display);
     update_display(calc);
+    char *new_display = calc->display;
+    if (!strcmp(new_display, old_display)) {
+        strcpy(calc->display, "");
+        calc->state = CALC_STATE_FLASH;
+        calc->frame = 0;
+    }
 }
 
 static char *get_display_calc(app_t *app) {
@@ -137,6 +147,13 @@ static void advance_frame_calc(app_t *app) {
         }
         break;
     case CALC_STATE_COMPUTE:
+        break;
+    case CALC_STATE_FLASH:
+        if (calc->frame == 1) {
+            update_display(calc);
+            calc->state = CALC_STATE_COMPUTE;
+            calc->frame = 0;
+        }
         break;
     case CALC_STATE_ERROR:
         // Animate indefinitely.

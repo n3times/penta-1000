@@ -10,6 +10,9 @@ typedef enum calc_state_e {
     CALC_STATE_ENTER,
     // Standard state either accepting user input or evaluating operation.
     CALC_STATE_COMPUTE,
+    // Brief flash indicating a key press has been ignored.
+    CALC_STATE_FLASH,
+    // Error animation.
     CALC_STATE_ERROR,
 } calc_state_t;
 
