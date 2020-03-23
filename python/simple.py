@@ -37,7 +37,7 @@ class App(Frame):
         if key == 'C': key = 'c'
         # Report key press to engine.
         p1_press_key(p1, key)
-        # Ignore animations.
+        # Skip animations.
         for i in range(500):
             if p1_is_animating(p1):
                 p1_advance_frame(p1)

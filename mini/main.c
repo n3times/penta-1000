@@ -3,7 +3,7 @@
 #include <curses.h>
 #include <stdio.h>
 
-static void ignore_animations(p1_t *p1) {
+static void skip_animations(p1_t *p1) {
     for (int i = 0; i < 500; i++) {
         if (!p1_is_animating(p1)) break;
         p1_advance_frame(p1);
@@ -26,7 +26,7 @@ int main() {
     printw("  'g' game\n");
     printw("  'c' clear\n");
     printw("  '~' change sign\n\n");
-    ignore_animations(p1);
+    skip_animations(p1);
     print_display(p1);
 
     while (true) {

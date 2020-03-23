@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static void ignore_animations(p1_t *p1) {
+static void skip_animations(p1_t *p1) {
     for (int i = 0; i < 500; i++) {
         if (!p1_is_animating(p1)) break;
         p1_advance_frame(p1);
@@ -13,7 +13,7 @@ static void ignore_animations(p1_t *p1) {
 static char *get_display_for_key_sequence(p1_t *p1, char *keys) {
     for (int i = 0; i < strlen(keys); i++) {
         p1_press_key(p1, keys[i]);
-        ignore_animations(p1);
+        skip_animations(p1);
     }
     return p1_get_display(p1);
 }
