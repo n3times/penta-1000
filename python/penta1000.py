@@ -1,3 +1,7 @@
+# Python interface to the Pentatronics 1000 C engine.
+#
+# See also penta1000.h.
+
 import ctypes
 
 from ctypes.util import find_library

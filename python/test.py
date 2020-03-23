@@ -1,14 +1,10 @@
+# Tests the Python interface to the C engine, that is that calls from Python
+# correctly call the engine and that results are propagated back.
+
 from penta1000 import *
 
 def assert_display(expected):
     actual = p1_get_display(p1)
-    if actual != expected:
-        print("error: expected = %s actual = %s" %(expected, actual))
-    else:
-        print("success:", actual)
-
-def assert_log(index, expected):
-    actual = p1_log_get_entry(p1, index)
     if actual != expected:
         print("error: expected = %s actual = %s" %(expected, actual))
     else:
@@ -23,6 +19,13 @@ def assert_log_interval(expected_first, expected_last):
         print("success:", actual)
     actual = p1_log_get_last_available_index(p1)
     expected = expected_last
+    if actual != expected:
+        print("error: expected = %s actual = %s" %(expected, actual))
+    else:
+        print("success:", actual)
+
+def assert_log(index, expected):
+    actual = p1_log_get_entry(p1, index)
     if actual != expected:
         print("error: expected = %s actual = %s" %(expected, actual))
     else:
