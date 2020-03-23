@@ -10,6 +10,7 @@ typedef enum calc_state_e {
     CALC_STATE_ENTER,
     // Standard state either accepting user input or evaluating operation.
     CALC_STATE_COMPUTE,
+    CALC_STATE_ERROR,
 } calc_state_t;
 
 typedef enum error_e {

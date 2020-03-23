@@ -73,6 +73,7 @@ void init_calc_from_state(char *state) {
 
 static void enter_calc(app_t *app) {
     calc_t *calc = (calc_t *)app;
+    sprintf(calc->display, ">  CALC MODE");
     calc->state = CALC_STATE_ENTER;
     calc->frame = 0;
 }
@@ -91,6 +92,7 @@ static void press_key_calc(app_t *app, char key) {
             calc->is_number_editing = false;
             memset(calc->number_editing, 0, sizeof(calc->number_editing));
             aos->error = ERROR_NONE;
+            calc->state = CALC_STATE_COMPUTE;
         } else if (calc->is_number_editing) {
             calc->is_number_editing = false;
             memset(calc->number_editing, 0, sizeof(calc->number_editing));
@@ -100,13 +102,15 @@ static void press_key_calc(app_t *app, char key) {
     } else if (is_number_edit_key(calc, key)) {
         bool is_error = aos->error != ERROR_NONE;
         if (!is_error) number_edit_handle_key(calc, key);
-    } else {
-        bool is_error = aos->error != ERROR_NONE;
-        if (!is_error) {
-            if(calc->is_number_editing) {
-               number_edit_done_editing(calc);
-            }
-            aos_push_operator(calc, key);
+    } else if (strchr("+-*/=~%", key)) {
+        if (calc->is_number_editing) {
+           number_edit_done_editing(calc);
+        }
+        aos_push_operator(calc, key);
+        is_error = aos->error != ERROR_NONE;
+        if (is_error) {
+            calc->state = CALC_STATE_ERROR;
+            calc->frame = 0;
         }
     }
 
@@ -125,19 +129,27 @@ static void advance_frame_calc(app_t *app) {
 
     switch (calc->state) {
     case CALC_STATE_ENTER:
-        if (calc->frame == 1) {
-            sprintf(calc->display, ">  CALC MODE");
-        } else if (calc->frame == 80) {
-            calc->state = CALC_STATE_COMPUTE;
+        if (calc->frame == 80) {
+            bool is_error = calc->aos.error != ERROR_NONE;
+            calc->state = is_error ? CALC_STATE_ERROR : CALC_STATE_COMPUTE;
+            calc->frame = 0;
             update_display(calc);
         }
         break;
     case CALC_STATE_COMPUTE:
+        break;
+    case CALC_STATE_ERROR:
+        // Animate indefinitely.
+        if (calc->frame % 100 == 0) {
+            update_display(calc);
+        } else if (calc->frame % 100 == 50) {
+            sprintf(calc->display, "");
+        }
         break;
     }
 }
 
 static bool is_animating_calc(app_t *app) {
     calc_t *calc = (calc_t *)app;
-    return calc->state == CALC_STATE_ENTER;
+    return calc->state != CALC_STATE_COMPUTE;
 }

@@ -47,7 +47,7 @@ static void start_game(game_t *game) {
 
 static void enter_game(app_t *app) {
     game_t *game = (game_t *)app;
-
+    sprintf(game->display, "> HI-LO GAME");
     game->state = GAME_STATE_ENTER;
     game->frame = 0;
 }
@@ -138,10 +138,7 @@ static void advance_frame_game(app_t *app) {
 
     switch (game->state) {
     case GAME_STATE_ENTER:
-        // Announce game.
-        if (game->frame == 1) {
-            sprintf(game->display, "> HI-LO GAME");
-        } else if (game->frame == 80) {
+        if (game->frame == 80) {
             start_game(game);
         }
         break;

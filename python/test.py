@@ -35,23 +35,24 @@ def test():
     # core
     assert_display("PENTATRONICS")
 
-    p1_press_key(p1,'1')
-    p1_press_key(p1,'+')
-    p1_press_key(p1,'1')
-    p1_press_key(p1,'=')
+    p1_press_key(p1, '1')
+    p1_press_key(p1, '+')
+    p1_press_key(p1, '1')
+    p1_press_key(p1, '=')
     assert_display("2")
 
-    p1_press_key(p1,'/')
-    p1_press_key(p1,'0')
-    p1_press_key(p1,'=')
+    p1_press_key(p1, '/')
+    p1_press_key(p1, '0')
+    p1_press_key(p1, '=')
     assert_display("DIV BY ZERO")
 
-    p1_press_key(p1,'g')
-    assert_display("")
+    p1_press_key(p1, 'g')
+    assert_display("> HI-LO GAME")
 
     # animation
-    p1_advance_frame(p1)
-    assert_display("> HI-LO GAME")
+    while p1_is_animating(p1):
+        p1_advance_frame(p1)
+    assert_display("___")
 
     # logging
     assert_log_interval(1, 2)
@@ -70,7 +71,7 @@ def test():
     file = open('penta1000.dat', 'rb')
     p1_from_state = p1_new_from_state(file.read())
     file.close()
-    assert_display("> HI-LO GAME")
+    assert_display("___")
     p1_release(p1)
     p1_release(p1_from_state)
 
