@@ -55,7 +55,7 @@ def test():
     # animation
     while p1_is_animating(p1):
         p1_advance_frame(p1)
-    assert_display("___")
+    assert_display("___         ")
 
     # logging
     assert_log_interval(1, 2)
@@ -76,7 +76,7 @@ def test():
     file = open('penta1000.dat', 'rb')
     p1_from_state = p1_new_from_state(file.read())
     file.close()
-    assert_display("___")
+    assert_display("___         ")
     p1_release(p1)
     p1_release(p1_from_state)
 
