@@ -29,7 +29,7 @@ void init_game_from_state(char *state) {
 }
 
 static int get_random_target(game_t *game) {
-    game->rng = (110351524 * game->rng + 12345) % (1 << 31);
+    game->rng = (1103515245 * game->rng + 12345) % (1 << 31);
     return (int) (game->rng % 900 + 100);
 }
 
