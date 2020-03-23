@@ -56,6 +56,8 @@ def test():
 
     # logging
     assert_log_interval(1, 2)
+    assert_log(1, "1+1=2")
+    assert_log(2, "2/0=DIV BY ZERO")
     p1_log_clear(p1)
     assert_log_interval(0, 0)
 
