@@ -1,6 +1,6 @@
 CC := gcc
-SRC := ../common/src
-INC := ../common/include
+SRC := ../engine/src
+INC := ../engine/include
 
 all: lib
 	$(CC) -Wall -I$(INC) -L. -lpenta1000 -lncurses main.c

@@ -1,6 +1,6 @@
 CC := gcc
-SRC := ../common/src
-INC := ../common/include
+SRC := ../engine/src
+INC := ../engine/include
 
 SRC_FILES = $(SRC)/*.c $(SRC)/calc/*.c $(SRC)/game/*.c
 

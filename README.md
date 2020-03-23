@@ -2,7 +2,7 @@
 
 Family of emulators for the classic Pentatronics 1000 calculator.
 
-The engine itself is written in C (see **common** folder) and can be used to write emulators for different platforms.
+The engine itself is written in C (see **engine** folder) and can be used to write emulators for different platforms.
 
 Currently, there are are 2 Command Line Interface emulators for MacOS:
 - **mini** is a minimalistic bare bones emulator that provides basic functionality.
