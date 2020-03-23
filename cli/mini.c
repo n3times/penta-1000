@@ -39,7 +39,7 @@ int main() {
 
         p1_press_key(p1, pressed_key);
 
-        ignore_animations(p1);
+        skip_animations(p1);
         print_display(p1);
     }
 

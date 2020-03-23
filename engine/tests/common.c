@@ -37,7 +37,7 @@ void press_sequence(test_t *test, char *sequence) {
     printf("sequence: %s\n", sequence);
     for (int i = 0; i < strlen(sequence); i++) {
         p1_press_key(test, sequence[i]);
-        ignore_animations(test);
+        skip_animations(test);
     }
 }
 

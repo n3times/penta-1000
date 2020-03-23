@@ -1,5 +1,7 @@
 # Pentatronics 1000 CLI emulator
 
-This can be seen as a reference implementation for Pentatronics 1000 emulators.
+There are 2 versions:
+- a minimalistic version (**mini**) with the core functionality.
+- a full version (**full**) that supports animation, logging and persistence.
 
-Under MacOS, from this directory, build with **make** and run with **./a.out**.
+Under MacOS, from this directory, build with **make** and run with **./mini** or **./full**.
