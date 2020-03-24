@@ -27,6 +27,7 @@ def p1_new(random_seed):
     libp1.p1_get_state_size.restype = ctypes.c_long
     libp1.p1_get_state.argtypes = [ctypes.c_void_p]
     libp1.p1_get_state.restype = ctypes.c_void_p
+    libp1.p1_release_state.argtypes = [ctypes.c_void_p]
     libp1.p1_new_from_state.argtypes = [ctypes.c_void_p]
     libp1.p1_new_from_state.restype = ctypes.c_void_p
     # logging
@@ -64,6 +65,9 @@ def p1_get_state_size(p1):
 
 def p1_get_state(p1):
     return libp1.p1_get_state(p1)
+
+def p1_release_state(p1):
+    return libp1.p1_release_state(p1)
 
 def p1_new_from_state(p1):
     return libp1.p1_new_from_state(p1)

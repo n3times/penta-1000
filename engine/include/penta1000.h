@@ -65,8 +65,11 @@ long p1_get_state_size(p1_t *p1);
 // The state can then be stored in the file system and reconstructed later with
 // 'p1_new_from_state'.
 //
-// After using it, this object should be freed with 'free'.
+// After using it, this object should be released with 'p1_release_state'.
 char *p1_get_state(p1_t *p1);
+
+// Releases the resources associated to 'state'.
+void p1_release_state(char *state);
 
 // Returns a p1_t object initialized from a given state.
 //

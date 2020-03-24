@@ -70,6 +70,7 @@ def test():
     state = p1_get_state(p1)
     data = bytearray(ctypes.string_at(state, size))
     file.write(data)
+    p1_release_state(state);
     file.close()
 
     # read state

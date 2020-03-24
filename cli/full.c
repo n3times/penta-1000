@@ -103,7 +103,7 @@ static void save_session(p1_t *p1, char *filename) {
     FILE *file = fopen(filename, "w");
     fwrite(state, size, 1, file);
     fclose(file);
-    free(state);
+    p1_release_state(state);
 }
 
 static p1_t *load_session(char *filename) {
