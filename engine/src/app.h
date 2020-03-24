@@ -8,16 +8,14 @@
 typedef struct app_s app_t;
 
 typedef struct app_s {
-    // The app has been entered. At this point the app can do any setup or can
-    // display an animation sequence for example.
+    // Called when the app is about to be entered. At this point the app can do
+    // any setup or can display an animation sequence for example.
     void (*enter)(app_t *);
-    // The user has pressed a given key. May be called whether the app is
-    // animating or not.
+    // The user has pressed a given key.
     void (*press_key)(app_t *, char);
     // Should return the contents of the display. This is a null terminated
     // string with up to 12 non-dot characters, any of them possibly followed by
-    // a dot (such as "PI=3.14 E=2.71"). May be called whether the app is
-    // animating or not.
+    // a dot (such as "PI=3.14 E=2.71").
     char *(*get_display)(app_t *);
     // Called by the animation thread of the main app every 10ms if
     // 'is_animating' is true.

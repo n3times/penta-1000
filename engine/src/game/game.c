@@ -55,7 +55,10 @@ static void enter_game(app_t *app) {
 static void press_key_game(app_t *app, char key) {
     game_t *game = (game_t *)app;
 
-    if (game->state == GAME_STATE_ENTER || game->state == GAME_STATE_START) {
+    if (game->state == GAME_STATE_ENTER ||
+        game->state == GAME_STATE_START ||
+        game->state == GAME_STATE_LAST_GUESS ||
+        game->state == GAME_STATE_SHOW_GUESS) {
         return;
     }
     if (game->state == GAME_STATE_OVER) {
@@ -112,15 +115,9 @@ static void press_key_game(app_t *app, char key) {
     if (game->is_guess_editing) {
         sprintf(game->display, "%s         ", game->guess_textfield);
     } else {
-        if (game->index == 9) {
-            game->state = GAME_STATE_LAST_GUESS;
-            game->frame = 0;
-            sprintf(game->display, "1 MORE GUESS");
-        } else {
-            bool high = (game->guess - game->target) > 0;
-            sprintf(game->display,
-                    "%03d %s", game->guess, high ? "TOO HIGH" : "TOO LOW ");
-        }
+        sprintf(game->display, "%s         ", game->guess_textfield);
+        game->state = GAME_STATE_SHOW_GUESS;
+        game->frame = 0;
     }
 }
 
@@ -155,11 +152,26 @@ static void advance_frame_game(app_t *app) {
         break;
     case GAME_STATE_PLAY:
         break;
+    case GAME_STATE_SHOW_GUESS:
+        if (game->frame == 25) {
+            if (game->index == 9) {
+                game->state = GAME_STATE_LAST_GUESS;
+                game->frame = 0;
+                sprintf(game->display, "1 MORE GUESS");
+            } else {
+                bool high = (game->guess - game->target) > 0;
+                sprintf(game->display, "%03d %s",
+                        game->guess, high ? "TOO HIGH" : "TOO LOW ");
+                game->state = GAME_STATE_PLAY;
+            }
+        }
+        break;
     case GAME_STATE_LAST_GUESS:
         if (game->frame == 100) {
             bool high = (game->guess - game->target) > 0;
             sprintf(game->display,
                     "%03d %s", game->guess, high ? "TOO HIGH" : "TOO LOW ");
+            game->state = GAME_STATE_PLAY;
         }
         break;
     case GAME_STATE_OVER:

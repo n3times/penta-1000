@@ -1,8 +1,9 @@
 /**
  * API for clients that want to implement a Pentatronics 1000 emulator.
  *
- * Clients should use 2 threads: one thread, possibly the main thread, to handle
- * user input (key presses) and another thread to run the display animations.
+ * Clients should use 2 threads: one thread, typically the main thread, to
+ * handle user input (key presses) and another thread to run the display
+ * animations.
  *
  * The animation thread should call 'p1_advance_frame' every 10 ms as long as
  * 'p1_is_animating' is true.

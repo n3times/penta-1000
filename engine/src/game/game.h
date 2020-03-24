@@ -9,6 +9,8 @@ typedef enum game_state_e {
     GAME_STATE_START,
     // Game is waiting for user guess.
     GAME_STATE_PLAY,
+    // Guess has been entered and is being shown.
+    GAME_STATE_SHOW_GUESS,
     // Last guess animation sequence.
     GAME_STATE_LAST_GUESS,
     // Game is over and the display has the end result, possibly animating.
