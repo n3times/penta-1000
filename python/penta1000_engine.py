@@ -4,8 +4,6 @@
 
 import ctypes
 
-from ctypes.util import find_library
-
 # Core
 
 def p1_new(random_seed):

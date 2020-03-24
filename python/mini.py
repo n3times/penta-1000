@@ -1,6 +1,6 @@
 # Simple Pentatronics 1000 emulator.
 
-from penta1000 import *
+from penta1000_engine import *
 from tkinter import *
 
 class App(Frame):
