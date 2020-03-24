@@ -1,7 +1,7 @@
 # Tests the Python interface to the C engine, that is that calls from Python
 # correctly call the engine and that results are propagated back.
 
-from penta1000 import *
+from penta1000_engine import *
 
 def assert_display(expected):
     actual = p1_get_display(p1)
