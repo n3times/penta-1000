@@ -3,16 +3,6 @@
 from penta1000_engine import *
 from tkinter import *
 
-def on_closing():
-    file = open('penta1000.dat', 'wb')
-    size = p1_get_state_size(p1)
-    state = p1_get_state(p1)
-    data = bytearray(ctypes.string_at(state, size))
-    file.write(data)
-    p1_release_state(state);
-    file.close()
-    app.master.destroy()
-
 class App(Frame):
     def __init__(self):
         Frame.__init__(self)
@@ -41,7 +31,19 @@ class App(Frame):
         if p1_is_animating(p1):
             self.after(10, self.animate)
 
-        self.master.protocol("WM_DELETE_WINDOW", on_closing)
+        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    # Called when the user closes the app.
+    def on_closing(self):
+        # Save state.
+        file = open('penta1000.dat', 'wb')
+        size = p1_get_state_size(p1)
+        state = p1_get_state(p1)
+        data = bytearray(ctypes.string_at(state, size))
+        file.write(data)
+        p1_release_state(state);
+        file.close()
+        app.master.destroy()
 
     # Called whenever the user presses a calculator key.
     def press_key(self, key):
@@ -58,6 +60,7 @@ class App(Frame):
         if is_animating and not was_animating:
             self.after(10, self.animate)
 
+    # Called when animating.
     def animate(self):
         if p1_is_animating(p1):
             p1_advance_frame(p1)
@@ -66,11 +69,11 @@ class App(Frame):
             self.after(10, self.animate)
 
 if __name__ == '__main__':
-    # Initialize the engine that drives the emulation of the Pentatronics 1000.
+    # Use the previous state, if available, and initialize the engine that
+    # drives the emulation of the Pentatronics 1000.
     try:
-        file = open('penta1000.dat', 'rb')
-        p1 = p1_new_from_state(file.read())
-        file.close()
+        with open('penta1000.dat', 'rb') as file:
+            p1 = p1_new_from_state(file.read())
     except IOError:
         p1 = p1_new(0)
     app = App()
