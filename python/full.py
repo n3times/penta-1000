@@ -3,6 +3,16 @@
 from penta1000_engine import *
 from tkinter import *
 
+def on_closing():
+    file = open('penta1000.dat', 'wb')
+    size = p1_get_state_size(p1)
+    state = p1_get_state(p1)
+    data = bytearray(ctypes.string_at(state, size))
+    file.write(data)
+    p1_release_state(state);
+    file.close()
+    app.master.destroy()
+
 class App(Frame):
     def __init__(self):
         Frame.__init__(self)
@@ -28,6 +38,11 @@ class App(Frame):
                 button.grid(row=row+1, column=col, sticky='ew', padx=2, pady=2,
                             ipady=10)
 
+        if p1_is_animating(p1):
+            self.after(10, self.animate)
+
+        self.master.protocol("WM_DELETE_WINDOW", on_closing)
+
     # Called whenever the user presses a calculator key.
     def press_key(self, key):
         # Translate displayed key to key understandable by the engine.
@@ -52,6 +67,11 @@ class App(Frame):
 
 if __name__ == '__main__':
     # Initialize the engine that drives the emulation of the Pentatronics 1000.
-    p1 = p1_new(0)
+    try:
+        file = open('penta1000.dat', 'rb')
+        p1 = p1_new_from_state(file.read())
+        file.close()
+    except IOError:
+        p1 = p1_new(0)
     app = App()
     app.mainloop()

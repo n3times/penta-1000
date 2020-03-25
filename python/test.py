@@ -76,8 +76,10 @@ def test():
     # read state
     file = open('penta1000.dat', 'rb')
     p1_from_state = p1_new_from_state(file.read())
-    file.close()
     assert_display("___         ")
+
+    # clean up
+    file.close()
     p1_release(p1)
     p1_release(p1_from_state)
 

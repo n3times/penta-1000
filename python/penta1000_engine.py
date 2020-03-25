@@ -4,9 +4,7 @@
 
 import ctypes
 
-# Core
-
-def p1_new(random_seed):
+def make_lib():
     global libp1
     libp1 = ctypes.cdll.LoadLibrary('libpenta1000.so')
     # core
@@ -36,7 +34,11 @@ def p1_new(random_seed):
     libp1.p1_log_get_entry.argtypes = [ctypes.c_void_p, ctypes.c_long]
     libp1.p1_log_get_entry.restype = ctypes.c_char_p
     libp1.p1_log_clear.argtypes = [ctypes.c_void_p]
-    # return new object
+
+# Core
+
+def p1_new(random_seed):
+    make_lib()
     return libp1.p1_new(random_seed)
 
 def p1_release(p1):
@@ -68,6 +70,7 @@ def p1_release_state(p1):
     return libp1.p1_release_state(p1)
 
 def p1_new_from_state(p1):
+    make_lib()
     return libp1.p1_new_from_state(p1)
 
 # Log
