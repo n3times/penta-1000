@@ -28,6 +28,17 @@ class App(Frame):
                 button.grid(row=row+1, column=col, sticky='ew', padx=2, pady=2,
                             ipady=10)
 
+        # Place log to the right.
+        self.log = Text(self)
+        self.log.grid(row=0, column=4, rowspan=6)
+        firstIndex = p1_log_get_first_available_index(p1)
+        lastIndex = p1_log_get_last_available_index(p1)
+        self.last_logged_entry_index = lastIndex
+        if firstIndex > 0:
+            for i in range(firstIndex, lastIndex + 1):
+                self.log.insert(END, p1_log_get_entry(p1, i))
+                self.log.insert(END,'\n')
+
         if p1_is_animating(p1):
             self.after(10, self.animate)
 
@@ -55,6 +66,12 @@ class App(Frame):
         p1_press_key(p1, key)
         # Update display.
         self.display.set(p1_get_display(p1))
+        # Update log.
+        lastIndex = p1_log_get_last_available_index(p1)
+        if lastIndex > self.last_logged_entry_index:
+            self.last_logged_entry_index = lastIndex
+            self.log.insert(END, p1_log_get_entry(p1, lastIndex))
+            self.log.insert(END,'\n')
         # Animate
         is_animating = p1_is_animating(p1)
         if is_animating and not was_animating:
