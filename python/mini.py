@@ -16,12 +16,10 @@ class App(Frame):
                              font='courier 35 bold', bg='black', fg='red',
                              width=13, borderwidth=0, highlightthickness=0)
         displayEntry.grid(row=0, column=0, columnspan=4, ipady=20, padx=30)
-
-        # Set display to initial value.
         display.set(p1_get_display(p1))
 
         # Below the display, place the 20 calculator buttons in a grid.
-        keys = ["?~%C", "789/", "456*", "123-", "0.=+"]
+        keys = ["?~%C", "789/", "456*", "123+", "0.-="]
         for row in range(5):
             for col in range(4):
                 key = keys[row][col]
