@@ -29,15 +29,22 @@ class App(Frame):
                             ipady=10)
 
         # Place log to the right.
-        self.log = Text(self)
-        self.log.grid(row=0, column=4, rowspan=6)
+        self.log = Text(self, width=30)
+        log = self.log
+        log.grid(row=0, column=4, rowspan=6)
+        log.tag_configure('operation', font=('Verdana', 14))
+        log.tag_configure('result', font=('Verdana', 14, 'bold'))
         firstIndex = p1_log_get_first_available_index(p1)
         lastIndex = p1_log_get_last_available_index(p1)
         self.last_logged_entry_index = lastIndex
         if firstIndex > 0:
             for i in range(firstIndex, lastIndex + 1):
-                self.log.insert(END, p1_log_get_entry(p1, i))
-                self.log.insert(END,'\n')
+                entry = p1_log_get_entry(p1, i).split('=')
+                if i > firstIndex: self.log.insert(END,'\n\n')
+                log.insert(END, entry[0], 'operation')
+                log.insert(END,'\n')
+                log.insert(END, entry[1], 'result')
+                log.see(END)
 
         if p1_is_animating(p1):
             self.after(10, self.animate)
@@ -69,9 +76,14 @@ class App(Frame):
         # Update log.
         lastIndex = p1_log_get_last_available_index(p1)
         if lastIndex > self.last_logged_entry_index:
+            if lastIndex > 0: self.log.insert(END,'\n\n')
             self.last_logged_entry_index = lastIndex
-            self.log.insert(END, p1_log_get_entry(p1, lastIndex))
-            self.log.insert(END,'\n')
+            entry = p1_log_get_entry(p1, lastIndex).split('=')
+            log = self.log
+            log.insert(END, entry[0], 'operation')
+            log.insert(END,'\n')
+            log.insert(END, entry[1], 'result')
+            log.see(END)
         # Animate
         is_animating = p1_is_animating(p1)
         if is_animating and not was_animating:
