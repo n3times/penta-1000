@@ -1,5 +1,7 @@
 # Pentatronics 1000 emulator in Python
 
-A minimalistic Pentatronics emulator (no logging, saving or animations) in Python 3 that uses tkinter.
+There are 2 versions:
+- a minimalistic version (**mini.py**) with the core functionality.
+- a full version (**full.py**) that supports animation, logging and persistence.
 
-Under MacOS, from this directory, build with **make** and run with **python mini.py**.
+Under MacOS, from this directory, build with **make** and run with **python mini.py** or **python full.py**.
