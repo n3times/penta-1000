@@ -17,3 +17,4 @@ clean:
 	rm -f *.o
 	rm -f *.a
 	rm -f a.out
+	rm -f *.dat

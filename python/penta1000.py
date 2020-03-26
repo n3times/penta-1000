@@ -76,7 +76,7 @@ class App(Frame):
         # Update log.
         lastIndex = p1_log_get_last_available_index(p1)
         if lastIndex > self.last_logged_entry_index:
-            if lastIndex > 0: self.log.insert(END,'\n\n')
+            if self.last_logged_entry_index > 0: self.log.insert(END,'\n\n')
             self.last_logged_entry_index = lastIndex
             entry = p1_log_get_entry(p1, lastIndex).split('=')
             log = self.log
