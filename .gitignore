@@ -5,5 +5,4 @@ a.out
 *.so
 *.dat
 *.pyc
-full
-mini
+bin/

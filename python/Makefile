@@ -6,7 +6,11 @@ SRC_FILES = $(SRC)/*.c $(SRC)/calc/*.c $(SRC)/game/*.c
 
 all: lib
 
-lib:
+lib: obj
+	$(CC) -shared -o libpenta1000.so *.o
+	rm -f *.o
+
+obj:
 	$(CC) -c -Wall -Werror -fpic -I$(INC) -I$(SRC) -I$(SRC)/calc -I$(SRC)/game $(SRC_FILES)
 	$(CC) -shared -o libpenta1000.so *.o
 
