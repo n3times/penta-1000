@@ -139,7 +139,7 @@ void aos_eval(aos_t *aos) {
         } else if (op == '/') {
             if (right.number == 0) {
                 aos->stack_depth = 0;
-                aos->error = ERROR_ILLEGAL_OP;
+                aos->error = ERROR_DIV_BY_ZERO;
                 return;
             }
             left.number /= right.number;
@@ -200,7 +200,7 @@ void aos_push_operator(calc_t *calc, char op) {
             log[len] = '=';
             log[len + 1] = 0;
             switch(aos->error) {
-            case ERROR_ILLEGAL_OP:
+            case ERROR_DIV_BY_ZERO:
                 strcat(log,  "DIV BY ZERO");
                 break;
             case ERROR_OVERFLOW:

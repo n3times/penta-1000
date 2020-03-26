@@ -18,8 +18,8 @@ typedef enum calc_state_e {
 
 typedef enum error_e {
     ERROR_NONE = 0,
-    // In practice, division by zero.
-    ERROR_ILLEGAL_OP = 1,
+    // The user attempted to divide by 0.
+    ERROR_DIV_BY_ZERO = 1,
     // Final or intermediary result is too large.
     ERROR_OVERFLOW = 2,
     // Not enough memory to hold all the operands and operators of the current

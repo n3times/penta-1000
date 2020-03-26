@@ -29,7 +29,7 @@ static void update_display(calc_t *calc) {
     memset(extended_display, 0, 40);
     aos_t *aos = &calc->aos;
 
-    if (aos->error == ERROR_ILLEGAL_OP) {
+    if (aos->error == ERROR_DIV_BY_ZERO) {
         strcpy(extended_display, "DIV BY ZERO");
     } else if (aos->error == ERROR_OVERFLOW) {
         strcpy(extended_display, "OVERFLOW");
