@@ -36,8 +36,8 @@ void p1_press_key(p1_t *p1, char key) {
     if (!app) {
         p1->current_app_type = APP_TYPE_CALC;
         app = get_current_app(p1);
-        // Bypass enter animation.
         app->enter(app);
+        // Skip animation.
         while (app->is_animating(app)) {
             app->advance_frame(app);
         }

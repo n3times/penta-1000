@@ -55,7 +55,7 @@ bool p1_is_animating(p1_t *p1);
  * State.
  */
 
-// Returns the size of the state.
+// Returns the number of bytes used to represent the state of a p1_t object.
 //
 // This can be used together with 'p1_get_state' to save a state into the file
 // system.
@@ -63,10 +63,10 @@ long p1_get_state_size(p1_t *p1);
 
 // Returns the state of a p1_t object.
 //
-// The state can then be stored in the file system and reconstructed later with
-// 'p1_new_from_state'.
+// The state is an array of bytes that can be stored in the file system and
+// use to reconstruct a p1_t object with 'p1_new_from_state'.
 //
-// After using it, this object should be released with 'p1_release_state'.
+// The state should be released with 'p1_release_state'.
 char *p1_get_state(p1_t *p1);
 
 // Releases the resources associated to 'state'.
@@ -74,7 +74,7 @@ void p1_release_state(char *state);
 
 // Returns a p1_t object initialized from a given state.
 //
-// After using it, this object should be freed with 'p1_release'.
+// The p1_t object should be released with 'p1_release'.
 p1_t *p1_new_from_state(char *state);
 
 /*
@@ -84,19 +84,21 @@ p1_t *p1_new_from_state(char *state);
 // Returns the index of the first available log entry.
 //
 // By convention returns 0 if no entry is available, for example after log
-// entries have been cleared. Otherwise first >= 1.
+// entries have been cleared. Otherwise the index is at least 1.
 //
-// Note that only the latest log entries are available. There are up to 100 but
-// there may be less if individual log entries are larger than average.
+// Note that only the latest log entries are available. There are up to 100
+// entries but there may be less if individual log entries are larger than
+// average.
 long p1_log_get_first_available_index(p1_t *p1);
 
 // Returns the index of the last available log entry.
 //
 // By convention returns 0 if no entry is available, for example after log
-// entries have been cleared. Otherwise last >= 1.
+// entries have been cleared. Otherwise the index is at least 1.
 //
-// Note that only the latest log entries are available. There are up to 100 but
-// there may be less if individual log entries are larger than average.
+// Note that only the latest log entries are available. There are up to 100
+// entries but there may be less if individual log entries are larger than
+// average.
 long p1_log_get_last_available_index(p1_t *p1);
 
 // Returns the entry of given index.

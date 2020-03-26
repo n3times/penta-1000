@@ -35,7 +35,7 @@ static int get_random_target(game_t *game) {
 
 static void start_game(game_t *game) {
     game->target = get_random_target(game);
-    game->guess = -1;
+    game->guess = 0;
     game->index = 0;
     game->is_guess_editing = false;
 

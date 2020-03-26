@@ -50,6 +50,8 @@ typedef struct log_s {
     // Index of the last available log entry.
     long last_index;
     // The list of offsets within 'mem' of the available log entries.
+    // If the log entry of index i is available, its first character is at
+    // mem[entry_offsets[(i-1) % 100]].
     int entry_offsets[100];
     // Contains the available log entries, each one being null-terminated.
     char mem[2000];
@@ -76,7 +78,10 @@ typedef struct calc_s {
     char display[25];
 } calc_t;
 
+// Initializes the different fields of a calc_t objet.
 void init_calc(calc_t *calc);
+
+// Initializes the different fields of a calc_t objet from a given state.
 void init_calc_from_state(char *state);
 
 #endif // CALC_H

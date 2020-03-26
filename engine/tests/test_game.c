@@ -1,5 +1,7 @@
 #include "common.h"
 
+#include <stdio.h>
+
 static void test_edit() {
     test("g1", "1__         ");
     test("g12", "12_         ");
@@ -17,7 +19,7 @@ static void test_hilo() {
 static void test_next_game_different_target() {
     test("g745", "745 YOU WON ");
     test("gc745", "745 TOO HIGH");
-    test("gc293", "293 YOU WON ");
+    test("gc506", "506 YOU WON ");
 }
 
 static void test_animation_on_enter() {
@@ -63,7 +65,7 @@ static void test_animation_on_last_guess() {
     press_key(test, '0');
     advance(test, 500);
     assert_display(test, "1 MORE GUESS");
-    advance(test, 500);
+    advance(test, 1000);
     assert_display(test, "100 TOO LOW ");
 }
 

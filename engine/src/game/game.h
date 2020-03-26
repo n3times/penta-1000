@@ -19,7 +19,7 @@ typedef enum game_state_e {
 
 typedef struct game_s {
     // Pointers to the app methods. Note that they need to be set at creation
-    // time and when the game is recreates from a state.
+    // time and when the game is recreated from a state.
     app_t app;
     // Used by the random number generator.
     long rng;
@@ -42,5 +42,9 @@ typedef struct game_s {
     char display[25];
 } game_t;
 
+// Initializes the different fields of a game_t objet, using a given seed for
+// its random number generator.
 void init_game(game_t *game, long seed);
+
+// Initializes the different fields of a game_t objet from a given state.
 void init_game_from_state(char *state);
