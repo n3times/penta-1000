@@ -37,7 +37,7 @@ static void number_to_display(double x, char *display_out) {
             sprintf(format, "%%.%luf", MAX_MANTISSA_LEN - strlen(display_out));
             sprintf(display_out, format, x);
             if (strchr(display_out, '.')) {
-                int i = strlen(display_out);
+                int i = (int)strlen(display_out);
                 while (display_out[i - 1] == '0') {
                     display_out[i - 1] = 0;
                     i--;
@@ -189,11 +189,11 @@ void aos_push_operator(calc_t *calc, char op) {
             !aos->operands[aos->stack_depth / 2].has_percent;
     } else if (op == '=') {
         bool loggable = aos->stack_depth > 1;
-        long len = 0;
+        int len = 0;
         char log[2000];
         if (loggable) {
             aos_print(calc, log, 2000);
-            len = strlen(log);
+            len = (int)strlen(log);
         }
         if (loggable) {
             aos_eval(aos);

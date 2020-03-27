@@ -13,7 +13,7 @@ void number_edit_handle_key(calc_t *calc, char key) {
 
     // Make sure there are 10 digits at most.
     if ('0' <= key && key <= '9') {
-        int number_of_digits = strlen(calc->number_editing);
+        int number_of_digits = (int)strlen(calc->number_editing);
         if (strchr(calc->number_editing, '.')) number_of_digits--;
         if (strchr(calc->number_editing, '-')) number_of_digits--;
 
@@ -62,7 +62,7 @@ void number_edit_handle_key(calc_t *calc, char key) {
         }
 
         // Append digit.
-        int len = strlen(calc->number_editing);
+        int len = (int)strlen(calc->number_editing);
         calc->number_editing[len] = key;
         calc->number_editing[len + 1] = 0;
     }
