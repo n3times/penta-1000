@@ -1,0 +1,679 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F72242EC5130014AEE3 /* AppDelegate.swift */; };
+		DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */; };
+		DAB98F77242EC5130014AEE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F76242EC5130014AEE3 /* ContentView.swift */; };
+		DAB98F79242EC5160014AEE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F78242EC5160014AEE3 /* Assets.xcassets */; };
+		DAB98F7C242EC5160014AEE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */; };
+		DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */; };
+		DAB98F8A242EC5160014AEE3 /* penta1000Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F89242EC5160014AEE3 /* penta1000Tests.swift */; };
+		DAB98F95242EC5160014AEE3 /* penta1000UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F94242EC5160014AEE3 /* penta1000UITests.swift */; };
+		DAB98FB6242EC5F70014AEE3 /* penta1000.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FA7242EC5F70014AEE3 /* penta1000.c */; };
+		DAB98FB7242EC5F70014AEE3 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FAB242EC5F70014AEE3 /* game.c */; };
+		DAB98FB8242EC5F70014AEE3 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FAE242EC5F70014AEE3 /* log.c */; };
+		DAB98FB9242EC5F70014AEE3 /* calc.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FAF242EC5F70014AEE3 /* calc.c */; };
+		DAB98FBA242EC5F70014AEE3 /* aos.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FB0242EC5F70014AEE3 /* aos.c */; };
+		DAB98FBB242EC5F70014AEE3 /* number_edit.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FB5242EC5F70014AEE3 /* number_edit.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DAB98F86242EC5160014AEE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAB98F67242EC5130014AEE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAB98F6E242EC5130014AEE3;
+			remoteInfo = penta1000;
+		};
+		DAB98F91242EC5160014AEE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAB98F67242EC5130014AEE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAB98F6E242EC5130014AEE3;
+			remoteInfo = penta1000;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DAB98F6F242EC5130014AEE3 /* penta1000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = penta1000.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAB98F72242EC5130014AEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		DAB98F76242EC5130014AEE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DAB98F78242EC5160014AEE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DAB98F7E242EC5160014AEE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DAB98F80242EC5160014AEE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAB98F85242EC5160014AEE3 /* penta1000Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = penta1000Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAB98F89242EC5160014AEE3 /* penta1000Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000Tests.swift; sourceTree = "<group>"; };
+		DAB98F8B242EC5160014AEE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAB98F90242EC5160014AEE3 /* penta1000UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = penta1000UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAB98F94242EC5160014AEE3 /* penta1000UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000UITests.swift; sourceTree = "<group>"; };
+		DAB98F96242EC5160014AEE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAB98FA5242EC5F70014AEE3 /* penta1000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = penta1000.h; sourceTree = "<group>"; };
+		DAB98FA7242EC5F70014AEE3 /* penta1000.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = penta1000.c; sourceTree = "<group>"; };
+		DAB98FA8242EC5F70014AEE3 /* penta1000_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = penta1000_internal.h; sourceTree = "<group>"; };
+		DAB98FA9242EC5F70014AEE3 /* app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app.h; sourceTree = "<group>"; };
+		DAB98FAB242EC5F70014AEE3 /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		DAB98FAC242EC5F70014AEE3 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		DAB98FAE242EC5F70014AEE3 /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
+		DAB98FAF242EC5F70014AEE3 /* calc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = calc.c; sourceTree = "<group>"; };
+		DAB98FB0242EC5F70014AEE3 /* aos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aos.c; sourceTree = "<group>"; };
+		DAB98FB1242EC5F70014AEE3 /* number_edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = number_edit.h; sourceTree = "<group>"; };
+		DAB98FB2242EC5F70014AEE3 /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		DAB98FB3242EC5F70014AEE3 /* calc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = calc.h; sourceTree = "<group>"; };
+		DAB98FB4242EC5F70014AEE3 /* aos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aos.h; sourceTree = "<group>"; };
+		DAB98FB5242EC5F70014AEE3 /* number_edit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = number_edit.c; sourceTree = "<group>"; };
+		DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "penta1000-Bridging-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DAB98F6C242EC5130014AEE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAB98F82242EC5160014AEE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAB98F8D242EC5160014AEE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DAB98F66242EC5130014AEE3 = {
+			isa = PBXGroup;
+			children = (
+				DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */,
+				DAB98FA3242EC5C70014AEE3 /* engine */,
+				DAB98F71242EC5130014AEE3 /* penta1000 */,
+				DAB98F88242EC5160014AEE3 /* penta1000Tests */,
+				DAB98F93242EC5160014AEE3 /* penta1000UITests */,
+				DAB98F70242EC5130014AEE3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DAB98F70242EC5130014AEE3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98F6F242EC5130014AEE3 /* penta1000.app */,
+				DAB98F85242EC5160014AEE3 /* penta1000Tests.xctest */,
+				DAB98F90242EC5160014AEE3 /* penta1000UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DAB98F71242EC5130014AEE3 /* penta1000 */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98F72242EC5130014AEE3 /* AppDelegate.swift */,
+				DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */,
+				DAB98F76242EC5130014AEE3 /* ContentView.swift */,
+				DAB98F78242EC5160014AEE3 /* Assets.xcassets */,
+				DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */,
+				DAB98F80242EC5160014AEE3 /* Info.plist */,
+				DAB98F7A242EC5160014AEE3 /* Preview Content */,
+			);
+			path = penta1000;
+			sourceTree = "<group>";
+		};
+		DAB98F7A242EC5160014AEE3 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DAB98F88242EC5160014AEE3 /* penta1000Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98F89242EC5160014AEE3 /* penta1000Tests.swift */,
+				DAB98F8B242EC5160014AEE3 /* Info.plist */,
+			);
+			path = penta1000Tests;
+			sourceTree = "<group>";
+		};
+		DAB98F93242EC5160014AEE3 /* penta1000UITests */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98F94242EC5160014AEE3 /* penta1000UITests.swift */,
+				DAB98F96242EC5160014AEE3 /* Info.plist */,
+			);
+			path = penta1000UITests;
+			sourceTree = "<group>";
+		};
+		DAB98FA3242EC5C70014AEE3 /* engine */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98FA4242EC5F70014AEE3 /* include */,
+				DAB98FA6242EC5F70014AEE3 /* src */,
+			);
+			path = engine;
+			sourceTree = "<group>";
+		};
+		DAB98FA4242EC5F70014AEE3 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98FA5242EC5F70014AEE3 /* penta1000.h */,
+			);
+			name = include;
+			path = ../../engine/include;
+			sourceTree = "<group>";
+		};
+		DAB98FA6242EC5F70014AEE3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98FA7242EC5F70014AEE3 /* penta1000.c */,
+				DAB98FA8242EC5F70014AEE3 /* penta1000_internal.h */,
+				DAB98FA9242EC5F70014AEE3 /* app.h */,
+				DAB98FAA242EC5F70014AEE3 /* game */,
+				DAB98FAD242EC5F70014AEE3 /* calc */,
+			);
+			name = src;
+			path = ../../engine/src;
+			sourceTree = "<group>";
+		};
+		DAB98FAA242EC5F70014AEE3 /* game */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98FAB242EC5F70014AEE3 /* game.c */,
+				DAB98FAC242EC5F70014AEE3 /* game.h */,
+			);
+			path = game;
+			sourceTree = "<group>";
+		};
+		DAB98FAD242EC5F70014AEE3 /* calc */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98FAE242EC5F70014AEE3 /* log.c */,
+				DAB98FAF242EC5F70014AEE3 /* calc.c */,
+				DAB98FB0242EC5F70014AEE3 /* aos.c */,
+				DAB98FB1242EC5F70014AEE3 /* number_edit.h */,
+				DAB98FB2242EC5F70014AEE3 /* log.h */,
+				DAB98FB3242EC5F70014AEE3 /* calc.h */,
+				DAB98FB4242EC5F70014AEE3 /* aos.h */,
+				DAB98FB5242EC5F70014AEE3 /* number_edit.c */,
+			);
+			path = calc;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DAB98F6E242EC5130014AEE3 /* penta1000 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAB98F99242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000" */;
+			buildPhases = (
+				DAB98F6B242EC5130014AEE3 /* Sources */,
+				DAB98F6C242EC5130014AEE3 /* Frameworks */,
+				DAB98F6D242EC5130014AEE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = penta1000;
+			productName = penta1000;
+			productReference = DAB98F6F242EC5130014AEE3 /* penta1000.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DAB98F84242EC5160014AEE3 /* penta1000Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAB98F9C242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000Tests" */;
+			buildPhases = (
+				DAB98F81242EC5160014AEE3 /* Sources */,
+				DAB98F82242EC5160014AEE3 /* Frameworks */,
+				DAB98F83242EC5160014AEE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DAB98F87242EC5160014AEE3 /* PBXTargetDependency */,
+			);
+			name = penta1000Tests;
+			productName = penta1000Tests;
+			productReference = DAB98F85242EC5160014AEE3 /* penta1000Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DAB98F8F242EC5160014AEE3 /* penta1000UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAB98F9F242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000UITests" */;
+			buildPhases = (
+				DAB98F8C242EC5160014AEE3 /* Sources */,
+				DAB98F8D242EC5160014AEE3 /* Frameworks */,
+				DAB98F8E242EC5160014AEE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DAB98F92242EC5160014AEE3 /* PBXTargetDependency */,
+			);
+			name = penta1000UITests;
+			productName = penta1000UITests;
+			productReference = DAB98F90242EC5160014AEE3 /* penta1000UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAB98F67242EC5130014AEE3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = "Paul Novaes";
+				TargetAttributes = {
+					DAB98F6E242EC5130014AEE3 = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					DAB98F84242EC5160014AEE3 = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = DAB98F6E242EC5130014AEE3;
+					};
+					DAB98F8F242EC5160014AEE3 = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = DAB98F6E242EC5130014AEE3;
+					};
+				};
+			};
+			buildConfigurationList = DAB98F6A242EC5130014AEE3 /* Build configuration list for PBXProject "penta1000" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DAB98F66242EC5130014AEE3;
+			productRefGroup = DAB98F70242EC5130014AEE3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DAB98F6E242EC5130014AEE3 /* penta1000 */,
+				DAB98F84242EC5160014AEE3 /* penta1000Tests */,
+				DAB98F8F242EC5160014AEE3 /* penta1000UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DAB98F6D242EC5130014AEE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */,
+				DAB98F7C242EC5160014AEE3 /* Preview Assets.xcassets in Resources */,
+				DAB98F79242EC5160014AEE3 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAB98F83242EC5160014AEE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAB98F8E242EC5160014AEE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DAB98F6B242EC5130014AEE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAB98FB8242EC5F70014AEE3 /* log.c in Sources */,
+				DAB98FBA242EC5F70014AEE3 /* aos.c in Sources */,
+				DAB98FB7242EC5F70014AEE3 /* game.c in Sources */,
+				DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */,
+				DAB98FB6242EC5F70014AEE3 /* penta1000.c in Sources */,
+				DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */,
+				DAB98FBB242EC5F70014AEE3 /* number_edit.c in Sources */,
+				DAB98F77242EC5130014AEE3 /* ContentView.swift in Sources */,
+				DAB98FB9242EC5F70014AEE3 /* calc.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAB98F81242EC5160014AEE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAB98F8A242EC5160014AEE3 /* penta1000Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAB98F8C242EC5160014AEE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAB98F95242EC5160014AEE3 /* penta1000UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DAB98F87242EC5160014AEE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAB98F6E242EC5130014AEE3 /* penta1000 */;
+			targetProxy = DAB98F86242EC5160014AEE3 /* PBXContainerItemProxy */;
+		};
+		DAB98F92242EC5160014AEE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAB98F6E242EC5130014AEE3 /* penta1000 */;
+			targetProxy = DAB98F91242EC5160014AEE3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAB98F7E242EC5160014AEE3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DAB98F97242EC5160014AEE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DAB98F98242EC5160014AEE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DAB98F9A242EC5160014AEE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"penta1000/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = penta1000/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "penta1000-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DAB98F9B242EC5160014AEE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"penta1000/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = penta1000/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "penta1000-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DAB98F9D242EC5160014AEE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = penta1000Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/penta1000.app/penta1000";
+			};
+			name = Debug;
+		};
+		DAB98F9E242EC5160014AEE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = penta1000Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/penta1000.app/penta1000";
+			};
+			name = Release;
+		};
+		DAB98FA0242EC5160014AEE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = penta1000UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = penta1000;
+			};
+			name = Debug;
+		};
+		DAB98FA1242EC5160014AEE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = penta1000UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = penta1000;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DAB98F6A242EC5130014AEE3 /* Build configuration list for PBXProject "penta1000" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAB98F97242EC5160014AEE3 /* Debug */,
+				DAB98F98242EC5160014AEE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAB98F99242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAB98F9A242EC5160014AEE3 /* Debug */,
+				DAB98F9B242EC5160014AEE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAB98F9C242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAB98F9D242EC5160014AEE3 /* Debug */,
+				DAB98F9E242EC5160014AEE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAB98F9F242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAB98FA0242EC5160014AEE3 /* Debug */,
+				DAB98FA1242EC5160014AEE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAB98F67242EC5130014AEE3 /* Project object */;
+}

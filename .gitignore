@@ -6,3 +6,6 @@ a.out
 *.dat
 *.pyc
 bin/
+
+# Xcode
+xcuserdata/
