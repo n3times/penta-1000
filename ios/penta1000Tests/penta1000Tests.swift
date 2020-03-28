@@ -19,9 +19,39 @@ class penta1000Tests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testEngine() throws {
+        // Core.
+
+        XCTAssertEqual(engine_get_display(), "PENTATRONICS")
+        for c in "1+1=" {
+            engine_press_key(c: c)
+        }
+        XCTAssertEqual(engine_get_display(), "2")
+
+        for c in "/0=" {
+            engine_press_key(c: c)
+        }
+        XCTAssertEqual(engine_get_display(), "DIV BY ZERO")
+
+        engine_press_key(c: "g")
+        XCTAssertEqual(engine_get_display(), "> HI-LO GAME")
+
+        // Animation.
+
+        while engine_is_animating() {
+            engine_advance_frame()
+        }
+        XCTAssertEqual(engine_get_display(), "___         ")
+
+        // Logging.
+
+        XCTAssertEqual(engine_log_get_first_available_index(), 1)
+        XCTAssertEqual(engine_log_get_last_available_index(), 2)
+        XCTAssertEqual(engine_log_get_entry(index: 1), "1+1=2")
+        XCTAssertEqual(engine_log_get_entry(index: 2), "2/0=DIV BY ZERO")
+        engine_log_clear()
+        XCTAssertEqual(engine_log_get_first_available_index(), 0)
+        XCTAssertEqual(engine_log_get_last_available_index(), 0)
     }
 
     func testPerformanceExample() throws {
