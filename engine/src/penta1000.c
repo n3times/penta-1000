@@ -90,7 +90,7 @@ void p1_release_state(char *state) {
     free(state);
 }
 
-p1_t *p1_new_from_state(char *state) {
+p1_t *p1_new_from_state(const char *state) {
     long size = sizeof(p1_t);
     p1_t *p1 = malloc(size);
     memcpy(p1, state, size);

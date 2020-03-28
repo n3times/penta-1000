@@ -21,37 +21,61 @@ class penta1000Tests: XCTestCase {
 
     func testEngine() throws {
         // Core.
+        let p1 = engine_new(seed: 0)
 
-        XCTAssertEqual(engine_get_display(), "PENTATRONICS")
+        XCTAssertEqual(engine_get_display(p1: p1), "PENTATRONICS")
         for c in "1+1=" {
-            engine_press_key(c: c)
+            engine_press_key(p1: p1, c: c)
         }
-        XCTAssertEqual(engine_get_display(), "2")
+        XCTAssertEqual(engine_get_display(p1: p1), "2")
 
         for c in "/0=" {
-            engine_press_key(c: c)
+            engine_press_key(p1: p1, c: c)
         }
-        XCTAssertEqual(engine_get_display(), "DIV BY ZERO")
+        XCTAssertEqual(engine_get_display(p1: p1), "DIV BY ZERO")
 
-        engine_press_key(c: "g")
-        XCTAssertEqual(engine_get_display(), "> HI-LO GAME")
+        engine_press_key(p1: p1, c: "g")
+        XCTAssertEqual(engine_get_display(p1: p1), "> HI-LO GAME")
 
         // Animation.
 
-        while engine_is_animating() {
-            engine_advance_frame()
+        while engine_is_animating(p1: p1) {
+            engine_advance_frame(p1: p1)
         }
-        XCTAssertEqual(engine_get_display(), "___         ")
+        XCTAssertEqual(engine_get_display(p1: p1), "___         ")
 
         // Logging.
 
-        XCTAssertEqual(engine_log_get_first_available_index(), 1)
-        XCTAssertEqual(engine_log_get_last_available_index(), 2)
-        XCTAssertEqual(engine_log_get_entry(index: 1), "1+1=2")
-        XCTAssertEqual(engine_log_get_entry(index: 2), "2/0=DIV BY ZERO")
-        engine_log_clear()
-        XCTAssertEqual(engine_log_get_first_available_index(), 0)
-        XCTAssertEqual(engine_log_get_last_available_index(), 0)
+        XCTAssertEqual(engine_log_get_first_available_index(p1: p1), 1)
+        XCTAssertEqual(engine_log_get_last_available_index(p1: p1), 2)
+        XCTAssertEqual(engine_log_get_entry(p1: p1, index: 1), "1+1=2")
+        XCTAssertEqual(engine_log_get_entry(p1: p1, index: 2), "2/0=DIV BY ZERO")
+        engine_log_clear(p1: p1)
+        XCTAssertEqual(engine_log_get_first_available_index(p1: p1), 0)
+        XCTAssertEqual(engine_log_get_last_available_index(p1: p1), 0)
+
+        // Save State.
+
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let fileURL = dir!.appendingPathComponent("penta1000.dat")
+        let size = engine_get_state_size(p1: p1)
+        let state = engine_get_state(p1: p1)
+        let data = Data(bytes: state, count: size)
+
+        try data.write(to: fileURL, options: .atomic)
+        engine_release_state(state: state);
+
+        // Read State.
+
+        let saved_data = try Data(contentsOf: fileURL)
+        var p1_from_state: OpaquePointer?
+        saved_data.withUnsafeBytes {
+            p1_from_state = engine_new_from_state(state: $0)}
+        XCTAssertEqual(engine_get_display(p1: p1_from_state), "___         ")
+
+        // Clean up
+        engine_release(p1: p1)
+        engine_release(p1: p1_from_state)
     }
 
     func testPerformanceExample() throws {

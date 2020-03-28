@@ -75,7 +75,7 @@ void p1_release_state(char *state);
 // Returns a p1_t object initialized from a given state.
 //
 // The p1_t object should be released with 'p1_release'.
-p1_t *p1_new_from_state(char *state);
+p1_t *p1_new_from_state(const char *state);
 
 /*
  * Logging.
