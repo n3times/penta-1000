@@ -55,6 +55,14 @@ bool p1_is_animating(p1_t *p1);
  * State.
  */
 
+// Returns a p1_t object initialized from a given state.
+//
+// The p1_t object should be released with 'p1_release'.
+p1_t *p1_new_from_state(const char *state);
+
+// Releases the resources associated to 'state'.
+void p1_release_state(char *state);
+
 // Returns the number of bytes used to represent the state of a p1_t object.
 //
 // This can be used together with 'p1_get_state' to save a state into the file
@@ -68,14 +76,6 @@ long p1_get_state_size(p1_t *p1);
 //
 // The state should be released with 'p1_release_state'.
 char *p1_get_state(p1_t *p1);
-
-// Releases the resources associated to 'state'.
-void p1_release_state(char *state);
-
-// Returns a p1_t object initialized from a given state.
-//
-// The p1_t object should be released with 'p1_release'.
-p1_t *p1_new_from_state(const char *state);
 
 /*
  * Logging.
