@@ -16,7 +16,7 @@ class Penta1000 {
     }
 
     init(rawBuffer: UnsafePointer<Int8>) {
-        p1 = p1_new_from_state(rawBuffer)
+        p1 = p1_new_from_state_buffer(rawBuffer)
     }
 
     deinit {
@@ -71,11 +71,11 @@ class Penta1000Raw {
     public var buffer: UnsafeMutablePointer<Int8>
 
     init(p1: OpaquePointer) {
-        buffer = p1_get_state(p1)
-        bufferSize = p1_get_state_size(p1)
+        buffer = p1_get_state_buffer(p1)
+        bufferSize = p1_get_state_buffer_size(p1)
     }
 
     deinit {
-        p1_release_state(buffer)
+        p1_release_state_buffer(buffer)
     }
 }
