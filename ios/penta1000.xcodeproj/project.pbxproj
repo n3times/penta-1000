@@ -21,7 +21,7 @@
 		DAB98FB9242EC5F70014AEE3 /* calc.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FAF242EC5F70014AEE3 /* calc.c */; };
 		DAB98FBA242EC5F70014AEE3 /* aos.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FB0242EC5F70014AEE3 /* aos.c */; };
 		DAB98FBB242EC5F70014AEE3 /* number_edit.c in Sources */ = {isa = PBXBuildFile; fileRef = DAB98FB5242EC5F70014AEE3 /* number_edit.c */; };
-		DAF2BF05242EE20100AD1EC8 /* penta1000_engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2BF04242EE20100AD1EC8 /* penta1000_engine.swift */; };
+		DAF2BF05242EE20100AD1EC8 /* Penta1000.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +71,7 @@
 		DAB98FB4242EC5F70014AEE3 /* aos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aos.h; sourceTree = "<group>"; };
 		DAB98FB5242EC5F70014AEE3 /* number_edit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = number_edit.c; sourceTree = "<group>"; };
 		DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "penta1000-Bridging-Header.h"; sourceTree = "<group>"; };
-		DAF2BF04242EE20100AD1EC8 /* penta1000_engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000_engine.swift; sourceTree = "<group>"; };
+		DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Penta1000.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +102,7 @@
 		DAB98F66242EC5130014AEE3 = {
 			isa = PBXGroup;
 			children = (
-				DAF2BF04242EE20100AD1EC8 /* penta1000_engine.swift */,
+				DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */,
 				DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */,
 				DAB98FA3242EC5C70014AEE3 /* engine */,
 				DAB98F71242EC5130014AEE3 /* penta1000 */,
@@ -354,7 +354,7 @@
 				DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */,
 				DAB98FB6242EC5F70014AEE3 /* penta1000.c in Sources */,
 				DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */,
-				DAF2BF05242EE20100AD1EC8 /* penta1000_engine.swift in Sources */,
+				DAF2BF05242EE20100AD1EC8 /* Penta1000.swift in Sources */,
 				DAB98FBB242EC5F70014AEE3 /* number_edit.c in Sources */,
 				DAB98F77242EC5130014AEE3 /* ContentView.swift in Sources */,
 				DAB98FB9242EC5F70014AEE3 /* calc.c in Sources */,

@@ -21,71 +21,71 @@ class penta1000Tests: XCTestCase {
 
     func testEngine() throws {
         // Core.
-        let p1 = engine_new(seed: 0)
-        XCTAssertEqual(engine_get_display(p1: p1), "PENTATRONICS")
+        let p1 = Penta1000(seed: 0)
+        XCTAssertEqual(p1.display(), "PENTATRONICS")
 
         for c in "1+1=" {
-            engine_press_key(p1: p1, c: c)
+            p1.pressKey(c: c)
         }
-        XCTAssertEqual(engine_get_display(p1: p1), "2")
+        XCTAssertEqual(p1.display(), "2")
 
         for c in "/0=" {
-            engine_press_key(p1: p1, c: c)
+            p1.pressKey(c: c)
         }
-        XCTAssertEqual(engine_get_display(p1: p1), "DIV BY ZERO")
+        XCTAssertEqual(p1.display(), "DIV BY ZERO")
 
-        engine_press_key(p1: p1, c: "g")
-        XCTAssertEqual(engine_get_display(p1: p1), "> HI-LO GAME")
+        p1.pressKey(c: "g")
+        XCTAssertEqual(p1.display(), "> HI-LO GAME")
 
         // Animation.
-        while engine_is_animating(p1: p1) {
-            engine_advance_frame(p1: p1)
+        while p1.isAnimating() {
+            p1.advanceFrame()
         }
-        XCTAssertEqual(engine_get_display(p1: p1), "___         ")
+        XCTAssertEqual(p1.display(), "___         ")
 
         // Logging.
-        XCTAssertEqual(engine_log_get_first_available_index(p1: p1), 1)
-        XCTAssertEqual(engine_log_get_last_available_index(p1: p1), 2)
-        XCTAssertEqual(engine_log_get_entry(p1: p1, index: 1), "1+1=2")
-        XCTAssertEqual(engine_log_get_entry(p1: p1, index: 2), "2/0=DIV BY ZERO")
+        XCTAssertEqual(p1.firstAvailableLogEntryIndex(), 1)
+        XCTAssertEqual(p1.lastAvailableLogEntryIndex(), 2)
+        XCTAssertEqual(p1.logEntry(atIndex: 1), "1+1=2")
+        XCTAssertEqual(p1.logEntry(atIndex: 2), "2/0=DIV BY ZERO")
 
-        engine_log_clear(p1: p1)
-        XCTAssertEqual(engine_log_get_first_available_index(p1: p1), 0)
-        XCTAssertEqual(engine_log_get_last_available_index(p1: p1), 0)
+        p1.clearLog()
+        XCTAssertEqual(p1.firstAvailableLogEntryIndex(), 0)
+        XCTAssertEqual(p1.lastAvailableLogEntryIndex(), 0)
 
         // Save State.
-        let state = engine_get_state(p1: p1)
+        let state = p1.state()
         XCTAssertNotNil(state)
 
-        engine_release(p1: p1)
-        let state_data = Data(bytes: state, count: engine_get_state_size(p1: p1))
+        let p1State = p1.state()
+        let p1Data = Data(bytes: p1State.state, count: p1State.size)
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let fileURL = dir?.appendingPathComponent("penta1000.dat")
-        XCTAssertNotNil(fileURL)
+        let p1FileURL = dir?.appendingPathComponent("penta1000.dat")
+        XCTAssertNotNil(p1FileURL)
 
-        if (fileURL != nil) {
+        if (p1FileURL != nil) {
             do {
-                try state_data.write(to: fileURL!, options: .atomic)
+                try p1Data.write(to: p1FileURL!, options: .atomic)
             } catch {
                 XCTAssertNotNil(nil, "Couldn't write file")
             }
         }
-        engine_release_state(state: state);
+        ///engine_release_state(state: state);
 
         // Read State.
-        if (fileURL != nil) {
-            var read_state_data: Data? = nil
+        if (p1FileURL != nil) {
+            var fileData: Data? = nil
             do {
-                try read_state_data = Data(contentsOf: fileURL!)
+                try fileData = Data(contentsOf: p1FileURL!)
             } catch {
                 XCTAssertNotNil(nil, "Couldn't read file")
             }
-            if (read_state_data != nil) {
-                var p1_from_state: OpaquePointer?
-                read_state_data!.withUnsafeBytes {
-                    p1_from_state = engine_new_from_state(state: $0)}
-                XCTAssertEqual(engine_get_display(p1: p1_from_state), "___         ")
-                engine_release(p1: p1_from_state)
+            if (fileData != nil) {
+                var p1FromFile: Penta1000?
+                fileData!.withUnsafeBytes {
+                    p1FromFile = Penta1000(state: $0)}
+                XCTAssertEqual(p1FromFile!.display(), "___         ")
+                p1FromFile = nil
             }
         }
     }
