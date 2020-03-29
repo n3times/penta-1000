@@ -53,39 +53,36 @@ class penta1000Tests: XCTestCase {
         XCTAssertEqual(p1.firstAvailableLogEntryIndex(), 0)
         XCTAssertEqual(p1.lastAvailableLogEntryIndex(), 0)
 
-        // Save State.
-        let state = p1.state()
-        XCTAssertNotNil(state)
+        // Save Penta100 to file system.
+        let p1Raw:Penta1000Raw = p1.raw()
+        let p1RawData = Data(bytes: p1Raw.buffer, count: p1Raw.bufferSize)
+        let dirURL:URL? = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let fileURL:URL? = dirURL?.appendingPathComponent("penta1000.dat")
+        XCTAssertNotNil(fileURL)
 
-        let p1State = p1.state()
-        let p1Data = Data(bytes: p1State.state, count: p1State.size)
-        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let p1FileURL = dir?.appendingPathComponent("penta1000.dat")
-        XCTAssertNotNil(p1FileURL)
-
-        if (p1FileURL != nil) {
+        if (fileURL != nil) {
             do {
-                try p1Data.write(to: p1FileURL!, options: .atomic)
+                try p1RawData.write(to: fileURL!, options: .atomic)
             } catch {
                 XCTAssertNotNil(nil, "Couldn't write file")
             }
         }
-        ///engine_release_state(state: state);
 
-        // Read State.
-        if (p1FileURL != nil) {
-            var fileData: Data? = nil
+        // Read Penta1000 from file system.
+        if (fileURL != nil) {
+            var fileRawData: Data? = nil
             do {
-                try fileData = Data(contentsOf: p1FileURL!)
+                try fileRawData = Data(contentsOf: fileURL!)
             } catch {
                 XCTAssertNotNil(nil, "Couldn't read file")
             }
-            if (fileData != nil) {
-                var p1FromFile: Penta1000?
-                fileData!.withUnsafeBytes {
-                    p1FromFile = Penta1000(state: $0)}
-                XCTAssertEqual(p1FromFile!.display(), "___         ")
-                p1FromFile = nil
+            if (fileRawData != nil) {
+                var fileRawBuffer:UnsafePointer<Int8>?
+                fileRawData!.withUnsafeBytes {
+                    fileRawBuffer = $0
+                }
+                let p1FromFile:Penta1000 = Penta1000(rawBuffer: fileRawBuffer!)
+                XCTAssertEqual(p1FromFile.display(), "___         ")
             }
         }
     }

@@ -15,8 +15,8 @@ class Penta1000 {
         p1 = p1_new(seed)
     }
 
-    init(state: UnsafePointer<Int8>) {
-        p1 = p1_new_from_state(state)
+    init(rawBuffer: UnsafePointer<Int8>) {
+        p1 = p1_new_from_state(rawBuffer)
     }
 
     deinit {
@@ -61,25 +61,21 @@ class Penta1000 {
 
     // State.
 
-    func state() -> Penta1000State {
-        return Penta1000State(p1: p1)
-    }
-
-    func releaseState(state: UnsafeMutablePointer<Int8>) {
-        p1_release_state(state)
+    func raw() -> Penta1000Raw {
+        return Penta1000Raw(p1: p1)
     }
 }
 
-class Penta1000State {
-    public var size: CLong
-    public var state: UnsafeMutablePointer<Int8>
+class Penta1000Raw {
+    public var bufferSize: CLong
+    public var buffer: UnsafeMutablePointer<Int8>
 
     init(p1: OpaquePointer) {
-        state = p1_get_state(p1)
-        size = p1_get_state_size(p1)
+        buffer = p1_get_state(p1)
+        bufferSize = p1_get_state_size(p1)
     }
 
     deinit {
-        p1_release_state(state)
+        p1_release_state(buffer)
     }
 }
