@@ -21,7 +21,7 @@ class penta1000Tests: XCTestCase {
 
     func testEngine() throws {
         // Core.
-        let p1 = Penta1000(seed: 0)
+        let p1 = Penta1000(randomSeed: 0)
         XCTAssertEqual(p1.display(), "PENTATRONICS")
 
         for c in "1+1=" {
