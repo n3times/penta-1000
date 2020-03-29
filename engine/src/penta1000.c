@@ -75,25 +75,25 @@ bool p1_is_animating(p1_t *p1) {
 
 /* State */
 
-long p1_get_state_size(p1_t *p1) {
+long p1_get_state_buffer_size(p1_t *p1) {
     return sizeof(p1_t);
 }
 
-char *p1_get_state(p1_t *p1) {
+char *p1_get_state_buffer(p1_t *p1) {
     long size = sizeof(p1_t);
     void *state = malloc(size);
     memcpy(state, p1, size);
     return (char *)state;
 }
 
-void p1_release_state(char *state) {
-    free(state);
+void p1_release_state_buffer(char *state_buffer) {
+    free(state_buffer);
 }
 
-p1_t *p1_new_from_state(const char *state) {
+p1_t *p1_new_from_state_buffer(const char *state_buffer) {
     long size = sizeof(p1_t);
     p1_t *p1 = malloc(size);
-    memcpy(p1, state, size);
+    memcpy(p1, state_buffer, size);
     init_calc_from_state((char *)&p1->calc);
     init_game_from_state((char *)&p1->game);
     return p1;

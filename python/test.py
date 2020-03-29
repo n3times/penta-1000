@@ -66,21 +66,21 @@ def test():
 
     # save state
     file = open('penta1000.dat', 'wb')
-    size = p1_get_state_size(p1)
-    state = p1_get_state(p1)
-    data = bytearray(ctypes.string_at(state, size))
+    state_buffer_size = p1_get_state_buffer_size(p1)
+    state_buffer = p1_get_state_buffer(p1)
+    data = bytearray(ctypes.string_at(state_buffer, state_buffer_size))
     file.write(data)
-    p1_release_state(state);
+    p1_release_state_buffer(state_buffer);
     file.close()
 
     # read state
     file = open('penta1000.dat', 'rb')
-    p1_from_state = p1_new_from_state(file.read())
+    p1_from_state_buffer = p1_new_from_state_buffer(file.read())
     assert_display("___         ")
 
     # clean up
     file.close()
     p1_release(p1)
-    p1_release(p1_from_state)
+    p1_release(p1_from_state_buffer)
 
 test()

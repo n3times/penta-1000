@@ -55,27 +55,27 @@ bool p1_is_animating(p1_t *p1);
  * State.
  */
 
-// Returns a p1_t object initialized from a given state.
+// Returns a p1_t object initialized from a given state buffer.
 //
 // The p1_t object should be released with 'p1_release'.
-p1_t *p1_new_from_state(const char *state);
+p1_t *p1_new_from_state_buffer(const char *state_buffer);
 
-// Releases the resources associated to 'state'.
-void p1_release_state(char *state);
+// Releases the resources associated to 'state_buffer'.
+void p1_release_state_buffer(char *state_buffer);
 
 // Returns the number of bytes used to represent the state of a p1_t object.
 //
-// This can be used together with 'p1_get_state' to save a state into the file
-// system.
-long p1_get_state_size(p1_t *p1);
+// This can be used together with 'p1_get_state_buffer' to save a state buffer
+// into the file system.
+long p1_get_state_buffer_size(p1_t *p1);
 
-// Returns the state of a p1_t object.
+// Returns the state buffer representing a p1_t object.
 //
-// The state is an array of bytes that can be stored in the file system and
-// use to reconstruct a p1_t object with 'p1_new_from_state'.
+// The state buffer is an array of bytes that can be stored in the file system
+// and used to reconstruct a p1_t object with 'p1_new_from_state_buffer'.
 //
-// The state should be released with 'p1_release_state'.
-char *p1_get_state(p1_t *p1);
+// The state buffer should be released with 'p1_release_state_buffer'.
+char *p1_get_state_buffer(p1_t *p1);
 
 /*
  * Logging.

@@ -19,13 +19,13 @@ def make_lib():
     libp1.p1_is_animating.argtypes = [ctypes.c_void_p]
     libp1.p1_is_animating.restype = ctypes.c_bool
     # serialization
-    libp1.p1_get_state_size.argtypes = [ctypes.c_void_p]
-    libp1.p1_get_state_size.restype = ctypes.c_long
-    libp1.p1_get_state.argtypes = [ctypes.c_void_p]
-    libp1.p1_get_state.restype = ctypes.c_void_p
-    libp1.p1_release_state.argtypes = [ctypes.c_void_p]
-    libp1.p1_new_from_state.argtypes = [ctypes.c_void_p]
-    libp1.p1_new_from_state.restype = ctypes.c_void_p
+    libp1.p1_get_state_buffer_size.argtypes = [ctypes.c_void_p]
+    libp1.p1_get_state_buffer_size.restype = ctypes.c_long
+    libp1.p1_get_state_buffer.argtypes = [ctypes.c_void_p]
+    libp1.p1_get_state_buffer.restype = ctypes.c_void_p
+    libp1.p1_release_state_buffer.argtypes = [ctypes.c_void_p]
+    libp1.p1_new_from_state_buffer.argtypes = [ctypes.c_void_p]
+    libp1.p1_new_from_state_buffer.restype = ctypes.c_void_p
     # logging
     libp1.p1_log_get_first_available_index.argtypes = [ctypes.c_void_p]
     libp1.p1_log_get_first_available_index.restype = ctypes.c_long
@@ -60,18 +60,18 @@ def p1_is_animating(p1):
 
 # State
 
-def p1_get_state_size(p1):
-    return libp1.p1_get_state_size(p1)
+def p1_get_state_buffer_size(p1):
+    return libp1.p1_get_state_buffer_size(p1)
 
-def p1_get_state(p1):
-    return libp1.p1_get_state(p1)
+def p1_get_state_buffer(p1):
+    return libp1.p1_get_state_buffer(p1)
 
-def p1_release_state(p1):
-    return libp1.p1_release_state(p1)
+def p1_release_state_buffer(p1):
+    return libp1.p1_release_state_buffer(p1)
 
-def p1_new_from_state(p1):
+def p1_new_from_state_buffer(p1):
     make_lib()
-    return libp1.p1_new_from_state(p1)
+    return libp1.p1_new_from_state_buffer(p1)
 
 # Log
 

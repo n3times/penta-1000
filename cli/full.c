@@ -97,13 +97,13 @@ static void *animation_loop(void *args) {
 /* State. */
 
 static void save_session(p1_t *p1, char *filename) {
-    long size = p1_get_state_size(p1);
-    char *state = p1_get_state(p1);
+    long state_buffer_size = p1_get_state_buffer_size(p1);
+    char *state_buffer = p1_get_state_buffer(p1);
 
     FILE *file = fopen(filename, "w");
-    fwrite(state, size, 1, file);
+    fwrite(state_buffer, state_buffer_size, 1, file);
     fclose(file);
-    p1_release_state(state);
+    p1_release_state_buffer(state_buffer);
 }
 
 static p1_t *load_session(char *filename) {
@@ -113,16 +113,16 @@ static p1_t *load_session(char *filename) {
 
     // Get size of saved object.
     fseek(file, 0L, SEEK_END);
-    long size = ftell(file);
+    long state_buffer_size = ftell(file);
     fseek(file, 0L, SEEK_SET);
 
     // Read saved object from file.
-    char *state = malloc(size);
-    fread(state, size, 1, file);
+    char *state_buffer = malloc(state_buffer_size);
+    fread(state_buffer, state_buffer_size, 1, file);
     fclose(file);
 
-    p1_t *p1 = p1_new_from_state(state);
-    free(state);
+    p1_t *p1 = p1_new_from_state_buffer(state_buffer);
+    free(state_buffer);
     return p1;
 }
 
