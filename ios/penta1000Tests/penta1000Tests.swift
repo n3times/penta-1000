@@ -77,11 +77,11 @@ class penta1000Tests: XCTestCase {
                 XCTAssertNotNil(nil, "Couldn't read file")
             }
             if (fileRawData != nil) {
-                var fileRawBuffer:UnsafePointer<Int8>?
-                fileRawData!.withUnsafeBytes {
-                    fileRawBuffer = $0
-                }
-                let p1FromFile:Penta1000 = Penta1000(rawBuffer: fileRawBuffer!)
+                let fileRawBuffer:UnsafePointer<Int8> = fileRawData!.withUnsafeBytes({
+                    (ptr) -> UnsafePointer<Int8> in
+                    return ptr.baseAddress!.assumingMemoryBound(to: Int8.self)
+                })
+                let p1FromFile:Penta1000 = Penta1000(rawBuffer: fileRawBuffer)
                 XCTAssertEqual(p1FromFile.display(), "___         ")
             }
         }
