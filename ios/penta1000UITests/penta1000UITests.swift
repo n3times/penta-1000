@@ -1,11 +1,3 @@
-//
-//  penta1000UITests.swift
-//  penta1000UITests
-//
-//  Created by Paul Novaes on 3/27/20.
-//  Copyright © 2020 Paul Novaes. All rights reserved.
-//
-
 import XCTest
 
 class penta1000UITests: XCTestCase {

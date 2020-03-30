@@ -1,11 +1,3 @@
-//
-//  penta1000Tests.swift
-//  penta1000Tests
-//
-//  Created by Paul Novaes on 3/27/20.
-//  Copyright © 2020 Paul Novaes. All rights reserved.
-//
-
 import XCTest
 @testable import penta1000
 
@@ -53,11 +45,11 @@ class penta1000Tests: XCTestCase {
         XCTAssertEqual(p1.firstAvailableLogEntryIndex(), 0)
         XCTAssertEqual(p1.lastAvailableLogEntryIndex(), 0)
 
-        // Save Penta100 to file system.
-        let p1Raw:Penta1000Raw = p1.raw()
+        // Save Penta1000 to file system.
+        let p1Raw: Penta1000Raw = p1.raw()
         let p1RawData = Data(bytes: p1Raw.buffer, count: p1Raw.bufferSize)
-        let dirURL:URL? = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let fileURL:URL? = dirURL?.appendingPathComponent("penta1000.dat")
+        let dirURL: URL? = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let fileURL: URL? = dirURL?.appendingPathComponent("penta1000.dat")
         XCTAssertNotNil(fileURL)
 
         if (fileURL != nil) {
@@ -77,12 +69,12 @@ class penta1000Tests: XCTestCase {
                 XCTAssertNotNil(nil, "Couldn't read file")
             }
             if (fileRawData != nil) {
-                let fileRawBuffer:UnsafePointer<Int8> = fileRawData!.withUnsafeBytes({
+                let fileRawBuffer: UnsafePointer<Int8> = fileRawData!.withUnsafeBytes({
                     (ptr) -> UnsafePointer<Int8> in
                     return ptr.baseAddress!.assumingMemoryBound(to: Int8.self)
                 })
-                let p1FromFile:Penta1000 = Penta1000(rawBuffer: fileRawBuffer)
-                XCTAssertEqual(p1FromFile.display(), "___         ")
+                let p1FromStorage: Penta1000 = Penta1000(rawBuffer: fileRawBuffer)
+                XCTAssertEqual(p1FromStorage.display(), "___         ")
             }
         }
     }

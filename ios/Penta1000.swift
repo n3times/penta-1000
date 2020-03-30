@@ -1,24 +1,16 @@
-//
-//  Penta1000.swift
-//  penta1000
-//
-//  Created by Paul Novaes on 3/27/20.
-//  Copyright © 2020 Paul Novaes. All rights reserved.
-//
-
 import Foundation
 
 // The Pentatronics 1000 object used to run an emulator.
 class Penta1000 {
     let p1: OpaquePointer
 
-    // Intializes a Penta1000 object. The 'randomSeed' is used by the game's random number
-    // generator.
-    init(randomSeed: CLong) {
+    // Initializes a Penta1000 object. The 'randomSeed' is used by the game's pseudo random
+    // number generator.
+    init(randomSeed: Int) {
         p1 = p1_new(randomSeed)
     }
 
-    // Initializes a Penta1000 object from of raw buffer.
+    // Initializes a Penta1000 object from a raw buffer.
     init(rawBuffer: UnsafePointer<Int8>) {
         p1 = p1_new_from_state_buffer(rawBuffer)
     }
@@ -51,17 +43,17 @@ class Penta1000 {
     // Logging.
 
     // Returns 0 if no entry is available, otherwise >= 1.
-    func firstAvailableLogEntryIndex() -> CLong {
+    func firstAvailableLogEntryIndex() -> Int {
         return p1_log_get_first_available_index(p1)
     }
 
     // Returns 0 if no entry is available, otherwise >= 1.
-    func lastAvailableLogEntryIndex() -> CLong {
+    func lastAvailableLogEntryIndex() -> Int {
         return p1_log_get_last_available_index(p1)
     }
 
     // Gets the log entry of given index (>= 1, between first and last index).
-    func logEntry(atIndex: CLong) -> String {
+    func logEntry(atIndex: Int) -> String {
         return String(cString: p1_log_get_entry(p1, atIndex))
     }
 
@@ -72,17 +64,17 @@ class Penta1000 {
 
     // State.
 
-    // The raw reprentation of the Penta1000 object.
+    // The raw representation of the Penta1000 object.
     func raw() -> Penta1000Raw {
         return Penta1000Raw(p1: p1)
     }
 }
 
-// The underlying bytes that represent a Penta1000 object. These bytes can be saved in the
-// file system and used later to reconstruct the Penta1000 object, with 'init(rawBuffer:)'.
+// The underlying bytes that represent a Penta1000 object. These bytes can be saved to the
+// file system and used later to reconstruct the Penta1000 object with 'init(rawBuffer:)'.
 class Penta1000Raw {
     public var buffer: UnsafeMutablePointer<Int8>
-    public var bufferSize: CLong
+    public var bufferSize: Int
 
     init(p1: OpaquePointer) {
         buffer = p1_get_state_buffer(p1)
