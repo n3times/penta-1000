@@ -10,7 +10,7 @@
 		DAA9F6F92432A0FF00B40964 /* penta1000.png in Resources */ = {isa = PBXBuildFile; fileRef = DAA9F6F82432A0FF00B40964 /* penta1000.png */; };
 		DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F72242EC5130014AEE3 /* AppDelegate.swift */; };
 		DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */; };
-		DAB98F77242EC5130014AEE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F76242EC5130014AEE3 /* ContentView.swift */; };
+		DAB98F77242EC5130014AEE3 /* Penta1000View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F76242EC5130014AEE3 /* Penta1000View.swift */; };
 		DAB98F79242EC5160014AEE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F78242EC5160014AEE3 /* Assets.xcassets */; };
 		DAB98F7C242EC5160014AEE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */; };
 		DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */; };
@@ -47,7 +47,7 @@
 		DAB98F6F242EC5130014AEE3 /* penta1000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = penta1000.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB98F72242EC5130014AEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DAB98F76242EC5130014AEE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DAB98F76242EC5130014AEE3 /* Penta1000View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Penta1000View.swift; sourceTree = "<group>"; };
 		DAB98F78242EC5160014AEE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DAB98F7E242EC5160014AEE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 			children = (
 				DAB98F72242EC5130014AEE3 /* AppDelegate.swift */,
 				DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */,
-				DAB98F76242EC5130014AEE3 /* ContentView.swift */,
+				DAB98F76242EC5130014AEE3 /* Penta1000View.swift */,
 				DAB98F78242EC5160014AEE3 /* Assets.xcassets */,
 				DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */,
 				DAB98F80242EC5160014AEE3 /* Info.plist */,
@@ -370,7 +370,7 @@
 				DAD911C724317D0E00A80DAF /* log.c in Sources */,
 				DAD911C924317D0E00A80DAF /* aos.c in Sources */,
 				DAD911C524317D0E00A80DAF /* penta1000.c in Sources */,
-				DAB98F77242EC5130014AEE3 /* ContentView.swift in Sources */,
+				DAB98F77242EC5130014AEE3 /* Penta1000View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,7 +1,9 @@
 import SwiftUI
 
-struct ContentView: View {
+struct Penta1000View: View {
     let p1 = Penta1000(randomSeed: 0)
+    let displayColor = Color(red: 233/255, green: 233/255, blue: 233/255)
+    @State var displayText: String = "       READY"
 
     // Returns the key at a given location, or nil if there is no such a key.
     func getCalculatorKey(location: CGPoint) -> Character? {
@@ -31,7 +33,7 @@ struct ContentView: View {
         }
     }
 
-    // Listens for a tap event to determine if user pressed a calculator key.
+    // Listens for tap events to determine if user pressed a calculator key.
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .local)
             .onEnded {
@@ -46,7 +48,10 @@ struct ContentView: View {
                             break
                         }
                     }
-                    print(self.p1.display())
+                    self.displayText =
+                        String(String(self.p1.display().reversed())
+                            .padding(toLength: 13, withPad: " ", startingAt: 0)
+                            .reversed())
                 }
         }
     }
@@ -55,11 +60,17 @@ struct ContentView: View {
         Image("penta1000")
             .background(Color.black)
             .gesture(dragGesture)
+            .overlay(
+                Text(displayText)
+                    .font(.system(size: 35, weight: .bold, design: .monospaced))
+                    .foregroundColor(displayColor)
+                    .position(x: 185, y: 245),
+                alignment: .topTrailing)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct Penta1000View_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Penta1000View()
     }
 }
