@@ -1,0 +1,36 @@
+Each LED is composed of 14 segments (leds 0 thru d) + 1 dot (led e)
+
+ 00000000000
+12    3    45
+1 2   3   4 5
+1  2  3  4  5
+1   2 3 4   5
+1    234    5
+ 66666 77777
+8    9ab    c
+8   9 a b   c
+8  9  a  b  c
+8 9   a   b c   eee
+89    a    bc   eee 
+ ddddddddddd    eee
+
+There are 3 essential shapes:
+- hexagons: 1 thru c
+  - 1 3 5 8 a c: vertical  hexagons
+  - 6 7: horizontal hexagons
+  - 2 4 9 b: sheared hexagons
+- long leds: 0 and d (can be hexagons or dented in the middle)
+- dot: e (square or round)
+
+To describe a display geometry, we just need:
+  SEGMENT_WIDTH 
+  VERTICAL_SEGMENT_LENGTH
+  HORIZONTAL_SEGMENT_LENGTH
+  SHEARED_SEGMENT_DX
+  SHEARED_SEGMENT_DY
+  DOT_DX
+  DOT_RADIUS
+  LED_ANGLE
+  INTER_LED_DX
+
+Also consider removing some thickness in each segment so that there is some separation between any 2 segments.
