@@ -2,7 +2,6 @@ import SwiftUI
 
 struct Penta1000View: View {
     let p1 = Penta1000(randomSeed: 0)
-    let displayColor = Color(red: 233/255, green: 233/255, blue: 233/255)
     @State var displayText: String = "       READY"
 
     // Returns the key at a given location, or nil if there is no such a key.
@@ -48,10 +47,9 @@ struct Penta1000View: View {
                             break
                         }
                     }
-                    self.displayText =
-                        String(String(self.p1.display().reversed())
-                            .padding(toLength: 13, withPad: " ", startingAt: 0)
-                            .reversed())
+                    self.displayText = String(String(self.p1.display().reversed())
+                        .padding(toLength: 13, withPad: " ", startingAt: 0)
+                        .reversed())
                 }
         }
     }
@@ -61,10 +59,7 @@ struct Penta1000View: View {
             .background(Color.black)
             .gesture(dragGesture)
             .overlay(
-                Text(displayText)
-                    .font(.system(size: 35, weight: .bold, design: .monospaced))
-                    .foregroundColor(displayColor)
-                    .position(x: 185, y: 245),
+                DisplayView($displayText),
                 alignment: .topTrailing)
     }
 }

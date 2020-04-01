@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
 		DAA9F6F92432A0FF00B40964 /* penta1000.png in Resources */ = {isa = PBXBuildFile; fileRef = DAA9F6F82432A0FF00B40964 /* penta1000.png */; };
 		DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F72242EC5130014AEE3 /* AppDelegate.swift */; };
 		DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA2B80DE24350D3F00197C78 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
 		DAA9F6F82432A0FF00B40964 /* penta1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = penta1000.png; sourceTree = "<group>"; };
 		DAB98F6F242EC5130014AEE3 /* penta1000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = penta1000.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB98F72242EC5130014AEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				DAB98F72242EC5130014AEE3 /* AppDelegate.swift */,
 				DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */,
 				DAB98F76242EC5130014AEE3 /* Penta1000View.swift */,
+				DA2B80DE24350D3F00197C78 /* DisplayView.swift */,
 				DAB98F78242EC5160014AEE3 /* Assets.xcassets */,
 				DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */,
 				DAB98F80242EC5160014AEE3 /* Info.plist */,
@@ -368,6 +371,7 @@
 				DAF2BF05242EE20100AD1EC8 /* Penta1000.swift in Sources */,
 				DAD911C624317D0E00A80DAF /* game.c in Sources */,
 				DAD911C724317D0E00A80DAF /* log.c in Sources */,
+				DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */,
 				DAD911C924317D0E00A80DAF /* aos.c in Sources */,
 				DAD911C524317D0E00A80DAF /* penta1000.c in Sources */,
 				DAB98F77242EC5130014AEE3 /* Penta1000View.swift in Sources */,
