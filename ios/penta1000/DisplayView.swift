@@ -79,7 +79,7 @@ struct DisplayView: View {
     }
 
     var body: some View {
-        return Path { path in
+        Path { path in
             let characters = Array(displayText)
             var dotCount = 0
             for i in 0...15 {

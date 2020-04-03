@@ -1,11 +1,23 @@
 import SwiftUI
 
 struct Penta1000View: View {
-    let p1 = Penta1000(randomSeed: 0)
+    private let penta1000: Penta1000
     @State var displayText: String = "           READY"
 
+    init(penta1000: Penta1000) {
+        self.penta1000 = penta1000
+        // Skip animations.
+        for _ in 0...500 {
+            if self.penta1000.isAnimating() {
+                self.penta1000.advanceFrame()
+            } else {
+                break
+            }
+        }
+    }
+
     // Returns the key at a given location, or nil if there is no such a key.
-    func getCalculatorKey(location: CGPoint) -> Character? {
+    private func getCalculatorKey(location: CGPoint) -> Character? {
         let x = location.x
         let y = location.y
         // Top left corner of top left key ("?").
@@ -32,22 +44,28 @@ struct Penta1000View: View {
         }
     }
 
+    private func appeared() {
+        displayText = String(String(penta1000.display().reversed())
+            .padding(toLength: 16, withPad: " ", startingAt: 0)
+            .reversed())
+    }
+
     // Listens for tap events to determine if user pressed a calculator key.
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .local)
             .onEnded {
                 let c = self.getCalculatorKey(location: $0.location)
                 if c != nil {
-                    self.p1.pressKey(c: c!)
+                    self.penta1000.pressKey(c: c!)
                     // Skip animation.
                     for _ in 0...500 {
-                        if self.p1.isAnimating() {
-                            self.p1.advanceFrame()
+                        if self.penta1000.isAnimating() {
+                            self.penta1000.advanceFrame()
                         } else {
                             break
                         }
                     }
-                    self.displayText = String(String(self.p1.display().reversed())
+                    self.displayText = String(String(self.penta1000.display().reversed())
                         .padding(toLength: 16, withPad: " ", startingAt: 0)
                         .reversed())
                 }
@@ -57,6 +75,7 @@ struct Penta1000View: View {
     var body: some View {
         Image("penta1000")
             .background(Color.black)
+            .onAppear(perform: appeared)
             .gesture(dragGesture)
             .overlay(
                 DisplayView($displayText),
@@ -66,6 +85,6 @@ struct Penta1000View: View {
 
 struct Penta1000View_Previews: PreviewProvider {
     static var previews: some View {
-        Penta1000View()
+        Penta1000View(penta1000: Penta1000(randomSeed: 0))
     }
 }
