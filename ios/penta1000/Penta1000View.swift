@@ -2,7 +2,7 @@ import SwiftUI
 
 struct Penta1000View: View {
     let p1 = Penta1000(randomSeed: 0)
-    @State var displayText: String = "       READY"
+    @State var displayText: String = "           READY"
 
     // Returns the key at a given location, or nil if there is no such a key.
     func getCalculatorKey(location: CGPoint) -> Character? {
@@ -48,7 +48,7 @@ struct Penta1000View: View {
                         }
                     }
                     self.displayText = String(String(self.p1.display().reversed())
-                        .padding(toLength: 13, withPad: " ", startingAt: 0)
+                        .padding(toLength: 16, withPad: " ", startingAt: 0)
                         .reversed())
                 }
         }

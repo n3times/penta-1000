@@ -3,7 +3,7 @@ import SwiftUI
 struct DisplayView: View {
     @Binding var displayText: String
 
-    let ledColor = Color(red: 255/255, green: 64/255, blue: 64/255)
+    let ledColor = Color(red: 255/255, green: 255/255, blue: 255/255)
 
     let charToSegments = [
         "0": 0b1110111,
@@ -39,6 +39,7 @@ struct DisplayView: View {
         "/": 0b0000011,
         "*": 0b0111110,
         "+": 0b0011010,
+        "%": 0b0011100,
     ]
 
     let segmentsRects = [
@@ -57,7 +58,7 @@ struct DisplayView: View {
         self._displayText = displayText
     }
 
-    func getLedPath(c: Character, startX: Double, startY: Double) -> Path? {
+    func getLedPath(c: Character, startX: Double, startY: Double, hasDot:Bool) -> Path? {
         let data = charToSegments[String(c)]
         if (data == nil) { return nil }
 
@@ -69,24 +70,34 @@ struct DisplayView: View {
                     Path(segmentsRects[i]!).offsetBy(dx: CGFloat(startX), dy: CGFloat(startY))
                 path.addPath(rectPath)
             }
-            /// TODO: add dot when appropriate.
-            ///path.addEllipse(in: dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(startY)))
+            if (hasDot) {
+                path.addEllipse(
+                    in: dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(startY)))
+            }
         }
         return path
     }
 
     var body: some View {
-        let leds = Array(displayText)
-
         return Path { path in
-            for i in 0...11 {
-                let startX = 9 + 30 * Double(i)
-                let startY = 225.0
-                let led = leds[i]
-                let ledPath = getLedPath(c: led, startX: startX, startY: startY)
-                if ledPath != nil { path.addPath(ledPath!) }
+            let characters = Array(displayText)
+            var dotCount = 0
+            for i in 0...15 {
+                let c = characters[i]
+                if c == "." { dotCount += 1 }
             }
-
+            var index = 0
+            for i in (4 - dotCount)...15 {
+                let c = characters[i]
+                if c == "." { continue }
+                let hasDot = i < 15 && characters[i + 1] == "."
+                let startX = 30 + 30 * Double(index)
+                let startY = 225.0
+                let ledPath =
+                    getLedPath(c: c, startX: startX, startY: startY, hasDot: hasDot)
+                if ledPath != nil { path.addPath(ledPath!) }
+                index += 1
+            }
         }.transform(CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
          .fill(ledColor)
     }
@@ -94,6 +105,6 @@ struct DisplayView: View {
 
 struct DisplayView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayView(.constant("       READY"))
+        DisplayView(.constant("           READY"))
     }
 }
