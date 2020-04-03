@@ -12,7 +12,7 @@ static void skip_animations(p1_t *p1) {
 
 static void print_display(p1_t *p1) {
     char *display = p1_get_display(p1);
-    printw("    [%12s]\r", display);
+    printw("    [%16s]\r", display);
 }
 
 int main() {

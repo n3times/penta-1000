@@ -44,12 +44,17 @@ static void update_display(calc_t *calc) {
     if (extended_display[0] == '\0') {
         strcpy(extended_display, "READY");
     }
-    int offset = (int)strlen(extended_display) - 12;
-    if (strchr(extended_display, '.')) offset -= 1;
-    if (offset < 0) {
-        offset = 0;
+    // Display at most 12 non-dot characters
+    char *display = extended_display + strlen(extended_display) - 1;
+    int count = 0;
+    while (true) {
+        if (*display != '.') count += 1;
+        if (display == extended_display || count == 12) {
+            break;
+        }
+        display--;
     }
-    strcpy(calc->display, extended_display + offset);
+    strcpy(calc->display, display);
 }
 
 static void setup_app_methods(calc_t *calc) {
