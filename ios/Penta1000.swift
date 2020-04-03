@@ -15,6 +15,33 @@ class Penta1000 {
         p1 = p1_new_from_state_buffer(rawBuffer)
     }
 
+    convenience init?(filename: String) {
+        var fileRawBuffer: UnsafePointer<Int8> = UnsafePointer<Int8>(bitPattern: 1)!
+        var initialized = false
+        let dirURL: URL? =
+            FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let fileURL: URL? = dirURL?.appendingPathComponent(filename)
+        if (fileURL != nil) {
+            var fileRawData: Data? = nil
+            do {
+                try fileRawData = Data(contentsOf: fileURL!)
+            } catch {
+            }
+            if (fileRawData != nil) {
+                fileRawBuffer = fileRawData!.withUnsafeBytes({
+                    (ptr) -> UnsafePointer<Int8> in
+                    return ptr.baseAddress!.assumingMemoryBound(to: Int8.self)
+                })
+                initialized = true
+            }
+        }
+        if (initialized) {
+            self.init(rawBuffer: fileRawBuffer)
+        } else {
+            return nil
+        }
+    }
+
     deinit {
         p1_release(p1)
     }
@@ -63,6 +90,25 @@ class Penta1000 {
     }
 
     // State.
+
+    func save(filename: String) -> Bool {
+        let p1Raw: Penta1000Raw = self.raw()
+        let p1RawData = Data(bytes: p1Raw.buffer, count: p1Raw.bufferSize)
+        let dirURL: URL? =
+            FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let fileURL: URL? = dirURL?.appendingPathComponent("penta1000.dat")
+        var saved = false
+
+        if (fileURL != nil) {
+            do {
+                try p1RawData.write(to: fileURL!, options: .atomic)
+                saved = true
+            } catch {
+                // Nothing
+            }
+        }
+        return saved
+    }
 
     // The raw representation of the Penta1000 object.
     func raw() -> Penta1000Raw {

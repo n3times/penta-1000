@@ -46,36 +46,17 @@ class penta1000Tests: XCTestCase {
         XCTAssertEqual(p1.lastAvailableLogEntryIndex(), 0)
 
         // Save Penta1000 to file system.
-        let p1Raw: Penta1000Raw = p1.raw()
-        let p1RawData = Data(bytes: p1Raw.buffer, count: p1Raw.bufferSize)
-        let dirURL: URL? = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let fileURL: URL? = dirURL?.appendingPathComponent("penta1000.dat")
-        XCTAssertNotNil(fileURL)
-
-        if (fileURL != nil) {
-            do {
-                try p1RawData.write(to: fileURL!, options: .atomic)
-            } catch {
-                XCTAssertNotNil(nil, "Couldn't write file")
-            }
+        let saved = p1.save(filename: "penta1000.dat")
+        if (!saved) {
+            XCTAssertNotNil(nil, "Couldn't save")
         }
 
         // Read Penta1000 from file system.
-        if (fileURL != nil) {
-            var fileRawData: Data? = nil
-            do {
-                try fileRawData = Data(contentsOf: fileURL!)
-            } catch {
-                XCTAssertNotNil(nil, "Couldn't read file")
-            }
-            if (fileRawData != nil) {
-                let fileRawBuffer: UnsafePointer<Int8> = fileRawData!.withUnsafeBytes({
-                    (ptr) -> UnsafePointer<Int8> in
-                    return ptr.baseAddress!.assumingMemoryBound(to: Int8.self)
-                })
-                let p1FromStorage: Penta1000 = Penta1000(rawBuffer: fileRawBuffer)
-                XCTAssertEqual(p1FromStorage.display(), "___         ")
-            }
+        let p1FromFile = Penta1000(filename: "penta1000.dat")
+        if (p1FromFile != nil) {
+            XCTAssertEqual(p1FromFile!.display(), "___         ")
+        } else {
+            XCTAssertNotNil(nil, "Couldn't read file")
         }
     }
 

@@ -5,7 +5,7 @@ struct DisplayView: View {
 
     let ledColor = Color(red: 255/255, green: 255/255, blue: 255/255)
 
-    let charToSegments = [
+    let charTo7Segments = [
         "0": 0b1110111,
         "1": 0b0010010,
         "2": 0b1011101,
@@ -59,7 +59,7 @@ struct DisplayView: View {
     }
 
     func getLedPath(c: Character, startX: Double, startY: Double, hasDot:Bool) -> Path? {
-        let data = charToSegments[String(c)]
+        let data = charTo7Segments[String(c)]
         if (data == nil) { return nil }
 
         var path = Path()
