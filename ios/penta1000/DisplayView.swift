@@ -60,7 +60,7 @@ struct DisplayView: View {
         9: CGRect(x: 2.0, y: 28, width: 16, height: 4),
     ]
 
-    let dotData = CGRect(x: 22, y: 27, width: 5, height: 5)
+    let dotData = CGRect(x: 21, y: 27, width: 5, height: 5)
 
     init(_ displayText: Binding<String>) {
         self._displayText = displayText
