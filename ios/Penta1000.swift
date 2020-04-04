@@ -1,6 +1,6 @@
 import Foundation
 
-// The Pentatronics 1000 object used to run an emulator.
+// The Pentatronics 1000 object used to run the emulator.
 class Penta1000 {
     let p1: OpaquePointer
 
@@ -15,6 +15,8 @@ class Penta1000 {
         p1 = p1_new_from_state_buffer(rawBuffer)
     }
 
+    // Initializes a Penta1000 object from the state stored in a given file. Returns non-nil if the
+    // object was successfully initialized.
     convenience init?(filename: String) {
         var fileRawBuffer: UnsafePointer<Int8> = UnsafePointer<Int8>(bitPattern: 1)!
         var initialized = false
@@ -91,6 +93,8 @@ class Penta1000 {
 
     // State.
 
+    // Saves the Penta1000 object in a given file. Returns 'true' if the object was saved
+    // successfully.
     func save(filename: String) -> Bool {
         let p1Raw: Penta1000Raw = self.raw()
         let p1RawData = Data(bytes: p1Raw.buffer, count: p1Raw.bufferSize)
