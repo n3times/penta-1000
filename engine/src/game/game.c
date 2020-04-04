@@ -113,9 +113,9 @@ static void press_key_game(app_t *app, char key) {
     }
 
     if (game->is_guess_editing) {
-        sprintf(game->display, "%s         ", game->guess_textfield);
+        sprintf(game->display, "%s       ", game->guess_textfield);
     } else {
-        sprintf(game->display, "%s         ", game->guess_textfield);
+        sprintf(game->display, "%s       ", game->guess_textfield);
         game->state = GAME_STATE_SHOW_GUESS;
         game->frame = 0;
     }
@@ -142,11 +142,11 @@ static void advance_frame_game(app_t *app) {
     case GAME_STATE_START:
         // "Generate" random number.
         if (1 <= game->frame && game->frame < 70) {
-            sprintf(game->display, "%03d         ", rand() % 1000);
+            sprintf(game->display, "%03d       ", rand() % 1000);
         } else if (game->frame == 70) {
-            sprintf(game->display, "???         ");
+            sprintf(game->display, "???       ");
         } else if (game->frame == 140) {
-            sprintf(game->display, "___         ");
+            sprintf(game->display, "___       ");
             game->state = GAME_STATE_PLAY;
         }
         break;
@@ -161,7 +161,7 @@ static void advance_frame_game(app_t *app) {
             } else {
                 bool high = (game->guess - game->target) > 0;
                 sprintf(game->display, "%03d %s",
-                        game->guess, high ? "TOO HIGH" : "TOO LOW ");
+                        game->guess, high ? "TOO HI" : "TOO LO");
                 game->state = GAME_STATE_PLAY;
             }
         }
@@ -170,23 +170,21 @@ static void advance_frame_game(app_t *app) {
         if (game->frame == 100) {
             bool high = (game->guess - game->target) > 0;
             sprintf(game->display,
-                    "%03d %s", game->guess, high ? "TOO HIGH" : "TOO LOW ");
+                    "%03d %s", game->guess, high ? "TOO HI" : "TOO LO");
             game->state = GAME_STATE_PLAY;
         }
         break;
     case GAME_STATE_OVER:
         // Animate indefinitely.
         if (game->frame == 1) {
-            sprintf(game->display, "%03d         ", game->guess);
+            sprintf(game->display, "%03d       ", game->guess);
         } else if (game->frame % 200 == 0 && did_win) {
             char *str = "GUESSES";
             if (game->index == 1) str = "GUESS";
-            char display[13];
-            sprintf(display, "%d %s", game->index, str);
-            sprintf(game->display, "%-12s", display);
+            sprintf(game->display, "%d %s", game->index, str);
         } else if (game->frame % 100 == 0) {
             sprintf(game->display,
-                    "%03d %s", game->target, did_win ? "YOU WON " : "YOU LOST");
+                    "%03d %s", game->target, did_win ? "YOU WON" : "YOU LOST");
         } else if (game->frame % 100 == 50) {
             sprintf(game->display, "");
         }

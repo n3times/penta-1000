@@ -33,7 +33,7 @@ class penta1000Tests: XCTestCase {
         while p1.isAnimating() {
             p1.advanceFrame()
         }
-        XCTAssertEqual(p1.display(), "___         ")
+        XCTAssertEqual(p1.display(), "___       ")
 
         // Logging.
         XCTAssertEqual(p1.firstAvailableLogEntryIndex(), 1)
@@ -54,7 +54,7 @@ class penta1000Tests: XCTestCase {
         // Read Penta1000 from file system.
         let p1FromFile = Penta1000(filename: "penta1000.dat")
         if (p1FromFile != nil) {
-            XCTAssertEqual(p1FromFile!.display(), "___         ")
+            XCTAssertEqual(p1FromFile!.display(), "___       ")
         } else {
             XCTAssertNotNil(nil, "Couldn't read file")
         }

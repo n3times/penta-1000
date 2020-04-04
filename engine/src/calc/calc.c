@@ -154,7 +154,7 @@ static void advance_frame_calc(app_t *app) {
     case CALC_STATE_COMPUTE:
         break;
     case CALC_STATE_FLASH:
-        if (calc->frame == 1) {
+        if (calc->frame == 5) {
             update_display(calc);
             calc->state = CALC_STATE_COMPUTE;
             calc->frame = 0;
