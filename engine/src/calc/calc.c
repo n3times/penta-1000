@@ -78,7 +78,7 @@ void init_calc_from_state(char *state) {
 
 static void enter_calc(app_t *app) {
     calc_t *calc = (calc_t *)app;
-    sprintf(calc->display, ">  CALC MODE");
+    sprintf(calc->display, "> CALCULATOR");
     calc->state = CALC_STATE_ENTER;
     calc->frame = 0;
 }
