@@ -6,14 +6,6 @@ struct Penta1000View: View {
 
     init(penta1000: Penta1000) {
         self.penta1000 = penta1000
-        // Skip animations.
-        for _ in 0...500 {
-            if self.penta1000.isAnimating() {
-                self.penta1000.advanceFrame()
-            } else {
-                break
-            }
-        }
     }
 
     // Returns the key at a given location, or nil if there is no such a key.
@@ -48,6 +40,18 @@ struct Penta1000View: View {
         displayText = String(String(penta1000.display().reversed())
             .padding(toLength: 16, withPad: " ", startingAt: 0)
             .reversed())
+        if self.penta1000.isAnimating() {
+            Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { timer in
+                self.penta1000.advanceFrame()
+                self.displayText = String(String(self.penta1000.display().reversed())
+                    .padding(toLength: 16, withPad: " ", startingAt: 0)
+                    .reversed())
+
+                if !self.penta1000.isAnimating() {
+                    timer.invalidate()
+                }
+            })
+        }
     }
 
     // Listens for tap events to determine if user pressed a calculator key.
@@ -56,18 +60,23 @@ struct Penta1000View: View {
             .onEnded {
                 let c = self.getCalculatorKey(location: $0.location)
                 if c != nil {
+                    let wasAnimating = self.penta1000.isAnimating()
                     self.penta1000.pressKey(c: c!)
-                    // Skip animation.
-                    for _ in 0...500 {
-                        if self.penta1000.isAnimating() {
-                            self.penta1000.advanceFrame()
-                        } else {
-                            break
-                        }
-                    }
                     self.displayText = String(String(self.penta1000.display().reversed())
                         .padding(toLength: 16, withPad: " ", startingAt: 0)
                         .reversed())
+                    if !wasAnimating && self.penta1000.isAnimating() {
+                        Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
+                            self.penta1000.advanceFrame()
+                            self.displayText = String(String(self.penta1000.display().reversed())
+                                .padding(toLength: 16, withPad: " ", startingAt: 0)
+                                .reversed())
+
+                            if !self.penta1000.isAnimating() {
+                                timer.invalidate()
+                            }
+                        }
+                    }
                 }
         }
     }
