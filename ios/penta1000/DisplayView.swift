@@ -56,30 +56,30 @@ struct DisplayView: View {
     ]
 
     private let segmentRects = [
-        0: CGRect(x: 2.0, y: 0, width: 16, height: 4),
-        1: CGRect(x: 0.0, y: 2, width: 4, height: 14),
-        3: CGRect(x: 8.0, y: 2, width: 4, height: 14),
-        5: CGRect(x: 16.0, y: 2, width: 4, height: 14),
-        6: CGRect(x: 2.0, y: 14, width: 8, height: 4),
-        7: CGRect(x: 10.0, y: 14, width: 8, height: 4),
-        8: CGRect(x: 0.0, y: 16, width: 4, height: 14),
-        10: CGRect(x: 8.0, y: 16, width: 4, height: 14),
-        12: CGRect(x: 16.0, y: 16, width: 4, height: 14),
-        13: CGRect(x: 2.0, y: 28, width: 16, height: 4),
+        0: CGRect(x: 0.0, y: 0, width: 20, height: 3),
+        1: CGRect(x: 0.0, y: 0, width: 3, height: 15),
+        3: CGRect(x: 8.0, y: 0, width: 3, height: 15),
+        5: CGRect(x: 16.0, y: 0, width: 3, height: 15),
+        6: CGRect(x: 0.0, y: 13, width: 10, height: 3),
+        7: CGRect(x: 9.0, y: 13, width: 11, height: 3),
+        8: CGRect(x: 0.0, y: 14, width: 3, height: 15),
+        10: CGRect(x: 8.0, y: 14, width: 3, height: 15),
+        12: CGRect(x: 16.0, y: 14, width: 3, height: 15),
+        13: CGRect(x: 0.0, y: 26, width: 20, height: 3),
     ]
 
     private let angledSegments = [
-        2: [CGPoint(x: 1, y: 1), CGPoint(x: 1+1, y: 1), CGPoint(x: 10, y: 16-4),
-            CGPoint(x: 10, y: 16), CGPoint(x: 10-1, y: 16), CGPoint(x: 1, y: 1+4)],
-        4: [CGPoint(x: 19, y: 1), CGPoint(x: 19-1, y: 1), CGPoint(x: 10, y: 16-4),
-            CGPoint(x: 10, y: 16), CGPoint(x: 10+1, y: 16), CGPoint(x: 19, y: 1+4)],
-        9: [CGPoint(x: 1, y: 31), CGPoint(x: 1+1, y: 31), CGPoint(x: 10, y: 16+4),
-            CGPoint(x: 10, y: 16), CGPoint(x: 10-1, y: 16), CGPoint(x: 1, y: 31-4)],
-        11: [CGPoint(x: 19, y: 31), CGPoint(x: 19-1, y: 31), CGPoint(x: 10, y: 16+4),
-            CGPoint(x: 10, y: 16), CGPoint(x: 10+1, y: 16), CGPoint(x: 19, y: 31-4)],
+        2: [CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 10, y: 16-3),
+            CGPoint(x: 10, y: 16), CGPoint(x: 10-2, y: 16), CGPoint(x: 1, y: 1+3)],
+        4: [CGPoint(x: 19, y: 1), CGPoint(x: 19-2, y: 1), CGPoint(x: 9, y: 15-3),
+            CGPoint(x: 9, y: 15), CGPoint(x: 9+2, y: 15), CGPoint(x: 19, y: 1+3)],
+        9: [CGPoint(x: 1, y: 27), CGPoint(x: 1+2, y: 27), CGPoint(x: 9, y: 15+3),
+            CGPoint(x: 9, y: 15), CGPoint(x: 9-2, y: 15), CGPoint(x: 1, y: 27-3)],
+        11: [CGPoint(x: 19, y: 27), CGPoint(x: 19-2, y: 27), CGPoint(x: 10, y: 16+3),
+            CGPoint(x: 10, y: 16), CGPoint(x: 10+2, y: 16), CGPoint(x: 19, y: 27-3)],
     ]
 
-    private let dotData = CGRect(x: 21, y: 27, width: 5, height: 5)
+    private let dotData = CGRect(x: 21, y: 25, width: 4, height: 4)
 
     private func getAngledPath(index: Int) -> Path {
         let points = angledSegments[index]!
@@ -147,8 +147,8 @@ struct DisplayView: View {
                 let c = characters[i]
                 if c == "." { continue }
                 let hasDot = i < 15 && characters[i + 1] == "."
-                let startX = 30 + 30 * Double(index)
-                let startY = 229.0
+                let startX = 43 + 28 * Double(index)
+                let startY = 231.0
                 let ledPath =
                     getLedPath(c: c, startX: startX, startY: startY, hasDot: hasDot)
                 if ledPath != nil { path.addPath(ledPath!) }
