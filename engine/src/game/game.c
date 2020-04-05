@@ -59,6 +59,7 @@ static void press_key_game(app_t *app, char key) {
 
     if (game->state == GAME_STATE_ENTER ||
         game->state == GAME_STATE_START ||
+        game->state == GAME_STATE_FLASH ||
         game->state == GAME_STATE_LAST_GUESS ||
         game->state == GAME_STATE_SHOW_GUESS) {
         return;
@@ -73,8 +74,16 @@ static void press_key_game(app_t *app, char key) {
     // GAME_STATE_PLAY mode.
 
     int is_digit = '0' <= key && key <= '9';
-
-    if (!(is_digit || key == GAME_KEY)) return;
+    bool ignore_key = key != GAME_KEY && !is_digit;
+    if (key == '0' && !(game->is_guess_editing && game->guess_textfield[0] != '_')) {
+        ignore_key = true;
+    }
+    if (ignore_key) {
+        strcpy(game->display, "");
+        game->state = GAME_STATE_FLASH;
+        game->frame = 0;
+        return;
+    }
 
     if (key == GAME_KEY) {
         if (game->is_guess_editing && game->guess_textfield[1] != '_') {
@@ -155,6 +164,21 @@ static void advance_frame_game(app_t *app) {
         }
         break;
     case GAME_STATE_PLAY:
+        break;
+    case GAME_STATE_FLASH:
+        if (game->frame == 5) {
+            if (game->is_guess_editing) {
+                sprintf(game->display, "%s       ", game->guess_textfield);
+            } else if (game->guess == 0) {
+                sprintf(game->display, "___       ");
+            } else {
+                bool high = (game->guess - game->target) > 0;
+                sprintf(game->display, "%03d %s",
+                        game->guess, high ? "TOO HI" : "TOO LO");
+            }
+            game->state = GAME_STATE_PLAY;
+            game->frame = 0;
+        }
         break;
     case GAME_STATE_SHOW_GUESS:
         if (game->frame == 25) {
