@@ -1,10 +1,15 @@
 import SwiftUI
 
+// The display, composed of 12 14-segments LEDs. In addition, each LED has a dot to the
+// right (decimal point).
 struct DisplayView: View {
+    // The text composed of up to 12 non-dot characters, each one optionally followed by a
+    // a dot. The text should be right-justified within the display.
     @Binding var displayText: String
 
     private let ledColor = Color(red: 240/255, green: 240/255, blue: 240/255)
 
+    // Indicates, for each character, which segments are on.
     private let charToSegments = [
         // Segments top to bottom, left to right.
         //     -|\|/|--|/|\|-
@@ -55,7 +60,8 @@ struct DisplayView: View {
         ">": 0b00100000010000,
     ]
 
-    private let segmentRects = [
+    // Describes the 10 horizontal and vertical segments.
+    private let rightSegmentsData = [
         0: CGRect(x: 0.0, y: 0, width: 20, height: 3),
         1: CGRect(x: 0.0, y: 0, width: 3, height: 15),
         3: CGRect(x: 8.0, y: 0, width: 3, height: 15),
@@ -68,7 +74,8 @@ struct DisplayView: View {
         13: CGRect(x: 0.0, y: 26, width: 20, height: 3),
     ]
 
-    private let angledSegments = [
+    // Describes the 4 angled segments.
+    private let angledSegmentsData = [
         2: [CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 10, y: 16-3),
             CGPoint(x: 10, y: 16), CGPoint(x: 10-2, y: 16), CGPoint(x: 1, y: 1+3)],
         4: [CGPoint(x: 19, y: 1), CGPoint(x: 19-2, y: 1), CGPoint(x: 9, y: 15-3),
@@ -81,8 +88,8 @@ struct DisplayView: View {
 
     private let dotData = CGRect(x: 21, y: 25, width: 4, height: 4)
 
-    private func getAngledPath(index: Int) -> Path {
-        let points = angledSegments[index]!
+    private func getAngledSegmentPath(index: Int) -> Path? {
+        let points = angledSegmentsData[index]!
         var path = Path()
         path.move(to: points[0])
         for i in 1...5 {
@@ -91,12 +98,8 @@ struct DisplayView: View {
         return path
     }
 
-    private func getSegmentPath(index: Int) -> Path? {
-        if (index == 2 || index == 4 || index == 9 || index == 11) {
-            return getAngledPath(index: index)
-        }
-
-        let rect = segmentRects[index]!
+    private func getRightSegmentPath(index: Int) -> Path? {
+        let rect = rightSegmentsData[index]!
         var path = Path()
         path.move(to: CGPoint(x: rect.minX, y: rect.minY + 2))
         path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.minY))
@@ -110,14 +113,19 @@ struct DisplayView: View {
     }
 
     private func getLedPath(c: Character, startX: Double, startY: Double, hasDot:Bool) -> Path? {
-        let data = charToSegments[String(c)]
-        if (data == nil) { return nil }
+        let segments = charToSegments[String(c)]
+        if (segments == nil) { return nil }
 
         var path = Path()
         for i in 0...13 {
-            let isSegmentOn = data! & (1 << (13 - i)) != 0
+            let isSegmentOn = segments! & (1 << (13 - i)) != 0
             if (isSegmentOn) {
-                let segmentPath = getSegmentPath(index: i)
+                let segmentPath: Path?
+                if (i == 2 || i == 4 || i == 9 || i == 11) {
+                    segmentPath = getAngledSegmentPath(index: i)
+                } else {
+                    segmentPath = getRightSegmentPath(index: i)
+                }
                 if (segmentPath != nil) {
                     path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(startY)))
                 }
@@ -135,27 +143,28 @@ struct DisplayView: View {
     }
 
     var body: some View {
-        Path { path in
-            let characters = Array(displayText)
-            var dotCount = 0
-            for i in 0...15 {
-                let c = characters[i]
-                if c == "." { dotCount += 1 }
-            }
-            var index = 0
-            for i in (4 - dotCount)...15 {
-                let c = characters[i]
-                if c == "." { continue }
-                let hasDot = i < 15 && characters[i + 1] == "."
-                let startX = 43 + 28 * Double(index)
-                let startY = 231.0
-                let ledPath =
-                    getLedPath(c: c, startX: startX, startY: startY, hasDot: hasDot)
-                if ledPath != nil { path.addPath(ledPath!) }
-                index += 1
-            }
-        }.transform(CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
-         .fill(ledColor)
+        var path = Path()
+        let displayCharacters = Array(displayText)
+        var dotCount = 0
+        for i in 0...15 {
+            let c = displayCharacters[i]
+            if c == "." { dotCount += 1 }
+        }
+        var index = 0
+        for i in (4 - dotCount)...15 {
+            let c = displayCharacters[i]
+            if c == "." { continue }
+            let hasDot = i < 15 && displayCharacters[i + 1] == "."
+            let startX = 43 + 28 * Double(index)
+            let startY = 231.0
+            let ledPath =
+                getLedPath(c: c, startX: startX, startY: startY, hasDot: hasDot)
+            if ledPath != nil { path.addPath(ledPath!) }
+            index += 1
+        }
+        return path.transform(
+                        CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
+                   .fill(ledColor)
     }
 }
 

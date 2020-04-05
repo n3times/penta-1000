@@ -42,7 +42,7 @@ static void update_display(calc_t *calc) {
         }
     }
     if (extended_display[0] == '\0') {
-        strcpy(extended_display, "YZWM*%/?>");
+        strcpy(extended_display, "READY");
     }
     // Display at most 12 non-dot characters
     char *display = extended_display + strlen(extended_display) - 1;

@@ -12,12 +12,15 @@ struct Penta1000View: View {
     private func getCalculatorKey(location: CGPoint) -> Character? {
         let x = location.x
         let y = location.y
+
         // Top left corner of top left key ("?").
         let x0: CGFloat = 37
         let y0: CGFloat = 313
+
         // Separation between the top left corners of consecutive keys.
         let dx: CGFloat = 78.5
         let dy: CGFloat = 67
+
         // Dimensions of each key.
         let w: CGFloat = 65
         let h: CGFloat = 51
@@ -62,10 +65,11 @@ struct Penta1000View: View {
                 if c != nil {
                     let wasAnimating = self.penta1000.isAnimating()
                     self.penta1000.pressKey(c: c!)
+                    let isAnimating = self.penta1000.isAnimating()
                     self.displayText = String(String(self.penta1000.display().reversed())
                         .padding(toLength: 16, withPad: " ", startingAt: 0)
                         .reversed())
-                    if !wasAnimating && self.penta1000.isAnimating() {
+                    if !wasAnimating && isAnimating {
                         Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
                             self.penta1000.advanceFrame()
                             self.displayText = String(String(self.penta1000.display().reversed())
