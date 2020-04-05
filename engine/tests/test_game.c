@@ -7,8 +7,8 @@ static void test_edit() {
     test("g12", "12_       ");
     test("g0", "___       ");
     test("g012", "12_       ");
-    test("g1c", "___       ");
-    test("g12c", "___       ");
+    test("g1g", "___       ");
+    test("g12g", "1__       ");
 }
 
 static void test_hilo() {
@@ -18,8 +18,8 @@ static void test_hilo() {
 
 static void test_next_game_different_target() {
     test("g745", "745 YOU WON");
-    test("gc745", "745 TOO HI");
-    test("gc506", "506 YOU WON");
+    test("gg745", "745 TOO HI");
+    test("gg506", "506 YOU WON");
 }
 
 static void test_animation_on_enter() {
@@ -37,7 +37,7 @@ static void test_animation_on_enter() {
 
 static void test_animation_on_reenter() {
     test_t *test = init_test(0);
-    press_sequence(test, "gg");
+    press_sequence(test, "gc");
     press_key(test, 'g');
     advance(test, 10);
     assert_display(test, "> HI-LO GAME");
@@ -52,7 +52,7 @@ static void test_animation_on_reenter() {
 static void test_animation_on_clear() {
     test_t *test = init_test(0);
     press_sequence(test, "g");
-    press_key(test, 'c');
+    press_key(test, 'g');
     advance(test, 1000);
     assert_display(test, "???       ");
     advance(test, 1000);

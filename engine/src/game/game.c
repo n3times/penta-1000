@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static char GAME_KEY = 'g';
+
 static void enter_game(app_t *app);
 static void press_key_game(app_t *app, char key);
 static char *get_display_game(app_t *app);
@@ -62,7 +64,7 @@ static void press_key_game(app_t *app, char key) {
         return;
     }
     if (game->state == GAME_STATE_OVER) {
-        if (key == 'c') {
+        if (key == GAME_KEY) {
             start_game(game);
         }
         return;
@@ -72,9 +74,18 @@ static void press_key_game(app_t *app, char key) {
 
     int is_digit = '0' <= key && key <= '9';
 
-    if (!(is_digit || key == 'c')) return;
+    if (!(is_digit || key == GAME_KEY)) return;
 
-    if (game->is_guess_editing && is_digit) {
+    if (key == GAME_KEY) {
+        if (game->is_guess_editing && game->guess_textfield[1] != '_') {
+            game->guess_textfield[1] = '_';
+        } else if (game->is_guess_editing && game->guess_textfield[0] != '_') {
+            game->guess_textfield[0] = '_';
+        } else {
+            start_game(game);
+            return;
+        }
+    } else if (game->is_guess_editing && is_digit) {
         int i = 0;
         for (i = 0; i < 3; i++) {
             if (game->guess_textfield[i] == '_') break;
@@ -94,14 +105,7 @@ static void press_key_game(app_t *app, char key) {
                 return;
             }
         }
-    } else if (game->is_guess_editing && key == 'c') {
-        strcpy(game->guess_textfield, "___");
     } else {
-        if (key == 'c') {
-            start_game(game);
-            return;
-        }
-
         if ('0' < key && key <= '9') {
             game->is_guess_editing = true;
             game->index++;

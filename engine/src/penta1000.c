@@ -42,12 +42,12 @@ void p1_press_key(p1_t *p1, char key) {
             app->advance_frame(app);
         }
     }
-    if (key == 'g') {
-        if (app == (app_t *)&p1->calc) {
-            p1->current_app_type = APP_TYPE_GAME;
-        } else {
-            p1->current_app_type = APP_TYPE_CALC;
-        }
+    if (key == 'g' && app != (app_t *)&p1->game) {
+        p1->current_app_type = APP_TYPE_GAME;
+        app = get_current_app(p1);
+        app->enter(app);
+    } else if (key == 'c' && app != (app_t *)&p1->calc) {
+        p1->current_app_type = APP_TYPE_CALC;
         app = get_current_app(p1);
         app->enter(app);
     } else {
