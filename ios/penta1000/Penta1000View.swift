@@ -40,15 +40,11 @@ struct Penta1000View: View {
     }
 
     private func appeared() {
-        displayText = String(String(penta1000.display().reversed())
-            .padding(toLength: 16, withPad: " ", startingAt: 0)
-            .reversed())
+        displayText = penta1000.display()
         if self.penta1000.isAnimating() {
             Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { timer in
                 self.penta1000.advanceFrame()
-                self.displayText = String(String(self.penta1000.display().reversed())
-                    .padding(toLength: 16, withPad: " ", startingAt: 0)
-                    .reversed())
+                self.displayText = self.penta1000.display()
 
                 if !self.penta1000.isAnimating() {
                     timer.invalidate()
@@ -66,15 +62,11 @@ struct Penta1000View: View {
                     let wasAnimating = self.penta1000.isAnimating()
                     self.penta1000.pressKey(c: c!)
                     let isAnimating = self.penta1000.isAnimating()
-                    self.displayText = String(String(self.penta1000.display().reversed())
-                        .padding(toLength: 16, withPad: " ", startingAt: 0)
-                        .reversed())
+                    self.displayText = self.penta1000.display()
                     if !wasAnimating && isAnimating {
                         Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
                             self.penta1000.advanceFrame()
-                            self.displayText = String(String(self.penta1000.display().reversed())
-                                .padding(toLength: 16, withPad: " ", startingAt: 0)
-                                .reversed())
+                            self.displayText = self.penta1000.display()
 
                             if !self.penta1000.isAnimating() {
                                 timer.invalidate()

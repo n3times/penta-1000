@@ -146,19 +146,22 @@ struct DisplayView: View {
         var path = Path()
         let displayCharacters = Array(displayText)
         var dotCount = 0
-        for i in 0...15 {
-            let c = displayCharacters[i]
-            if c == "." { dotCount += 1 }
+        var nonDotCount = 0
+        for c in displayCharacters {
+            if c == "." {
+                dotCount += 1
+            } else {
+                nonDotCount += 1
+            }
         }
         var index = 0
-        for i in (4 - dotCount)...15 {
-            let c = displayCharacters[i]
-            if c == "." { continue }
-            let hasDot = i < 15 && displayCharacters[i + 1] == "."
-            let startX = 43 + 28 * Double(index)
+        for i in 0..<displayCharacters.count {
+            if displayCharacters[i] == "." { continue }
+            let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
+            let startX = 43 + 28 * Double(index + (12 - nonDotCount))
             let startY = 231.0
             let ledPath =
-                getLedPath(c: c, startX: startX, startY: startY, hasDot: hasDot)
+                getLedPath(c: displayCharacters[i], startX: startX, startY: startY, hasDot: hasDot)
             if ledPath != nil { path.addPath(ledPath!) }
             index += 1
         }
