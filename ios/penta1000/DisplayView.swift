@@ -8,6 +8,11 @@ struct DisplayView: View {
     @Binding var displayText: String
 
     private let ledColor = Color(red: 240/255, green: 240/255, blue: 240/255)
+    private let ledCount = 12
+    private let x0 = 43.0
+    private let y0 = 231.0
+    private let interLedX = 28.0
+    private let segmentCount = 14
 
     // Indicates, for each character, which segments are on.
     private let charToSegments = [
@@ -117,11 +122,12 @@ struct DisplayView: View {
         if (segments == nil) { return nil }
 
         var path = Path()
-        for i in 0...13 {
-            let isSegmentOn = segments! & (1 << (13 - i)) != 0
-            if (isSegmentOn) {
+        for i in 0...(segmentCount - 1) {
+            let segmentBit = segments! & (1 << (segmentCount - 1 - i))
+            if (segmentBit != 0) {
                 let segmentPath: Path?
-                if (i == 2 || i == 4 || i == 9 || i == 11) {
+                let isAngled = i == 2 || i == 4 || i == 9 || i == 11
+                if isAngled {
                     segmentPath = getAngledSegmentPath(index: i)
                 } else {
                     segmentPath = getRightSegmentPath(index: i)
@@ -131,8 +137,7 @@ struct DisplayView: View {
                 }
             }
             if (hasDot) {
-                path.addEllipse(
-                    in: dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(startY)))
+                path.addEllipse(in: dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(startY)))
             }
         }
         return path
@@ -145,34 +150,33 @@ struct DisplayView: View {
     var body: some View {
         var path = Path()
         let displayCharacters = Array(displayText)
-        var dotCount = 0
         var nonDotCount = 0
         for c in displayCharacters {
-            if c == "." {
-                dotCount += 1
-            } else {
+            if c != "." {
                 nonDotCount += 1
             }
         }
         var index = 0
         for i in 0..<displayCharacters.count {
             if displayCharacters[i] == "." { continue }
+
+            // Right justify.
+            let position = index + (ledCount - nonDotCount)
             let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
-            let startX = 43 + 28 * Double(index + (12 - nonDotCount))
-            let startY = 231.0
-            let ledPath =
-                getLedPath(c: displayCharacters[i], startX: startX, startY: startY, hasDot: hasDot)
+            let ledPath = getLedPath(c: displayCharacters[i],
+                                     startX: x0 + interLedX * Double(position),
+                                     startY: y0,
+                                     hasDot: hasDot)
             if ledPath != nil { path.addPath(ledPath!) }
             index += 1
         }
-        return path.transform(
-                        CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
+        return path.transform(CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
                    .fill(ledColor)
     }
 }
 
 struct DisplayView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayView(.constant("           READY"))
+        DisplayView(.constant("READY"))
     }
 }

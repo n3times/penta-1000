@@ -2,7 +2,7 @@ import SwiftUI
 
 struct Penta1000View: View {
     private let penta1000: Penta1000
-    @State var displayText: String = "           READY"
+    @State var displayText: String = "READY"
 
     init(penta1000: Penta1000) {
         self.penta1000 = penta1000
