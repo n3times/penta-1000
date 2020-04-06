@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
 		DA667A69243AC69400EC93C0 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA667A68243AC69400EC93C0 /* HostingController.swift */; };
+		DA667A6E243B126200EC93C0 /* leds.c in Sources */ = {isa = PBXBuildFile; fileRef = DA667A6D243B126100EC93C0 /* leds.c */; };
 		DAA9F6F92432A0FF00B40964 /* penta1000.png in Resources */ = {isa = PBXBuildFile; fileRef = DAA9F6F82432A0FF00B40964 /* penta1000.png */; };
 		DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F72242EC5130014AEE3 /* AppDelegate.swift */; };
 		DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */; };
@@ -47,6 +48,8 @@
 /* Begin PBXFileReference section */
 		DA2B80DE24350D3F00197C78 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
 		DA667A68243AC69400EC93C0 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		DA667A6C243B126100EC93C0 /* leds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leds.h; sourceTree = "<group>"; };
+		DA667A6D243B126100EC93C0 /* leds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = leds.c; sourceTree = "<group>"; };
 		DAA9F6F82432A0FF00B40964 /* penta1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = penta1000.png; sourceTree = "<group>"; };
 		DAB98F6F242EC5130014AEE3 /* penta1000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = penta1000.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB98F72242EC5130014AEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +108,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA667A6B243B126100EC93C0 /* app_support */ = {
+			isa = PBXGroup;
+			children = (
+				DA667A6C243B126100EC93C0 /* leds.h */,
+				DA667A6D243B126100EC93C0 /* leds.c */,
+			);
+			name = app_support;
+			path = ../app_support;
+			sourceTree = "<group>";
+		};
 		DAA9F6F72432A0FF00B40964 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +130,7 @@
 		DAB98F66242EC5130014AEE3 = {
 			isa = PBXGroup;
 			children = (
+				DA667A6B243B126100EC93C0 /* app_support */,
 				DAA9F6F72432A0FF00B40964 /* artwork */,
 				DAD911B224317CE000A80DAF /* engine */,
 				DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */,
@@ -367,6 +381,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA667A6E243B126200EC93C0 /* leds.c in Sources */,
 				DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */,
 				DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */,
 				DAD911CA24317D0E00A80DAF /* number_edit.c in Sources */,
