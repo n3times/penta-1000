@@ -21,6 +21,7 @@ static app_t *get_current_app(p1_t *p1) {
 
 p1_t *p1_new(long seed) {
     p1_t *p1 = malloc(sizeof(p1_t));
+    p1->version = PENTA_1000_VERSION;
     p1->current_app_type = APP_TYPE_NONE;
     init_calc(&p1->calc);
     init_game(&p1->game, seed);
@@ -91,9 +92,15 @@ void p1_release_state_buffer(char *state_buffer) {
 }
 
 p1_t *p1_new_from_state_buffer(const char *state_buffer) {
-    long size = sizeof(p1_t);
-    p1_t *p1 = malloc(size);
-    memcpy(p1, state_buffer, size);
+    long version = ((p1_t *)state_buffer)->version;
+
+    if (version != PENTA_1000_VERSION) {
+        return NULL;
+    }
+
+    long struct_size = sizeof(p1_t);
+    p1_t *p1 = malloc(struct_size);
+    memcpy(p1, state_buffer, struct_size);
     init_calc_from_state((char *)&p1->calc);
     init_game_from_state((char *)&p1->game);
     return p1;

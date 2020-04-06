@@ -55,7 +55,8 @@ bool p1_is_animating(p1_t *p1);
  * State.
  */
 
-// Returns a p1_t object initialized from a given state buffer.
+// Returns a p1_t object initialized from a given state buffer or NULL if the
+// state buffer version is different from the current engine version.
 //
 // The p1_t object should be released with 'p1_release'.
 p1_t *p1_new_from_state_buffer(const char *state_buffer);

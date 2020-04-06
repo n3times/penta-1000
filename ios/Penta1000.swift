@@ -2,7 +2,7 @@ import Foundation
 
 // The Pentatronics 1000 object used to run the emulator.
 class Penta1000 {
-    let p1: OpaquePointer
+    let p1: OpaquePointer?
 
     // Initializes a Penta1000 object. The 'randomSeed' is used by the game's pseudo random
     // number generator.
@@ -10,14 +10,9 @@ class Penta1000 {
         p1 = p1_new(randomSeed)
     }
 
-    // Initializes a Penta1000 object from a raw buffer.
-    init(rawBuffer: UnsafePointer<Int8>) {
-        p1 = p1_new_from_state_buffer(rawBuffer)
-    }
-
-    // Initializes a Penta1000 object from the state stored in a given file. Returns non-nil if the
-    // object was successfully initialized.
-    convenience init?(filename: String) {
+    // Initializes a Penta1000 object from the state stored in a given file. Returns
+    // non-nil if the object was successfully initialized.
+    init?(filename: String) {
         var fileRawBuffer: UnsafePointer<Int8> = UnsafePointer<Int8>(bitPattern: 1)!
         var initialized = false
         let dirURL: URL? =
@@ -38,7 +33,8 @@ class Penta1000 {
             }
         }
         if (initialized) {
-            self.init(rawBuffer: fileRawBuffer)
+            p1 = p1_new_from_state_buffer(fileRawBuffer)
+            if (p1 == nil) { return nil; }
         } else {
             return nil
         }
@@ -116,7 +112,7 @@ class Penta1000 {
 
     // The raw representation of the Penta1000 object.
     func raw() -> Penta1000Raw {
-        return Penta1000Raw(p1: p1)
+        return Penta1000Raw(p1: p1!)
     }
 }
 
