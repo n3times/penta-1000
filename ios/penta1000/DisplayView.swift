@@ -7,7 +7,7 @@ struct DisplayView: View {
     // a dot. The text should be right-justified within the display.
     @Binding var displayText: String
 
-    private let ledColor = Color(red: 240/255, green: 240/255, blue: 240/255)
+    private let ledColor = Color(red: 255/255, green: 0/255, blue: 0/255)
     private let ledCount = 12
     private let x0 = 43.0
     private let y0 = 231.0
