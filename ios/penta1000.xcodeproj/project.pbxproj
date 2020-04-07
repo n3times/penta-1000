@@ -10,17 +10,11 @@
 		DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
 		DA667A69243AC69400EC93C0 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA667A68243AC69400EC93C0 /* HostingController.swift */; };
 		DA667A6E243B126200EC93C0 /* leds.c in Sources */ = {isa = PBXBuildFile; fileRef = DA667A6D243B126100EC93C0 /* leds.c */; };
-		DA9BA1F7243C1CC1006199A9 /* pentagon_full_167.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1EF243C1CC0006199A9 /* pentagon_full_167.png */; };
-		DA9BA1F8243C1CC1006199A9 /* pentagon_swoosh_152.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F0243C1CC0006199A9 /* pentagon_swoosh_152.png */; };
-		DA9BA1F9243C1CC1006199A9 /* pentagon_swoosh_180.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F1243C1CC1006199A9 /* pentagon_swoosh_180.png */; };
-		DA9BA1FA243C1CC1006199A9 /* pentagon_full_120.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F2243C1CC1006199A9 /* pentagon_full_120.png */; };
-		DA9BA1FB243C1CC1006199A9 /* pentagon_swoosh_167.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F3243C1CC1006199A9 /* pentagon_swoosh_167.png */; };
-		DA9BA1FC243C1CC1006199A9 /* pentagon_swoosh_120.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F4243C1CC1006199A9 /* pentagon_swoosh_120.png */; };
-		DA9BA1FD243C1CC1006199A9 /* pentagon_full_180.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F5243C1CC1006199A9 /* pentagon_full_180.png */; };
-		DA9BA1FE243C1CC1006199A9 /* pentagon_full_152.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1F6243C1CC1006199A9 /* pentagon_full_152.png */; };
-		DA9BA201243C1D46006199A9 /* pentagon_swoosh.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA1FF243C1D46006199A9 /* pentagon_swoosh.png */; };
-		DA9BA202243C1D46006199A9 /* pentagon_full.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA200243C1D46006199A9 /* pentagon_full.png */; };
-		DAA9F6F92432A0FF00B40964 /* penta1000.png in Resources */ = {isa = PBXBuildFile; fileRef = DAA9F6F82432A0FF00B40964 /* penta1000.png */; };
+		DA9BA212243C32E4006199A9 /* pentagon_full_baby_167.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20D243C32E4006199A9 /* pentagon_full_baby_167.png */; };
+		DA9BA213243C32E4006199A9 /* pentagon_full_baby_152.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20E243C32E4006199A9 /* pentagon_full_baby_152.png */; };
+		DA9BA214243C32E4006199A9 /* pentagon_full_baby_180.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20F243C32E4006199A9 /* pentagon_full_baby_180.png */; };
+		DA9BA215243C32E4006199A9 /* pentagon_full_baby_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA210243C32E4006199A9 /* pentagon_full_baby_1024.png */; };
+		DA9BA216243C32E4006199A9 /* pentagon_full_baby_120.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA211243C32E4006199A9 /* pentagon_full_baby_120.png */; };
 		DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F72242EC5130014AEE3 /* AppDelegate.swift */; };
 		DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */; };
 		DAB98F77242EC5130014AEE3 /* Penta1000View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F76242EC5130014AEE3 /* Penta1000View.swift */; };
@@ -61,17 +55,11 @@
 		DA667A68243AC69400EC93C0 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		DA667A6C243B126100EC93C0 /* leds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leds.h; sourceTree = "<group>"; };
 		DA667A6D243B126100EC93C0 /* leds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = leds.c; sourceTree = "<group>"; };
-		DA9BA1EF243C1CC0006199A9 /* pentagon_full_167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_167.png; sourceTree = "<group>"; };
-		DA9BA1F0243C1CC0006199A9 /* pentagon_swoosh_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_swoosh_152.png; sourceTree = "<group>"; };
-		DA9BA1F1243C1CC1006199A9 /* pentagon_swoosh_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_swoosh_180.png; sourceTree = "<group>"; };
-		DA9BA1F2243C1CC1006199A9 /* pentagon_full_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_120.png; sourceTree = "<group>"; };
-		DA9BA1F3243C1CC1006199A9 /* pentagon_swoosh_167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_swoosh_167.png; sourceTree = "<group>"; };
-		DA9BA1F4243C1CC1006199A9 /* pentagon_swoosh_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_swoosh_120.png; sourceTree = "<group>"; };
-		DA9BA1F5243C1CC1006199A9 /* pentagon_full_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_180.png; sourceTree = "<group>"; };
-		DA9BA1F6243C1CC1006199A9 /* pentagon_full_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_152.png; sourceTree = "<group>"; };
-		DA9BA1FF243C1D46006199A9 /* pentagon_swoosh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_swoosh.png; sourceTree = "<group>"; };
-		DA9BA200243C1D46006199A9 /* pentagon_full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full.png; sourceTree = "<group>"; };
-		DAA9F6F82432A0FF00B40964 /* penta1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = penta1000.png; sourceTree = "<group>"; };
+		DA9BA20D243C32E4006199A9 /* pentagon_full_baby_167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_baby_167.png; sourceTree = "<group>"; };
+		DA9BA20E243C32E4006199A9 /* pentagon_full_baby_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_baby_152.png; sourceTree = "<group>"; };
+		DA9BA20F243C32E4006199A9 /* pentagon_full_baby_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_baby_180.png; sourceTree = "<group>"; };
+		DA9BA210243C32E4006199A9 /* pentagon_full_baby_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_baby_1024.png; sourceTree = "<group>"; };
+		DA9BA211243C32E4006199A9 /* pentagon_full_baby_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pentagon_full_baby_120.png; sourceTree = "<group>"; };
 		DAB98F6F242EC5130014AEE3 /* penta1000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = penta1000.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB98F72242EC5130014AEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,17 +130,11 @@
 		DAA9F6F72432A0FF00B40964 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
-				DA9BA200243C1D46006199A9 /* pentagon_full.png */,
-				DA9BA1FF243C1D46006199A9 /* pentagon_swoosh.png */,
-				DA9BA1F2243C1CC1006199A9 /* pentagon_full_120.png */,
-				DA9BA1F6243C1CC1006199A9 /* pentagon_full_152.png */,
-				DA9BA1EF243C1CC0006199A9 /* pentagon_full_167.png */,
-				DA9BA1F5243C1CC1006199A9 /* pentagon_full_180.png */,
-				DA9BA1F4243C1CC1006199A9 /* pentagon_swoosh_120.png */,
-				DA9BA1F0243C1CC0006199A9 /* pentagon_swoosh_152.png */,
-				DA9BA1F3243C1CC1006199A9 /* pentagon_swoosh_167.png */,
-				DA9BA1F1243C1CC1006199A9 /* pentagon_swoosh_180.png */,
-				DAA9F6F82432A0FF00B40964 /* penta1000.png */,
+				DA9BA211243C32E4006199A9 /* pentagon_full_baby_120.png */,
+				DA9BA20E243C32E4006199A9 /* pentagon_full_baby_152.png */,
+				DA9BA20D243C32E4006199A9 /* pentagon_full_baby_167.png */,
+				DA9BA20F243C32E4006199A9 /* pentagon_full_baby_180.png */,
+				DA9BA210243C32E4006199A9 /* pentagon_full_baby_1024.png */,
 			);
 			name = artwork;
 			path = ../artwork;
@@ -385,20 +367,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA9BA201243C1D46006199A9 /* pentagon_swoosh.png in Resources */,
-				DA9BA1FC243C1CC1006199A9 /* pentagon_swoosh_120.png in Resources */,
-				DA9BA202243C1D46006199A9 /* pentagon_full.png in Resources */,
-				DA9BA1FA243C1CC1006199A9 /* pentagon_full_120.png in Resources */,
+				DA9BA213243C32E4006199A9 /* pentagon_full_baby_152.png in Resources */,
+				DA9BA216243C32E4006199A9 /* pentagon_full_baby_120.png in Resources */,
+				DA9BA214243C32E4006199A9 /* pentagon_full_baby_180.png in Resources */,
+				DA9BA215243C32E4006199A9 /* pentagon_full_baby_1024.png in Resources */,
 				DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */,
-				DAA9F6F92432A0FF00B40964 /* penta1000.png in Resources */,
 				DAB98F7C242EC5160014AEE3 /* Preview Assets.xcassets in Resources */,
-				DA9BA1FE243C1CC1006199A9 /* pentagon_full_152.png in Resources */,
-				DA9BA1F8243C1CC1006199A9 /* pentagon_swoosh_152.png in Resources */,
 				DAB98F79242EC5160014AEE3 /* Assets.xcassets in Resources */,
-				DA9BA1F9243C1CC1006199A9 /* pentagon_swoosh_180.png in Resources */,
-				DA9BA1F7243C1CC1006199A9 /* pentagon_full_167.png in Resources */,
-				DA9BA1FB243C1CC1006199A9 /* pentagon_swoosh_167.png in Resources */,
-				DA9BA1FD243C1CC1006199A9 /* pentagon_full_180.png in Resources */,
+				DA9BA212243C32E4006199A9 /* pentagon_full_baby_167.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
