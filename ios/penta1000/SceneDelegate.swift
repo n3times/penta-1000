@@ -10,14 +10,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
-        // Create the SwiftUI view that provides the window contents.
-        penta1000 = Penta1000(filename: "penta1000.dat")
+        let didCrash = UserDefaults.standard.bool(forKey: "crash")
+        UserDefaults.standard.set(true, forKey: "crash")
+        if !didCrash { penta1000 = Penta1000(filename: "penta1000.dat") }
         if penta1000 == nil {
             penta1000 = Penta1000(randomSeed: Int.random(in: 1...1000000000))
         }
         let penta1000View = Penta1000View(penta1000: penta1000!)
 
-        // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = HostingController(rootView: penta1000View)
@@ -52,7 +52,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        _ = penta1000!.save(filename: "penta1000.dat")
+        let wasSaved = penta1000!.save(filename: "penta1000.dat")
+        if wasSaved { UserDefaults.standard.set(false, forKey: "crash"); }
     }
 
 
