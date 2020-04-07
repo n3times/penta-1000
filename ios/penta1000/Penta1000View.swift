@@ -25,12 +25,14 @@ struct Penta1000View: View {
         let w: CGFloat = 65
         let h: CGFloat = 51
 
-        let i: CGFloat = (x - x0) / dx
-        let j: CGFloat = (y - y0) / dy
+        var i: CGFloat = (x - x0 + (dx - w)/2) / dx
+        var j: CGFloat = (y - y0 + (dy - h)/2) / dy
 
-        if (i >= 0 && j >= 0 && i < 4 && j < 5) {
-            if i - CGFloat(Int(i)) > w / dx { return nil }
-            if j - CGFloat(Int(j)) > h / dy { return nil }
+        if (i >= -0.2 && j >= -0.2 && i < 4.2 && j < 5.2) {
+            if i < 0 { i = 0 }
+            if j < 0 { j = 0 }
+            if i >= 4 { i = 3 }
+            if (j >= 5) { j = 4 }
             let keys = ["g~%c", "789/", "456*", "123+", "0.-="]
             let index = keys[Int(j)].index(keys[Int(j)].startIndex, offsetBy: Int(i))
             return keys[Int(j)][index]
