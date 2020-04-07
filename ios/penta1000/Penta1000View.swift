@@ -55,8 +55,11 @@ struct Penta1000View: View {
 
     // Listens for tap events to determine if user pressed a calculator key.
     private var dragGesture: some Gesture {
-        DragGesture(minimumDistance: 0, coordinateSpace: .local)
-            .onEnded {
+        var isTapped = false
+        return DragGesture(minimumDistance: 0, coordinateSpace: .local)
+            .onChanged {
+                if (isTapped) { return; }
+                isTapped = true;
                 let c = self.getCalculatorKey(location: $0.location)
                 if c != nil {
                     let wasAnimating = self.penta1000.isAnimating()
@@ -74,7 +77,10 @@ struct Penta1000View: View {
                         }
                     }
                 }
-        }
+            }
+            .onEnded { _ in
+                isTapped = false
+            }
     }
 
     var body: some View {
