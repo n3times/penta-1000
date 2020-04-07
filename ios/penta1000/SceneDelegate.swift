@@ -2,6 +2,9 @@ import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    let crashKey = "crash"
+    let stateFilename = "penta1000.dat"
+
     var window: UIWindow?
     var penta1000: Penta1000?
 
@@ -10,9 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
-        let didCrash = UserDefaults.standard.bool(forKey: "crash")
-        UserDefaults.standard.set(true, forKey: "crash")
-        if !didCrash { penta1000 = Penta1000(filename: "penta1000.dat") }
+        let didCrash = UserDefaults.standard.bool(forKey: crashKey)
+        UserDefaults.standard.set(true, forKey: crashKey)
+        if !didCrash { penta1000 = Penta1000(filename: stateFilename) }
         if penta1000 == nil {
             penta1000 = Penta1000(randomSeed: Int.random(in: 1...1000000000))
         }
@@ -52,8 +55,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        let wasSaved = penta1000!.save(filename: "penta1000.dat")
-        if wasSaved { UserDefaults.standard.set(false, forKey: "crash"); }
+        let wasSaved = penta1000!.save(filename: stateFilename)
+        if wasSaved { UserDefaults.standard.set(false, forKey: crashKey); }
     }
 
 
