@@ -18,8 +18,8 @@ static void test_hilo() {
 
 static void test_next_game_different_target() {
     test("g745", "745 YOU WON");
-    test("gg745", "745 TOO HI");
-    test("gg506", "506 YOU WON");
+    test("gg745", "745 TOO LO");
+    test("gg887", "887 YOU WON");
 }
 
 static void test_animation_on_enter() {

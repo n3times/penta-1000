@@ -153,9 +153,8 @@ static void advance_frame_game(app_t *app) {
         }
         break;
     case GAME_STATE_START:
-        // "Generate" random number.
         if (1 <= game->frame && game->frame < 70) {
-            sprintf(game->display, "%03d       ", rand() % 1000);
+            sprintf(game->display, "%d       ", get_random_target(game));
         } else if (game->frame == 70) {
             sprintf(game->display, "???       ");
         } else if (game->frame == 140) {
@@ -203,7 +202,6 @@ static void advance_frame_game(app_t *app) {
         }
         break;
     case GAME_STATE_OVER:
-        // Animate indefinitely.
         if (game->frame == 1) {
             sprintf(game->display, "%03d       ", game->guess);
         } else if (game->frame % 200 == 0 && did_win) {
