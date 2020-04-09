@@ -3,6 +3,7 @@ import SwiftUI
 struct Penta1000View: View {
     private let penta1000: Penta1000
     @State var displayText: String = "READY"
+    @State var isTapped = false
 
     init(penta1000: Penta1000) {
         self.penta1000 = penta1000
@@ -57,11 +58,10 @@ struct Penta1000View: View {
 
     // Listens for tap events to determine if user pressed a calculator key.
     private var dragGesture: some Gesture {
-        var isTapped = false
         return DragGesture(minimumDistance: 0, coordinateSpace: .local)
             .onChanged {
-                if (isTapped) { return; }
-                isTapped = true;
+                if (self.isTapped) { return; }
+                self.isTapped = true;
                 let c = self.getCalculatorKey(location: $0.location)
                 if c != nil {
                     let wasAnimating = self.penta1000.isAnimating()
@@ -81,7 +81,7 @@ struct Penta1000View: View {
                 }
             }
             .onEnded { _ in
-                isTapped = false
+                self.isTapped = false
             }
     }
 
