@@ -15,13 +15,24 @@ class penta1000UITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testFunctionality() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["--Reset"]
         app.launch()
+        let calculator = app.images["calculator"]
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssertEqual(calculator.label, "PENTATRONICS")
+
+        tap(app: app, character: "1")
+        XCTAssertEqual(calculator.label, "1")
+        tap(app: app, character: "+")
+        XCTAssertEqual(calculator.label, "1+")
+        tap(app: app, character: "1")
+        XCTAssertEqual(calculator.label, "1+1")
+        tap(app: app, character: "=")
+        XCTAssertEqual(calculator.label, "2")
+        tap(app: app, character: "c")
+        XCTAssertEqual(calculator.label, "READY")
     }
 
     func testLaunchPerformance() throws {
@@ -31,5 +42,37 @@ class penta1000UITests: XCTestCase {
                 XCUIApplication().launch()
             }
         }
+    }
+
+    private func tap(app: XCUIApplication, character: Character) {
+        let calculator = app.images["calculator"]
+        let calculatorOrigin =
+            calculator.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+        let characterLocation = getCharacterLocation(character: character)
+        let characterCoordinate =
+            calculatorOrigin.withOffset(CGVector(dx: characterLocation!.x, dy: characterLocation!.y))
+        characterCoordinate.tap()
+    }
+
+    private func getCharacterLocation(character: Character) -> CGPoint? {
+        let keys = ["g~%c", "789/", "456*", "123+", "0.-="]
+
+        // Top left corner of top left key ("?").
+        let x0: CGFloat = 37.0
+        let y0: CGFloat = 313.0
+
+        // Separation between the top left corners of consecutive keys.
+        let dx: CGFloat = 78.5
+        let dy: CGFloat = 67.0
+
+        for row in 0...4 {
+            let chars = Array(keys[row])
+            for col in 0...3 {
+                if chars[col] == character {
+                    return CGPoint(x: x0 + CGFloat(col) * dx, y: y0 + CGFloat(row) * dy)
+                }
+            }
+        }
+        return nil
     }
 }

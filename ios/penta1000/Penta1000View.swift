@@ -86,12 +86,13 @@ struct Penta1000View: View {
     }
 
     var body: some View {
+
         Image("penta1000")
             .onAppear(perform: appeared)
             .gesture(dragGesture)
-            .overlay(
-                DisplayView($displayText),
-                alignment: .topTrailing)
+            .accessibility(identifier: "calculator")
+            .accessibility(label: Text(displayText))
+            .overlay(DisplayView($displayText), alignment: .topTrailing)
             .padding(2000)
             .background(Color(red: 16/255, green: 16/255, blue: 16/255))
     }
