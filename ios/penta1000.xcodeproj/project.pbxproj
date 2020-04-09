@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
+		DA387EC7243F928000B6FE6D /* penta1000.png in Resources */ = {isa = PBXBuildFile; fileRef = DA387EC6243F928000B6FE6D /* penta1000.png */; };
 		DA667A69243AC69400EC93C0 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA667A68243AC69400EC93C0 /* HostingController.swift */; };
 		DA667A6E243B126200EC93C0 /* leds.c in Sources */ = {isa = PBXBuildFile; fileRef = DA667A6D243B126100EC93C0 /* leds.c */; };
 		DA9BA212243C32E4006199A9 /* logo_167.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20D243C32E4006199A9 /* logo_167.png */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		DA2B80DE24350D3F00197C78 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
+		DA387EC6243F928000B6FE6D /* penta1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = penta1000.png; sourceTree = "<group>"; };
 		DA47229E243BD31900C0F421 /* penta1000.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = penta1000.entitlements; sourceTree = "<group>"; };
 		DA667A68243AC69400EC93C0 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		DA667A6C243B126100EC93C0 /* leds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leds.h; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		DAA9F6F72432A0FF00B40964 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
+				DA387EC6243F928000B6FE6D /* penta1000.png */,
 				DA9BA211243C32E4006199A9 /* logo_120.png */,
 				DA9BA20E243C32E4006199A9 /* logo_152.png */,
 				DA9BA20D243C32E4006199A9 /* logo_167.png */,
@@ -369,6 +372,7 @@
 			files = (
 				DA9BA213243C32E4006199A9 /* logo_152.png in Resources */,
 				DA9BA216243C32E4006199A9 /* logo_120.png in Resources */,
+				DA387EC7243F928000B6FE6D /* penta1000.png in Resources */,
 				DA9BA214243C32E4006199A9 /* logo_180.png in Resources */,
 				DA9BA215243C32E4006199A9 /* logo_1024.png in Resources */,
 				DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */,
