@@ -88,7 +88,7 @@ struct Penta1000View: View {
     var body: some View {
 
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            Color(red: 16/255, green: 16/255, blue: 16/255).edgesIgnoringSafeArea(.all)
             Image("penta1000")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -97,8 +97,8 @@ struct Penta1000View: View {
                 .gesture(dragGesture)
                 .accessibility(identifier: "calculator")
                 .accessibility(label: Text(displayText))
-                .overlay(DisplayView($displayText), alignment: .topTrailing)
-                .background(Color(red: 16/255, green: 16/255, blue: 16/255))
+            DisplayView($displayText)
+                .offset(x: 0, y: 42)
         }
     }
 }
