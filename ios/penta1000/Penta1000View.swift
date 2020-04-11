@@ -85,21 +85,49 @@ struct Penta1000View: View {
             }
     }
 
-    var body: some View {
+    func getView(_ metrics: GeometryProxy) -> some View {
+        let screenWidth = metrics.size.width
+        let screenHeight = metrics.size.height
+        let screenAspectRatio = screenHeight / screenWidth
 
-        ZStack {
+        let standardizedWidth = CGFloat(375.0)
+        let standardizedHeight = CGFloat(647.0)
+        let standardizedScreenAspectRatio = standardizedHeight / standardizedWidth
+
+        let isPortrait = screenAspectRatio >= CGFloat(standardizedScreenAspectRatio)
+
+        let calcWidth = isPortrait ? screenWidth : screenHeight / standardizedScreenAspectRatio
+        let calcHeight = isPortrait ? screenWidth * standardizedScreenAspectRatio : screenHeight
+
+        // Display is full width, standard height of 96 and standard offset_y of 197
+
+        let displayWidth = calcWidth
+        let displayHeight = CGFloat(96.0) * calcHeight / standardizedHeight
+
+        let displayOffsetX = CGFloat(0.0)
+
+        let displayOffsetY = (197 - (647 - 96)/2) * calcHeight / standardizedHeight
+
+        return ZStack {
             Color(red: 16/255, green: 16/255, blue: 16/255).edgesIgnoringSafeArea(.all)
             Image("penta1000")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, alignment: .bottom)
-                .onAppear(perform: appeared)
-                .gesture(dragGesture)
+                .frame(width: calcWidth, height: calcHeight, alignment: .center)
+                .onAppear(perform: self.appeared)
+                .gesture(self.dragGesture)
                 .accessibility(identifier: "calculator")
-                .accessibility(label: Text(displayText))
-            DisplayView($displayText)
-                .offset(x: 0, y: 42)
+                .accessibility(label: Text(self.displayText))
+            DisplayView(self.$displayText)
+                .offset(x: displayOffsetX, y: displayOffsetY)
+                .frame(width: displayWidth, height: displayHeight, alignment: .center)
         }
+    }
+
+    var body: some View {
+      GeometryReader { metrics in
+        self.getView(metrics)
+      }
     }
 }
 
