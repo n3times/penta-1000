@@ -156,7 +156,6 @@ static void advance_frame_game(app_t *app) {
         if (1 <= game->frame && game->frame < 100) {
             sprintf(game->display, "%d       ", get_random_target(game));
         } else if (game->frame == 100) {
-            sprintf(game->display, "___       ");
             sprintf(game->display, "___ GUESS ");
             game->state = GAME_STATE_PLAY;
         }
@@ -168,7 +167,7 @@ static void advance_frame_game(app_t *app) {
             if (game->is_guess_editing) {
                 sprintf(game->display, "%s       ", game->guess_textfield);
             } else if (game->guess == 0) {
-                sprintf(game->display, "___       ");
+                sprintf(game->display, "___ GUESS ");
             } else {
                 bool high = (game->guess - game->target) > 0;
                 sprintf(game->display, "%03d %s",
