@@ -153,12 +153,11 @@ static void advance_frame_game(app_t *app) {
         }
         break;
     case GAME_STATE_START:
-        if (1 <= game->frame && game->frame < 70) {
+        if (1 <= game->frame && game->frame < 100) {
             sprintf(game->display, "%d       ", get_random_target(game));
-        } else if (game->frame == 70) {
-            sprintf(game->display, "???       ");
-        } else if (game->frame == 140) {
+        } else if (game->frame == 100) {
             sprintf(game->display, "___       ");
+            sprintf(game->display, "___ GUESS ");
             game->state = GAME_STATE_PLAY;
         }
         break;
