@@ -10,9 +10,11 @@ struct Penta1000View: View {
     }
 
     // Returns the key at a given location, or nil if there is no such a key.
-    private func getCalculatorKey(location: CGPoint) -> Character? {
-        let x = location.x
-        let y = location.y
+    private func getCalculatorKey(location: CGPoint, calcWidth: CGFloat, calcHeight: CGFloat) -> Character? {
+        let factor = calcWidth / 375
+        let x = location.x / factor
+        let y = location.y / factor
+
 
         // Top left corner of top left key ("?").
         let x0: CGFloat = 37
@@ -56,35 +58,6 @@ struct Penta1000View: View {
         }
     }
 
-    // Listens for tap events to determine if user pressed a calculator key.
-    private var dragGesture: some Gesture {
-        return DragGesture(minimumDistance: 0, coordinateSpace: .local)
-            .onChanged {
-                if (self.isTapped) { return; }
-                self.isTapped = true;
-                let c = self.getCalculatorKey(location: $0.location)
-                if c != nil {
-                    let wasAnimating = self.penta1000.isAnimating()
-                    self.penta1000.pressKey(c: c!)
-                    let isAnimating = self.penta1000.isAnimating()
-                    self.displayText = self.penta1000.display()
-                    if !wasAnimating && isAnimating {
-                        Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
-                            self.penta1000.advanceFrame()
-                            self.displayText = self.penta1000.display()
-
-                            if !self.penta1000.isAnimating() {
-                                timer.invalidate()
-                            }
-                        }
-                    }
-                }
-            }
-            .onEnded { _ in
-                self.isTapped = false
-            }
-    }
-
     func getView(_ metrics: GeometryProxy) -> some View {
         let screenWidth = metrics.size.width
         let screenHeight = metrics.size.height
@@ -115,7 +88,33 @@ struct Penta1000View: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: calcWidth, height: calcHeight, alignment: .center)
                 .onAppear(perform: self.appeared)
-                .gesture(self.dragGesture)
+                .gesture(
+                    DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                    .onChanged {
+                        if (self.isTapped) { return; }
+                        self.isTapped = true;
+                        let c = self.getCalculatorKey(
+                            location: $0.location, calcWidth: calcWidth, calcHeight: calcHeight)
+                        if c != nil {
+                            let wasAnimating = self.penta1000.isAnimating()
+                            self.penta1000.pressKey(c: c!)
+                            let isAnimating = self.penta1000.isAnimating()
+                            self.displayText = self.penta1000.display()
+                            if !wasAnimating && isAnimating {
+                                Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
+                                    self.penta1000.advanceFrame()
+                                    self.displayText = self.penta1000.display()
+
+                                    if !self.penta1000.isAnimating() {
+                                        timer.invalidate()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .onEnded { _ in
+                        self.isTapped = false
+                    })
                 .accessibility(identifier: "calculator")
                 .accessibility(label: Text(self.displayText))
             DisplayView(self.$displayText)

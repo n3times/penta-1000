@@ -49,8 +49,9 @@ class penta1000UITests: XCTestCase {
         let calculatorOrigin =
             calculator.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
         let characterLocation = getCharacterLocation(character: character)
-        let characterCoordinate =
-            calculatorOrigin.withOffset(CGVector(dx: characterLocation!.x, dy: characterLocation!.y))
+        let factor = calculator.frame.width / 375
+        let characterCoordinate = calculatorOrigin.withOffset(CGVector(
+            dx: characterLocation!.x * factor, dy: characterLocation!.y * factor))
         characterCoordinate.tap()
     }
 
