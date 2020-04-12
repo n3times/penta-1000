@@ -73,14 +73,14 @@ struct Penta1000View: View {
         let calcWidth = isPortrait ? screenWidth : screenHeight / calcAspectRatio
         let calcHeight = isPortrait ? screenWidth * calcAspectRatio : screenHeight
 
-        let factor = calcWidth / standardCalcWidth
+        let scaleFactor = calcWidth / standardCalcWidth
 
         let displayWidth = calcWidth
-        let displayHeight = standardDisplayHeight * factor
+        let displayHeight = standardDisplayHeight * scaleFactor
 
         let displayOffsetX = CGFloat(0.0)
         let displayOffsetY =
-            (standardDisplayOffsetY - (standardCalcHeight - standardDisplayHeight)/2) * factor
+            (standardDisplayOffsetY - (standardCalcHeight - standardDisplayHeight)/2) * scaleFactor
 
         return ZStack {
             Color(red: 16/255, green: 16/255, blue: 16/255).edgesIgnoringSafeArea(.all)
@@ -93,8 +93,8 @@ struct Penta1000View: View {
                         .onChanged {
                             if (self.isTapped) { return; }
                             self.isTapped = true;
-                            let standardizedLocation = CGPoint(x: $0.location.x / CGFloat(factor),
-                                                               y: $0.location.y / CGFloat(factor))
+                            let standardizedLocation = CGPoint(x: $0.location.x / CGFloat(scaleFactor),
+                                                               y: $0.location.y / CGFloat(scaleFactor))
                             let c =
                                 self.getCalculatorKey(standardizedLocation: standardizedLocation)
                             if c != nil {

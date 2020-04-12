@@ -7,15 +7,15 @@ struct DisplayView: View {
     // a dot. The text should be right-justified within the display.
     @Binding var displayText: String
 
-    private static let ledColor = Color(red: 255/255, green: 0/255, blue: 0/255)
+    private static let ledColor = Color.red
     private static let ledCount = 12
     private static let interLedX = 28.0
     private static let segmentCount = 14
 
-    private static let standardizedWidth = 375
+    private static let standardWidth = 375
 
     // Describes the 10 horizontal and vertical segments.
-    private let rightSegmentsData = [
+    private static let rightSegmentsData = [
         0: CGRect(x: 0.0, y: 0, width: 20, height: 3),
         1: CGRect(x: 0.0, y: 0, width: 3, height: 15),
         3: CGRect(x: 8.0, y: 0, width: 3, height: 15),
@@ -29,7 +29,7 @@ struct DisplayView: View {
     ]
 
     // Describes the 4 angled segments.
-    private let angledSegmentsData = [
+    private static let angledSegmentsData = [
         2: [CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 10, y: 16-3),
             CGPoint(x: 10, y: 16), CGPoint(x: 10-2, y: 16), CGPoint(x: 1, y: 1+3)],
         4: [CGPoint(x: 19, y: 1), CGPoint(x: 19-2, y: 1), CGPoint(x: 9, y: 15-3),
@@ -43,7 +43,7 @@ struct DisplayView: View {
     private let dotData = CGRect(x: 21, y: 25, width: 4, height: 4)
 
     private func getAngledSegmentPath(index: Int) -> Path? {
-        let points = angledSegmentsData[index]!
+        let points = DisplayView.angledSegmentsData[index]!
         var path = Path()
         path.move(to: points[0])
         for i in 1...5 {
@@ -53,7 +53,7 @@ struct DisplayView: View {
     }
 
     private func getRightSegmentPath(index: Int) -> Path? {
-        let rect = rightSegmentsData[index]!
+        let rect = DisplayView.rightSegmentsData[index]!
         var path = Path()
         path.move(to: CGPoint(x: rect.minX, y: rect.minY + 2))
         path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.minY))
@@ -118,18 +118,19 @@ struct DisplayView: View {
             if ledPath != nil { path.addPath(ledPath!) }
             index += 1
         }
+        // Slant display slightly.
         let transformedPath =
             path.transform(CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
         return transformedPath
     }
 
     func getView(_ metrics: GeometryProxy) -> some View {
-        let rect = getPath("PENTATRONICS").shape.boundingRect
-        let scale = metrics.size.width / CGFloat(DisplayView.standardizedWidth)
+        let scaleFactor = metrics.size.width / CGFloat(DisplayView.standardWidth)
+        let fullRect = getPath("PENTATRONICS").shape.boundingRect
         return getPath(displayText)
-            .scale(scale)
-            .offset(x: (metrics.size.width*scale - rect.width*scale) / 2 + 1 ,
-                    y: (metrics.size.height*scale - rect.height*scale) / 2)
+            .scale(scaleFactor)
+            .offset(x: (metrics.size.width - fullRect.width) / 2 * scaleFactor + 1.5,
+                    y: (metrics.size.height - fullRect.height) / 2 * scaleFactor)
             .fill(DisplayView.ledColor)
     }
 
