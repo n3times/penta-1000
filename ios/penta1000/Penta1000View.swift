@@ -1,5 +1,7 @@
 import SwiftUI
 
+// The main view. It holds the calculator with its keyboard and display. It listens to key presses
+// events and runs the animation loop.
 struct Penta1000View: View {
     private let penta1000: Penta1000
     @State private var displayText: String = "READY"
@@ -10,7 +12,7 @@ struct Penta1000View: View {
     }
 
     // Returns the key at a given location, or nil if there is no such a key.
-    private func getCalculatorKey(standardizedLocation: CGPoint) -> Character? {
+    private static func getCalculatorKey(standardizedLocation: CGPoint) -> Character? {
         // Top left corner of top left key ("?").
         let x0 = 37.0
         let y0 = 313.0
@@ -34,27 +36,26 @@ struct Penta1000View: View {
             if j < 0 { j = 0 }
             if i >= 4 { i = 3 }
             if (j >= 5) { j = 4 }
+            let col = Int(i)
+            let row = Int(j)
             let keys = ["g~%c", "789/", "456*", "123+", "0.-="]
-            let index = keys[Int(j)].index(keys[Int(j)].startIndex, offsetBy: Int(i))
-            return keys[Int(j)][index]
+            let index = keys[row].index(keys[row].startIndex, offsetBy: col)
+            return keys[row][index]
         } else {
             return nil
         }
     }
 
-    private func appeared() {
-        displayText = penta1000.display()
-        if self.penta1000.isAnimating() {
-            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true, block: { timer in
-                self.penta1000.advanceFrame()
-                if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
-                self.displayText = self.penta1000.display()
-
-                if !self.penta1000.isAnimating() {
-                    timer.invalidate()
-                }
-            })
-        }
+    private func runDisplayAnimationLoop() {
+        Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true, block: { timer in
+            // Advance 2 frames at a time, for performance reasons.
+            self.penta1000.advanceFrame()
+            if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
+            self.displayText = self.penta1000.display()
+            if !self.penta1000.isAnimating() {
+                timer.invalidate()
+            }
+        })
     }
 
     func getView(_ metrics: GeometryProxy) -> some View {
@@ -83,37 +84,29 @@ struct Penta1000View: View {
             (standardDisplayOffsetY - (standardCalcHeight - standardDisplayHeight)/2) * scaleFactor
 
         return ZStack {
-            Color(red: 16/255, green: 16/255, blue: 16/255).edgesIgnoringSafeArea(.all)
+            Color(red: 16.0/255, green: 16.0/255, blue: 16.0/255).edgesIgnoringSafeArea(.all)
             Image("penta1000")
                 .resizable()
                 .frame(width: CGFloat(calcWidth), height: CGFloat(calcHeight), alignment: .center)
-                .onAppear(perform: self.appeared)
                 .gesture(
+                    // To be responsive, handle key presses as soon as the user touches the screen,
+                    // instead of waiting until the user lifts the finger/stylus.
                     DragGesture(minimumDistance: 0, coordinateSpace: .local)
                         .onChanged {
                             if (self.isTapped) { return; }
                             self.isTapped = true;
-                            let standardizedLocation = CGPoint(x: $0.location.x / CGFloat(scaleFactor),
-                                                               y: $0.location.y / CGFloat(scaleFactor))
-                            let c =
-                                self.getCalculatorKey(standardizedLocation: standardizedLocation)
+                            let standardizedLocation =
+                                CGPoint(x: $0.location.x / CGFloat(scaleFactor),
+                                        y: $0.location.y / CGFloat(scaleFactor))
+                            let c = Penta1000View.getCalculatorKey(
+                                standardizedLocation: standardizedLocation)
                             if c != nil {
                                 let wasAnimating = self.penta1000.isAnimating()
                                 self.penta1000.pressKey(c: c!)
                                 let isAnimating = self.penta1000.isAnimating()
                                 self.displayText = self.penta1000.display()
                                 if !wasAnimating && isAnimating {
-                                    Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { timer in
-                                        self.penta1000.advanceFrame()
-                                        if (self.penta1000.isAnimating()) {
-                                            self.penta1000.advanceFrame()
-                                        }
-                                        self.displayText = self.penta1000.display()
-
-                                        if !self.penta1000.isAnimating() {
-                                            timer.invalidate()
-                                        }
-                                    }
+                                    self.runDisplayAnimationLoop()
                                 }
                             }
                         }
@@ -128,13 +121,19 @@ struct Penta1000View: View {
                 .frame(width: CGFloat(displayWidth),
                        height: CGFloat(displayHeight),
                        alignment: .center)
+                .onAppear(perform: {
+                    self.displayText = self.penta1000.display()
+                    if self.penta1000.isAnimating() {
+                        self.runDisplayAnimationLoop()
+                    }
+                })
         }
     }
 
     var body: some View {
-      GeometryReader { metrics in
-        self.getView(metrics)
-      }
+        return GeometryReader { metrics in
+            self.getView(metrics)
+        }
     }
 }
 
