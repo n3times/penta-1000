@@ -60,6 +60,7 @@ static void press_key_game(app_t *app, char key) {
     if (game->state == GAME_STATE_ENTER ||
         game->state == GAME_STATE_START ||
         game->state == GAME_STATE_FLASH ||
+        game->state == GAME_STATE_STATS ||
         game->state == GAME_STATE_LAST_GUESS ||
         game->state == GAME_STATE_SHOW_GUESS) {
         return;
@@ -74,7 +75,7 @@ static void press_key_game(app_t *app, char key) {
     // GAME_STATE_PLAY mode.
 
     int is_digit = '0' <= key && key <= '9';
-    bool ignore_key = key != GAME_KEY && !is_digit;
+    bool ignore_key = key != GAME_KEY && key != '%' && !is_digit;
     if (key == '0' && !(game->is_guess_editing && game->guess_textfield[0] != '_')) {
         ignore_key = true;
     }
@@ -94,6 +95,13 @@ static void press_key_game(app_t *app, char key) {
             start_game(game);
             return;
         }
+    } else if (key == '%') {
+        char *str = "GUESSES";
+        if (game->index == 1) str = "GUESS";
+        sprintf(game->display, "%d %s", game->index, str);
+        game->state = GAME_STATE_STATS;
+        game->frame = 0;
+        return;
     } else if (game->is_guess_editing && is_digit) {
         int i = 0;
         for (i = 0; i < 3; i++) {
@@ -164,6 +172,21 @@ static void advance_frame_game(app_t *app) {
         break;
     case GAME_STATE_FLASH:
         if (game->frame == 5) {
+            if (game->is_guess_editing) {
+                sprintf(game->display, "%s       ", game->guess_textfield);
+            } else if (game->guess == 0) {
+                sprintf(game->display, "___ GUESS ");
+            } else {
+                bool high = (game->guess - game->target) > 0;
+                sprintf(game->display, "%03d %s",
+                        game->guess, high ? "TOO HI" : "TOO LO");
+            }
+            game->state = GAME_STATE_PLAY;
+            game->frame = 0;
+        }
+        break;
+    case GAME_STATE_STATS:
+        if (game->frame == 100) {
             if (game->is_guess_editing) {
                 sprintf(game->display, "%s       ", game->guess_textfield);
             } else if (game->guess == 0) {

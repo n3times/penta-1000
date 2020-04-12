@@ -11,6 +11,8 @@ typedef enum game_state_e {
     GAME_STATE_PLAY,
     // Brief flash indicating a key press has been ignored.
     GAME_STATE_FLASH,
+    // Game is showing statistics about the game.
+    GAME_STATE_STATS,
     // Guess has been entered and is being shown.
     GAME_STATE_SHOW_GUESS,
     // Last guess animation sequence.
