@@ -11,27 +11,27 @@ struct Penta1000View: View {
         self.penta1000 = penta1000
     }
 
-    // Returns the key at a given location, or nil if there is no such a key.
     private static func getCalculatorKey(standardizedLocation: CGPoint) -> Character? {
         // Top left corner of top left key ("?").
         let x0 = 37.0
         let y0 = 313.0
 
-        // Separation between the top left corners of consecutive keys.
-        let dx = 78.5
-        let dy = 67.0
-
         // Dimensions of each key.
         let w = 65.0
         let h = 51.0
 
+        // Separation between keys.
+        let interX = 13.5
+        let interY = 16.0
+
         let x = Double(standardizedLocation.x) - x0
         let y = Double(standardizedLocation.y) - y0
 
-        var i = (x + (dx - w)/2) / dx
-        var j = (y + (dy - h)/2) / dy
+        var i = (x + interX / 2) / (w + interX)
+        var j = (y + interY / 2) / (h + interY)
 
-        if (i >= -0.2 && j >= -0.2 && i < 4.2 && j < 5.2) {
+        // If the key press is a near miss, we choose the closest key.
+        if (i >= -0.1 && j >= -0.1 && i < 4.1 && j < 5.1) {
             if i < 0 { i = 0 }
             if j < 0 { j = 0 }
             if i >= 4 { i = 3 }
