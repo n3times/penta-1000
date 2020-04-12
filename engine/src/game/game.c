@@ -147,6 +147,21 @@ static char *get_display_game(app_t *app) {
     return game->display;
 }
 
+static void go_to_play_state(app_t *app) {
+    game_t *game = (game_t *)app;
+
+    if (game->is_guess_editing) {
+        sprintf(game->display, "%s       ", game->guess_textfield);
+    } else if (game->guess == 0) {
+        sprintf(game->display, "___ GUESS ");
+    } else {
+        bool high = (game->guess - game->target) > 0;
+        sprintf(game->display, "%03d %s",
+                game->guess, high ? "TOO HI" : "TOO LO");
+    }
+    game->state = GAME_STATE_PLAY;
+}
+
 static void advance_frame_game(app_t *app) {
     game_t *game = (game_t *)app;
 
@@ -164,40 +179,19 @@ static void advance_frame_game(app_t *app) {
         if (1 <= game->frame && game->frame < 100) {
             sprintf(game->display, "%d       ", get_random_target(game));
         } else if (game->frame == 100) {
-            sprintf(game->display, "___ GUESS ");
-            game->state = GAME_STATE_PLAY;
+            go_to_play_state(app);
         }
         break;
     case GAME_STATE_PLAY:
         break;
     case GAME_STATE_FLASH:
         if (game->frame == 5) {
-            if (game->is_guess_editing) {
-                sprintf(game->display, "%s       ", game->guess_textfield);
-            } else if (game->guess == 0) {
-                sprintf(game->display, "___ GUESS ");
-            } else {
-                bool high = (game->guess - game->target) > 0;
-                sprintf(game->display, "%03d %s",
-                        game->guess, high ? "TOO HI" : "TOO LO");
-            }
-            game->state = GAME_STATE_PLAY;
-            game->frame = 0;
+            go_to_play_state(app);
         }
         break;
     case GAME_STATE_STATS:
         if (game->frame == 100) {
-            if (game->is_guess_editing) {
-                sprintf(game->display, "%s       ", game->guess_textfield);
-            } else if (game->guess == 0) {
-                sprintf(game->display, "___ GUESS ");
-            } else {
-                bool high = (game->guess - game->target) > 0;
-                sprintf(game->display, "%03d %s",
-                        game->guess, high ? "TOO HI" : "TOO LO");
-            }
-            game->state = GAME_STATE_PLAY;
-            game->frame = 0;
+            go_to_play_state(app);
         }
         break;
     case GAME_STATE_SHOW_GUESS:
@@ -207,19 +201,13 @@ static void advance_frame_game(app_t *app) {
                 game->frame = 0;
                 sprintf(game->display, "1 MORE GUESS");
             } else {
-                bool high = (game->guess - game->target) > 0;
-                sprintf(game->display, "%03d %s",
-                        game->guess, high ? "TOO HI" : "TOO LO");
-                game->state = GAME_STATE_PLAY;
+                go_to_play_state(app);
             }
         }
         break;
     case GAME_STATE_LAST_GUESS:
         if (game->frame == 100) {
-            bool high = (game->guess - game->target) > 0;
-            sprintf(game->display,
-                    "%03d %s", game->guess, high ? "TOO HI" : "TOO LO");
-            game->state = GAME_STATE_PLAY;
+            go_to_play_state(app);
         }
         break;
     case GAME_STATE_OVER:
