@@ -121,12 +121,12 @@ struct Penta1000View: View {
                 .frame(width: CGFloat(displayWidth),
                        height: CGFloat(displayHeight),
                        alignment: .center)
-                .onAppear(perform: {
+                .onAppear {
                     self.displayText = self.penta1000.display()
                     if self.penta1000.isAnimating() {
                         self.runDisplayAnimationLoop()
                     }
-                })
+                }
         }
     }
 
