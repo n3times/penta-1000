@@ -5,7 +5,7 @@
 static void test_edit() {
     test("g1", "1__       ");
     test("g12", "12_       ");
-    test("g0", "___       ");
+    test("g0", "___ GUESS ");
     test("g012", "12_       ");
     test("g1g", "___       ");
     test("g12g", "1__       ");
@@ -94,6 +94,17 @@ static void test_animation_on_lose() {
     assert_display(test, "745 YOU LOST");
 }
 
+static void test_show_stats() {
+    test_t *test = init_test(0);
+    press_sequence(test, "g555");
+    assert_display(test, "555 TOO LO");
+    press_key(test, '%');
+    advance(test, 500);
+    assert_display(test, "1 GUESS");
+    advance(test, 1000);
+    assert_display(test, "555 TOO LO");
+}
+
 void test_game() {
     test_edit();
     test_hilo();
@@ -104,4 +115,5 @@ void test_game() {
     test_animation_on_last_guess();
     test_animation_on_win();
     test_animation_on_lose();
+    test_show_stats();
 }
