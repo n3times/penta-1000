@@ -1,4 +1,5 @@
 import SwiftUI
+import AudioToolbox
 
 // The main view. It holds the calculator with its keyboard and display. It listens to key presses
 // events and runs the animation loop.
@@ -101,6 +102,7 @@ struct Penta1000View: View {
                             let c = Penta1000View.getCalculatorKey(
                                 standardizedLocation: standardizedLocation)
                             if c != nil {
+                                AudioServicesPlaySystemSound(SystemSoundID(0x450))
                                 let wasAnimating = self.penta1000.isAnimating()
                                 self.penta1000.pressKey(c: c!)
                                 let isAnimating = self.penta1000.isAnimating()
