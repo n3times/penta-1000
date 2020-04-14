@@ -3,6 +3,7 @@ import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let crashKey = "crash"
+    let dedicationKey = "dedication"
     let stateFilename = "penta1000.dat"
 
     var window: UIWindow?
@@ -26,7 +27,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = HostingController(rootView: penta1000View)
             self.window = window
             window.makeKeyAndVisible()
+            let didShowDedication = UserDefaults.standard.bool(forKey: dedicationKey)
+            if !didShowDedication {
+                let message = "\nPentatronics created, from 1977 to 1982, some of the most " +
+                              "exciting calculators ever. These calculators are today the prized " +
+                              "possessions of a few lucky collectors.\n\nWe would like to thank " +
+                              "Edwin J. Gallaghan, from the original team. Without his feedback " +
+                              "and constant encouragement, this app couldn't have been done."
+                let alert = UIAlertController(title: "Dedicated to the original Pentatronics team",
+                                              message: message,
+                                              preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(
+                    UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                window.rootViewController?.present(alert, animated: false, completion: nil)
+                UserDefaults.standard.set(true, forKey: dedicationKey);
+            }
         }
+
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

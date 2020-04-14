@@ -59,11 +59,11 @@ class penta1000UITests: XCTestCase {
         let keys = ["g~%c", "789/", "456*", "123+", "0.-="]
 
         // Top left corner of top left key ("?").
-        let x0: CGFloat = 37.0
-        let y0: CGFloat = 313.0
+        let x0: CGFloat = 28.0
+        let y0: CGFloat = 309.0
 
         // Separation between the top left corners of consecutive keys.
-        let dx: CGFloat = 78.5
+        let dx: CGFloat = 84.5
         let dy: CGFloat = 67.0
 
         for row in 0...4 {

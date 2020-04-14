@@ -14,15 +14,15 @@ struct Penta1000View: View {
 
     private static func getCalculatorKey(standardizedLocation: CGPoint) -> Character? {
         // Top left corner of top left key ("?").
-        let x0 = 37.0
-        let y0 = 313.0
+        let x0 = 28.0
+        let y0 = 309.0
 
         // Dimensions of each key.
-        let w = 65.0
+        let w = 68.0
         let h = 51.0
 
         // Separation between keys.
-        let interX = 13.5
+        let interX = 16.5
         let interY = 16.0
 
         let x = Double(standardizedLocation.x) - x0
@@ -32,7 +32,7 @@ struct Penta1000View: View {
         var j = (y + interY / 2) / (h + interY)
 
         // If the key press is a near miss, we choose the closest key.
-        if (i >= -0.1 && j >= -0.1 && i < 4.1 && j < 5.1) {
+        if (i >= -0.2 && j >= -0.15 && i < 4.2 && j < 5.15) {
             if i < 0 { i = 0 }
             if j < 0 { j = 0 }
             if i >= 4 { i = 3 }
