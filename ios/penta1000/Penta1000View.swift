@@ -63,7 +63,7 @@ struct Penta1000View: View {
         let standardCalcWidth = 375.0
         let standardCalcHeight = 647.0
         let standardDisplayHeight = 96.0
-        let standardDisplayOffsetY = 197.0
+        let standardDisplayOffsetY = 195.0
 
         let screenWidth = Double(metrics.size.width)
         let screenHeight = Double(metrics.size.height)

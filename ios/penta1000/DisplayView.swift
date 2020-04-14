@@ -129,7 +129,7 @@ struct DisplayView: View {
         let fullRect = getPath("PENTATRONICS").shape.boundingRect
         return getPath(displayText)
             .scale(scaleFactor)
-            .offset(x: (metrics.size.width - fullRect.width) / 2 * scaleFactor + 1.5,
+            .offset(x: (metrics.size.width - fullRect.width) / 2 * scaleFactor + 2.0,
                     y: (metrics.size.height - fullRect.height) / 2 * scaleFactor)
             .fill(DisplayView.ledColor)
     }
