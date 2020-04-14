@@ -112,6 +112,7 @@ static void press_key_game(app_t *app, char key) {
             if (i == 2) {
                 game->is_guess_editing = false;
                 game->guess = atoi(game->guess_textfield);
+                game->index++;
             }
         }
         if (!game->is_guess_editing) {
@@ -125,7 +126,6 @@ static void press_key_game(app_t *app, char key) {
     } else {
         if ('0' < key && key <= '9') {
             game->is_guess_editing = true;
-            game->index++;
             strcpy(game->guess_textfield, "___");
             game->guess_textfield[0] = key;
         } else if (key == '0') {
