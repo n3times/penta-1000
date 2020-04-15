@@ -29,12 +29,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.makeKeyAndVisible()
             let didShowDedication = UserDefaults.standard.bool(forKey: dedicationKey)
             if !didShowDedication {
+                let title = "Dedicated to the original Pentatronics development team"
                 let message = "\nPentatronics created, from 1977 to 1982, some of the most " +
-                              "exciting calculators ever. These calculators are today the prized " +
-                              "possessions of a few lucky collectors.\n\nWe would like to thank " +
-                              "Edwin J. Gallaghan, from the original team. Without his feedback " +
-                              "and constant encouragement, this app couldn't have been done."
-                let alert = UIAlertController(title: "Dedicated to the original Pentatronics team",
+                              "exciting calculators of its era. These calculators are today " +
+                              "the prized possessions of a few lucky collectors.\n\n" +
+                              "We would like to thank Edwin J. Gallaghan, from the original " +
+                              "team. Without his feedback and constant encouragement, we " +
+                              "couldn't have written this app."
+                let alert = UIAlertController(title: title,
                                               message: message,
                                               preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(
