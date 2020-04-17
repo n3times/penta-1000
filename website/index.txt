@@ -2,9 +2,9 @@
 
 < insert Pentatronics 1000 logo >
 
-Pentatronics 1000 is a faithful recreation of the mythical gaming calculator from 1977.
+Pentatronics 1000 is a faithful recreation of the mythical gaming calculator, one of the most exciting calculators of its era.
 
-With the help of its co-creator, Edwin J. Gallaghan, we are finally able to bring this rare calculator to a wider audience.
+With the help of the original development team, we are finally able to bring back this rare calculator.
 
 Pentatronics 1000 unique 14-segment LED display let's you see your computations in a natural way. You will never wonder again where you are in your computation.
 
