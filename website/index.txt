@@ -2,6 +2,16 @@
 
 < insert Pentatronics 1000 logo >
 
-< insert Pentatronics 1000 screenshot >
+Pentatronics 1000 is a faithful recreation of the mythical gaming calculator from 1977.
+
+With the help of its co-creator, Edwin J. Gallaghan, we are finally able to bring this rare calculator to a wider audience.
+
+Pentatronics 1000 unique 14-segment LED display let's you see your computations in a natural way. You will never wonder again where you are in your computation.
+
+And for those times when you need a break, switch to gaming mode and play the addictive HI-LO guessing game.
 
 For feedback, contact us at pentatronics1000@gmail.com.
+
+< insert Pentatronics 1000 screenshot >
+
+< insert 'available on the app store' image >
