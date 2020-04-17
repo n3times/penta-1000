@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if !didShowDedication {
                 let title = "Dedicated to the original Pentatronics development team"
                 let message =
-                "\nPentatronics created some of the most exciting calculators of its era, with their unique design and gaming capabilities.\n\nUnfortunately, today these calculators are virtually impossible to find.\n\nThanks to the members of the original team, their feeback and constant encouragement, we are finally able to bring back Pentatronics 1000."
+                "\nPentatronics created some of the most exciting calculators of its era, with their unique design and gaming capabilities.\n\nUnfortunately, today these calculators are virtually impossible to find.\n\nThanks to the members of the original team, their feeback and encouragement, we are finally able to bring Pentatronics 1000 to your mobile device."
                 let alert = UIAlertController(title: title,
                                               message: message,
                                               preferredStyle: UIAlertController.Style.alert)
