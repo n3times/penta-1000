@@ -31,7 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.makeKeyAndVisible()
 
             // If we have a new version, possibly display an alert to the user.
-            let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            let currentAppVersion =
+                Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
             let previousAppVersion = UserDefaults.standard.string(forKey: versionKey)
 
             let showAlert = previousAppVersion == nil && currentAppVersion != nil
