@@ -2,8 +2,6 @@ import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    let version = 105
-
     let versionKey = "version"
     let crashKey = "crash"
     let stateFilename = "penta1000.dat"
@@ -16,6 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
+        // Restore the state if there was no crash and the state is compatible with the current
+        // engine.
         let didCrash = UserDefaults.standard.bool(forKey: crashKey)
         UserDefaults.standard.set(true, forKey: crashKey)
         if !didCrash { penta1000 = Penta1000(filename: stateFilename) }
@@ -29,8 +29,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = HostingController(rootView: penta1000View)
             self.window = window
             window.makeKeyAndVisible()
-            let currentVersion = UserDefaults.standard.integer(forKey: versionKey)
-            if currentVersion == 0 {
+
+            // If we have a new version, possibly display an alert to the user.
+            let currentAppVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            let previousAppVersion = UserDefaults.standard.string(forKey: versionKey)
+
+            let showAlert = previousAppVersion == nil && currentAppVersion != nil
+
+            if showAlert {
                 let title = "Dedicated to the original Pentatronics development team"
                 let message = """
 
@@ -50,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 alert.addAction(
                     UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 window.rootViewController?.present(alert, animated: false, completion: nil)
-                UserDefaults.standard.set(version, forKey: versionKey);
+                UserDefaults.standard.set(currentAppVersion, forKey: versionKey);
             }
         }
     }
