@@ -2,8 +2,10 @@ import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    let version = 105
+
+    let versionKey = "version"
     let crashKey = "crash"
-    let dedicationKey = "dedication"
     let stateFilename = "penta1000.dat"
 
     var window: UIWindow?
@@ -27,22 +29,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = HostingController(rootView: penta1000View)
             self.window = window
             window.makeKeyAndVisible()
-            let didShowDedication = UserDefaults.standard.bool(forKey: dedicationKey)
-            if !didShowDedication {
+            let currentVersion = UserDefaults.standard.integer(forKey: versionKey)
+            if currentVersion == 0 {
                 let title = "Dedicated to the original Pentatronics development team"
-                let message =
-                "\nPentatronics created some of the most exciting calculators of its era, with their unique design and gaming capabilities.\n\nUnfortunately, today these calculators are virtually impossible to find.\n\nThanks to the members of the original team, their feeback and encouragement, we are finally able to bring Pentatronics 1000 to your mobile device."
+                let message = """
+
+                              Pentatronics created some of the most exciting calculators of its \
+                              era, with their unique design and gaming capabilities.
+
+                              Unfortunately, today these calculators are virtually impossible to \
+                              find.
+
+                              Thanks to the members of the original team, their feeback and \
+                              encouragement, we are finally able to bring Pentatronics 1000 to \
+                              your mobile device.
+                              """
                 let alert = UIAlertController(title: title,
                                               message: message,
                                               preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(
                     UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 window.rootViewController?.present(alert, animated: false, completion: nil)
-                UserDefaults.standard.set(true, forKey: dedicationKey);
+                UserDefaults.standard.set(version, forKey: versionKey);
             }
         }
-
-
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
