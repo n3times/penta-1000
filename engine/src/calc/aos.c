@@ -92,6 +92,7 @@ void aos_print(calc_t *calc, char *buffer_out, int buffer_len) {
             int index = (i - 2) / 2;
             offset--;
             buffer[offset] = aos->operators[index];
+            if (buffer[offset] == '*') { buffer[offset] = 'X'; }
             if (offset == 0) return;
         }
     }

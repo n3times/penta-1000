@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
     printf("\nPentatronics 1000 game/calculator\n\n");
     printf("  'q' quit\n");
     printf("  'g' game\n");
-    printf("  'c' clear\n");
+    printf("  'c' clear/calculator\n");
     printf("  '~' change sign\n\n");
 
     // Restore previous session if possible.

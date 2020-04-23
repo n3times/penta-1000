@@ -24,7 +24,7 @@ int main() {
     printw("Pentatronics 1000 game/calculator\n\n");
     printw("  'q' quit\n");
     printw("  'g' game\n");
-    printw("  'c' clear\n");
+    printw("  'c' clear/calculator\n");
     printw("  '~' change sign\n\n");
     skip_animations(p1);
     print_display(p1);
