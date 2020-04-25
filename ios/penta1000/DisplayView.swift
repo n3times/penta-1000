@@ -54,20 +54,9 @@ struct DisplayView: View {
             CGPoint(x: 18, y: 2+3), CGPoint(x: 1+2, y: 27), CGPoint(x: 1, y: 27)],
     ]
 
-    private let dotData = CGRect(x: 21, y: 25, width: 4, height: 4)
+    private let dotData = CGRect(x: 21, y: 24.5, width: 4, height: 4)
 
-    private func getAngledSegmentPath(index: Int) -> Path? {
-        let points = DisplayView.angledSegmentsData[index]!
-        var path = Path()
-        path.move(to: points[0])
-        for i in 1...5 {
-            path.addLine(to: points[i])
-        }
-        return path
-    }
-
-    private func getRightSegmentPath(index: Int) -> Path? {
-        let rect = DisplayView.rightSegmentsData[index]!
+    private func getRectSegmentPath(rect: CGRect) -> Path? {
         var path = Path()
         path.move(to: CGPoint(x: rect.minX, y: rect.minY + 2))
         path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.minY))
@@ -80,22 +69,7 @@ struct DisplayView: View {
         return path
     }
 
-    private func getCombinedSegmentPath(index: Int) -> Path? {
-        let rect = DisplayView.combinedRightSegmentsData[index]!
-        var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.minY + 2))
-        path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX - 2, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + 2))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - 2))
-        path.addLine(to: CGPoint(x: rect.maxX - 2, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY - 2))
-        return path
-    }
-
-    private func getCombinedAngledSegmentPath(index: Int) -> Path? {
-        let points = DisplayView.combinedAngledSegmentsData[index]!
+    private func getAngledSegmentPath(points: [CGPoint]) -> Path? {
         var path = Path()
         path.move(to: points[0])
         for i in 1...5 {
@@ -104,71 +78,72 @@ struct DisplayView: View {
         return path
     }
 
-    private func hasSegment(segments: Int32, i: Int) -> Bool {
+    private func isSegment(segments: Int32, i: Int) -> Bool {
         return segments & (1 << (DisplayView.segmentCount - 1 - i)) != 0
     }
 
     private func getLedPath(c: Character, startX: Double, hasDot:Bool) -> Path? {
         let segments = app_support_get_led_segments(Int8(c.asciiValue!))
         if (segments == 0) { return nil }
-        var resolved: [Bool] = [false, false, false, false, false, false, false,
-                                false, false, false, false, false, false, false]
+        var isSegmentResolved = [Bool](repeating: false, count: 14)
 
         var path = Path()
 
-        if hasSegment(segments: segments, i: 1) && hasSegment(segments: segments, i: 8) {
-            let segmentPath = getCombinedSegmentPath(index: 0)
+        if isSegment(segments: segments, i: 1) && isSegment(segments: segments, i: 8) {
+            let segmentPath = getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[0]!)
             path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            resolved[1] = true
-            resolved[8] = true
+            isSegmentResolved[1] = true
+            isSegmentResolved[8] = true
         }
-        if hasSegment(segments: segments, i: 3) && hasSegment(segments: segments, i: 10) {
-            let segmentPath = getCombinedSegmentPath(index: 1)
+        if isSegment(segments: segments, i: 3) && isSegment(segments: segments, i: 10) {
+            let segmentPath = getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[1]!)
             path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            resolved[3] = true
-            resolved[10] = true
+            isSegmentResolved[3] = true
+            isSegmentResolved[10] = true
         }
-        if hasSegment(segments: segments, i: 5) && hasSegment(segments: segments, i: 12) {
-            let segmentPath = getCombinedSegmentPath(index: 2)
+        if isSegment(segments: segments, i: 5) && isSegment(segments: segments, i: 12) {
+            let segmentPath = getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[2]!)
             path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            resolved[5] = true
-            resolved[12] = true
+            isSegmentResolved[5] = true
+            isSegmentResolved[12] = true
         }
-        if hasSegment(segments: segments, i: 6) && hasSegment(segments: segments, i: 7) {
-            let segmentPath = getCombinedSegmentPath(index: 3)
+        if isSegment(segments: segments, i: 6) && isSegment(segments: segments, i: 7) {
+            let segmentPath = getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[3]!)
             path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            resolved[6] = true
-            resolved[7] = true
+            isSegmentResolved[6] = true
+            isSegmentResolved[7] = true
         }
-        if hasSegment(segments: segments, i: 2) && hasSegment(segments: segments, i: 11) {
-            let segmentPath = getCombinedAngledSegmentPath(index: 0)
+        if isSegment(segments: segments, i: 2) && isSegment(segments: segments, i: 11) {
+            let segmentPath =
+                getAngledSegmentPath(points: DisplayView.combinedAngledSegmentsData[0]!)
             path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            resolved[2] = true
-            resolved[11] = true
+            isSegmentResolved[2] = true
+            isSegmentResolved[11] = true
         }
-        if hasSegment(segments: segments, i: 4) && hasSegment(segments: segments, i: 9) {
-            let segmentPath = getCombinedAngledSegmentPath(index: 1)
+        if isSegment(segments: segments, i: 4) && isSegment(segments: segments, i: 9) {
+            let segmentPath =
+                getAngledSegmentPath(points: DisplayView.combinedAngledSegmentsData[1]!)
             path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            resolved[4] = true
-            resolved[9] = true
+            isSegmentResolved[4] = true
+            isSegmentResolved[9] = true
         }
 
         for i in 0...(DisplayView.segmentCount - 1) {
-            let segmentBit = segments & (1 << (DisplayView.segmentCount - 1 - i))
-            if (segmentBit != 0) {
+            if isSegment(segments: segments, i: i) {
                 let segmentPath: Path?
                 let isAngled = i == 2 || i == 4 || i == 9 || i == 11
                 if isAngled {
-                    segmentPath = getAngledSegmentPath(index: i)
+                    segmentPath =
+                        getAngledSegmentPath(points: DisplayView.angledSegmentsData[i]!)
                 } else {
-                    segmentPath = getRightSegmentPath(index: i)
+                    segmentPath = getRectSegmentPath(rect: DisplayView.rightSegmentsData[i]!)
                 }
-                if (segmentPath != nil && !resolved[i]) {
+                if (segmentPath != nil && !isSegmentResolved[i]) {
                     path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                 }
             }
             if (hasDot) {
-                path.addEllipse(in: dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+                path.addRect(dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
             }
         }
         return path
