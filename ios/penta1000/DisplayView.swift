@@ -82,32 +82,34 @@ struct DisplayView: View {
         return segments & (1 << (DisplayView.segmentCount - 1 - i)) != 0
     }
 
-    private func getLedPath(c: Character, startX: Double, hasDot:Bool) -> Path? {
+    private func getLedPath(c: Character, startX: Double, hasDot: Bool, combineSegments:Bool)
+            -> Path? {
         let segments = app_support_get_led_segments(Int8(c.asciiValue!))
         if (segments == 0) { return nil }
         var isSegmentResolved = [Bool](repeating: false, count: 14)
 
         var path = Path()
 
-        for pair in DisplayView.combinedRightSegmentsData.keys {
-            if isSegment(segments: segments, i: pair[0]) &&
-               isSegment(segments: segments, i: pair[1]) {
-                let segmentPath =
-                    getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[pair]!)
-                path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-                isSegmentResolved[pair[0]] = true
-                isSegmentResolved[pair[1]] = true
+        if (combineSegments) {
+            for pair in DisplayView.combinedRightSegmentsData.keys {
+                if isSegment(segments: segments, i: pair[0]) &&
+                   isSegment(segments: segments, i: pair[1]) {
+                    let segmentPath =
+                        getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[pair]!)
+                    path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+                    isSegmentResolved[pair[0]] = true
+                    isSegmentResolved[pair[1]] = true
+                }
             }
-        }
-
-        for pair in DisplayView.combinedAngledSegmentsData.keys {
-            if isSegment(segments: segments, i: pair[0]) &&
-               isSegment(segments: segments, i: pair[1]) {
-                let segmentPath =
-                    getAngledSegmentPath(points: DisplayView.combinedAngledSegmentsData[pair]!)
-                path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-                isSegmentResolved[pair[0]] = true
-                isSegmentResolved[pair[1]] = true
+            for pair in DisplayView.combinedAngledSegmentsData.keys {
+                if isSegment(segments: segments, i: pair[0]) &&
+                   isSegment(segments: segments, i: pair[1]) {
+                    let segmentPath =
+                        getAngledSegmentPath(points: DisplayView.combinedAngledSegmentsData[pair]!)
+                    path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+                    isSegmentResolved[pair[0]] = true
+                    isSegmentResolved[pair[1]] = true
+                }
             }
         }
 
@@ -154,7 +156,8 @@ struct DisplayView: View {
             let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
             let ledPath = getLedPath(c: displayCharacters[i],
                                      startX: DisplayView.interLedX * Double(position),
-                                     hasDot: hasDot)
+                                     hasDot: hasDot,
+                                     combineSegments: true)
             if ledPath != nil { path.addPath(ledPath!) }
             index += 1
         }
