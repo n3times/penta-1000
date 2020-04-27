@@ -2,7 +2,8 @@ import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    let versionKey = "version"
+    let lastVersionUsedKey = "lastVersionUsed"
+    let firstVersionUsedKey = "firstVersionUsed"
     let crashKey = "crash"
     let stateFilename = "penta1000.dat"
 
@@ -14,6 +15,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
+        // Keep track of the app version.
+        let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let firstVersionUsed = UserDefaults.standard.string(forKey: firstVersionUsedKey)
+        let lastVersionUsed = UserDefaults.standard.string(forKey: lastVersionUsedKey)
+        if currentVersion != lastVersionUsed {
+            UserDefaults.standard.set(currentVersion, forKey: lastVersionUsedKey);
+            if firstVersionUsed == nil {
+                UserDefaults.standard.set(currentVersion, forKey: firstVersionUsedKey);
+            }
+        }
+
         // Restore the state if there was no crash and the state is compatible with the current
         // engine.
         let didCrash = UserDefaults.standard.bool(forKey: crashKey)
@@ -22,43 +34,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if penta1000 == nil {
             penta1000 = Penta1000(randomSeed: Int.random(in: 1...1000000000))
         }
-        let penta1000View = Penta1000View(penta1000: penta1000!)
 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
+            let penta1000View = Penta1000View(penta1000: penta1000!)
             window.rootViewController = HostingController(rootView: penta1000View)
             self.window = window
             window.makeKeyAndVisible()
-
-            // If we have a new version, possibly display an alert to the user.
-            let currentAppVersion =
-                Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-            let previousAppVersion = UserDefaults.standard.string(forKey: versionKey)
-
-            let showAlert = previousAppVersion == nil && currentAppVersion != nil
-
-            if showAlert {
-                let title = "Dedicated to the original Pentatronics development team"
-                let message = """
-
-                              Pentatronics created some of the most exciting calculators of its \
-                              era, with their unique design and gaming capabilities.
-
-                              Unfortunately, today these calculators are virtually impossible to \
-                              find.
-
-                              Thanks to the members of the original team, their feeback and \
-                              encouragement, we are finally able to bring Pentatronics 1000 to \
-                              your mobile device.
-                              """
-                let alert = UIAlertController(title: title,
-                                              message: message,
-                                              preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(
-                    UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                window.rootViewController?.present(alert, animated: false, completion: nil)
-                UserDefaults.standard.set(currentAppVersion, forKey: versionKey);
-            }
         }
     }
 
