@@ -2,18 +2,12 @@
 
 < insert Pentatronics 1000 logo >
 
-Pentatronics 1000 is a faithful re-creation of the mythical gaming calculator, one of the most exciting calculators of its era.
+Pentatronics 1000 is a faithful re-creation of the mythical gaming calculator.
 
-Pentatronics 1000 introduced many novelties such as the iconic "READY" message that has been adopted by virtually every calculator ever since.
+With its iconic 14-segment LED alphanumeric display, Pentatronics 1000 let's you see your computations in a natural way.
 
-Today we take for granted that a calculator should have at least one game but, this was again an innovation brought by Pentatronics.
+And for those times when you need a break, switch modes and play a game of HI-LO.
 
-Pentatronics creators believed that life shouldn't be just about math and logic. Fun, style, and humor were every bit as important.
-
-Unfortunately, today these calculators are virtually impossible to find.
-
-We are honored to bring this rare calculator to your mobile device. We would like to thank all the people who helped us during the development of this app, especially the members of the original Pentatronics 1000 development team. Without their expertise and warm encouragement, we couldn't have completed this project.
-                                                                               
 For feedback, contact us at pentatronics1000@gmail.com.
 
 < insert Pentatronics 1000 screenshot >
