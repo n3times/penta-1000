@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void enter_calc(app_t *app);
-static void press_key_calc(app_t *app, char key);
-static char *get_display_calc(app_t *app);
-static void advance_frame_calc(app_t *app);
-static bool is_animating_calc(app_t *app);
+static void enter(app_t *app);
+static void press_key(app_t *app, char key);
+static char *get_display(app_t *app);
+static void advance_frame(app_t *app);
+static bool is_animating(app_t *app);
 
 static bool is_number_edit_key(calc_t *calc, char key) {
     if ('0' <= key && key <= '9') return true;
@@ -58,11 +58,11 @@ static void update_display(calc_t *calc) {
 }
 
 static void setup_app_methods(calc_t *calc) {
-    calc->app.enter = enter_calc;
-    calc->app.press_key = press_key_calc;
-    calc->app.get_display = get_display_calc;
-    calc->app.advance_frame = advance_frame_calc;
-    calc->app.is_animating = is_animating_calc;
+    calc->app.enter = enter;
+    calc->app.press_key = press_key;
+    calc->app.get_display = get_display;
+    calc->app.advance_frame = advance_frame;
+    calc->app.is_animating = is_animating;
 }
 
 void init_calc(calc_t *calc) {
@@ -76,14 +76,14 @@ void init_calc_from_state(char *state) {
 
 /* App interface. */
 
-static void enter_calc(app_t *app) {
+static void enter(app_t *app) {
     calc_t *calc = (calc_t *)app;
     sprintf(calc->display, "> CALCULATOR");
     calc->state = CALC_STATE_ENTER;
     calc->frame = 0;
 }
 
-static void press_key_calc(app_t *app, char key) {
+static void press_key(app_t *app, char key) {
     if (!strchr("01234567890.~%+-*/=c", key)) return;
 
     calc_t *calc = (calc_t *)app;
@@ -132,12 +132,12 @@ static void press_key_calc(app_t *app, char key) {
     }
 }
 
-static char *get_display_calc(app_t *app) {
+static char *get_display(app_t *app) {
     calc_t *calc = (calc_t *)app;
     return calc->display;
 }
 
-static void advance_frame_calc(app_t *app) {
+static void advance_frame(app_t *app) {
     calc_t *calc = (calc_t *)app;
 
     calc->frame++;
@@ -171,7 +171,7 @@ static void advance_frame_calc(app_t *app) {
     }
 }
 
-static bool is_animating_calc(app_t *app) {
+static bool is_animating(app_t *app) {
     calc_t *calc = (calc_t *)app;
     return calc->state != CALC_STATE_COMPUTE;
 }

@@ -6,18 +6,18 @@
 
 static char GAME_KEY = 'g';
 
-static void enter_game(app_t *app);
-static void press_key_game(app_t *app, char key);
-static char *get_display_game(app_t *app);
-static void advance_frame_game(app_t *app);
-static bool is_animating_game(app_t *app);
+static void enter(app_t *app);
+static void press_key(app_t *app, char key);
+static char *get_display(app_t *app);
+static void advance_frame(app_t *app);
+static bool is_animating(app_t *app);
 
 static void setup_app_methods(game_t *game) {
-    game->app.enter = enter_game;
-    game->app.press_key = press_key_game;
-    game->app.get_display = get_display_game;
-    game->app.advance_frame = advance_frame_game;
-    game->app.is_animating = is_animating_game;
+    game->app.enter = enter;
+    game->app.press_key = press_key;
+    game->app.get_display = get_display;
+    game->app.advance_frame = advance_frame;
+    game->app.is_animating = is_animating;
 }
 
 void init_game(game_t *game, long seed) {
@@ -47,14 +47,14 @@ static void start_game(game_t *game) {
 
 /** Implementation of the app interface. */
 
-static void enter_game(app_t *app) {
+static void enter(app_t *app) {
     game_t *game = (game_t *)app;
     sprintf(game->display, "> HI-LO GAME");
     game->state = GAME_STATE_ENTER;
     game->frame = 0;
 }
 
-static void press_key_game(app_t *app, char key) {
+static void press_key(app_t *app, char key) {
     game_t *game = (game_t *)app;
 
     if (game->state == GAME_STATE_ENTER ||
@@ -142,7 +142,7 @@ static void press_key_game(app_t *app, char key) {
     }
 }
 
-static char *get_display_game(app_t *app) {
+static char *get_display(app_t *app) {
     game_t *game = (game_t *)app;
     return game->display;
 }
@@ -162,7 +162,7 @@ static void go_to_play_state(app_t *app) {
     game->state = GAME_STATE_PLAY;
 }
 
-static void advance_frame_game(app_t *app) {
+static void advance_frame(app_t *app) {
     game_t *game = (game_t *)app;
 
     game->frame++;
@@ -227,7 +227,7 @@ static void advance_frame_game(app_t *app) {
     }
 }
 
-static bool is_animating_game(app_t *app) {
+static bool is_animating(app_t *app) {
     game_t *game = (game_t *)app;
     return game->state != GAME_STATE_PLAY;
 }
