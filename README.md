@@ -11,11 +11,7 @@ Currently, emulators for the following platforms have been implemented:
 
 ## Writing an emulator
 
-Writing a Pentatronics 1000 emulator can be an excellent exercise to learn, or revisit, a platform or language. It has the benefits of using several fundamentals in a relatively simple project:
-- user interface - simple or complex
-- threading - to display animations
-- file access - to persist the state
-- string manipulation - for logging
+Note that writing a Pentatronics 1000 emulator can be an excellent exercise to learn, or revisit, a platform or language. It combines user interface, threading and other fundamentals in a relatively simple project.
 
 If the language of choice is not C or a superset, such as C++, the first step is to interface with the C engine. The specific mechanism depends on the platform. See for example the [interface for Python](https://github.com/n3times/penta-1000/tree/master/python/penta1000_engine.py).
 
