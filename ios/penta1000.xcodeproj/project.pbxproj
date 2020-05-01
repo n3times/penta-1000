@@ -146,9 +146,9 @@
 		DAB98F66242EC5130014AEE3 = {
 			isa = PBXGroup;
 			children = (
+				DAD911B224317CE000A80DAF /* app_engine */,
 				DA667A6B243B126100EC93C0 /* app_support */,
 				DAA9F6F72432A0FF00B40964 /* artwork */,
-				DAD911B224317CE000A80DAF /* engine */,
 				DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */,
 				DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */,
 				DAB98F71242EC5130014AEE3 /* penta1000 */,
@@ -211,13 +211,13 @@
 			path = penta1000UITests;
 			sourceTree = "<group>";
 		};
-		DAD911B224317CE000A80DAF /* engine */ = {
+		DAD911B224317CE000A80DAF /* app_engine */ = {
 			isa = PBXGroup;
 			children = (
 				DAD911B324317D0E00A80DAF /* include */,
 				DAD911B524317D0E00A80DAF /* src */,
 			);
-			name = engine;
+			name = app_engine;
 			sourceTree = "<group>";
 		};
 		DAD911B324317D0E00A80DAF /* include */ = {
@@ -226,7 +226,7 @@
 				DAD911B424317D0E00A80DAF /* penta1000.h */,
 			);
 			name = include;
-			path = ../engine/include;
+			path = ../app_engine/include;
 			sourceTree = "<group>";
 		};
 		DAD911B524317D0E00A80DAF /* src */ = {
@@ -239,7 +239,7 @@
 				DAD911BC24317D0E00A80DAF /* calc */,
 			);
 			name = src;
-			path = ../engine/src;
+			path = ../app_engine/src;
 			sourceTree = "<group>";
 		};
 		DAD911B924317D0E00A80DAF /* game */ = {

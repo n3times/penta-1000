@@ -2,7 +2,7 @@
 
 Family of emulators for the classic Pentatronics 1000 calculator.
 
-The [engine](https://github.com/n3times/penta-1000/tree/master/engine) itself is written in C and can be used to write emulators for different platforms.
+The [engine](https://github.com/n3times/penta-1000/tree/master/app_engine) itself is written in C and can be used to write emulators for different platforms.
 
 Currently, emulators for the following platforms have been implemented:
 - [iOS/Swift](https://github.com/n3times/penta-1000/tree/master/ios)

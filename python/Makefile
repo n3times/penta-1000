@@ -1,6 +1,6 @@
 CC := gcc
-SRC := ../engine/src
-INC := ../engine/include
+SRC := ../app_engine/src
+INC := ../app_engine/include
 
 SRC_FILES = $(SRC)/*.c $(SRC)/calc/*.c $(SRC)/game/*.c
 
