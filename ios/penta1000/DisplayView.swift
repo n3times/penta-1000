@@ -36,6 +36,13 @@ struct DisplayView: View {
         [6, 7]: CGRect(x: 0.0, y: 13, width: 19, height: 3),
     ]
 
+    private static let combinedShorterRightSegmentsData = [
+        [1, 8]: CGRect(x: 0.0, y: 2, width: 3, height: 25),
+        [3, 10]: CGRect(x: 8.0, y: 2, width: 3, height: 25),
+        [5, 12]: CGRect(x: 16.0, y: 2, width: 3, height: 25),
+        [6, 7]: CGRect(x: 0.0, y: 13, width: 19, height: 3),
+    ]
+
     // Describes the 4 angled segments. Points of each hexagon should be listed clockwise.
     private static let angledSegmentsData = [
         2: [CGPoint(x: 2, y: 2), CGPoint(x: 2+2, y: 2), CGPoint(x: 10, y: 15-3),
@@ -55,7 +62,15 @@ struct DisplayView: View {
                  CGPoint(x: 18, y: 2+3), CGPoint(x: 1+2, y: 27), CGPoint(x: 1, y: 27)],
     ]
 
+    private static let combinedShorterAngledSegmentsData = [
+        [2, 11]: [CGPoint(x: 3, y: 3), CGPoint(x: 3+2, y: 3), CGPoint(x: 16, y: 26-3),
+                  CGPoint(x: 16, y: 26), CGPoint(x: 16-2, y: 26), CGPoint(x: 3, y: 3+3)],
+        [4, 9]: [CGPoint(x: 3, y: 26-3), CGPoint(x: 16-2, y: 3), CGPoint(x: 16, y: 3),
+                 CGPoint(x: 16, y: 3+3), CGPoint(x: 3+2, y: 26), CGPoint(x: 3, y: 26)],
+    ]
+
     private let dotData = CGRect(x: 22, y: 25, width: 4, height: 4)
+    private let alternateDotData = CGRect(x: 15, y: 24, width: 4, height: 4)
 
     private func getRectSegmentPath(rect: CGRect) -> Path? {
         var path = Path()
@@ -91,12 +106,16 @@ struct DisplayView: View {
 
         var path = Path()
 
+        let useShortSegments = c == "+" || c == "-" || c == "X" || c == "/"
+        let useAlternateDotData = c == "1"
+
         if (combineSegments) {
             for pair in DisplayView.combinedRightSegmentsData.keys {
                 if isSegment(segments: segments, i: pair[0]) &&
                    isSegment(segments: segments, i: pair[1]) {
-                    let segmentPath =
-                        getRectSegmentPath(rect: DisplayView.combinedRightSegmentsData[pair]!)
+                    let rect = useShortSegments ? DisplayView.combinedShorterRightSegmentsData[pair]
+                                                : DisplayView.combinedRightSegmentsData[pair]
+                    let segmentPath = getRectSegmentPath(rect: rect!)
                     path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                     isSegmentResolved[pair[0]] = true
                     isSegmentResolved[pair[1]] = true
@@ -105,8 +124,10 @@ struct DisplayView: View {
             for pair in DisplayView.combinedAngledSegmentsData.keys {
                 if isSegment(segments: segments, i: pair[0]) &&
                    isSegment(segments: segments, i: pair[1]) {
-                    let segmentPath =
-                        getAngledSegmentPath(points: DisplayView.combinedAngledSegmentsData[pair]!)
+                    let points =
+                        useShortSegments ? DisplayView.combinedShorterAngledSegmentsData[pair]
+                                         : DisplayView.combinedAngledSegmentsData[pair]
+                    let segmentPath = getAngledSegmentPath(points: points!)
                     path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                     isSegmentResolved[pair[0]] = true
                     isSegmentResolved[pair[1]] = true
@@ -130,7 +151,8 @@ struct DisplayView: View {
             }
         }
         if (hasDot) {
-            path.addRect(dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+            let data = useAlternateDotData ? alternateDotData : dotData
+            path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
         }
         return path
     }
