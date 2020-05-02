@@ -174,7 +174,7 @@ struct DisplayView: View {
             = DisplayView.displayToCalculatorWidthRatio * metrics.size.width / fullRect.width
         var recenterOffsetX = DisplayView.ledHeight * DisplayView.slant
         // Tweak so that it *looks* more centered (even if it is not).
-        recenterOffsetX += 1
+        recenterOffsetX += 1.5
 
         let offsetX = (metrics.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
         let offsetY = (metrics.size.height - fullRect.height) / 2 * scaleFactor
