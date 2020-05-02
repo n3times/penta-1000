@@ -55,7 +55,7 @@ struct DisplayView: View {
                  CGPoint(x: 18, y: 2+3), CGPoint(x: 1+2, y: 27), CGPoint(x: 1, y: 27)],
     ]
 
-    private let dotData = CGRect(x: 21.5, y: 25, width: 4, height: 4)
+    private let dotData = CGRect(x: 22, y: 25, width: 4, height: 4)
 
     private func getRectSegmentPath(rect: CGRect) -> Path? {
         var path = Path()
