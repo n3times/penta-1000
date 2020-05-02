@@ -17,30 +17,30 @@ struct DisplayView: View {
 
     // Describes the 10 horizontal and vertical segments.
     private static let rightSegmentsData = [
-        0: CGRect(x: 0.0, y: 0, width: 19, height: 3),
-        1: CGRect(x: 0.0, y: 0, width: 3, height: 15),
-        3: CGRect(x: 8.0, y: 0, width: 3, height: 15),
-        5: CGRect(x: 16.0, y: 0, width: 3, height: 15),
-        6: CGRect(x: 0.0, y: 13, width: 10, height: 3),
-        7: CGRect(x: 9.0, y: 13, width: 10, height: 3),
-        8: CGRect(x: 0.0, y: 14, width: 3, height: 15),
-        10: CGRect(x: 8.0, y: 14, width: 3, height: 15),
-        12: CGRect(x: 16.0, y: 14, width: 3, height: 15),
-        13: CGRect(x: 0.0, y: 26, width: 19, height: 3),
+        0: CGRect(x: 0, y: 0, width: 19, height: 3),
+        1: CGRect(x: 0, y: 0, width: 3, height: 15),
+        3: CGRect(x: 8, y: 0, width: 3, height: 15),
+        5: CGRect(x: 16, y: 0, width: 3, height: 15),
+        6: CGRect(x: 0, y: 13, width: 10, height: 3),
+        7: CGRect(x: 9, y: 13, width: 10, height: 3),
+        8: CGRect(x: 0, y: 14, width: 3, height: 15),
+        10: CGRect(x: 8, y: 14, width: 3, height: 15),
+        12: CGRect(x: 16, y: 14, width: 3, height: 15),
+        13: CGRect(x: 0, y: 26, width: 19, height: 3),
     ]
 
     private static let combinedRightSegmentsData = [
-        [1, 8]: CGRect(x: 0.0, y: 0, width: 3, height: 29),
-        [3, 10]: CGRect(x: 8.0, y: 0, width: 3, height: 29),
-        [5, 12]: CGRect(x: 16.0, y: 0, width: 3, height: 29),
-        [6, 7]: CGRect(x: 0.0, y: 13, width: 19, height: 3),
+        [1, 8]: CGRect(x: 0, y: 0, width: 3, height: 29),
+        [3, 10]: CGRect(x: 8, y: 0, width: 3, height: 29),
+        [5, 12]: CGRect(x: 16, y: 0, width: 3, height: 29),
+        [6, 7]: CGRect(x: 0, y: 13, width: 19, height: 3),
     ]
 
     private static let combinedShorterRightSegmentsData = [
-        [1, 8]: CGRect(x: 0.0, y: 4, width: 3, height: 23),
-        [3, 10]: CGRect(x: 8.0, y: 4, width: 3, height: 23),
-        [5, 12]: CGRect(x: 16.0, y: 4, width: 3, height: 23),
-        [6, 7]: CGRect(x: 0.0, y: 13, width: 19, height: 3),
+        [1, 8]: CGRect(x: 0, y: 4, width: 3, height: 23),
+        [3, 10]: CGRect(x: 8, y: 4, width: 3, height: 23),
+        [5, 12]: CGRect(x: 16, y: 4, width: 3, height: 23),
+        [6, 7]: CGRect(x: 0, y: 13, width: 19, height: 3),
     ]
 
     // Describes the 4 angled segments. Points of each hexagon should be listed clockwise.
