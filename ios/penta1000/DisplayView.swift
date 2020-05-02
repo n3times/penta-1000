@@ -37,9 +37,9 @@ struct DisplayView: View {
     ]
 
     private static let combinedShorterRightSegmentsData = [
-        [1, 8]: CGRect(x: 0.0, y: 3, width: 3, height: 24),
-        [3, 10]: CGRect(x: 8.0, y: 3, width: 3, height: 24),
-        [5, 12]: CGRect(x: 16.0, y: 3, width: 3, height: 24),
+        [1, 8]: CGRect(x: 0.0, y: 4, width: 3, height: 23),
+        [3, 10]: CGRect(x: 8.0, y: 4, width: 3, height: 23),
+        [5, 12]: CGRect(x: 16.0, y: 4, width: 3, height: 23),
         [6, 7]: CGRect(x: 0.0, y: 13, width: 19, height: 3),
     ]
 
@@ -63,10 +63,10 @@ struct DisplayView: View {
     ]
 
     private static let combinedShorterAngledSegmentsData = [
-        [2, 11]: [CGPoint(x: 3, y: 4), CGPoint(x: 3+2, y: 4), CGPoint(x: 17, y: 26-3),
-                  CGPoint(x: 17, y: 26), CGPoint(x: 17-2, y: 26), CGPoint(x: 3, y: 4+3)],
-        [4, 9]: [CGPoint(x: 3, y: 26-3), CGPoint(x: 17-2, y: 4), CGPoint(x: 17, y: 4),
-                 CGPoint(x: 17, y: 4+3), CGPoint(x: 3+2, y: 26), CGPoint(x: 3, y: 26)],
+        [2, 11]: [CGPoint(x: 3, y: 5), CGPoint(x: 3+2, y: 5), CGPoint(x: 17, y: 25-3),
+                  CGPoint(x: 17, y: 25), CGPoint(x: 17-2, y: 25), CGPoint(x: 3, y: 5+3)],
+        [4, 9]: [CGPoint(x: 3, y: 25-3), CGPoint(x: 17-2, y: 5), CGPoint(x: 17, y: 5),
+                 CGPoint(x: 17, y: 5+3), CGPoint(x: 3+2, y: 25), CGPoint(x: 3, y: 25)],
     ]
 
     private let dotData = CGRect(x: 22, y: 25, width: 4, height: 4)
