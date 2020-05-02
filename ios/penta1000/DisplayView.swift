@@ -9,10 +9,11 @@ struct DisplayView: View {
 
     private static let ledColor = Color.red
     private static let ledCount = 12
-    private static let interLedX = 28.0
+    private static let ledHeight = CGFloat(29.0)
+    private static let interLedX = 30.0
     private static let segmentCount = 14
-
-    private static let standardWidth = 375
+    private static let slant = CGFloat(0.08)
+    private static let displayToCalculatorWidthRatio = CGFloat(0.85)
 
     // Describes the 10 horizontal and vertical segments.
     private static let rightSegmentsData = [
@@ -54,7 +55,7 @@ struct DisplayView: View {
                  CGPoint(x: 18, y: 2+3), CGPoint(x: 1+2, y: 27), CGPoint(x: 1, y: 27)],
     ]
 
-    private let dotData = CGRect(x: 21, y: 24.5, width: 4, height: 4)
+    private let dotData = CGRect(x: 21.5, y: 25, width: 4, height: 4)
 
     private func getRectSegmentPath(rect: CGRect) -> Path? {
         var path = Path()
@@ -127,18 +128,14 @@ struct DisplayView: View {
                     path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                 }
             }
-            if (hasDot) {
-                path.addRect(dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            }
+        }
+        if (hasDot) {
+            path.addRect(dotData.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
         }
         return path
     }
 
-    init(_ displayText: Binding<String>) {
-        self._displayText = displayText
-    }
-
-    func getPath(_ string: String) -> TransformedShape<Path> {
+    private func getPath(_ string: String) -> TransformedShape<Path> {
         var path = Path()
         let displayCharacters = Array(string)
         var nonDotCount = 0
@@ -161,20 +158,35 @@ struct DisplayView: View {
             if ledPath != nil { path.addPath(ledPath!) }
             index += 1
         }
-        // Slant display slightly.
-        let transformedPath =
-            path.transform(CGAffineTransform.init(a: 1, b: 0, c: -0.08, d: 1, tx: 0, ty: 0))
-        return transformedPath
+        // Slant display slightly
+        let slantedPath = path.transform(CGAffineTransform.init(a: 1,
+                                                                b: 0,
+                                                                c: -DisplayView.slant,
+                                                                d: 1,
+                                                                tx: 0,
+                                                                ty: 0))
+        return slantedPath
     }
 
-    func getView(_ metrics: GeometryProxy) -> some View {
-        let scaleFactor = metrics.size.width / CGFloat(DisplayView.standardWidth)
+    private func getView(_ metrics: GeometryProxy) -> some View {
         let fullRect = getPath("PENTATRONICS").shape.boundingRect
+        let scaleFactor: CGFloat
+            = DisplayView.displayToCalculatorWidthRatio * metrics.size.width / fullRect.width
+        var recenterOffsetX = DisplayView.ledHeight * DisplayView.slant
+        // Tweak so that it *looks* more centered (even if it is not).
+        recenterOffsetX += 1
+
+        let offsetX = (metrics.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
+        let offsetY = (metrics.size.height - fullRect.height) / 2 * scaleFactor
+
         return getPath(displayText)
             .scale(scaleFactor)
-            .offset(x: (metrics.size.width - fullRect.width) / 2 * scaleFactor + 2.0,
-                    y: (metrics.size.height - fullRect.height) / 2 * scaleFactor)
+            .offset(x: offsetX, y: offsetY)
             .fill(DisplayView.ledColor)
+    }
+
+    init(_ displayText: Binding<String>) {
+        self._displayText = displayText
     }
 
     var body: some View {
