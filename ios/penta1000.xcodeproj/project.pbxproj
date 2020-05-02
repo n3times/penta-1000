@@ -582,7 +582,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = penta1000/penta1000.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_ASSET_PATHS = "\"penta1000/Preview Content\"";
 				DEVELOPMENT_TEAM = FVF2Q6V64F;
 				ENABLE_PREVIEWS = YES;
@@ -592,7 +592,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000;
 				PRODUCT_NAME = "Penta-1000";
 				SUPPORTS_MACCATALYST = YES;
@@ -609,7 +609,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = penta1000/penta1000.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_ASSET_PATHS = "\"penta1000/Preview Content\"";
 				DEVELOPMENT_TEAM = FVF2Q6V64F;
 				ENABLE_PREVIEWS = YES;
@@ -619,7 +619,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000;
 				PRODUCT_NAME = "Penta-1000";
 				SUPPORTS_MACCATALYST = YES;
