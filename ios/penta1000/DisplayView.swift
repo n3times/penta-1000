@@ -47,12 +47,12 @@ struct DisplayView: View {
     private static let angledSegmentsData = [
         2: [CGPoint(x: 2, y: 2), CGPoint(x: 2+2, y: 2), CGPoint(x: 10, y: 15-3),
             CGPoint(x: 10, y: 15), CGPoint(x: 10-2, y: 15), CGPoint(x: 2, y: 2+3)],
-        4: [CGPoint(x: 18, y: 2+3), CGPoint(x: 9+2, y: 15), CGPoint(x: 9, y: 15),
-            CGPoint(x: 9, y: 15-3), CGPoint(x: 18-2, y: 2), CGPoint(x: 18, y: 2)],
-        9: [CGPoint(x: 1, y: 27-3), CGPoint(x: 10-2, y: 15), CGPoint(x: 10, y: 15),
-            CGPoint(x: 10, y: 15+3), CGPoint(x: 1+2, y: 27), CGPoint(x: 1, y: 27)],
-        11: [CGPoint(x: 18, y: 27), CGPoint(x: 18-2, y: 27), CGPoint(x: 9, y: 14+3),
-            CGPoint(x: 9, y: 14), CGPoint(x: 9+2, y: 14), CGPoint(x: 18, y: 27-3)],
+        4: [CGPoint(x: 17, y: 2+3), CGPoint(x: 9+2, y: 15), CGPoint(x: 9, y: 15),
+            CGPoint(x: 9, y: 15-3), CGPoint(x: 17-2, y: 2), CGPoint(x: 17, y: 2)],
+        9: [CGPoint(x: 2, y: 27-3), CGPoint(x: 10-2, y: 14), CGPoint(x: 10, y: 14),
+            CGPoint(x: 10, y: 14+3), CGPoint(x: 2+2, y: 27), CGPoint(x: 2, y: 27)],
+        11: [CGPoint(x: 17, y: 27), CGPoint(x: 17-2, y: 27), CGPoint(x: 9, y: 14+3),
+            CGPoint(x: 9, y: 14), CGPoint(x: 9+2, y: 14), CGPoint(x: 17, y: 27-3)],
     ]
 
     private static let combinedAngledSegmentsData = [
