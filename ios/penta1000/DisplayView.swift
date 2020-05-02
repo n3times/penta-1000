@@ -56,10 +56,10 @@ struct DisplayView: View {
     ]
 
     private static let combinedAngledSegmentsData = [
-        [2, 11]: [CGPoint(x: 2, y: 2), CGPoint(x: 2+2, y: 2), CGPoint(x: 17, y: 27-3),
-                  CGPoint(x: 17, y: 27), CGPoint(x: 17-2, y: 27), CGPoint(x: 2, y: 2+3)],
-        [4, 9]: [CGPoint(x: 1, y: 27-3), CGPoint(x: 18-2, y: 2), CGPoint(x: 18, y: 2),
-                 CGPoint(x: 18, y: 2+3), CGPoint(x: 1+2, y: 27), CGPoint(x: 1, y: 27)],
+        [2, 11]: [CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 18, y: 28-3),
+                  CGPoint(x: 18, y: 28), CGPoint(x: 18-2, y: 28), CGPoint(x: 1, y: 1+3)],
+        [4, 9]: [CGPoint(x: 1, y: 28-3), CGPoint(x: 18-2, y: 1), CGPoint(x: 18, y: 1),
+                 CGPoint(x: 18, y: 1+3), CGPoint(x: 1+2, y: 28), CGPoint(x: 1, y: 28)],
     ]
 
     private static let combinedShorterAngledSegmentsData = [
@@ -70,18 +70,19 @@ struct DisplayView: View {
     ]
 
     private let dotData = CGRect(x: 22, y: 25, width: 4, height: 4)
-    private let alternateDotData = CGRect(x: 15, y: 24, width: 4, height: 4)
+    private let alternateDotData = CGRect(x: 15, y: 25, width: 4, height: 4)
 
     private func getRectSegmentPath(rect: CGRect) -> Path? {
         var path = Path()
-        path.move(to: CGPoint(x: rect.minX, y: rect.minY + 2))
-        path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX - 2, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + 2))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - 2))
-        path.addLine(to: CGPoint(x: rect.maxX - 2, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX + 2, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY - 2))
+        let d = CGFloat(1.5)
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY + d))
+        path.addLine(to: CGPoint(x: rect.minX + d, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX - d, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + d))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - d))
+        path.addLine(to: CGPoint(x: rect.maxX - d, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX + d, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY - d))
         return path
     }
 
