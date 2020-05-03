@@ -10,10 +10,10 @@ struct DisplayView: View {
     private static let ledColor = Color.red
     private static let ledCount = 12
     private static let ledHeight = CGFloat(29.0)
-    private static let interLedX = 30.0
+    private static let interLedX = 32.0
     private static let segmentCount = 14
     private static let slant = CGFloat(0.08)
-    private static let displayToCalculatorWidthRatio = CGFloat(0.85)
+    private static let displayToCalculatorWidthRatio = CGFloat(0.82)
 
     // Describes the 10 horizontal and vertical segments.
     private static let rightSegmentsData = [
@@ -197,7 +197,7 @@ struct DisplayView: View {
             = DisplayView.displayToCalculatorWidthRatio * metrics.size.width / fullRect.width
         var recenterOffsetX = DisplayView.ledHeight * DisplayView.slant
         // Tweak so that it *looks* more centered (even if it is not).
-        recenterOffsetX += 1.5
+        recenterOffsetX += 5.0
 
         let offsetX = (metrics.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
         let offsetY = (metrics.size.height - fullRect.height) / 2 * scaleFactor
