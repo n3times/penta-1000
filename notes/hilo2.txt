@@ -1,0 +1,39 @@
+Version 2 of HI-LO game
+
+== Counter ==
+
+- TT seconds to finish level
+- depends on level: for example 60, 45, 40, 35, 30, 25, 20, ...
+- decremented by 1 every second
+
+== End game ==
+
+- if counter reaches 0 (game over)
+- if user presses 'C' (to calculator)
+- if user presses '?' (restarts game)
+
+== States ==
+
+Start
+  > HI-LO GAME     1 second then 'next level'
+
+Next Level
+    XX SECONDS     1 second
+  GUESS ___        wait for digit then 'X__'
+
+X__ [count down]
+        X__ tt     wait for digit then 'XX_'
+
+XX_ [count down]
+        XX_ tt     wait for digit then 'Too' or 'Won level'
+
+Too [count down]
+  2 LO  XXX tt     wait for digit then 'X__'
+
+Won level
+  NICE  XXX tt     1 second
+     SCORE SSS     1 second then 'next level'
+
+Game over
+     GAME OVER     1 second
+     SCORE SSS     can be HI-SCORE or HISCORE
