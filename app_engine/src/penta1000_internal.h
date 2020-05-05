@@ -9,7 +9,7 @@
 
 #include <stdbool.h>
 
-#define PENTA_1000_VERSION 1
+#define PENTA_1000_VERSION 2
 
 typedef enum apps_type_e {
     APP_TYPE_NONE = 0,
