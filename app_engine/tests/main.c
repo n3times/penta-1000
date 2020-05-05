@@ -2,7 +2,7 @@
 
 int main() {
     test_calc();
-    test_game();
+    test_hilo();
     test_logging();
     test_saving();
 }

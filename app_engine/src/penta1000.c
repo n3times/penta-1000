@@ -9,8 +9,8 @@ static app_t *get_current_app(p1_t *p1) {
     app_t *app = NULL;
     if (p1->current_app_type == APP_TYPE_CALC) {
         app = (app_t *)&p1->calc;
-    } else if (p1->current_app_type == APP_TYPE_GAME) {
-        app = (app_t *)&p1->game;
+    } else if (p1->current_app_type == APP_TYPE_HILO) {
+        app = (app_t *)&p1->hilo;
     }
     return app;
 }
@@ -24,7 +24,7 @@ p1_t *p1_new(long seed) {
     p1->version = PENTA_1000_VERSION;
     p1->current_app_type = APP_TYPE_NONE;
     init_calc(&p1->calc);
-    init_game(&p1->game, seed);
+    init_hilo(&p1->hilo, seed);
     return p1;
 }
 
@@ -43,8 +43,8 @@ void p1_press_key(p1_t *p1, char key) {
             app->advance_frame(app);
         }
     }
-    if (key == 'g' && app != (app_t *)&p1->game) {
-        p1->current_app_type = APP_TYPE_GAME;
+    if (key == 'g' && app != (app_t *)&p1->hilo) {
+        p1->current_app_type = APP_TYPE_HILO;
         app = get_current_app(p1);
         app->enter(app);
     } else if (key == 'c' && app != (app_t *)&p1->calc) {
@@ -102,7 +102,7 @@ p1_t *p1_new_from_state_buffer(const char *state_buffer) {
     p1_t *p1 = malloc(struct_size);
     memcpy(p1, state_buffer, struct_size);
     init_calc_from_state((char *)&p1->calc);
-    init_game_from_state((char *)&p1->game);
+    init_hilo_from_state((char *)&p1->hilo);
     return p1;
 }
 

@@ -11,6 +11,6 @@ void advance(test_t *test, long ms);
 void assert_display(test_t *test, char *display);
 
 void test_calc();
-void test_game();
+void test_hilo();
 void test_logging();
 void test_saving();

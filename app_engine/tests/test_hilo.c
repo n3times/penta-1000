@@ -11,12 +11,12 @@ static void test_edit() {
     test("g12g", "1__       ");
 }
 
-static void test_hilo() {
+static void test_hi_and_lo() {
     test("g744", "744 TOO LO");
     test("g746", "746 TOO HI");
 }
 
-static void test_next_game_different_target() {
+static void test_next_hilo_different_target() {
     test("g745", "745 YOU WON");
     test("gg745", "745 TOO HI");
 }
@@ -105,10 +105,10 @@ static void test_show_stats() {
     assert_display(test, "555 TOO LO");
 }
 
-void test_game() {
+void test_hilo() {
     test_edit();
-    test_hilo();
-    test_next_game_different_target();
+    test_hi_and_lo();
+    test_next_hilo_different_target();
     test_animation_on_enter();
     test_animation_on_reenter();
     test_animation_on_clear();
