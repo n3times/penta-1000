@@ -11,6 +11,8 @@ static app_t *get_current_app(p1_t *p1) {
         app = (app_t *)&p1->calc;
     } else if (p1->current_app_type == APP_TYPE_HILO) {
         app = (app_t *)&p1->hilo;
+    } else if (p1->current_app_type == APP_TYPE_HILO2) {
+        app = (app_t *)&p1->hilo2;
     }
     return app;
 }
@@ -25,6 +27,7 @@ p1_t *p1_new(long seed) {
     p1->current_app_type = APP_TYPE_NONE;
     init_calc(&p1->calc);
     init_hilo(&p1->hilo, seed);
+    init_hilo2(&p1->hilo2, seed);
     return p1;
 }
 
@@ -45,6 +48,10 @@ void p1_press_key(p1_t *p1, char key) {
     }
     if (key == 'g' && app != (app_t *)&p1->hilo) {
         p1->current_app_type = APP_TYPE_HILO;
+        app = get_current_app(p1);
+        app->enter(app);
+    } else if (key == 'h' && app != (app_t *)&p1->hilo2) {
+        p1->current_app_type = APP_TYPE_HILO2;
         app = get_current_app(p1);
         app->enter(app);
     } else if (key == 'c' && app != (app_t *)&p1->calc) {
@@ -103,6 +110,7 @@ p1_t *p1_new_from_state_buffer(const char *state_buffer) {
     memcpy(p1, state_buffer, struct_size);
     init_calc_from_state((char *)&p1->calc);
     init_hilo_from_state((char *)&p1->hilo);
+    init_hilo2_from_state((char *)&p1->hilo2);
     return p1;
 }
 

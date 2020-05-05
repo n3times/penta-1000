@@ -11,7 +11,7 @@ lib: obj
 	rm -f *.o
 
 obj:
-	$(CC) -c -Wall -I$(INC) -I$(SRC) -I$(SRC)/calc -I$(SRC)/hilo $(SRC)/*.c $(SRC)/calc/*.c $(SRC)/hilo/*.c
+	$(CC) -c -Wall -I$(INC) -I$(SRC) -I$(SRC)/calc -I$(SRC)/hilo -I$(SRC)/hilo2 $(SRC)/*.c $(SRC)/calc/*.c $(SRC)/hilo/*.c $(SRC)/hilo2/*.c
 
 clean:
 	rm -f *.o

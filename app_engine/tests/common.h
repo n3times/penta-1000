@@ -12,5 +12,6 @@ void assert_display(test_t *test, char *display);
 
 void test_calc();
 void test_hilo();
+void test_hilo2();
 void test_logging();
 void test_saving();

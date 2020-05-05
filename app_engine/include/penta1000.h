@@ -28,8 +28,9 @@ void p1_release(p1_t *p1);
 // animations as necessary.
 //
 // 'key' is in '0123456789.~+-*/=%cg' which covers the 10 digits, the decimal
-// point, +/- ('~'), the 4 arithmetic operations, equal, percent, clear and 'g'
-// (switches between game and calc mode).
+// point, +/- ('~'), the 4 arithmetic operations, equal, percent, clear, 'g'
+// (switches to HI-LO game) and 'h' (switches to a timed version of the HI_LO
+// game).
 void p1_press_key(p1_t *p1, char key);
 
 // Gets the display as a null terminated string with at most 24 characters.

@@ -25,6 +25,7 @@
 		DAB98F8A242EC5160014AEE3 /* penta1000Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F89242EC5160014AEE3 /* penta1000Tests.swift */; };
 		DAB98F95242EC5160014AEE3 /* penta1000UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F94242EC5160014AEE3 /* penta1000UITests.swift */; };
 		DAD843522460E0690047744C /* hilo.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD843502460E0690047744C /* hilo.c */; };
+		DAD84356246109C30047744C /* hilo2.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD84355246109C30047744C /* hilo2.c */; };
 		DAD911C524317D0E00A80DAF /* penta1000.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911B624317D0E00A80DAF /* penta1000.c */; };
 		DAD911C724317D0E00A80DAF /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911BD24317D0E00A80DAF /* log.c */; };
 		DAD911C824317D0E00A80DAF /* calc.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911BE24317D0E00A80DAF /* calc.c */; };
@@ -79,6 +80,8 @@
 		DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "penta1000-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAD843502460E0690047744C /* hilo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hilo.c; sourceTree = "<group>"; };
 		DAD843512460E0690047744C /* hilo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hilo.h; sourceTree = "<group>"; };
+		DAD84354246109C30047744C /* hilo2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hilo2.h; sourceTree = "<group>"; };
+		DAD84355246109C30047744C /* hilo2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hilo2.c; sourceTree = "<group>"; };
 		DAD911B424317D0E00A80DAF /* penta1000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = penta1000.h; sourceTree = "<group>"; };
 		DAD911B624317D0E00A80DAF /* penta1000.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = penta1000.c; sourceTree = "<group>"; };
 		DAD911B724317D0E00A80DAF /* penta1000_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = penta1000_internal.h; sourceTree = "<group>"; };
@@ -220,6 +223,15 @@
 			path = hilo;
 			sourceTree = "<group>";
 		};
+		DAD84353246109C30047744C /* hilo2 */ = {
+			isa = PBXGroup;
+			children = (
+				DAD84354246109C30047744C /* hilo2.h */,
+				DAD84355246109C30047744C /* hilo2.c */,
+			);
+			path = hilo2;
+			sourceTree = "<group>";
+		};
 		DAD911B224317CE000A80DAF /* app_engine */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +258,7 @@
 				DAD911B824317D0E00A80DAF /* app.h */,
 				DAD911BC24317D0E00A80DAF /* calc */,
 				DAD8434F2460E0690047744C /* hilo */,
+				DAD84353246109C30047744C /* hilo2 */,
 			);
 			name = src;
 			path = ../app_engine/src;
@@ -405,6 +418,7 @@
 			files = (
 				DA667A6E243B126200EC93C0 /* leds.c in Sources */,
 				DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */,
+				DAD84356246109C30047744C /* hilo2.c in Sources */,
 				DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */,
 				DAD843522460E0690047744C /* hilo.c in Sources */,
 				DAD911CA24317D0E00A80DAF /* number_edit.c in Sources */,
