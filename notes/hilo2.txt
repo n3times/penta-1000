@@ -1,39 +1,52 @@
-Version 2 of HI-LO game
+HI-LO v.2.0
 
-== Counter ==
+== Levels ==
 
-- TT seconds to finish level
-- depends on level: for example 60, 45, 40, 35, 30, 25, 20, ...
-- decremented by 1 every second
+- Level L must be finished within time T, with at most G guesses
+- L   1  2  3  4  5  6  7 [ 8 ... ]
+  T  60 45 40 35 30 25 20 [ 20 from there ]
+  G  12 11 10 10 10 10 10 [ 10 from there ]
+- score depends on time taken t: 100 - t
 
 == End game ==
 
-- if counter reaches 0 (game over)
-- if user presses 'C' (to calculator)
-- if user presses '?' (restarts game)
+- if counter reaches 0    [ game over ]
+- if G guesses and no win [ game over ]
+- if user presses 'C'     [ to calculator ]
+- if user presses '?'     [ restarts game ]
 
 == States ==
 
-Start
-  > HI-LO GAME     1 second then 'next level'
+> HI-LO GAME ' :START => LEVEL
 
-Next Level
-    XX SECONDS     1 second
-  GUESS ___        wait for digit then 'X__'
+     LEVEL L ' :LEVEL
+___ GUESS    ? :LEVEL => PLAY
 
-X__ [count down]
-        X__ tt     wait for digit then 'XX_'
+X__        d ? :PLAY  => PLAY, END
+XX_        d ? :PLAY  => PLAY, END, WIN, SUB_ONE_MORE
+XXX TOO HI d ? :PLAY  => PLAY, END
+XXX TOO LO d ? :PLAY  => PLAY, END
+___        d ? :PLAY  => PLAY, END
 
-XX_ [count down]
-        XX_ tt     wait for digit then 'Too' or 'Won level'
+XXX YOU WIN  ' :WIN
+   SCORE XXX ' :WIN => LEVEL
 
-Too [count down]
-  2 LO  XXX tt     wait for digit then 'X__'
+XXX YOU LOST ' :END
+   GAME OVER ' :END
+   SCORE XXX = :END
 
-Won level
-  NICE  XXX tt     1 second
-     SCORE SSS     1 second then 'next level'
+1 MORE GUESS ' :SUB_ONE_MORE  [ pushed from PLAY ]
+             ' :SUB_FLASH     [ pushed from waiting for input ]
+HI-SCORE XXX ' :SUB_STATS     [ pushed from waiting for input ]
 
-Game over
-     GAME OVER     1 second
-     SCORE SSS     can be HI-SCORE or HISCORE
+== Notes ==
+Legend:
+  '  pause
+  d  digit if time left < 10s
+  ?  waiting for digit input: %, C, ?, digit. Otherwise SUB_FLASH
+  =  waiting for digit input: %, C, ?. Otherwise SUB_FLASH
+
+In subroutine need to save:
+  * state
+  * frame
+  * display
