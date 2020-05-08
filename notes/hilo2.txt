@@ -1,52 +1,64 @@
-HI-LO v.2.0
+HI-LO 2.0
 
-== Levels ==
 
-- Level L must be finished within time T, with at most G guesses
-- L   1  2  3  4  5  6  7 [ 8 ... ]
-  T  60 45 40 35 30 25 20 [ 20 from there ]
-  G  12 11 10 10 10 10 10 [ 10 from there ]
-- score depends on time taken t: 100 - t
+RULES
 
-== End game ==
+  At most 10 guesses per level.
 
-- if counter reaches 0    [ game over ]
-- if G guesses and no win [ game over ]
-- if user presses 'C'     [ to calculator ]
-- if user presses '?'     [ restarts game ]
+  Each level L must be finished within time T(L):
+    T(L) =  60 45 40 35 30 25 20 ...
 
-== States ==
+  Score depends on time taken t:
+    S(t) = 70 - t
 
-> HI-LO GAME ' :START => LEVEL
+  Game ends if:
+    time left reaches 0   [ game over ]
+    10 guesses and no win [ game over ]
+    user presses 'C'      [ to calculator ]
+    user presses '?'      [ restarts game ] (or clears guess)
 
-     LEVEL L ' :LEVEL
-___ GUESS    ? :LEVEL => PLAY
 
-X__        d ? :PLAY  => PLAY, END
-XX_        d ? :PLAY  => PLAY, END, WIN, SUB_ONE_MORE
-XXX TOO HI d ? :PLAY  => PLAY, END
-XXX TOO LO d ? :PLAY  => PLAY, END
-___        d ? :PLAY  => PLAY, END
+STATES
 
-XXX YOU WIN  ' :WIN
-   SCORE XXX ' :WIN => LEVEL
+  :START
+    > HI-LO GAME ' :INIT_LEVEL
 
-XXX YOU LOST ' :END
-   GAME OVER ' :END
-   SCORE XXX = :END
+  :INIT_LEVEL
+         LEVEL L ' >
+    ___ GUESS    ? :PLAY
 
-1 MORE GUESS ' :SUB_ONE_MORE  [ pushed from PLAY ]
-             ' :SUB_FLASH     [ pushed from waiting for input ]
-HI-SCORE XXX ' :SUB_STATS     [ pushed from waiting for input ]
+  :PLAY            [ :END_TIME ]
+    X__        d ? >
+    XX_        d ? > :END_GUESSES :WIN :SUB_ONE_MORE
+    XXX TOO XX d ? X_
+    ___        d ? X_
 
-== Notes ==
-Legend:
-  '  pause
-  d  digit if time left < 10s
-  ?  waiting for digit input: %, C, ?, digit. Otherwise SUB_FLASH
-  =  waiting for digit input: %, C, ?. Otherwise SUB_FLASH
+  :WIN
+    XXX YOU WIN  ' >
+      SS SECONDS ' >
+       PP POINTS ' >
+       SCORE XXX ' :LEVEL
 
-In subroutine need to save:
-  * state
-  * frame
-  * display
+  :END (_TIME or _GUESSES)
+    XXX YOU LOST ' >
+       GAME OVER ' >
+       SCORE XXX =
+
+  :SUBS
+    1 MORE GUESS ' :SUB_ONE_MORE  [ pushed from PLAY ]
+                 ' :SUB_FLASH     [ pushed from waiting for input ]
+    HI-SCORE XXX ' :SUB_STATS     [ pushed from waiting for input ]
+
+
+NOTES
+
+  Legend
+    '  pause
+    d  digit if time left < 10s
+    ?  waiting for input: %, C, ?, digit. Otherwise SUB_FLASH
+    =  waiting for input: %, C, ?. Otherwise SUB_FLASH
+
+  For subroutines, save
+    state
+    frame
+    display
