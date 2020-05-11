@@ -28,7 +28,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Restore the state if there was no crash and the state is compatible with the current
         // engine.
-        let didCrash = UserDefaults.standard.bool(forKey: crashKey)
+        /// TODO: Find a good way to determine a genuine app crash.
+        ///let didCrash = UserDefaults.standard.bool(forKey: crashKey)
+        let didCrash = false
         UserDefaults.standard.set(true, forKey: crashKey)
         if !didCrash { penta1000 = Penta1000(filename: stateFilename) }
         if penta1000 == nil {
