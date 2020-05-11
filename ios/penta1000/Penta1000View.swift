@@ -39,7 +39,7 @@ struct Penta1000View: View {
             if (j >= 5) { j = 4 }
             let col = Int(i)
             let row = Int(j)
-            let keys = ["g~%c", "789/", "456*", "123+", "0.-="]
+            let keys = ["h~%c", "789/", "456*", "123+", "0.-="]
             let index = keys[row].index(keys[row].startIndex, offsetBy: col)
             return keys[row][index]
         } else {
@@ -48,9 +48,12 @@ struct Penta1000View: View {
     }
 
     private func runDisplayAnimationLoop() {
-        Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true, block: { timer in
-            // Advance 2 frames at a time, for performance reasons.
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { timer in
+            // Advance 5 frames at a time, for performance reasons.
             self.penta1000.advanceFrame()
+            if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
+            if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
+            if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
             if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
             self.displayText = self.penta1000.display()
             if !self.penta1000.isAnimating() {

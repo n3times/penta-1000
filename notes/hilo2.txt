@@ -3,33 +3,37 @@ HI-LO 2.0
 
 RULES
 
-  At most 10 guesses per level.
-
-  Each level L must be finished within time T(L):
-    T(L) =  60 45 40 35 30 25 20 ...
+  Each level L must be finished within time T(L) in G(L) guesses at most:
+    T(L) =  30 25 20 25 20 18 20 18 15 14 13 12 12 12 11 11 11 10 10 10
+    G(L) =  12 12 12 11 11 11 10 10 10 10 10 10 10 10 10 10 10 10 10 10
 
   Score depends on time taken t:
-    S(t) = 70 - t
+    S(t) = 50 - t
 
   Game ends if:
     time left reaches 0   [ game over ]
-    10 guesses and no win [ game over ]
+    G(L) guesses and no win [ game over ]
     user presses 'C'      [ to calculator ]
     user presses '?'      [ restarts game ] (or clears guess)
 
 
 STATES
 
-  :START
-    > HI-LO GAME ' :INIT_LEVEL
+  :ENTER
+    > HI-LO GAME ' :START_GAME
+
+  :START_GAME
+    n/a            :INIT_LEVEL
 
   :INIT_LEVEL
-         LEVEL L ' >
+         LEVEL L ' :GUESS
+
+  :GUESS
     ___ GUESS    ? :PLAY
 
-  :PLAY            [ :END_TIME ]
+  :PLAY            [ :OVER_TIME ]
     X__        d ? >
-    XX_        d ? > :END_GUESSES :WIN :SUB_ONE_MORE
+    XX_        d ? > :OVER_GUESSES :WIN :SUB_ONE_MORE
     XXX TOO XX d ? X_
     ___        d ? X_
 
@@ -39,9 +43,11 @@ STATES
        PP POINTS ' >
        SCORE XXX ' :LEVEL
 
-  :END (_TIME or _GUESSES)
+  :OVER (_TIME or _GUESSES)
     XXX YOU LOST ' >
        GAME OVER ' >
+
+  :END
        SCORE XXX =
 
   :SUBS
