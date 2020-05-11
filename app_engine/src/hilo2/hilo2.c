@@ -259,11 +259,11 @@ static void advance_frame(app_t *app) {
         break;
     case HILO2_STATE_SUBROUTINE_LAST_GUESS:
         if (hilo2->frame == 100) {
+            pop_state(hilo2);
             bool high = (hilo2->guess - hilo2->target) > 0;
             sprintf(hilo2->display, "%03d %s  ",
                     hilo2->guess, high ? "TOO HI" : "TOO LO");
             strcpy(hilo2->guess_textfield, "___");
-            pop_state(hilo2);
         }
         break;
     case HILO2_STATE_SUBROUTINE_FLASH:
