@@ -15,8 +15,6 @@ typedef enum hilo2_state_e {
     HILO2_STATE_WON_LEVEL,
     // Game is over.
     HILO2_STATE_GAME_OVER,
-    // Only one guess is left within left.
-    HILO2_STATE_SUBROUTINE_LAST_GUESS,
     // Flashes display.
     HILO2_STATE_SUBROUTINE_FLASH,
     // Displays stats about game.

@@ -44,11 +44,11 @@ static void update_display(calc_t *calc) {
     if (extended_display[0] == '\0') {
         strcpy(extended_display, "READY");
     }
-    // Display at most 12 non-dot characters
+    // Display at most 12 non-dot non-colon characters
     char *display = extended_display + strlen(extended_display) - 1;
     int count = 0;
     while (true) {
-        if (*display != '.') count += 1;
+        if (*display != '.' && *display != ':') count += 1;
         if (display == extended_display || count == 12) {
             break;
         }

@@ -7,6 +7,7 @@ static int map[256];
 static void init() {
     memset(map, 0, 256 * sizeof(char));
 
+    map[' '] = 0b00000000000000;
     map['0'] = 0b11000100100011;
     map['1'] = 0b00010000001000;
     map['2'] = 0b10000111100001;
@@ -57,6 +58,7 @@ static void init() {
     map[']'] = 0b10000100000011;
     map['='] = 0b00000011000001;
     map['}'] = 0b00100011010000;
+    map['^'] = 0b00000000001001;
 }
 
 int app_support_get_led_segments(char c) {

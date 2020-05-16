@@ -35,8 +35,9 @@ void p1_press_key(p1_t *p1, char key);
 
 // Gets the display as a null terminated string with at most 24 characters.
 //
-// The text should be right justified on the display. A dot ('.') modifies the
-// character just before it. There are at most 12 non-dot characters.
+// The text should be right justified on the display. A dot ('.') or a colon
+// (':') modifies the character just before it. There are at most 12 non-dot,
+// non-colon characters.
 char *p1_get_display(p1_t *p1);
 
 /*

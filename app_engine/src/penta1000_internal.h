@@ -9,7 +9,8 @@
 
 #include <stdbool.h>
 
-#define PENTA_1000_VERSION 2
+// Increment version whenever 'struct p1_s' changes.
+#define PENTA_1000_VERSION 3
 
 typedef enum apps_type_e {
     APP_TYPE_NONE = 0,

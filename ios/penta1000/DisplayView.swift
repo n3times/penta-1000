@@ -1,10 +1,10 @@
 import SwiftUI
 
-// The display, composed of 12 14-segments LEDs. In addition, each LED has a dot to the
+// The display, composed of 12 14-segments LEDs. In addition, each LED has a dot or colon to the
 // right (decimal point).
 struct DisplayView: View {
-    // The text composed of up to 12 non-dot characters, each one optionally followed by a
-    // a dot. The text should be right-justified within the display.
+    // The text composed of up to 12 non-dot non-colon characters, each one optionally followed by a
+    // a dot or colon. The text should be right-justified within the display.
     @Binding var displayText: String
 
     private static let ledColor = Color.red
@@ -99,10 +99,13 @@ struct DisplayView: View {
         return segments & (1 << (DisplayView.segmentCount - 1 - i)) != 0
     }
 
-    private func getLedPath(c: Character, startX: Double, hasDot: Bool, combineSegments:Bool)
+    private func getLedPath(c: Character,
+                            startX: Double,
+                            hasDot: Bool,
+                            hasColon: Bool,
+                            combineSegments:Bool)
             -> Path? {
         let segments = app_support_get_led_segments(Int8(c.asciiValue!))
-        if (segments == 0) { return nil }
         var isSegmentResolved = [Bool](repeating: false, count: 14)
 
         var path = Path()
@@ -151,9 +154,10 @@ struct DisplayView: View {
                 }
             }
         }
-        if (hasDot) {
+        if (hasDot || hasColon) {
             let data = useAlternateDotData ? alternateDotData : dotData
             path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+            if hasColon { path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0) - 18)) }
         }
         return path
     }
@@ -161,22 +165,25 @@ struct DisplayView: View {
     private func getPath(_ string: String) -> TransformedShape<Path> {
         var path = Path()
         let displayCharacters = Array(string)
-        var nonDotCount = 0
+        var nonDotNonColonCount = 0
         for c in displayCharacters {
-            if c != "." {
-                nonDotCount += 1
+            if c != "." && c != ":" {
+                nonDotNonColonCount += 1
             }
         }
         var index = 0
         for i in 0..<displayCharacters.count {
             if displayCharacters[i] == "." { continue }
+            if displayCharacters[i] == ":" { continue }
 
             // Right justify.
-            let position = index + (DisplayView.ledCount - nonDotCount)
+            let position = index + (DisplayView.ledCount - nonDotNonColonCount)
             let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
+            let hasColon = i < displayCharacters.count - 1 && displayCharacters[i + 1] == ":"
             let ledPath = getLedPath(c: displayCharacters[i],
                                      startX: DisplayView.interLedX * Double(position),
                                      hasDot: hasDot,
+                                     hasColon: hasColon,
                                      combineSegments: true)
             if ledPath != nil { path.addPath(ledPath!) }
             index += 1

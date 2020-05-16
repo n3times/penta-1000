@@ -92,12 +92,6 @@ static void enter_game_over(hilo2_t *hilo2) {
     sprintf(hilo2->display, "%d YOU LOST", hilo2->target);
 }
 
-static void enter_sub_last_guess(hilo2_t *hilo2) {
-    push_state(hilo2);
-    set_state(hilo2, HILO2_STATE_SUBROUTINE_LAST_GUESS, 0);
-    sprintf(hilo2->display, "LAST GUESS }");
-}
-
 static void enter_sub_flash(hilo2_t *hilo2) {
     push_state(hilo2);
     set_state(hilo2, HILO2_STATE_SUBROUTINE_FLASH, 0);
@@ -178,9 +172,6 @@ static void press_key(app_t *app, char key) {
         } else if (hilo2->index >= hilo2->max_guesses) {
             enter_game_over(hilo2);
             return;
-        } else if (hilo2->index == hilo2->max_guesses - 1) {
-            enter_sub_last_guess(hilo2);
-            return;
         }
         bool high = (hilo2->guess - hilo2->target) > 0;
         sprintf(hilo2->display, "%03d %s  ",
@@ -190,6 +181,10 @@ static void press_key(app_t *app, char key) {
         sprintf(hilo2->display, "%s         ", hilo2->guess_textfield);
     }
     int time_left = hilo2->max_time - hilo2->frame;
+    int guesses_left = hilo2->max_guesses - hilo2->index;
+    if (guesses_left == 1) {
+        hilo2->display[3] = '^';
+    }
     if (time_left <= 999) {
         hilo2->display[strlen(hilo2->display) - 1] = '0' + time_left / 100;
     }
@@ -255,15 +250,6 @@ static void advance_frame(app_t *app) {
                 sprintf(hilo2->display, "SCORE %03d", hilo2->score);
             }
             hilo2->frame = -1;
-        }
-        break;
-    case HILO2_STATE_SUBROUTINE_LAST_GUESS:
-        if (hilo2->frame == 100) {
-            pop_state(hilo2);
-            bool high = (hilo2->guess - hilo2->target) > 0;
-            sprintf(hilo2->display, "%03d %s  ",
-                    hilo2->guess, high ? "TOO HI" : "TOO LO");
-            strcpy(hilo2->guess_textfield, "___");
         }
         break;
     case HILO2_STATE_SUBROUTINE_FLASH:
