@@ -58,7 +58,8 @@ static void init() {
     map[']'] = 0b10000100000011;
     map['='] = 0b00000011000001;
     map['}'] = 0b00100011010000;
-    map['^'] = 0b00000000001001;
+    map['^'] = 0b00000000010101;
+    map['v'] = 0b10101000000000;
 }
 
 int app_support_get_led_segments(char c) {

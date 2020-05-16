@@ -13,6 +13,8 @@ typedef enum hilo2_state_e {
     HILO2_STATE_PLAY_LEVEL,
     // User won level.
     HILO2_STATE_WON_LEVEL,
+    // User won game.
+    HILO2_STATE_WON_GAME,
     // Game is over.
     HILO2_STATE_GAME_OVER,
     // Flashes display.
