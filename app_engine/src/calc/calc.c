@@ -91,7 +91,6 @@ static void press_key(app_t *app, char key) {
     bool is_error = aos->error != ERROR_NONE;
 
     if (calc->state == CALC_STATE_ENTER) return;
-    if (is_error && key != 'c') return;
 
     if (key == 'c') {
         if (is_error) {
@@ -106,19 +105,16 @@ static void press_key(app_t *app, char key) {
         } else {
             aos_pop(aos);
         }
+    } else if (aos->error != ERROR_NONE) {
+        // Nothing.
     } else if (is_number_edit_key(calc, key)) {
-        bool is_error = aos->error != ERROR_NONE;
-        if (!is_error) number_edit_handle_key(calc, key);
+        number_edit_handle_key(calc, key);
     } else {
         if (calc->is_number_editing) {
            number_edit_done_editing(calc);
         }
         aos_push_operator(calc, key);
         is_error = aos->error != ERROR_NONE;
-        if (is_error) {
-            calc->state = CALC_STATE_ERROR;
-            calc->frame = 0;
-        }
     }
 
     char old_display[25];
@@ -145,9 +141,7 @@ static void advance_frame(app_t *app) {
     switch (calc->state) {
     case CALC_STATE_ENTER:
         if (calc->frame == 80) {
-            bool is_error = calc->aos.error != ERROR_NONE;
-            calc->state = is_error ? CALC_STATE_ERROR : CALC_STATE_COMPUTE;
-            calc->frame = 0;
+            calc->state = CALC_STATE_COMPUTE;
             update_display(calc);
         }
         break;
@@ -158,14 +152,6 @@ static void advance_frame(app_t *app) {
             update_display(calc);
             calc->state = CALC_STATE_COMPUTE;
             calc->frame = 0;
-        }
-        break;
-    case CALC_STATE_ERROR:
-        // Animate indefinitely.
-        if (calc->frame % 100 == 0) {
-            update_display(calc);
-        } else if (calc->frame % 100 == 50) {
-            sprintf(calc->display, "");
         }
         break;
     }
