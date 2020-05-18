@@ -69,13 +69,9 @@ static void test_animation_on_win() {
     advance(test, 10);
     assert_display(test, "745       ");
     advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
-    assert_display(test, "745 YOU WON");
-    advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
     assert_display(test, "1 GUESS");
+    advance(test, 2000);
+    assert_display(test, "745 YOU WON");
 }
 
 static void test_animation_on_lose() {
@@ -84,12 +80,6 @@ static void test_animation_on_lose() {
     press_key(test, '0');
     advance(test, 10);
     assert_display(test, "100       ");
-    advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
-    assert_display(test, "745 YOU LOST");
-    advance(test, 500);
-    assert_display(test, "");
     advance(test, 500);
     assert_display(test, "745 YOU LOST");
 }

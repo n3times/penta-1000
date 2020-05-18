@@ -160,6 +160,7 @@ static void go_to_play_state(app_t *app) {
                 hilo->guess, high ? "TOO HI" : "TOO LO");
     }
     hilo->state = HILO_STATE_PLAY;
+    hilo->frame = -1;
 }
 
 static void advance_frame(app_t *app) {
@@ -213,15 +214,16 @@ static void advance_frame(app_t *app) {
     case HILO_STATE_OVER:
         if (hilo->frame == 1) {
             sprintf(hilo->display, "%03d       ", hilo->guess);
-        } else if (hilo->frame % 200 == 0 && did_win) {
+        } else if (hilo->frame == 50 && did_win) {
             char *str = "GUESSES";
             if (hilo->index == 1) str = "GUESS";
             sprintf(hilo->display, "%d %s", hilo->index, str);
-        } else if (hilo->frame % 100 == 0) {
-            sprintf(hilo->display,
-                    "%03d %s", hilo->target, did_win ? "YOU WON" : "YOU LOST");
-        } else if (hilo->frame % 100 == 50) {
-            sprintf(hilo->display, "");
+        } else if (hilo->frame == 50 && !did_win) {
+            sprintf(hilo->display, "%03d YOU LOST", hilo->target);
+            hilo->frame = -1;
+        } else if (hilo->frame == 200 && did_win) {
+            sprintf(hilo->display, "%03d YOU WON", hilo->target);
+            hilo->frame = -1;
         }
         break;
     }
@@ -229,5 +231,5 @@ static void advance_frame(app_t *app) {
 
 static bool is_animating(app_t *app) {
     hilo_t *hilo = (hilo_t *)app;
-    return hilo->state != HILO_STATE_PLAY;
+    return hilo->frame >= 0;
 }
