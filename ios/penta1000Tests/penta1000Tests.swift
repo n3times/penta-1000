@@ -1,5 +1,5 @@
 import XCTest
-@testable import penta1000
+@testable import Penta_1000
 
 class penta1000Tests: XCTestCase {
 
