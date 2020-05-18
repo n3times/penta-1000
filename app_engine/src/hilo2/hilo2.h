@@ -56,6 +56,8 @@ typedef struct hilo2_s {
     int time;
     // Best score.
     int hiscore;
+    //
+    bool is_hiscore;
     // State pushed on the stack.
     hilo2_state_t pushed_state;
     // Frame pushed on the stack.

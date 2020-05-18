@@ -6,6 +6,7 @@
 
 static char GAME_KEY = 'h';
 static char STATS_KEY = '%';
+static int MAX_LEVEL = 20;
 
 static void enter(app_t *app);
 static void press_key(app_t *app, char key);
@@ -58,6 +59,7 @@ static void set_state(hilo2_t *hilo2, hilo2_state_t state, int frame) {
 static void enter_start_game(hilo2_t *hilo2) {
     hilo2->level = 0;
     hilo2->score = 0;
+    hilo2->is_hiscore = false;
     set_state(hilo2, HILO2_STATE_START_GAME, 0);
     enter_start_level(hilo2);
 }
@@ -83,7 +85,10 @@ static void enter_won_level(hilo2_t *hilo2) {
     hilo2->time = hilo2->frame;
     set_state(hilo2, HILO2_STATE_WON_LEVEL, 0);
     hilo2->score += 50 - (hilo2->time + 99) / 100;
-    if (hilo2->score > hilo2->hiscore) hilo2->hiscore = hilo2->score;
+    if (hilo2->score >= hilo2->hiscore && hilo2->score > 0) {
+        hilo2->hiscore = hilo2->score;
+        hilo2->is_hiscore = true;
+    }
     sprintf(hilo2->display, "%d NICE }", hilo2->target);
 }
 
@@ -91,7 +96,10 @@ static void enter_won_game(hilo2_t *hilo2) {
     hilo2->time = hilo2->frame;
     set_state(hilo2, HILO2_STATE_WON_GAME, 0);
     hilo2->score += 50 - (hilo2->time + 99) / 100;
-    if (hilo2->score > hilo2->hiscore) hilo2->hiscore = hilo2->score;
+    if (hilo2->score > hilo2->hiscore) {
+        hilo2->hiscore = hilo2->score;
+        hilo2->is_hiscore = true;
+    }
     sprintf(hilo2->display, "%d YOU WON}", hilo2->target);
 }
 
@@ -109,7 +117,7 @@ static void enter_sub_flash(hilo2_t *hilo2) {
 static void enter_sub_stats(hilo2_t *hilo2) {
     push_state(hilo2);
     set_state(hilo2, HILO2_STATE_SUBROUTINE_STATS, 0);
-    sprintf(hilo2->display, "SCORE %03d", hilo2->score);
+    sprintf(hilo2->display, "SCORE %03d }", hilo2->score);
 }
 
 /** Implementation of the app interface. */
@@ -126,8 +134,8 @@ static void press_key(app_t *app, char key) {
     if (is_animating(app) && hilo2->state != HILO2_STATE_PLAY_LEVEL) return;
 
     // HILO2_STATE_START_LEVEL: stats or digit 1..9 or flash
-    // HILO2_STATE_PLAY_LEVEL: animating
-    // HILO2_STATE_WON_LEVEL: stats or any other key
+    // HILO2_STATE_PLAY_LEVEL: animating - digits 0..9 or flash
+    // HILO2_STATE_WON_LEVEL: any key
     // HILO2_STATE_WON_GAME: stats or new game or flash
     // HILO2_STATE_GAME_OVER: stats or new game or flash
 
@@ -136,14 +144,16 @@ static void press_key(app_t *app, char key) {
             enter_sub_stats(hilo2);
             return;
         } else {
-            set_state(hilo2, HILO2_STATE_PLAY_LEVEL, 0);
+            if ('1' <= key && key <= '9') {
+                set_state(hilo2, HILO2_STATE_PLAY_LEVEL, 0);
+                // go through.
+            } else {
+                enter_sub_flash(hilo2);
+                return;
+            }
         }
     } else if (hilo2->state == HILO2_STATE_WON_LEVEL) {
-        if (key == STATS_KEY) {
-            enter_sub_stats(hilo2);
-        } else {
-            enter_start_level(hilo2);
-        }
+        enter_start_level(hilo2);
         return;
     } else if (hilo2->state == HILO2_STATE_GAME_OVER || hilo2->state == HILO2_STATE_WON_GAME) {
         if (key == STATS_KEY) {
@@ -178,7 +188,7 @@ static void press_key(app_t *app, char key) {
         hilo2->guess = atoi(hilo2->guess_textfield);
         hilo2->index++;
         if (hilo2->guess == hilo2->target) {
-            if (hilo2->level == 20) {
+            if (hilo2->level == MAX_LEVEL) {
                 enter_won_game(hilo2);
             } else {
                 enter_won_level(hilo2);
@@ -259,15 +269,10 @@ static void advance_frame(app_t *app) {
     case HILO2_STATE_WON_GAME:
         if (hilo2->frame == 200) {
             sprintf(hilo2->display, "R U A ROBOT?");
-        } else if (hilo2->frame == 400) {
+        } else if (hilo2->frame == 500) {
             sprintf(hilo2->display, "PLAY AGAIN }");
-        } else if (hilo2->frame == 600) {
-            if (hilo2->score >= hilo2->hiscore && hilo2->score > 0) {
-                hilo2->hiscore = hilo2->score;
-                sprintf(hilo2->display, "HI-SCORE %03d", hilo2->score);
-            } else {
-                sprintf(hilo2->display, "SCORE %03d", hilo2->score);
-            }
+        } else if (hilo2->frame == 700) {
+            sprintf(hilo2->display, "%sSCORE %03d", hilo2->is_hiscore ? "HI-" : "", hilo2->score);
             hilo2->frame = -1;
         }
         break;
@@ -275,12 +280,7 @@ static void advance_frame(app_t *app) {
         if (hilo2->frame == 200) {
             sprintf(hilo2->display, "GAME OVER }");
         } else if (hilo2->frame == 400) {
-            if (hilo2->score >= hilo2->hiscore) {
-                hilo2->hiscore = hilo2->score;
-                sprintf(hilo2->display, "HI-SCORE %03d", hilo2->score);
-            } else {
-                sprintf(hilo2->display, "SCORE %03d", hilo2->score);
-            }
+            sprintf(hilo2->display, "%sSCORE %03d", hilo2->is_hiscore ? "HI-" : "", hilo2->score);
             hilo2->frame = -1;
         }
         break;
