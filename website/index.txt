@@ -12,7 +12,7 @@ Pentatronics creators believed that life shouldn't be just about math and logic.
 
 Unfortunately, today these calculators are impossible to find except in the hands of a few lucky collectors.
 
-We are honored to bring this rare calculator to your mobile device. We would like to thank all the people who helped us during the development of this app, especially the late Edwin J. Gallaghan from the original Pentatronics 1000 development team. Without Edwin's expertise and warm encouragement, we couldn't have completed this project.
+We are honored to bring this rare calculator to your mobile device. We would like to thank all the people who helped us during the development of this app, especially Edwin J. Gallaghan from the original Pentatronics 1000 development team. Without Edwin's expertise and warm encouragement, we couldn't have completed this project.
 
 For feedback, contact us at pentatronics1000@gmail.com.
 
