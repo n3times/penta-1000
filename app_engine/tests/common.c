@@ -47,7 +47,10 @@ void press_key(test_t *test, char key) {
 }
 
 void advance(test_t *test, long ms) {
-    for (long i = 0; i < ms/10; i++) p1_advance_frame(test);
+    for (long i = 0; i < ms/10; i++) {
+        if (!p1_is_animating(test)) break;
+        p1_advance_frame(test);
+    }
 }
 
 void assert_display(test_t *test, char *expected) {

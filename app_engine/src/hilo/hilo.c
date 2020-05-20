@@ -166,6 +166,8 @@ static void go_to_play_state(app_t *app) {
 static void advance_frame(app_t *app) {
     hilo_t *hilo = (hilo_t *)app;
 
+    if (hilo->frame < 0) return;
+
     hilo->frame++;
 
     bool did_win = hilo->guess == hilo->target;
