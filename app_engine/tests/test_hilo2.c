@@ -3,106 +3,108 @@
 #include <stdio.h>
 
 static void test_edit() {
-    test("h1", "1__       ");
-    test("h12", "12_       ");
-    test("h0", "___ GUESS ");
-    test("h012", "12_       ");
-    test("h1h", "___       ");
-    test("h12h", "1__       ");
+    test_t *test = init_test(0);
+    press_key(test, 'h');
+    advance(test, 10000);
+    press_key(test, '1');
+    assert_display(test, "1__         ");
+    press_key(test, '2');
+    assert_display(test, "12_         ");
+    test = init_test(0);
+    press_key(test, 'h');
+    advance(test, 10000);
+    press_key(test, '0');
+    advance(test, 10000);
+    assert_display(test, "___ GUESS 30");
+    press_key(test, '1');
+    assert_display(test, "1__         ");
 }
 
 static void test_hi_and_lo() {
-    test("h744", "744 TOO LO");
-    test("h746", "746 TOO HI");
+    test_t *test = init_test(0);
+    press_key(test, 'h');
+    advance(test, 10000);
+    press_key(test, '7');
+    press_key(test, '4');
+    press_key(test, '4');
+    assert_display(test, "744 TOO LO  ");
+    press_key(test, '7');
+    press_key(test, '4');
+    press_key(test, '6');
+    assert_display(test, "746 TOO HI  ");
 }
 
 static void test_next_hilo_different_target() {
-    test("h745", "745 YOU WON");
-    test("hh745", "745 TOO HI");
+    test_t *test = init_test(0);
+    press_key(test, 'h');
+    advance(test, 10000);
+    press_key(test, '7');
+    press_key(test, '4');
+    press_key(test, '5');
+    assert_display(test, "745 NICE }");
+    press_key(test, 'c');
+    press_key(test, 'h');
+    advance(test, 10000);
+    press_key(test, '7');
+    press_key(test, '4');
+    press_key(test, '5');
+    assert_display(test, "745 TOO HI  ");
 }
 
 static void test_animation_on_enter() {
     test_t *test = init_test(0);
-    press_key(test, 'g');
-    advance(test, 10);
+    press_key(test, 'h');
     assert_display(test, "> HI-LO GAME");
-    advance(test, 500);
-    assert_display(test, "> HI-LO GAME");
+    advance(test, 1000);
+    assert_display(test, "LEVEL 01 }");
     advance(test, 2000);
-    assert_display(test, "___ GUESS ");
+    assert_display(test, "12 GUESSES }");
+    advance(test, 2000);
+    assert_display(test, "30 SECONDS }");
+    advance(test, 2000);
+    assert_display(test, "___ GUESS 30");
 }
 
 static void test_animation_on_reenter() {
     test_t *test = init_test(0);
     press_sequence(test, "hc");
-    press_key(test, 'g');
-    advance(test, 10);
+    press_key(test, 'h');
     assert_display(test, "> HI-LO GAME");
-    advance(test, 500);
-    assert_display(test, "> HI-LO GAME");
-    advance(test, 2000);
-    assert_display(test, "___ GUESS ");
-}
-
-static void test_animation_on_clear() {
-    test_t *test = init_test(0);
-    press_sequence(test, "h");
-    press_key(test, 'g');
-    advance(test, 2000);
-    assert_display(test, "___ GUESS ");
-}
-
-static void test_animation_on_last_guess() {
-    test_t *test = init_test(0);
-    press_sequence(test, "h10010010010010010010010010");
-    press_key(test, '0');
-    advance(test, 500);
-    assert_display(test, "1 MORE GUESS");
     advance(test, 1000);
-    assert_display(test, "100 TOO LO");
+    assert_display(test, "LEVEL 01 }");
+    advance(test, 2000);
+    assert_display(test, "12 GUESSES }");
+    advance(test, 2000);
+    assert_display(test, "30 SECONDS }");
+    advance(test, 2000);
+    assert_display(test, "___ GUESS 30");
 }
 
-static void test_animation_on_win() {
+static void test_animation_on_win_level() {
     test_t *test = init_test(0);
-    press_sequence(test, "h74");
+    press_key(test, 'h');
+    advance(test, 10000);
+    press_key(test, '7');
+    press_key(test, '4');
     press_key(test, '5');
     advance(test, 10);
-    assert_display(test, "745       ");
-    advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
-    assert_display(test, "745 YOU WON");
-    advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
-    assert_display(test, "1 GUESS");
-}
-
-static void test_animation_on_lose() {
-    test_t *test = init_test(0);
-    press_sequence(test, "h10010010010010010010010010010");
-    press_key(test, '0');
-    advance(test, 10);
-    assert_display(test, "100       ");
-    advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
-    assert_display(test, "745 YOU LOST");
-    advance(test, 500);
-    assert_display(test, "");
-    advance(test, 500);
-    assert_display(test, "745 YOU LOST");
+    assert_display(test, "745 NICE }");
+    advance(test, 10000);
+    assert_display(test, "ANY KEY");
 }
 
 static void test_show_stats() {
     test_t *test = init_test(0);
-    press_sequence(test, "h555");
-    assert_display(test, "555 TOO LO");
+    press_key(test, 'h');
+    advance(test, 10000);
+    assert_display(test, "___ GUESS 30");
     press_key(test, '%');
     advance(test, 500);
-    assert_display(test, "1 GUESS");
+    assert_display(test, "SCORE 000 }");
     advance(test, 1000);
-    assert_display(test, "555 TOO LO");
+    assert_display(test, "HI-SCORE 000");
+    advance(test, 1000);
+    assert_display(test, "___ GUESS 30");
 }
 
 void test_hilo2() {
@@ -111,9 +113,6 @@ void test_hilo2() {
     test_next_hilo_different_target();
     test_animation_on_enter();
     test_animation_on_reenter();
-    test_animation_on_clear();
-    test_animation_on_last_guess();
-    test_animation_on_win();
-    test_animation_on_lose();
+    test_animation_on_win_level();
     test_show_stats();
 }
