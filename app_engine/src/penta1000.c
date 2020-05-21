@@ -139,3 +139,13 @@ void p1_log_clear(p1_t *p1) {
     log_t *log = &p1->calc.log;
     log_clear(log);
 }
+
+/* HI-LO hi-score */
+
+void p1_hiscore_set(p1_t *p1, int hiscore) {
+    p1->hilo2.hiscore = hiscore;
+}
+
+int p1_hiscore_get(p1_t *p1) {
+    return p1->hilo2.hiscore;
+}

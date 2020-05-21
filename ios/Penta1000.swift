@@ -114,6 +114,29 @@ class Penta1000 {
     func raw() -> Penta1000Raw {
         return Penta1000Raw(p1: p1!)
     }
+
+    // HI-LO hi-score.
+
+    // Sets the current HI-LO hi-score.
+    func setStateHiscore(hiscore: Int32) {
+        p1_hiscore_set(p1, hiscore)
+    }
+
+    // Gets the current HI-LO hi-score.
+    func getStateHiscore() -> Int32 {
+        return p1_hiscore_get(p1)
+    }
+
+    // Saves hi-score into UserDefaults.
+    func setSavedHiscore(hiscore: Int) {
+        UserDefaults.standard.set(hiscore, forKey: "hiscore");
+    }
+
+    // Gets hi-score from UserDefaults.
+    func getSavedHiscore() -> Int {
+        let hiscore = UserDefaults.standard.integer(forKey: "hiscore")
+        return hiscore
+    }
 }
 
 // The underlying bytes that represent a Penta1000 object. These bytes can be saved to the

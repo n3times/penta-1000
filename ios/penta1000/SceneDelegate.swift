@@ -29,12 +29,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Restore the state if there was no crash and the state is compatible with the current
         // engine.
         let didCrash = UserDefaults.standard.bool(forKey: crashKey)
-        /// TODO: Find a good way to determine a genuine app crash.
-        /// UserDefaults.standard.set(true, forKey: crashKey)
+        /// TODO: Find a better way to determine a genuine app crash.
+        UserDefaults.standard.set(true, forKey: crashKey)
         if !didCrash { penta1000 = Penta1000(filename: stateFilename) }
         if penta1000 == nil {
             penta1000 = Penta1000(randomSeed: Int.random(in: 1...1000000000))
         }
+        let stateHiscore = penta1000!.getStateHiscore()
+        let savedHiscore = penta1000!.getSavedHiscore()
+        if savedHiscore > stateHiscore { penta1000?.setStateHiscore(hiscore: Int32(savedHiscore)) }
 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -73,6 +76,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         let wasSaved = penta1000!.save(filename: stateFilename)
         if wasSaved { UserDefaults.standard.set(false, forKey: crashKey); }
+        let stateHiscore = penta1000!.getStateHiscore()
+        let savedHiscore = penta1000!.getSavedHiscore()
+        if stateHiscore > savedHiscore { penta1000?.setSavedHiscore(hiscore: Int(stateHiscore)) }
     }
 
 

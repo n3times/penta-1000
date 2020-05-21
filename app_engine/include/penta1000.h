@@ -112,3 +112,13 @@ char *p1_log_get_entry(p1_t *p1, long index);
 
 // Clears all log entries.
 void p1_log_clear(p1_t *p1);
+
+/*
+ * HI-LO hi-score.
+ */
+
+// Sets the hi-score for HI-LO.
+void p1_hiscore_set(p1_t *p1, int hiscore);
+
+// Gets the current hi-score for HI-LO.
+int p1_hiscore_get(p1_t *p1);
