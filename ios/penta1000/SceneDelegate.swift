@@ -78,7 +78,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                               We now use revision 1977/A of the original Pentatronics 1000's \
                               firmware.
 
-                              Note that this has a much more challenging version of HI-LO.
+                              Note that this revision has a much more challenging version of HI-LO.
 
                               Go for the hi-score!
                               """
