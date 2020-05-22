@@ -6,7 +6,7 @@
 
 static char GAME_KEY = 'h';
 static char STATS_KEY = '%';
-static int MAX_LEVEL = 20;
+static int FINAL_LEVEL = 20;
 
 static void enter(app_t *app);
 static void press_key(app_t *app, char key);
@@ -78,7 +78,11 @@ static void enter_start_level(hilo2_t *hilo2) {
     hilo2->max_guesses = max_guesses[hilo2->level - 1];
 
     set_state(hilo2, HILO2_STATE_START_LEVEL, 0);
-    sprintf(hilo2->display, "LEVEL %02d }", hilo2->level);
+    if (hilo2->level == FINAL_LEVEL) {
+        sprintf(hilo2->display, "FINAL LEVEL}", hilo2->level);
+    } else {
+        sprintf(hilo2->display, "LEVEL %02d }", hilo2->level);
+    }
 }
 
 static void enter_won_level(hilo2_t *hilo2) {
@@ -188,7 +192,7 @@ static void press_key(app_t *app, char key) {
         hilo2->guess = atoi(hilo2->guess_textfield);
         hilo2->index++;
         if (hilo2->guess == hilo2->target) {
-            if (hilo2->level == MAX_LEVEL) {
+            if (hilo2->level == FINAL_LEVEL) {
                 enter_won_game(hilo2);
             } else {
                 enter_won_level(hilo2);
