@@ -4,7 +4,6 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let lastVersionUsedKey = "lastVersionUsed"
     let firstVersionUsedKey = "firstVersionUsed"
-    let crashKey = "crash"
     let stateFilename = "penta1000.dat"
 
     var window: UIWindow?
@@ -19,25 +18,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         let firstVersionUsed = UserDefaults.standard.string(forKey: firstVersionUsedKey)
         let lastVersionUsed = UserDefaults.standard.string(forKey: lastVersionUsedKey)
-        if currentVersion != lastVersionUsed {
+        let freshInstall = lastVersionUsed == nil
+        let upgradeInstall = !freshInstall && (currentVersion != lastVersionUsed)
+        if freshInstall || upgradeInstall {
             UserDefaults.standard.set(currentVersion, forKey: lastVersionUsedKey);
             if firstVersionUsed == nil {
                 UserDefaults.standard.set(currentVersion, forKey: firstVersionUsedKey);
             }
         }
 
-        // Restore the state if there was no crash and the state is compatible with the current
-        // engine.
-        let didCrash = UserDefaults.standard.bool(forKey: crashKey)
-        /// TODO: Find a better way to determine a genuine app crash.
-        UserDefaults.standard.set(true, forKey: crashKey)
-        if !didCrash { penta1000 = Penta1000(filename: stateFilename) }
+        // Restore the state if there is a saved state and it is compatible with the current engine.
+        penta1000 = Penta1000(filename: stateFilename)
+
         if penta1000 == nil {
             penta1000 = Penta1000(randomSeed: Int.random(in: 1...1000000000))
         }
+
+        // Restore hi-score.
         let stateHiscore = penta1000!.getStateHiscore()
         let savedHiscore = penta1000!.getSavedHiscore()
-        if savedHiscore > stateHiscore { penta1000?.setStateHiscore(hiscore: Int32(savedHiscore)) }
+        if savedHiscore > stateHiscore {
+            penta1000?.setStateHiscore(hiscore: Int32(savedHiscore))
+        } else if savedHiscore < stateHiscore {
+            penta1000?.setSavedHiscore(hiscore: Int(stateHiscore))
+        }
 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -45,6 +49,48 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = HostingController(rootView: penta1000View)
             self.window = window
             window.makeKeyAndVisible()
+
+            if freshInstall {
+                let title = "Dedicated to the original Pentatronics development team"
+                let message = """
+
+                              Pentatronics created some of the most exciting calculators of its \
+                              era, with their unique design and gaming capabilities.
+
+                              Unfortunately, today these calculators are virtually impossible to \
+                              find.
+
+                              Thanks to the members of the original team, their feeback and \
+                              encouragement, we are finally able to bring Pentatronics 1000 to \
+                              your mobile device.
+                              """
+                let alert = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(
+                    UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                window.rootViewController?.present(alert, animated: false, completion: nil)
+            } else if upgradeInstall {
+                // A message should be displayed only for significant revisions.
+                let title = "What's new"
+                let message = """
+
+                              We now use revision 1977/A of the original Pentatronics 1000's \
+                              firmware.
+
+                              Note that this has a much more challenging version of HI-LO.
+
+                              Go for the hi-score!
+                              """
+                let alert = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(
+                    UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                window.rootViewController?.present(alert, animated: false, completion: nil)
+            }
+
+
         }
     }
 
@@ -63,6 +109,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
+        _ = penta1000!.save(filename: stateFilename)
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -74,11 +121,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        let wasSaved = penta1000!.save(filename: stateFilename)
-        if wasSaved { UserDefaults.standard.set(false, forKey: crashKey); }
-        let stateHiscore = penta1000!.getStateHiscore()
-        let savedHiscore = penta1000!.getSavedHiscore()
-        if stateHiscore > savedHiscore { penta1000?.setSavedHiscore(hiscore: Int(stateHiscore)) }
     }
 
 

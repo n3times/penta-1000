@@ -1,0 +1,19 @@
+On app start:
+
+  // Show alert if first install or new version.
+  if [ first time using app ]
+    dedication, welcome, etc
+  else if [ first time using version ]
+    what's new if significant
+  else
+    // nothing
+
+  // Recover state if possible.
+  if [ state ( exists && compatible_with_version && ok ) ]
+    recover state
+  else
+    reset state
+
+  // Recover hi-score.
+  if [ saved hiscore ]
+    update hiscore

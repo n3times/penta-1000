@@ -47,14 +47,23 @@ struct Penta1000View: View {
         }
     }
 
+    private func saveHiscore() {
+        let stateHiscore = penta1000.getStateHiscore()
+        let savedHiscore = penta1000.getSavedHiscore()
+        if stateHiscore > savedHiscore { penta1000.setSavedHiscore(hiscore: Int(stateHiscore)) }
+    }
+
     private func runDisplayAnimationLoop() {
         Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { timer in
             // Advance 5 frames at a time, for performance reasons.
+            let oldHiscore = self.penta1000.getStateHiscore()
             self.penta1000.advanceFrame()
             if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
             if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
             if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
             if (self.penta1000.isAnimating()) { self.penta1000.advanceFrame() }
+            let newHiscore = self.penta1000.getStateHiscore()
+            if (newHiscore > oldHiscore) { self.saveHiscore() }
             self.displayText = self.penta1000.display()
             if !self.penta1000.isAnimating() {
                 timer.invalidate()
@@ -107,7 +116,10 @@ struct Penta1000View: View {
                             if c != nil {
                                 AudioServicesPlaySystemSound(SystemSoundID(0x450))
                                 let wasAnimating = self.penta1000.isAnimating()
+                                let oldHiscore = self.penta1000.getStateHiscore()
                                 self.penta1000.pressKey(c: c!)
+                                let newHiscore = self.penta1000.getStateHiscore()
+                                if (newHiscore > oldHiscore) { self.saveHiscore() }
                                 let isAnimating = self.penta1000.isAnimating()
                                 self.displayText = self.penta1000.display()
                                 if !wasAnimating && isAnimating {

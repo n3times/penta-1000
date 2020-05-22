@@ -7,8 +7,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         if ProcessInfo.processInfo.arguments.contains("--Reset") {
-            // Pretend the app crashed in order not to use a previous state.
-            UserDefaults.standard.set(true, forKey: "crash")
+            // Clear state.
+            do {
+                let stateFilename = "penta1000.dat"
+                let dirURL: URL? =
+                    FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+                let fileURL: URL? = dirURL?.appendingPathComponent(stateFilename)
+                try FileManager.default.removeItem(at: fileURL!)
+            } catch let error as NSError {
+                print("Error: \(error.domain)")
+            }
+            UserDefaults.standard.set(0, forKey: "hiscore")
         }
         return true
     }

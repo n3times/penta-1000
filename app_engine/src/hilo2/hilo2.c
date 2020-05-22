@@ -100,7 +100,7 @@ static void enter_won_game(hilo2_t *hilo2) {
         hilo2->hiscore = hilo2->score;
         hilo2->is_hiscore = true;
     }
-    sprintf(hilo2->display, "%d YOU WON}", hilo2->target);
+    sprintf(hilo2->display, "YOU WON }");
 }
 
 static void enter_game_over(hilo2_t *hilo2) {
@@ -267,11 +267,11 @@ static void advance_frame(app_t *app) {
         }
         break;
     case HILO2_STATE_WON_GAME:
-        if (hilo2->frame == 200) {
+        if (hilo2->frame == 400) {
             sprintf(hilo2->display, "R U A ROBOT?");
-        } else if (hilo2->frame == 500) {
+        } else if (hilo2->frame == 800) {
             sprintf(hilo2->display, "PLAY AGAIN }");
-        } else if (hilo2->frame == 700) {
+        } else if (hilo2->frame == 1000) {
             sprintf(hilo2->display, "%sSCORE %03d", hilo2->is_hiscore ? "HI-" : "", hilo2->score);
             hilo2->frame = -1;
         }
