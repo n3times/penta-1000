@@ -262,7 +262,8 @@ static void advance_frame(app_t *app) {
         }
     case HILO2_STATE_WON_LEVEL:
         if (hilo2->frame == 200) {
-            sprintf(hilo2->display, "%d.%d SECS }", hilo2->time / 100, hilo2->time % 10);
+            int round_up_time = (hilo2->time + 9) / 10;
+            sprintf(hilo2->display, "%d.%d SECS }", round_up_time / 10, round_up_time % 10);
         } else if (hilo2->frame == 400) {
             sprintf(hilo2->display, " SCORE %03d }", hilo2->score);
         } else if (hilo2->frame == 600) {
