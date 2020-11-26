@@ -197,7 +197,9 @@ int main(int argc, char *argv[]) {
     printf("  'q' quit\n");
     printf("  'g' game\n");
     printf("  'c' clear/calculator\n");
-    printf("  '~' change sign\n\n");
+    printf("  '~' change sign\n");
+    printf("  'l' print log\n");
+    printf("  'k' clear log\n\n");
 
     // Restore previous session if possible.
     // Otherwise, get new object.
@@ -238,6 +240,7 @@ int main(int argc, char *argv[]) {
             print_log(p1);
         } else if (pressed_key == 'k') {
             p1_log_clear(p1);
+            print_log(p1);
         }
 
         pthread_mutex_lock(&wait_mutex);
