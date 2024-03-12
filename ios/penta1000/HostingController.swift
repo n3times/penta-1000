@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 
 class HostingController: UIHostingController<Penta1000View> {

@@ -95,7 +95,7 @@ struct DisplayView: View {
         return path
     }
 
-    private func isSegment(segments: Int32, i: Int) -> Bool {
+    private func isSegment(segments: UInt16, i: Int) -> Bool {
         return segments & (1 << (DisplayView.segmentCount - 1 - i)) != 0
     }
 
@@ -113,7 +113,7 @@ struct DisplayView: View {
         let useShortSegments = c == "+" || c == "-" || c == "X" || c == "/"
         let useAlternateDotData = c == "1"
 
-        if (combineSegments) {
+        if combineSegments {
             for pair in DisplayView.combinedRightSegmentsData.keys {
                 if isSegment(segments: segments, i: pair[0]) &&
                    isSegment(segments: segments, i: pair[1]) {
@@ -149,12 +149,12 @@ struct DisplayView: View {
                 } else {
                     segmentPath = getRectSegmentPath(rect: DisplayView.rightSegmentsData[i]!)
                 }
-                if (segmentPath != nil && !isSegmentResolved[i]) {
+                if segmentPath != nil && !isSegmentResolved[i] {
                     path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                 }
             }
         }
-        if (hasDot || hasColon) {
+        if hasDot || hasColon {
             let data = useAlternateDotData ? alternateDotData : dotData
             path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
             if hasColon { path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0) - 18)) }

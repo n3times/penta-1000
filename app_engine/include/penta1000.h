@@ -76,8 +76,6 @@ long p1_get_state_buffer_size(p1_t *p1);
 //
 // The state buffer is an array of bytes that can be stored in the file system
 // and used to reconstruct a p1_t object with 'p1_new_from_state_buffer'.
-//
-// The state buffer should be released with 'p1_release_state_buffer'.
 char *p1_get_state_buffer(p1_t *p1);
 
 /*

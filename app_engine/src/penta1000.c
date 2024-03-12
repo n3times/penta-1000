@@ -88,14 +88,7 @@ long p1_get_state_buffer_size(p1_t *p1) {
 }
 
 char *p1_get_state_buffer(p1_t *p1) {
-    long size = sizeof(p1_t);
-    void *state = malloc(size);
-    memcpy(state, p1, size);
-    return (char *)state;
-}
-
-void p1_release_state_buffer(char *state_buffer) {
-    free(state_buffer);
+    return (char *)p1;
 }
 
 p1_t *p1_new_from_state_buffer(const char *state_buffer) {
