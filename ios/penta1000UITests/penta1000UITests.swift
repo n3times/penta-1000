@@ -17,7 +17,7 @@ class penta1000UITests: XCTestCase {
 
     func testFunctionality() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["--Reset"]
+        app.launchArguments.append("--reset")
         app.launch()
         let calculator = app.images["calculator"]
 
@@ -36,11 +36,8 @@ class penta1000UITests: XCTestCase {
     }
 
     func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-                XCUIApplication().launch()
-            }
+        measure(metrics: [XCTApplicationLaunchMetric()]) {
+            XCUIApplication().launch()
         }
     }
 
@@ -48,14 +45,14 @@ class penta1000UITests: XCTestCase {
         let calculator = app.images["calculator"]
         let calculatorOrigin =
             calculator.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
-        let characterLocation = getCharacterLocation(character: character)
+        let characterLocation = location(forCharacter: character)
         let factor = calculator.frame.width / 375
         let characterCoordinate = calculatorOrigin.withOffset(CGVector(
             dx: characterLocation!.x * factor, dy: characterLocation!.y * factor))
         characterCoordinate.tap()
     }
 
-    private func getCharacterLocation(character: Character) -> CGPoint? {
+    private func location(forCharacter: Character) -> CGPoint? {
         let keys = ["g~%c", "789/", "456*", "123+", "0.-="]
 
         // Top left corner of top left key ("?").
@@ -69,7 +66,7 @@ class penta1000UITests: XCTestCase {
         for row in 0...4 {
             let chars = Array(keys[row])
             for col in 0...3 {
-                if chars[col] == character {
+                if chars[col] == forCharacter {
                     return CGPoint(x: x0 + CGFloat(col) * dx, y: y0 + CGFloat(row) * dy)
                 }
             }

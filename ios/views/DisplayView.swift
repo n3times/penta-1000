@@ -213,17 +213,17 @@ struct DisplayView: View {
     }
 
     var body: some View {
-        GeometryReader { proxy in
+        GeometryReader { geometry in
             let fullRect = DisplayView.displayPathRect
 
             let scaleFactor: CGFloat
-                = DisplayView.displayToCalculatorWidthRatio * proxy.size.width / fullRect.width
+                = DisplayView.displayToCalculatorWidthRatio * geometry.size.width / fullRect.width
 
             // Tweak (+5) so that it *looks* more centered (even if it is not).
             let recenterOffsetX = DisplayView.ledHeight * DisplayView.slant + 5.0
 
-            let offsetX = (proxy.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
-            let offsetY = (proxy.size.height - fullRect.height) / 2 * scaleFactor
+            let offsetX = (geometry.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
+            let offsetY = (geometry.size.height - fullRect.height) / 2 * scaleFactor
 
             displayPath(forString: displayText)
                 .scale(scaleFactor)

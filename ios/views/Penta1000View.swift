@@ -11,14 +11,16 @@ struct Penta1000View: View {
     }
 
     var body: some View {
-        return GeometryReader { metrics in
+        return GeometryReader { geometry in
             let standardCalcWidth = 375.0
             let standardCalcHeight = 647.0
             let standardDisplayHeight = 96.0
             let standardDisplayOffsetY = 195.0
 
-            let screenWidth = Double(metrics.size.width)
-            let screenHeight = Double(metrics.size.height)
+            // Maximize the size of the calculator while maintaining the aspect ratio.
+
+            let screenWidth = Double(geometry.size.width)
+            let screenHeight = Double(geometry.size.height)
 
             let screenAspectRatio = screenHeight / screenWidth
             let calcAspectRatio = standardCalcHeight / standardCalcWidth
@@ -26,6 +28,8 @@ struct Penta1000View: View {
 
             let calcWidth = isPortrait ? screenWidth : screenHeight / calcAspectRatio
             let calcHeight = isPortrait ? screenWidth * calcAspectRatio : screenHeight
+
+            // Compute the size and the location of the display.
 
             let scaleFactor = calcWidth / standardCalcWidth
 

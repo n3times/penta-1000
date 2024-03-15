@@ -4,32 +4,19 @@ import Foundation
 ///
 /// This is a wrapper around the Pentatronics 1000 C library.
 class Penta1000 {
-    static let shared = Penta1000(filename: stateFilename)
-
     private static let hiscoreKey = "hiscore"
     private static let stateFilename = "penta1000.dat"
+
+    /// The Penta1000 singleton.
+    static let shared = Penta1000()
 
     // The C backing struct.
     private var p1: OpaquePointer
 
-    /// Initializes a Penta1000 object. The 'randomSeed' is used by the game's pseudo random number
-    /// generator.
-    private init(randomSeed: Int) {
-        p1 = p1_new(randomSeed)
-    }
-
-    /// Initializes a Penta1000 object from the state stored in a given file. Returns non-nil if the
-    /// object was successfully initialized.
-    private init(filename: String) {
+    static func p1(fromFilename filename: String) -> OpaquePointer? {
         let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        guard let fileURL = dirURL?.appendingPathComponent(filename) else {
-            self.p1 = p1_new(0)
-            return
-        }
-        guard let fileRawData = try? Data(contentsOf: fileURL) else { 
-            self.p1 = p1_new(0)
-            return
-        }
+        guard let fileURL = dirURL?.appendingPathComponent(filename) else { return nil }
+        guard let fileRawData = try? Data(contentsOf: fileURL) else { return nil }
         var p1: OpaquePointer?
 
         fileRawData.withUnsafeBytes { ptr in
@@ -38,10 +25,32 @@ class Penta1000 {
             }
         }
 
-        guard let p1 else { 
-            self.p1 = p1_new(0)
+        guard let p1 else { return nil }
+        return p1
+    }
+
+    /// Initializes a Penta1000 object. The 'randomSeed' is used by the game's pseudo random number
+    /// generator.
+    init(randomSeed: Int) {
+        p1 = p1_new(randomSeed)
+    }
+
+    /// Initializes a Penta1000 object from the state stored in a given file.
+    init?(filename: String) {
+        guard let p1 = Penta1000.p1(fromFilename: filename) else { return nil }
+
+        self.p1 = p1
+    }
+
+    /// Initializes a Penta1000 object from the standard state file.
+    ///
+    /// Otherwise initializes from a blank state.
+    init() {
+        guard let p1 = Penta1000.p1(fromFilename: Penta1000.stateFilename) else {
+            self.p1 = p1_new(Int.random(in: 0...1_000_000))
             return
         }
+
         self.p1 = p1
     }
 
@@ -49,14 +58,16 @@ class Penta1000 {
         p1_release(p1)
     }
 
-    /// Returns the calculator display as a String of at most 12 characters.
+    /// Returns the calculator display as a String.
     func display() -> String {
         return String(cString: p1_get_display(p1))
     }
 
     /// Should be called whenever the user presses a calculator key.
-    func pressKey(c: Character) {
-        p1_press_key(p1, Int8(Array(c.utf8)[0]))
+    func pressKey(_ c: Character) {
+        if let c = c.asciiValue {
+            p1_press_key(p1, Int8(c))
+        }
     }
 
     // MARK: Animation.
@@ -98,8 +109,7 @@ class Penta1000 {
     /// Saves the Penta1000 object in a given file. Returns 'true' if the object was saved
     /// successfully.
     func save() -> Bool {
-        let dirURL: URL? =
-            FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
 
         guard let fileURL = dirURL?.appendingPathComponent(Penta1000.stateFilename) else {
             return false

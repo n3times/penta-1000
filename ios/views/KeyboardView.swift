@@ -7,7 +7,7 @@ import AudioToolbox
 struct KeyboardView: View {
     let penta1000: Penta1000
     @Binding var displayText: String
-    @State private var isTapped = false
+    @State private var isKeyTapped = false
 
     // Returns the key at a given location.
     private static func key(atStandardizedLocation location: CGPoint) -> Character? {
@@ -76,12 +76,12 @@ struct KeyboardView: View {
     }
 
     var body: some View {
-        return GeometryReader { metrics in
+        return GeometryReader { geometry in
             let standardCalcWidth = 375.0
             let standardCalcHeight = 647.0
 
-            let screenWidth = Double(metrics.size.width)
-            let screenHeight = Double(metrics.size.height)
+            let screenWidth = Double(geometry.size.width)
+            let screenHeight = Double(geometry.size.height)
 
             let screenAspectRatio = screenHeight / screenWidth
             let calcAspectRatio = standardCalcHeight / standardCalcWidth
@@ -91,7 +91,7 @@ struct KeyboardView: View {
 
             let scaleFactor = calcWidth / standardCalcWidth
 
-            return ZStack {
+            ZStack {
                 Image("penta1000")
                     .resizable()
                     .gesture(
@@ -100,8 +100,8 @@ struct KeyboardView: View {
                         DragGesture(minimumDistance: 0, coordinateSpace: .local)
                             .onChanged {
                                 // Determine which key was hit.
-                                if isTapped { return }
-                                isTapped = true
+                                if isKeyTapped { return }
+                                isKeyTapped = true
                                 let standardizedX = $0.location.x / CGFloat(scaleFactor)
                                 let standardizedY = $0.location.y / CGFloat(scaleFactor)
                                 let standardizedLocation = CGPoint(x: standardizedX,
@@ -116,7 +116,7 @@ struct KeyboardView: View {
                                 let wasAnimating = penta1000.isAnimating()
                                 let oldHiscore = penta1000.getStateHiscore()
 
-                                penta1000.pressKey(c: key)
+                                penta1000.pressKey(key)
 
                                 // Reflect the new state, if there was a change.
                                 let newHiscore = penta1000.getStateHiscore()
@@ -130,7 +130,7 @@ struct KeyboardView: View {
                                 }
                             }
                             .onEnded { _ in
-                                isTapped = false
+                                isKeyTapped = false
                             }
                     )
                     .onAppear {
