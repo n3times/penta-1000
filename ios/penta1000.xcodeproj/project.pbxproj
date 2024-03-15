@@ -8,21 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		15FDFD242BA114640003BB38 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDFD232BA114640003BB38 /* KeyboardView.swift */; };
+		15FDFD262BA267230003BB38 /* Penta1000App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDFD252BA267230003BB38 /* Penta1000App.swift */; };
 		DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
 		DA387EC7243F928000B6FE6D /* penta1000.png in Resources */ = {isa = PBXBuildFile; fileRef = DA387EC6243F928000B6FE6D /* penta1000.png */; };
-		DA667A69243AC69400EC93C0 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA667A68243AC69400EC93C0 /* HostingController.swift */; };
 		DA667A6E243B126200EC93C0 /* leds.c in Sources */ = {isa = PBXBuildFile; fileRef = DA667A6D243B126100EC93C0 /* leds.c */; };
 		DA9BA212243C32E4006199A9 /* logo_167.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20D243C32E4006199A9 /* logo_167.png */; };
 		DA9BA213243C32E4006199A9 /* logo_152.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20E243C32E4006199A9 /* logo_152.png */; };
 		DA9BA214243C32E4006199A9 /* logo_180.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA20F243C32E4006199A9 /* logo_180.png */; };
 		DA9BA215243C32E4006199A9 /* logo_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA210243C32E4006199A9 /* logo_1024.png */; };
 		DA9BA216243C32E4006199A9 /* logo_120.png in Resources */ = {isa = PBXBuildFile; fileRef = DA9BA211243C32E4006199A9 /* logo_120.png */; };
-		DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F72242EC5130014AEE3 /* AppDelegate.swift */; };
-		DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */; };
 		DAB98F77242EC5130014AEE3 /* Penta1000View.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F76242EC5130014AEE3 /* Penta1000View.swift */; };
 		DAB98F79242EC5160014AEE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F78242EC5160014AEE3 /* Assets.xcassets */; };
-		DAB98F7C242EC5160014AEE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */; };
-		DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */; };
 		DAB98F8A242EC5160014AEE3 /* penta1000Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F89242EC5160014AEE3 /* penta1000Tests.swift */; };
 		DAB98F95242EC5160014AEE3 /* penta1000UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB98F94242EC5160014AEE3 /* penta1000UITests.swift */; };
 		DAD843522460E0690047744C /* hilo.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD843502460E0690047744C /* hilo.c */; };
@@ -54,10 +50,10 @@
 
 /* Begin PBXFileReference section */
 		15FDFD232BA114640003BB38 /* KeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+		15FDFD252BA267230003BB38 /* Penta1000App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Penta1000App.swift; sourceTree = "<group>"; };
 		DA2B80DE24350D3F00197C78 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
 		DA387EC6243F928000B6FE6D /* penta1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = penta1000.png; sourceTree = "<group>"; };
 		DA47229E243BD31900C0F421 /* penta1000.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = penta1000.entitlements; sourceTree = "<group>"; };
-		DA667A68243AC69400EC93C0 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		DA667A6C243B126100EC93C0 /* leds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = leds.h; sourceTree = "<group>"; };
 		DA667A6D243B126100EC93C0 /* leds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = leds.c; sourceTree = "<group>"; };
 		DA9BA20D243C32E4006199A9 /* logo_167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_167.png; sourceTree = "<group>"; };
@@ -66,12 +62,8 @@
 		DA9BA210243C32E4006199A9 /* logo_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_1024.png; sourceTree = "<group>"; };
 		DA9BA211243C32E4006199A9 /* logo_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_120.png; sourceTree = "<group>"; };
 		DAB98F6F242EC5130014AEE3 /* Penta-1000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Penta-1000.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DAB98F72242EC5130014AEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DAB98F76242EC5130014AEE3 /* Penta1000View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Penta1000View.swift; sourceTree = "<group>"; };
 		DAB98F78242EC5160014AEE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		DAB98F7E242EC5160014AEE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DAB98F80242EC5160014AEE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAB98F85242EC5160014AEE3 /* penta1000Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = penta1000Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB98F89242EC5160014AEE3 /* penta1000Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000Tests.swift; sourceTree = "<group>"; };
@@ -124,6 +116,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15FDFD292BA3A8540003BB38 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				DAB98F78242EC5160014AEE3 /* Assets.xcassets */,
+				DAB98F76242EC5130014AEE3 /* Penta1000View.swift */,
+				15FDFD232BA114640003BB38 /* KeyboardView.swift */,
+				DA2B80DE24350D3F00197C78 /* DisplayView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		15FDFD2A2BA3A9320003BB38 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */,
+				15FDFD252BA267230003BB38 /* Penta1000App.swift */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
 		DA667A6B243B126100EC93C0 /* app_support */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,12 +163,14 @@
 		DAB98F66242EC5130014AEE3 = {
 			isa = PBXGroup;
 			children = (
+				DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */,
+				DA47229E243BD31900C0F421 /* penta1000.entitlements */,
+				DAB98F80242EC5160014AEE3 /* Info.plist */,
 				DAD911B224317CE000A80DAF /* app_engine */,
 				DA667A6B243B126100EC93C0 /* app_support */,
 				DAA9F6F72432A0FF00B40964 /* artwork */,
-				DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */,
-				DAB98FBC242EC68B0014AEE3 /* penta1000-Bridging-Header.h */,
-				DAB98F71242EC5130014AEE3 /* penta1000 */,
+				15FDFD2A2BA3A9320003BB38 /* app */,
+				15FDFD292BA3A8540003BB38 /* views */,
 				DAB98F88242EC5160014AEE3 /* penta1000Tests */,
 				DAB98F93242EC5160014AEE3 /* penta1000UITests */,
 				DAB98F70242EC5130014AEE3 /* Products */,
@@ -171,32 +185,6 @@
 				DAB98F90242EC5160014AEE3 /* penta1000UITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		DAB98F71242EC5130014AEE3 /* penta1000 */ = {
-			isa = PBXGroup;
-			children = (
-				DA47229E243BD31900C0F421 /* penta1000.entitlements */,
-				DAB98F72242EC5130014AEE3 /* AppDelegate.swift */,
-				DAB98F74242EC5130014AEE3 /* SceneDelegate.swift */,
-				DA667A68243AC69400EC93C0 /* HostingController.swift */,
-				DAB98F76242EC5130014AEE3 /* Penta1000View.swift */,
-				15FDFD232BA114640003BB38 /* KeyboardView.swift */,
-				DA2B80DE24350D3F00197C78 /* DisplayView.swift */,
-				DAB98F78242EC5160014AEE3 /* Assets.xcassets */,
-				DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */,
-				DAB98F80242EC5160014AEE3 /* Info.plist */,
-				DAB98F7A242EC5160014AEE3 /* Preview Content */,
-			);
-			path = penta1000;
-			sourceTree = "<group>";
-		};
-		DAB98F7A242EC5160014AEE3 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				DAB98F7B242EC5160014AEE3 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		DAB98F88242EC5160014AEE3 /* penta1000Tests */ = {
@@ -391,8 +379,6 @@
 				DA387EC7243F928000B6FE6D /* penta1000.png in Resources */,
 				DA9BA214243C32E4006199A9 /* logo_180.png in Resources */,
 				DA9BA215243C32E4006199A9 /* logo_1024.png in Resources */,
-				DAB98F7F242EC5160014AEE3 /* LaunchScreen.storyboard in Resources */,
-				DAB98F7C242EC5160014AEE3 /* Preview Assets.xcassets in Resources */,
 				DAB98F79242EC5160014AEE3 /* Assets.xcassets in Resources */,
 				DA9BA212243C32E4006199A9 /* logo_167.png in Resources */,
 			);
@@ -420,15 +406,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA667A6E243B126200EC93C0 /* leds.c in Sources */,
-				DAB98F73242EC5130014AEE3 /* AppDelegate.swift in Sources */,
 				DAD84356246109C30047744C /* hilo2.c in Sources */,
 				15FDFD242BA114640003BB38 /* KeyboardView.swift in Sources */,
-				DAB98F75242EC5130014AEE3 /* SceneDelegate.swift in Sources */,
 				DAD843522460E0690047744C /* hilo.c in Sources */,
 				DAD911CA24317D0E00A80DAF /* number_edit.c in Sources */,
+				15FDFD262BA267230003BB38 /* Penta1000App.swift in Sources */,
 				DAD911C824317D0E00A80DAF /* calc.c in Sources */,
 				DAF2BF05242EE20100AD1EC8 /* Penta1000.swift in Sources */,
-				DA667A69243AC69400EC93C0 /* HostingController.swift in Sources */,
 				DAD911C724317D0E00A80DAF /* log.c in Sources */,
 				DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */,
 				DAD911C924317D0E00A80DAF /* aos.c in Sources */,
@@ -467,17 +451,6 @@
 			targetProxy = DAB98F91242EC5160014AEE3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		DAB98F7D242EC5160014AEE3 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DAB98F7E242EC5160014AEE3 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DAB98F97242EC5160014AEE3 /* Debug */ = {
@@ -598,14 +571,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = penta1000/penta1000.entitlements;
+				CODE_SIGN_ENTITLEMENTS = penta1000.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.1.5;
-				DEVELOPMENT_ASSET_PATHS = "\"penta1000/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"views/Preview Content\"";
 				DEVELOPMENT_TEAM = FVF2Q6V64F;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = penta1000/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -625,14 +598,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = penta1000/penta1000.entitlements;
+				CODE_SIGN_ENTITLEMENTS = penta1000.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.1.5;
-				DEVELOPMENT_ASSET_PATHS = "\"penta1000/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"views/Preview Content\"";
 				DEVELOPMENT_TEAM = FVF2Q6V64F;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = penta1000/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.3;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

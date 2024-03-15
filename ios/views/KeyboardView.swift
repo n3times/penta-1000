@@ -9,7 +9,8 @@ struct KeyboardView: View {
     @Binding var displayText: String
     @State private var isTapped = false
 
-    private static func keyHit(atStandardizedLocation location: CGPoint) -> Character? {
+    // Returns the key at a given location.
+    private static func key(atStandardizedLocation location: CGPoint) -> Character? {
         // Top left corner of top left key ("?").
         let x0 = 28.0
         let y0 = 309.0
@@ -56,7 +57,7 @@ struct KeyboardView: View {
         Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
             let oldHiscore = penta1000.getStateHiscore()
 
-            // Advance 5 frames at a time, for performance reasons.
+            // Advance up to 5 frames at a time, for performance reasons.
             for _ in 0..<5 {
                 penta1000.advanceFrame()
                 if !penta1000.isAnimating() {
@@ -94,26 +95,34 @@ struct KeyboardView: View {
                 Image("penta1000")
                     .resizable()
                     .gesture(
-                        // To be responsive, handle key presses as soon as the user touches the screen,
-                        // instead of waiting until the user lifts the finger.
+                        // To be responsive, handle key presses as soon as the user touches the 
+                        // screen, instead of waiting until the user lifts the finger.
                         DragGesture(minimumDistance: 0, coordinateSpace: .local)
                             .onChanged {
                                 // Determine which key was hit.
                                 if isTapped { return }
                                 isTapped = true
-                                let standardizedLocation =
-                                    CGPoint(x: $0.location.x / CGFloat(scaleFactor),
-                                            y: $0.location.y / CGFloat(scaleFactor))
-                                let key = KeyboardView.keyHit(
+                                let standardizedX = $0.location.x / CGFloat(scaleFactor)
+                                let standardizedY = $0.location.y / CGFloat(scaleFactor)
+                                let standardizedLocation = CGPoint(x: standardizedX,
+                                                                   y: standardizedY)
+                                let key = KeyboardView.key(
                                     atStandardizedLocation: standardizedLocation)
                                 guard let key else { return }
 
                                 AudioServicesPlaySystemSound(SystemSoundID(0x450))
+
+                                // Remember the old state.
                                 let wasAnimating = penta1000.isAnimating()
                                 let oldHiscore = penta1000.getStateHiscore()
+
                                 penta1000.pressKey(c: key)
+
+                                // Reflect the new state, if there was a change.
                                 let newHiscore = penta1000.getStateHiscore()
-                                if newHiscore > oldHiscore { saveHiscore() }
+                                if newHiscore > oldHiscore {
+                                    saveHiscore()
+                                }
                                 let isAnimating = penta1000.isAnimating()
                                 displayText = penta1000.display()
                                 if !wasAnimating && isAnimating {
@@ -131,12 +140,13 @@ struct KeyboardView: View {
                     }
                     .accessibility(identifier: "calculator")
                     .accessibility(label: Text(displayText))
-            }        }
+            }
+        }
     }
 }
 
 struct KeyboardView_Previews: PreviewProvider {
     static var previews: some View {
-        Penta1000View(penta1000: Penta1000(randomSeed: 0))
+        KeyboardView(penta1000: Penta1000.shared, displayText: .constant("test"))
     }
 }

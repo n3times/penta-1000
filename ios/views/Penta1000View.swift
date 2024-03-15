@@ -6,8 +6,8 @@ struct Penta1000View: View {
     private let penta1000: Penta1000
     @State private var displayText = "READY"
 
-    init(penta1000: Penta1000) {
-        self.penta1000 = penta1000
+    init() {
+        self.penta1000 = Penta1000.shared
     }
 
     var body: some View {
@@ -55,6 +55,6 @@ struct Penta1000View: View {
 
 struct Penta1000View_Previews: PreviewProvider {
     static var previews: some View {
-        Penta1000View(penta1000: Penta1000(randomSeed: 0))
+        Penta1000View()
     }
 }

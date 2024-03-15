@@ -1,14 +1,15 @@
 import SwiftUI
 
-// The display, composed of 12 14-segments LEDs. In addition, each LED has a dot or colon to the
-// right (decimal point).
+/// The display, composed of 12 14-segments LEDs. In addition, each LED has a dot or colon to the
+/// right (decimal point).
 struct DisplayView: View {
-    // The text composed of up to 12 non-dot non-colon characters, each one optionally followed by a
-    // a dot or colon. The text should be right-justified within the display.
+    /// The text composed of up to 12 non-dot non-colon characters, each one optionally followed by
+    /// a dot or colon. The text should be right-justified within the display.
     @Binding var displayText: String
 
     private static let ledColor = Color.red
     private static let ledCount = 12
+    private static let ledWidth = CGFloat(19.0)
     private static let ledHeight = CGFloat(29.0)
     private static let interLedX = 32.0
     private static let segmentCount = 14
@@ -99,13 +100,14 @@ struct DisplayView: View {
         return segments & (1 << (DisplayView.segmentCount - 1 - i)) != 0
     }
 
-    private func getLedPath(c: Character,
-                            startX: Double,
-                            hasDot: Bool,
-                            hasColon: Bool,
-                            combineSegments:Bool)
-            -> Path? {
-        let segments = app_support_get_led_segments(Int8(c.asciiValue!))
+    private func ledPath(
+        forCharacter c: Character,
+        startX: Double,
+        hasDot: Bool,
+        hasColon: Bool,
+        combineSegments:Bool
+    ) -> Path? {
+        let segments = app_support_get_led_segments(Int8(c.asciiValue ?? 32))
         var isSegmentResolved = [Bool](repeating: false, count: 14)
 
         var path = Path()
@@ -119,8 +121,10 @@ struct DisplayView: View {
                    isSegment(segments: segments, i: pair[1]) {
                     let rect = useShortSegments ? DisplayView.combinedShorterRightSegmentsData[pair]
                                                 : DisplayView.combinedRightSegmentsData[pair]
-                    let segmentPath = getRectSegmentPath(rect: rect!)
-                    path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+                    guard let rect else { continue }
+                    let segmentPath = getRectSegmentPath(rect: rect)
+                    guard let segmentPath else { continue }
+                    path.addPath(segmentPath.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                     isSegmentResolved[pair[0]] = true
                     isSegmentResolved[pair[1]] = true
                 }
@@ -132,14 +136,15 @@ struct DisplayView: View {
                         useShortSegments ? DisplayView.combinedShorterAngledSegmentsData[pair]
                                          : DisplayView.combinedAngledSegmentsData[pair]
                     let segmentPath = getAngledSegmentPath(points: points!)
-                    path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+                    guard let segmentPath else { continue }
+                    path.addPath(segmentPath.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                     isSegmentResolved[pair[0]] = true
                     isSegmentResolved[pair[1]] = true
                 }
             }
         }
 
-        for i in 0...(DisplayView.segmentCount - 1) {
+        for i in 0..<DisplayView.segmentCount {
             if isSegment(segments: segments, i: i) {
                 let segmentPath: Path?
                 let isAngled = i == 2 || i == 4 || i == 9 || i == 11
@@ -149,8 +154,8 @@ struct DisplayView: View {
                 } else {
                     segmentPath = getRectSegmentPath(rect: DisplayView.rightSegmentsData[i]!)
                 }
-                if segmentPath != nil && !isSegmentResolved[i] {
-                    path.addPath(segmentPath!.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
+                if let segmentPath, !isSegmentResolved[i] {
+                    path.addPath(segmentPath.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
                 }
             }
         }
@@ -162,7 +167,7 @@ struct DisplayView: View {
         return path
     }
 
-    private func getPath(_ string: String) -> TransformedShape<Path> {
+    private func displayPath(forString string: String) -> TransformedShape<Path> {
         var path = Path()
         let displayCharacters = Array(string)
         var nonDotNonColonCount = 0
@@ -180,12 +185,12 @@ struct DisplayView: View {
             let position = index + (DisplayView.ledCount - nonDotNonColonCount)
             let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
             let hasColon = i < displayCharacters.count - 1 && displayCharacters[i + 1] == ":"
-            let ledPath = getLedPath(c: displayCharacters[i],
-                                     startX: DisplayView.interLedX * Double(position),
-                                     hasDot: hasDot,
-                                     hasColon: hasColon,
-                                     combineSegments: true)
-            if ledPath != nil { path.addPath(ledPath!) }
+            let ledPath = ledPath(forCharacter: displayCharacters[i],
+                                  startX: DisplayView.interLedX * Double(position),
+                                  hasDot: hasDot,
+                                  hasColon: hasColon,
+                                  combineSegments: true)
+            if let ledPath { path.addPath(ledPath) }
             index += 1
         }
         // Slant display slightly
@@ -198,31 +203,33 @@ struct DisplayView: View {
         return slantedPath
     }
 
-    private func getView(_ metrics: GeometryProxy) -> some View {
-        let fullRect = getPath("PENTATRONICS").shape.boundingRect
-        let scaleFactor: CGFloat
-            = DisplayView.displayToCalculatorWidthRatio * metrics.size.width / fullRect.width
-        var recenterOffsetX = DisplayView.ledHeight * DisplayView.slant
-        // Tweak so that it *looks* more centered (even if it is not).
-        recenterOffsetX += 5.0
-
-        let offsetX = (metrics.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
-        let offsetY = (metrics.size.height - fullRect.height) / 2 * scaleFactor
-
-        return getPath(displayText)
-            .scale(scaleFactor)
-            .offset(x: offsetX, y: offsetY)
-            .fill(DisplayView.ledColor)
-    }
-
     init(_ displayText: Binding<String>) {
         self._displayText = displayText
     }
 
+    private static var displayPathRect: CGRect {
+        let width = Double(ledCount - 1) * interLedX + ledWidth
+        return CGRect(x: 0, y: 0, width: width, height: ledHeight)
+    }
+
     var body: some View {
-      GeometryReader { metrics in
-        self.getView(metrics)
-      }
+        GeometryReader { proxy in
+            let fullRect = DisplayView.displayPathRect
+
+            let scaleFactor: CGFloat
+                = DisplayView.displayToCalculatorWidthRatio * proxy.size.width / fullRect.width
+
+            // Tweak (+5) so that it *looks* more centered (even if it is not).
+            let recenterOffsetX = DisplayView.ledHeight * DisplayView.slant + 5.0
+
+            let offsetX = (proxy.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
+            let offsetY = (proxy.size.height - fullRect.height) / 2 * scaleFactor
+
+            displayPath(forString: displayText)
+                .scale(scaleFactor)
+                .offset(x: offsetX, y: offsetY)
+                .fill(DisplayView.ledColor)
+        }
     }
 }
 
