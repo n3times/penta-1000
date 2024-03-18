@@ -114,7 +114,6 @@ static void press_key(app_t *app, char key) {
            number_edit_done_editing(calc);
         }
         aos_push_operator(calc, key);
-        is_error = aos->error != ERROR_NONE;
     }
 
     char old_display[25];

@@ -153,9 +153,9 @@ struct DisplayView: View {
         hasDot: Bool,
         combineSegments:Bool) -> Path?
     {
-        let ampersandAsciiValue: UInt8 = 64
+        let spaceAsciiValue: UInt8 = 64
         let c = c.asciiValue != nil ? c : "@"
-        let segments = app_support_get_led_segments(c.asciiValue ?? 32)
+        let segments = app_support_get_led_segments(c.asciiValue ?? spaceAsciiValue)
         var isSegmentResolved = [Bool](repeating: false, count: DisplayView.segmentCount)
 
         var path = Path()
