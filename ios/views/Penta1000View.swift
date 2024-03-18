@@ -40,17 +40,17 @@ struct Penta1000View: View {
             let displayOffsetY =
                 (standardDisplayOffsetY - (standardCalcHeight - standardDisplayHeight)/2) * scaleFactor
 
-            return ZStack {
+            ZStack {
                 Color(red: 16.0/255, green: 16.0/255, blue: 16.0/255).edgesIgnoringSafeArea(.all)
                 KeyboardView(penta1000: penta1000, displayText: $displayText)
                     .frame(width: CGFloat(calcWidth), height: CGFloat(calcHeight), alignment: .center)
-                DisplayView(self.$displayText)
+                DisplayView(displayString: $displayText)
                     .offset(x: CGFloat(displayOffsetX), y: CGFloat(displayOffsetY))
                     .frame(width: CGFloat(displayWidth),
                            height: CGFloat(displayHeight),
                            alignment: .center)
                     .onAppear {
-                        self.displayText = self.penta1000.display()
+                        displayText = penta1000.display()
                     }
             }
         }

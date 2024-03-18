@@ -1,81 +1,120 @@
 import SwiftUI
 
-/// The display, composed of 12 14-segments LEDs. In addition, each LED has a dot or colon to the
-/// right (decimal point).
-struct DisplayView: View {
-    /// The text composed of up to 12 non-dot non-colon characters, each one optionally followed by
-    /// a dot or colon. The text should be right-justified within the display.
-    @Binding var displayText: String
+/**
+ * Describes the shapes of the LED segments.
+ *
+ * Each LED has 14 segments: 8 are straight (4 vertical, 4 horizontal) and 4 are angled.
+ *  ---   <- this represents 1 horizontal segment
+ * |\|/|
+ *  ---   <- this represents 2 horizontal segments
+ * |/|\|
+ *  ___   <- this represents 1 horizontal segment
+ */
+private struct LedSegmentData {
+    struct Pair<T: Hashable>: Hashable {
+        let first: T
+        let second: T
 
+        init(_ first: T, _ second: T) {
+            self.first = first
+            self.second = second
+        }
+    }
+
+    /// Used to describe segments.
+    enum SegmentData {
+        /// The rectangle used to draw a straight segment.
+        case straight(CGRect)
+
+        /// The polygon used to draw an angled segment.
+        case angled([CGPoint])
+    }
+
+    /// Describes the shape of each one of the 14 segments.
+    static let segmentData: [SegmentData] = [
+        .straight(CGRect(x: 0, y: 0, width: 19, height: 3)),
+        .straight(CGRect(x: 0, y: 0, width: 3, height: 15)),
+        .angled([CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 10, y: 15-3),
+                 CGPoint(x: 10, y: 15), CGPoint(x: 10-2, y: 15), CGPoint(x: 1, y: 1+3)]),
+        .straight(CGRect(x: 8, y: 0, width: 3, height: 15)),
+        .angled([CGPoint(x: 18, y: 1+3), CGPoint(x: 9+2, y: 15), CGPoint(x: 9, y: 15),
+                 CGPoint(x: 9, y: 15-3), CGPoint(x: 18-2, y: 1), CGPoint(x: 18, y: 1)]),
+        .straight(CGRect(x: 16, y: 0, width: 3, height: 15)),
+        .straight(CGRect(x: 0, y: 13, width: 10, height: 3)),
+        .straight(CGRect(x: 9, y: 13, width: 10, height: 3)),
+        .straight(CGRect(x: 0, y: 14, width: 3, height: 15)),
+        .angled([CGPoint(x: 1, y: 28-3), CGPoint(x: 10-2, y: 14), CGPoint(x: 10, y: 14),
+                 CGPoint(x: 10, y: 14+3), CGPoint(x: 1+2, y: 28), CGPoint(x: 1, y: 28)]),
+        .straight(CGRect(x: 8, y: 14, width: 3, height: 15)),
+        .angled([CGPoint(x: 18, y: 28), CGPoint(x: 18-2, y: 28), CGPoint(x: 9, y: 14+3),
+                 CGPoint(x: 9, y: 14), CGPoint(x: 9+2, y: 14), CGPoint(x: 18, y: 28-3)]),
+        .straight(CGRect(x: 16, y: 14, width: 3, height: 15)),
+        .straight(CGRect(x: 0, y: 26, width: 19, height: 3))
+    ]
+
+    /// Combines 2 adjacent segments into one, with no gap.
+    static let combinedData: [Pair<Int>: SegmentData] = [
+        Pair(1, 8): .straight(CGRect(x: 0, y: 0, width: 3, height: 29)),
+        Pair(3, 10): .straight(CGRect(x: 8, y: 0, width: 3, height: 29)),
+        Pair(5, 12): .straight(CGRect(x: 16, y: 0, width: 3, height: 29)),
+        Pair(6, 7): .straight(CGRect(x: 0, y: 13, width: 19, height: 3)),
+        Pair(2, 11): .angled([CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 18, y: 28-3),
+                              CGPoint(x: 18, y: 28), CGPoint(x: 18-2, y: 28), CGPoint(x: 1, y: 1+3)]),
+        Pair(4, 9): .angled([CGPoint(x: 1, y: 28-3), CGPoint(x: 18-2, y: 1), CGPoint(x: 18, y: 1),
+                             CGPoint(x: 18, y: 1+3), CGPoint(x: 1+2, y: 28), CGPoint(x: 1, y: 28)]),
+    ]
+
+    /// Used for some characters (such as "X" or "+") that look better when the combined segments
+    /// are a little shorter.
+    static let combinedShoterData: [Pair<Int>: SegmentData] = [
+        Pair(1, 8): .straight(CGRect(x: 0, y: 4, width: 3, height: 23)),
+        Pair(3, 10): .straight(CGRect(x: 8, y: 4, width: 3, height: 23)),
+        Pair(5, 12): .straight(CGRect(x: 16, y: 4, width: 3, height: 23)),
+        Pair(6, 7): .straight(CGRect(x: 0, y: 13, width: 19, height: 3)),
+        Pair(2, 11): .angled([CGPoint(x: 3, y: 5), CGPoint(x: 3+2, y: 5), CGPoint(x: 17, y: 25-3),
+                              CGPoint(x: 17, y: 25), CGPoint(x: 17-2, y: 25), CGPoint(x: 3, y: 5+3)]),
+        Pair(4, 9): .angled([CGPoint(x: 3, y: 25-3), CGPoint(x: 17-2, y: 5), CGPoint(x: 17, y: 5),
+                             CGPoint(x: 17, y: 5+3), CGPoint(x: 3+2, y: 25), CGPoint(x: 3, y: 25)]),
+    ]
+
+    /// The data for the decimal dot.
+    static let dotData = SegmentData.straight(CGRect(x: 22, y: 25, width: 4, height: 4))
+}
+
+/**
+ * The display, composed of 12 LEDs. In addition, each LED has an optional dot to the right (decimal
+ * point).
+ *
+ * Note that the actual TI-57 has 7-segment LEDs but RCL-57 supports alpha mode.
+ */
+struct DisplayView: View {
     private static let ledColor = Color.red
-    private static let ledCount = 12
-    private static let ledWidth = CGFloat(19.0)
-    private static let ledHeight = CGFloat(29.0)
-    private static let interLedX = 32.0
+    private static let maxLedCount = 12
     private static let segmentCount = 14
-    private static let slant = CGFloat(0.08)
+    private static let ledWidth = 19.0
+    private static let ledHeight = 26.0
+    private static let interLedX = 32.0
+    private static let slant = 0.05
     private static let displayToCalculatorWidthRatio = CGFloat(0.85)
 
-    // Describes the 10 horizontal and vertical segments.
-    private static let rightSegmentsData = [
-        0: CGRect(x: 0, y: 0, width: 19, height: 3),
-        1: CGRect(x: 0, y: 0, width: 3, height: 15),
-        3: CGRect(x: 8, y: 0, width: 3, height: 15),
-        5: CGRect(x: 16, y: 0, width: 3, height: 15),
-        6: CGRect(x: 0, y: 13, width: 10, height: 3),
-        7: CGRect(x: 9, y: 13, width: 10, height: 3),
-        8: CGRect(x: 0, y: 14, width: 3, height: 15),
-        10: CGRect(x: 8, y: 14, width: 3, height: 15),
-        12: CGRect(x: 16, y: 14, width: 3, height: 15),
-        13: CGRect(x: 0, y: 26, width: 19, height: 3),
-    ]
+    /// A string composed of up to 12 non-dot characters, each one optionally followed by a
+    /// a dot. The string will be right-justified within the display.
+    @Binding var displayString: String
 
-    private static let combinedRightSegmentsData = [
-        [1, 8]: CGRect(x: 0, y: 0, width: 3, height: 29),
-        [3, 10]: CGRect(x: 8, y: 0, width: 3, height: 29),
-        [5, 12]: CGRect(x: 16, y: 0, width: 3, height: 29),
-        [6, 7]: CGRect(x: 0, y: 13, width: 19, height: 3),
-    ]
+    /// A device independent rectangle where the display is drawn. The display is eventually
+    /// scaled to fit the device resolution.
+    private static var displayPathRect: CGRect {
+        let width = Double(maxLedCount - 1) * interLedX + ledWidth
+        return CGRect(x: 0, y: 0, width: width, height: ledHeight)
+    }
 
-    private static let combinedShorterRightSegmentsData = [
-        [1, 8]: CGRect(x: 0, y: 4, width: 3, height: 23),
-        [3, 10]: CGRect(x: 8, y: 4, width: 3, height: 23),
-        [5, 12]: CGRect(x: 16, y: 4, width: 3, height: 23),
-        [6, 7]: CGRect(x: 0, y: 13, width: 19, height: 3),
-    ]
 
-    // Describes the 4 angled segments. Points of each hexagon should be listed clockwise.
-    private static let angledSegmentsData = [
-        2: [CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 10, y: 15-3),
-            CGPoint(x: 10, y: 15), CGPoint(x: 10-2, y: 15), CGPoint(x: 1, y: 1+3)],
-        4: [CGPoint(x: 18, y: 1+3), CGPoint(x: 9+2, y: 15), CGPoint(x: 9, y: 15),
-            CGPoint(x: 9, y: 15-3), CGPoint(x: 18-2, y: 1), CGPoint(x: 18, y: 1)],
-        9: [CGPoint(x: 1, y: 28-3), CGPoint(x: 10-2, y: 14), CGPoint(x: 10, y: 14),
-            CGPoint(x: 10, y: 14+3), CGPoint(x: 1+2, y: 28), CGPoint(x: 1, y: 28)],
-        11: [CGPoint(x: 18, y: 28), CGPoint(x: 18-2, y: 28), CGPoint(x: 9, y: 14+3),
-            CGPoint(x: 9, y: 14), CGPoint(x: 9+2, y: 14), CGPoint(x: 18, y: 28-3)],
-    ]
+    // MARK: Single-Segment Path
 
-    private static let combinedAngledSegmentsData = [
-        [2, 11]: [CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 18, y: 28-3),
-                  CGPoint(x: 18, y: 28), CGPoint(x: 18-2, y: 28), CGPoint(x: 1, y: 1+3)],
-        [4, 9]: [CGPoint(x: 1, y: 28-3), CGPoint(x: 18-2, y: 1), CGPoint(x: 18, y: 1),
-                 CGPoint(x: 18, y: 1+3), CGPoint(x: 1+2, y: 28), CGPoint(x: 1, y: 28)],
-    ]
-
-    private static let combinedShorterAngledSegmentsData = [
-        [2, 11]: [CGPoint(x: 3, y: 5), CGPoint(x: 3+2, y: 5), CGPoint(x: 17, y: 25-3),
-                  CGPoint(x: 17, y: 25), CGPoint(x: 17-2, y: 25), CGPoint(x: 3, y: 5+3)],
-        [4, 9]: [CGPoint(x: 3, y: 25-3), CGPoint(x: 17-2, y: 5), CGPoint(x: 17, y: 5),
-                 CGPoint(x: 17, y: 5+3), CGPoint(x: 3+2, y: 25), CGPoint(x: 3, y: 25)],
-    ]
-
-    private let dotData = CGRect(x: 22, y: 25, width: 4, height: 4)
-    private let alternateDotData = CGRect(x: 15, y: 25, width: 4, height: 4)
-
-    private func getRectSegmentPath(rect: CGRect) -> Path? {
+    /// Returns a rectangular path with the corners slightly clipped.
+    private func straightLedSegmentPath(rect: CGRect) -> Path {
         var path = Path()
-        let d = CGFloat(1.5)
+        let d = 1.5
         path.move(to: CGPoint(x: rect.minX, y: rect.minY + d))
         path.addLine(to: CGPoint(x: rect.minX + d, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.maxX - d, y: rect.minY))
@@ -84,115 +123,131 @@ struct DisplayView: View {
         path.addLine(to: CGPoint(x: rect.maxX - d, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX + d, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY - d))
+        path.closeSubpath()
         return path
     }
 
-    private func getAngledSegmentPath(points: [CGPoint]) -> Path? {
+    /// Returns a polygon path describing the angled LED segment.
+    private func angledLedSegmentPath(points: [CGPoint]) -> Path {
         var path = Path()
         path.move(to: points[0])
-        for i in 1...5 {
+        for i in 1..<points.count {
             path.addLine(to: points[i])
         }
+        path.closeSubpath()
         return path
     }
 
-    private func isSegment(segments: UInt16, i: Int) -> Bool {
+
+    // MARK: Single-LED Path
+
+    /// Returns `true` if the segment of a given index is on.
+    private func isSegmentOn(segments: UInt16, i: Int) -> Bool {
         return segments & (1 << (DisplayView.segmentCount - 1 - i)) != 0
     }
 
+    /// The path for a single LED.
     private func ledPath(
         forCharacter c: Character,
-        startX: Double,
+        startX: CGFloat,
         hasDot: Bool,
-        hasColon: Bool,
-        combineSegments:Bool
-    ) -> Path? {
-        let segments = app_support_get_led_segments(Int8(c.asciiValue ?? 32))
-        var isSegmentResolved = [Bool](repeating: false, count: 14)
+        combineSegments:Bool) -> Path?
+    {
+        let ampersandAsciiValue: UInt8 = 64
+        let c = c.asciiValue != nil ? c : "@"
+        let segments = app_support_get_led_segments(c.asciiValue ?? 32)
+        var isSegmentResolved = [Bool](repeating: false, count: DisplayView.segmentCount)
 
         var path = Path()
 
-        let useShortSegments = c == "+" || c == "-" || c == "X" || c == "/"
-        let useAlternateDotData = c == "1"
+        let useShortSegments = c == "+" || c == "-" || c == "x" || c == "/" || c == "@"
 
+        // Draw the combined LED segments.
         if combineSegments {
-            for pair in DisplayView.combinedRightSegmentsData.keys {
-                if isSegment(segments: segments, i: pair[0]) &&
-                   isSegment(segments: segments, i: pair[1]) {
-                    let rect = useShortSegments ? DisplayView.combinedShorterRightSegmentsData[pair]
-                                                : DisplayView.combinedRightSegmentsData[pair]
-                    guard let rect else { continue }
-                    let segmentPath = getRectSegmentPath(rect: rect)
-                    guard let segmentPath else { continue }
-                    path.addPath(segmentPath.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-                    isSegmentResolved[pair[0]] = true
-                    isSegmentResolved[pair[1]] = true
-                }
-            }
-            for pair in DisplayView.combinedAngledSegmentsData.keys {
-                if isSegment(segments: segments, i: pair[0]) &&
-                   isSegment(segments: segments, i: pair[1]) {
-                    let points =
-                        useShortSegments ? DisplayView.combinedShorterAngledSegmentsData[pair]
-                                         : DisplayView.combinedAngledSegmentsData[pair]
-                    let segmentPath = getAngledSegmentPath(points: points!)
-                    guard let segmentPath else { continue }
-                    path.addPath(segmentPath.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-                    isSegmentResolved[pair[0]] = true
-                    isSegmentResolved[pair[1]] = true
+            for pair in LedSegmentData.combinedData.keys {
+                if isSegmentOn(segments: segments, i: pair.first) &&
+                    isSegmentOn(segments: segments, i: pair.second) {
+                    let combinedData = useShortSegments ? LedSegmentData.combinedShoterData
+                    : LedSegmentData.combinedData
+                    switch combinedData[pair] {
+                    case .straight(let rect):
+                        let segmentPath = straightLedSegmentPath(rect: rect)
+                        path.addPath(segmentPath.offsetBy(dx: startX, dy: 0))
+                    case .angled(let points):
+                        let segmentPath = angledLedSegmentPath(points: points)
+                        path.addPath(segmentPath.offsetBy(dx: startX, dy: 0))
+                    default:
+                        break
+                    }
+                    isSegmentResolved[pair.first] = true
+                    isSegmentResolved[pair.second] = true
                 }
             }
         }
 
-        for i in 0..<DisplayView.segmentCount {
-            if isSegment(segments: segments, i: i) {
-                let segmentPath: Path?
-                let isAngled = i == 2 || i == 4 || i == 9 || i == 11
-                if isAngled {
-                    segmentPath =
-                        getAngledSegmentPath(points: DisplayView.angledSegmentsData[i]!)
-                } else {
-                    segmentPath = getRectSegmentPath(rect: DisplayView.rightSegmentsData[i]!)
-                }
-                if let segmentPath, !isSegmentResolved[i] {
-                    path.addPath(segmentPath.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-                }
+        // Draw the non-combined LED segments if they haven't been resolved.
+        for i in 0...(DisplayView.segmentCount - 1) {
+            if isSegmentResolved[i] { continue }
+            if isSegmentOn(segments: segments, i: i) {
+                let segmentPath = {
+                    switch LedSegmentData.segmentData[i] {
+                    case .straight(let rect):
+                        return straightLedSegmentPath(rect: rect)
+                    case .angled(let points):
+                        return angledLedSegmentPath(points: points)
+                    }
+                }()
+                path.addPath(segmentPath.offsetBy(dx: startX, dy: 0))
             }
         }
-        if hasDot || hasColon {
-            let data = useAlternateDotData ? alternateDotData : dotData
-            path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0)))
-            if hasColon { path.addRect(data.offsetBy(dx: CGFloat(startX), dy: CGFloat(0) - 18)) }
+
+        // Draw the dot if present.
+        if hasDot {
+            switch LedSegmentData.dotData {
+            case .angled:
+                break
+            case .straight(let rect):
+                path.addRect(rect.offsetBy(dx: startX, dy: 0))
+            }
         }
+
         return path
     }
 
-    private func displayPath(forString string: String) -> TransformedShape<Path> {
+
+    // MARK: All-LEDs Path
+
+    /// The path that describes the display with all its LEDs.
+    private func displayPath(
+        forDisplayString displayString: String, boundingRect: CGRect
+    ) -> some Shape {
         var path = Path()
-        let displayCharacters = Array(string)
-        var nonDotNonColonCount = 0
+        let displayCharacters = Array(displayString)
+
+        // Count the number of LEDs needed.
+        var ledCount = 0
         for c in displayCharacters {
-            if c != "." && c != ":" {
-                nonDotNonColonCount += 1
+            if c != "." {
+                ledCount += 1
             }
         }
+
+        // Go through every character and generate the associated LED path.
         var index = 0
         for i in 0..<displayCharacters.count {
             if displayCharacters[i] == "." { continue }
-            if displayCharacters[i] == ":" { continue }
 
             // Right justify.
-            let position = index + (DisplayView.ledCount - nonDotNonColonCount)
+            let position = index + (DisplayView.maxLedCount - ledCount)
             let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
-            let hasColon = i < displayCharacters.count - 1 && displayCharacters[i + 1] == ":"
             let ledPath = ledPath(forCharacter: displayCharacters[i],
-                                  startX: DisplayView.interLedX * Double(position),
+                                  startX: DisplayView.interLedX * CGFloat(position),
                                   hasDot: hasDot,
-                                  hasColon: hasColon,
                                   combineSegments: true)
             if let ledPath { path.addPath(ledPath) }
             index += 1
         }
+
         // Slant display slightly
         let slantedPath = path.transform(CGAffineTransform.init(a: 1,
                                                                 b: 0,
@@ -200,34 +255,25 @@ struct DisplayView: View {
                                                                 d: 1,
                                                                 tx: 0,
                                                                 ty: 0))
+
         return slantedPath
     }
 
-    init(_ displayText: Binding<String>) {
-        self._displayText = displayText
-    }
-
-    private static var displayPathRect: CGRect {
-        let width = Double(ledCount - 1) * interLedX + ledWidth
-        return CGRect(x: 0, y: 0, width: width, height: ledHeight)
-    }
-
     var body: some View {
-        GeometryReader { geometry in
-            let fullRect = DisplayView.displayPathRect
+        let displayRect = DisplayView.displayPathRect
 
-            let scaleFactor: CGFloat
-                = DisplayView.displayToCalculatorWidthRatio * geometry.size.width / fullRect.width
+        GeometryReader { proxy in
+            let width = proxy.size.width
+            let height = proxy.size.height
+            let boundingRect = CGRect(x: 0, y: 0, width: width, height: height)
+            let scaleFactor =
+                DisplayView.displayToCalculatorWidthRatio * boundingRect.width / displayRect.width
 
-            // Tweak (+5) so that it *looks* more centered (even if it is not).
-            let recenterOffsetX = DisplayView.ledHeight * DisplayView.slant + 5.0
-
-            let offsetX = (geometry.size.width - fullRect.width + recenterOffsetX) / 2 * scaleFactor
-            let offsetY = (geometry.size.height - fullRect.height) / 2 * scaleFactor
-
-            displayPath(forString: displayText)
+            // Center and scale the display to fit the device resolution.
+            displayPath(forDisplayString: displayString, boundingRect: boundingRect)
+                .offset(x: (boundingRect.width - displayRect.width) / 2,
+                        y: (boundingRect.height - displayRect.height) / 2)
                 .scale(scaleFactor)
-                .offset(x: offsetX, y: offsetY)
                 .fill(DisplayView.ledColor)
         }
     }
@@ -235,6 +281,6 @@ struct DisplayView: View {
 
 struct DisplayView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayView(.constant("READY"))
+        DisplayView(displayString: .constant("READY"))
     }
 }

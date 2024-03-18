@@ -13,7 +13,7 @@ class penta1000Tests: XCTestCase {
 
     func testEngine() throws {
         // Core.
-        let p1 = Penta1000(randomSeed: 0)
+        let p1 = Penta1000(withRandomSeed: 0)
         XCTAssertEqual(p1.display(), "PENTATRONICS")
 
         for c in "1+1=" {
@@ -52,7 +52,7 @@ class penta1000Tests: XCTestCase {
         }
 
         // Read Penta1000 from file system.
-        let p1FromFile = Penta1000(filename: "penta1000.dat")
+        let p1FromFile = Penta1000(fromFilename: "penta1000.dat")
         XCTAssertNotNil(p1FromFile, "Couldn't read Penta1000 from filesystem")
         if let p1FromFile {
             XCTAssertEqual(p1FromFile.display(), "___ GUESS ")

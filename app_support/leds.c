@@ -60,7 +60,7 @@ static void init(void) {
     LEDS_MAP['v'] = 0b10101000000000;
 }
 
-uint16_t app_support_get_led_segments(char c) {
+uint16_t app_support_get_led_segments(unsigned char c) {
     if (!inited) { init(); }
     return LEDS_MAP[c];
 }

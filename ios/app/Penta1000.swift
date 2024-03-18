@@ -5,7 +5,7 @@ import Foundation
 /// This is a wrapper around the Pentatronics 1000 C library.
 class Penta1000 {
     private static let hiscoreKey = "hiscore"
-    private static let stateFilename = "penta1000.dat"
+    static let stateFilename = "penta1000.dat"
 
     /// The Penta1000 singleton.
     static let shared = Penta1000()
@@ -13,7 +13,7 @@ class Penta1000 {
     // The C backing struct.
     private var p1: OpaquePointer
 
-    static func p1(fromFilename filename: String) -> OpaquePointer? {
+    private static func p1(fromFilename filename: String) -> OpaquePointer? {
         let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         guard let fileURL = dirURL?.appendingPathComponent(filename) else { return nil }
         guard let fileRawData = try? Data(contentsOf: fileURL) else { return nil }
@@ -31,12 +31,12 @@ class Penta1000 {
 
     /// Initializes a Penta1000 object. The 'randomSeed' is used by the game's pseudo random number
     /// generator.
-    init(randomSeed: Int) {
+    init(withRandomSeed randomSeed: Int) {
         p1 = p1_new(randomSeed)
     }
 
     /// Initializes a Penta1000 object from the state stored in a given file.
-    init?(filename: String) {
+    init?(fromFilename filename: String) {
         guard let p1 = Penta1000.p1(fromFilename: filename) else { return nil }
 
         self.p1 = p1
@@ -77,7 +77,7 @@ class Penta1000 {
         return p1_is_animating(p1)
     }
 
-    /// Should be called every 10ms while 'isAnimating()' is true.
+    /// Should be called every 10 ms while 'isAnimating()' is true.
     func advanceFrame() {
         return p1_advance_frame(p1)
     }
@@ -106,7 +106,7 @@ class Penta1000 {
 
     // MARK: State.
 
-    /// Saves the Penta1000 object in a given file. Returns 'true' if the object was saved
+    /// Saves the Penta1000 object in the file syatem. Returns 'true' if the object was saved
     /// successfully.
     func save() -> Bool {
         let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
