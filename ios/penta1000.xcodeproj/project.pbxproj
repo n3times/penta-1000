@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15839F452BA9EBDE009638BA /* Penta1000.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2BF04242EE20100AD1EC8 /* Penta1000.swift */; };
+		15839F462BA9EC68009638BA /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
+		15839F472BA9ECB9009638BA /* penta1000.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911B624317D0E00A80DAF /* penta1000.c */; };
+		15839F482BA9ECB9009638BA /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911BD24317D0E00A80DAF /* log.c */; };
+		15839F492BA9ECB9009638BA /* calc.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911BE24317D0E00A80DAF /* calc.c */; };
+		15839F4A2BA9ECB9009638BA /* aos.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911BF24317D0E00A80DAF /* aos.c */; };
+		15839F4B2BA9ECB9009638BA /* number_edit.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD911C424317D0E00A80DAF /* number_edit.c */; };
+		15839F4C2BA9ECB9009638BA /* hilo.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD843502460E0690047744C /* hilo.c */; };
+		15839F4D2BA9ECB9009638BA /* hilo2.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD84355246109C30047744C /* hilo2.c */; };
+		15839F4E2BA9ECB9009638BA /* leds.c in Sources */ = {isa = PBXBuildFile; fileRef = DA667A6D243B126100EC93C0 /* leds.c */; };
+		15BD18752BA9147700728BF2 /* penta1000watchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18742BA9147700728BF2 /* penta1000watchApp.swift */; };
+		15BD18772BA9147700728BF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18762BA9147700728BF2 /* ContentView.swift */; };
+		15BD18792BA9147900728BF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15BD18782BA9147900728BF2 /* Assets.xcassets */; };
+		15BD187C2BA9147900728BF2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15BD187B2BA9147900728BF2 /* Preview Assets.xcassets */; };
+		15BD18862BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18852BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift */; };
+		15BD18902BA9147900728BF2 /* penta1000watch_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD188F2BA9147900728BF2 /* penta1000watch_Watch_AppUITests.swift */; };
+		15BD18922BA9147900728BF2 /* penta1000watch_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18912BA9147900728BF2 /* penta1000watch_Watch_AppUITestsLaunchTests.swift */; };
+		15BD18952BA9147900728BF2 /* penta1000watch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 15BD18722BA9147700728BF2 /* penta1000watch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		15FDFD242BA114640003BB38 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDFD232BA114640003BB38 /* KeyboardView.swift */; };
 		15FDFD262BA267230003BB38 /* Penta1000App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FDFD252BA267230003BB38 /* Penta1000App.swift */; };
 		DA2B80DF24350D3F00197C78 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B80DE24350D3F00197C78 /* DisplayView.swift */; };
@@ -32,6 +50,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		15BD18822BA9147900728BF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAB98F67242EC5130014AEE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 15BD18712BA9147700728BF2;
+			remoteInfo = "penta1000watch Watch App";
+		};
+		15BD188C2BA9147900728BF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAB98F67242EC5130014AEE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 15BD18712BA9147700728BF2;
+			remoteInfo = "penta1000watch Watch App";
+		};
+		15BD18932BA9147900728BF2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAB98F67242EC5130014AEE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 15BD18712BA9147700728BF2;
+			remoteInfo = "penta1000watch Watch App";
+		};
 		DAB98F86242EC5160014AEE3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAB98F67242EC5130014AEE3 /* Project object */;
@@ -48,7 +87,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		15BD18962BA9147900728BF2 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				15BD18952BA9147900728BF2 /* penta1000watch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		15BD18722BA9147700728BF2 /* penta1000watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "penta1000watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15BD18742BA9147700728BF2 /* penta1000watchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000watchApp.swift; sourceTree = "<group>"; };
+		15BD18762BA9147700728BF2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		15BD18782BA9147900728BF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		15BD187B2BA9147900728BF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		15BD18812BA9147900728BF2 /* penta1000watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "penta1000watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15BD18852BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000watch_Watch_AppTests.swift; sourceTree = "<group>"; };
+		15BD188B2BA9147900728BF2 /* penta1000watch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "penta1000watch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15BD188F2BA9147900728BF2 /* penta1000watch_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000watch_Watch_AppUITests.swift; sourceTree = "<group>"; };
+		15BD18912BA9147900728BF2 /* penta1000watch_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000watch_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		15FDFD232BA114640003BB38 /* KeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		15FDFD252BA267230003BB38 /* Penta1000App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Penta1000App.swift; sourceTree = "<group>"; };
 		DA2B80DE24350D3F00197C78 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
@@ -92,6 +155,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		15BD186F2BA9147700728BF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15BD187E2BA9147900728BF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15BD18882BA9147900728BF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAB98F6C242EC5130014AEE3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -116,6 +200,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15BD18732BA9147700728BF2 /* penta1000watch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				15BD18742BA9147700728BF2 /* penta1000watchApp.swift */,
+				15BD18762BA9147700728BF2 /* ContentView.swift */,
+				15BD18782BA9147900728BF2 /* Assets.xcassets */,
+				15BD187A2BA9147900728BF2 /* Preview Content */,
+			);
+			path = "penta1000watch Watch App";
+			sourceTree = "<group>";
+		};
+		15BD187A2BA9147900728BF2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				15BD187B2BA9147900728BF2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		15BD18842BA9147900728BF2 /* penta1000watch Watch AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				15BD18852BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift */,
+			);
+			path = "penta1000watch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		15BD188E2BA9147900728BF2 /* penta1000watch Watch AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				15BD188F2BA9147900728BF2 /* penta1000watch_Watch_AppUITests.swift */,
+				15BD18912BA9147900728BF2 /* penta1000watch_Watch_AppUITestsLaunchTests.swift */,
+			);
+			path = "penta1000watch Watch AppUITests";
+			sourceTree = "<group>";
+		};
 		15FDFD292BA3A8540003BB38 /* views */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +293,9 @@
 				15FDFD292BA3A8540003BB38 /* views */,
 				DAB98F88242EC5160014AEE3 /* penta1000Tests */,
 				DAB98F93242EC5160014AEE3 /* penta1000UITests */,
+				15BD18732BA9147700728BF2 /* penta1000watch Watch App */,
+				15BD18842BA9147900728BF2 /* penta1000watch Watch AppTests */,
+				15BD188E2BA9147900728BF2 /* penta1000watch Watch AppUITests */,
 				DAB98F70242EC5130014AEE3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -183,6 +306,9 @@
 				DAB98F6F242EC5130014AEE3 /* Penta-1000.app */,
 				DAB98F85242EC5160014AEE3 /* penta1000Tests.xctest */,
 				DAB98F90242EC5160014AEE3 /* penta1000UITests.xctest */,
+				15BD18722BA9147700728BF2 /* penta1000watch Watch App.app */,
+				15BD18812BA9147900728BF2 /* penta1000watch Watch AppTests.xctest */,
+				15BD188B2BA9147900728BF2 /* penta1000watch Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -273,6 +399,59 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		15BD18712BA9147700728BF2 /* penta1000watch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15BD189D2BA9147900728BF2 /* Build configuration list for PBXNativeTarget "penta1000watch Watch App" */;
+			buildPhases = (
+				15BD186E2BA9147700728BF2 /* Sources */,
+				15BD186F2BA9147700728BF2 /* Frameworks */,
+				15BD18702BA9147700728BF2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "penta1000watch Watch App";
+			productName = "penta1000watch Watch App";
+			productReference = 15BD18722BA9147700728BF2 /* penta1000watch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		15BD18802BA9147900728BF2 /* penta1000watch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15BD189E2BA9147900728BF2 /* Build configuration list for PBXNativeTarget "penta1000watch Watch AppTests" */;
+			buildPhases = (
+				15BD187D2BA9147900728BF2 /* Sources */,
+				15BD187E2BA9147900728BF2 /* Frameworks */,
+				15BD187F2BA9147900728BF2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				15BD18832BA9147900728BF2 /* PBXTargetDependency */,
+			);
+			name = "penta1000watch Watch AppTests";
+			productName = "penta1000watch Watch AppTests";
+			productReference = 15BD18812BA9147900728BF2 /* penta1000watch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		15BD188A2BA9147900728BF2 /* penta1000watch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15BD189F2BA9147900728BF2 /* Build configuration list for PBXNativeTarget "penta1000watch Watch AppUITests" */;
+			buildPhases = (
+				15BD18872BA9147900728BF2 /* Sources */,
+				15BD18882BA9147900728BF2 /* Frameworks */,
+				15BD18892BA9147900728BF2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				15BD188D2BA9147900728BF2 /* PBXTargetDependency */,
+			);
+			name = "penta1000watch Watch AppUITests";
+			productName = "penta1000watch Watch AppUITests";
+			productReference = 15BD188B2BA9147900728BF2 /* penta1000watch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		DAB98F6E242EC5130014AEE3 /* penta1000 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAB98F99242EC5160014AEE3 /* Build configuration list for PBXNativeTarget "penta1000" */;
@@ -280,10 +459,12 @@
 				DAB98F6B242EC5130014AEE3 /* Sources */,
 				DAB98F6C242EC5130014AEE3 /* Frameworks */,
 				DAB98F6D242EC5130014AEE3 /* Resources */,
+				15BD18962BA9147900728BF2 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				15BD18942BA9147900728BF2 /* PBXTargetDependency */,
 			);
 			name = penta1000;
 			productName = penta1000;
@@ -333,10 +514,21 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Paul Novaes";
 				TargetAttributes = {
+					15BD18712BA9147700728BF2 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					15BD18802BA9147900728BF2 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = 15BD18712BA9147700728BF2;
+					};
+					15BD188A2BA9147900728BF2 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = 15BD18712BA9147700728BF2;
+					};
 					DAB98F6E242EC5130014AEE3 = {
 						CreatedOnToolsVersion = 11.4;
 					};
@@ -366,11 +558,37 @@
 				DAB98F6E242EC5130014AEE3 /* penta1000 */,
 				DAB98F84242EC5160014AEE3 /* penta1000Tests */,
 				DAB98F8F242EC5160014AEE3 /* penta1000UITests */,
+				15BD18712BA9147700728BF2 /* penta1000watch Watch App */,
+				15BD18802BA9147900728BF2 /* penta1000watch Watch AppTests */,
+				15BD188A2BA9147900728BF2 /* penta1000watch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		15BD18702BA9147700728BF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15BD187C2BA9147900728BF2 /* Preview Assets.xcassets in Resources */,
+				15BD18792BA9147900728BF2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15BD187F2BA9147900728BF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15BD18892BA9147900728BF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAB98F6D242EC5130014AEE3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -402,6 +620,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		15BD186E2BA9147700728BF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15839F472BA9ECB9009638BA /* penta1000.c in Sources */,
+				15839F482BA9ECB9009638BA /* log.c in Sources */,
+				15839F492BA9ECB9009638BA /* calc.c in Sources */,
+				15839F4A2BA9ECB9009638BA /* aos.c in Sources */,
+				15839F4B2BA9ECB9009638BA /* number_edit.c in Sources */,
+				15839F4C2BA9ECB9009638BA /* hilo.c in Sources */,
+				15839F4D2BA9ECB9009638BA /* hilo2.c in Sources */,
+				15839F4E2BA9ECB9009638BA /* leds.c in Sources */,
+				15BD18772BA9147700728BF2 /* ContentView.swift in Sources */,
+				15839F462BA9EC68009638BA /* DisplayView.swift in Sources */,
+				15839F452BA9EBDE009638BA /* Penta1000.swift in Sources */,
+				15BD18752BA9147700728BF2 /* penta1000watchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15BD187D2BA9147900728BF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15BD18862BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		15BD18872BA9147900728BF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15BD18922BA9147900728BF2 /* penta1000watch_Watch_AppUITestsLaunchTests.swift in Sources */,
+				15BD18902BA9147900728BF2 /* penta1000watch_Watch_AppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAB98F6B242EC5130014AEE3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -441,6 +695,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		15BD18832BA9147900728BF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 15BD18712BA9147700728BF2 /* penta1000watch Watch App */;
+			targetProxy = 15BD18822BA9147900728BF2 /* PBXContainerItemProxy */;
+		};
+		15BD188D2BA9147900728BF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 15BD18712BA9147700728BF2 /* penta1000watch Watch App */;
+			targetProxy = 15BD188C2BA9147900728BF2 /* PBXContainerItemProxy */;
+		};
+		15BD18942BA9147900728BF2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 15BD18712BA9147700728BF2 /* penta1000watch Watch App */;
+			targetProxy = 15BD18932BA9147900728BF2 /* PBXContainerItemProxy */;
+		};
 		DAB98F87242EC5160014AEE3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DAB98F6E242EC5130014AEE3 /* penta1000 */;
@@ -454,6 +723,178 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		15BD18972BA9147900728BF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"penta1000watch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = FVF2Q6V64F;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Penta 1000";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.n3times.penta1000;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "penta1000-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "penta1000-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.3;
+			};
+			name = Debug;
+		};
+		15BD18982BA9147900728BF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"penta1000watch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = FVF2Q6V64F;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Penta 1000";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.n3times.penta1000;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.n3times.penta1000.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "penta1000-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.3;
+			};
+			name = Release;
+		};
+		15BD18992BA9147900728BF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FVF2Q6V64F;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "n3times.penta1000watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/penta1000watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/penta1000watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Debug;
+		};
+		15BD189A2BA9147900728BF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FVF2Q6V64F;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "n3times.penta1000watch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/penta1000watch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/penta1000watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Release;
+		};
+		15BD189B2BA9147900728BF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FVF2Q6V64F;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "n3times.penta1000watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "penta1000watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Debug;
+		};
+		15BD189C2BA9147900728BF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FVF2Q6V64F;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "n3times.penta1000watch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "penta1000watch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+			};
+			name = Release;
+		};
 		DAB98F97242EC5160014AEE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -575,6 +1016,7 @@
 		DAB98F9A242EC5160014AEE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = penta1000.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -602,6 +1044,7 @@
 		DAB98F9B242EC5160014AEE3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = penta1000.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -709,6 +1152,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		15BD189D2BA9147900728BF2 /* Build configuration list for PBXNativeTarget "penta1000watch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15BD18972BA9147900728BF2 /* Debug */,
+				15BD18982BA9147900728BF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		15BD189E2BA9147900728BF2 /* Build configuration list for PBXNativeTarget "penta1000watch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15BD18992BA9147900728BF2 /* Debug */,
+				15BD189A2BA9147900728BF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		15BD189F2BA9147900728BF2 /* Build configuration list for PBXNativeTarget "penta1000watch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15BD189B2BA9147900728BF2 /* Debug */,
+				15BD189C2BA9147900728BF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DAB98F6A242EC5130014AEE3 /* Build configuration list for PBXProject "penta1000" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
