@@ -12,7 +12,7 @@ import SwiftUI
 struct penta1000watch_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Penta1000View()
         }
     }
 }

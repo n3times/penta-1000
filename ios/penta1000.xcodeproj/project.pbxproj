@@ -17,8 +17,9 @@
 		15839F4C2BA9ECB9009638BA /* hilo.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD843502460E0690047744C /* hilo.c */; };
 		15839F4D2BA9ECB9009638BA /* hilo2.c in Sources */ = {isa = PBXBuildFile; fileRef = DAD84355246109C30047744C /* hilo2.c */; };
 		15839F4E2BA9ECB9009638BA /* leds.c in Sources */ = {isa = PBXBuildFile; fileRef = DA667A6D243B126100EC93C0 /* leds.c */; };
+		15BC307E2BAA37490050C690 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BC307D2BAA37490050C690 /* KeyboardView.swift */; };
 		15BD18752BA9147700728BF2 /* penta1000watchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18742BA9147700728BF2 /* penta1000watchApp.swift */; };
-		15BD18772BA9147700728BF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18762BA9147700728BF2 /* ContentView.swift */; };
+		15BD18772BA9147700728BF2 /* Penta1000View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18762BA9147700728BF2 /* Penta1000View.swift */; };
 		15BD18792BA9147900728BF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15BD18782BA9147900728BF2 /* Assets.xcassets */; };
 		15BD187C2BA9147900728BF2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15BD187B2BA9147900728BF2 /* Preview Assets.xcassets */; };
 		15BD18862BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD18852BA9147900728BF2 /* penta1000watch_Watch_AppTests.swift */; };
@@ -102,9 +103,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15BC307D2BAA37490050C690 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		15BD18722BA9147700728BF2 /* penta1000watch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "penta1000watch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15BD18742BA9147700728BF2 /* penta1000watchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = penta1000watchApp.swift; sourceTree = "<group>"; };
-		15BD18762BA9147700728BF2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		15BD18762BA9147700728BF2 /* Penta1000View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Penta1000View.swift; sourceTree = "<group>"; };
 		15BD18782BA9147900728BF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15BD187B2BA9147900728BF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		15BD18812BA9147900728BF2 /* penta1000watch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "penta1000watch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				15BD18742BA9147700728BF2 /* penta1000watchApp.swift */,
-				15BD18762BA9147700728BF2 /* ContentView.swift */,
+				15BD18762BA9147700728BF2 /* Penta1000View.swift */,
+				15BC307D2BAA37490050C690 /* KeyboardView.swift */,
 				15BD18782BA9147900728BF2 /* Assets.xcassets */,
 				15BD187A2BA9147900728BF2 /* Preview Content */,
 			);
@@ -625,6 +628,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15839F472BA9ECB9009638BA /* penta1000.c in Sources */,
+				15BC307E2BAA37490050C690 /* KeyboardView.swift in Sources */,
 				15839F482BA9ECB9009638BA /* log.c in Sources */,
 				15839F492BA9ECB9009638BA /* calc.c in Sources */,
 				15839F4A2BA9ECB9009638BA /* aos.c in Sources */,
@@ -632,7 +636,7 @@
 				15839F4C2BA9ECB9009638BA /* hilo.c in Sources */,
 				15839F4D2BA9ECB9009638BA /* hilo2.c in Sources */,
 				15839F4E2BA9ECB9009638BA /* leds.c in Sources */,
-				15BD18772BA9147700728BF2 /* ContentView.swift in Sources */,
+				15BD18772BA9147700728BF2 /* Penta1000View.swift in Sources */,
 				15839F462BA9EC68009638BA /* DisplayView.swift in Sources */,
 				15839F452BA9EBDE009638BA /* Penta1000.swift in Sources */,
 				15BD18752BA9147700728BF2 /* penta1000watchApp.swift in Sources */,
