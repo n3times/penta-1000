@@ -1,5 +1,4 @@
 import SwiftUI
-import AudioToolbox
 
 /// The main view. It holds the calculator with its keyboard and display.
 struct Penta1000View: View {

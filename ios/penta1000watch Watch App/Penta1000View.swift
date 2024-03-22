@@ -9,17 +9,20 @@
 import SwiftUI
 
 struct Penta1000View: View {
+    @State var displayText = "PENTATRONICS"
+
     var body: some View {
         GeometryReader { geometry in
             let height = geometry.size.height
-            
+            let calcHeightRatio = 0.125
+            let keyboardHeightRatio = 1 - calcHeightRatio
+
             VStack {
-                DisplayView(displayString: .constant("PENTATRONICS"))
-                    .frame(minHeight: height / 6, maxHeight: .infinity)
-                KeyboardView()
-                    .frame(minHeight: 5 * height / 6, maxHeight: .infinity)
+                DisplayView(displayString: $displayText)
+                    .frame(height: height * calcHeightRatio)
+                KeyboardView(displayString: $displayText)
+                    .frame(height: height * keyboardHeightRatio)
             }
-            .padding()
         }
     }
 }

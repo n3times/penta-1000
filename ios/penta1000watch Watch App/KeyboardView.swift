@@ -7,77 +7,106 @@
 //
 
 import SwiftUI
+import WatchKit
 
 private struct PentaButton: View {
-    let title: String
-    let background: Color
+    let key: Character
     let width: CGFloat
     let height: CGFloat
-    let action: () -> Void
+    let penta1000 = Penta1000.shared
+    @Binding var displayText: String
 
-    init(_ title: String, background: Color = .white, width: CGFloat, height: CGFloat, action: @escaping () -> Void) {
-        self.title = title
-        self.background = background
+    private var background: Color {
+        switch key {
+        case "h": return .blue
+        case "c": return .orange
+        default: return .white
+        }
+    }
+
+    private var label: String {
+        let keyToLabelMap: [Character: String] = [".": "\u{00B7}",
+                                                  "*": "\u{00D7}",
+                                                  "h": "?",
+                                                  "c": "C",
+                                                  "~": "\u{00B1}",
+                                                  "/": "\u{00F7}"]
+
+        return keyToLabelMap[key] ?? String(key)
+    }
+
+    init(key: Character, width: CGFloat, height: CGFloat, displayText: Binding<String>) {
+        self.key = key
         self.width = width
         self.height = height
-        self.action = action
+        self._displayText = displayText
+    }
+
+    private func press(key: Character) {
+        WKInterfaceDevice.current().play(WKHapticType.click)
+
+        while penta1000.isAnimating() {
+            penta1000.advanceFrame()
+        }
+        penta1000.pressKey(key)
+        while penta1000.isAnimating() {
+            penta1000.advanceFrame()
+        }
+        displayText = penta1000.display()
     }
 
     var body: some View {
-        Button(action: action) {
-            Text(title)
+        Button(action: { press(key: key) }) {
+            Text(label)
                 .foregroundColor(.black)
         }
         .buttonStyle(PlainButtonStyle())
         .frame(width: width, height: height)
+        .contentShape(Rectangle())
         .background(background)
         .cornerRadius(8)
     }
 }
 
+#Preview {
+    PentaButton(key:"h", width: 80, height: 25, displayText: .constant("PENTATRONICS"))
+}
+
 struct KeyboardView: View {
+    @Binding var displayString: String
+
+    private static let rowCount = 5
+    private static let columnCount = 4
+    private static let keys = ["h~%c", "789/", "456*", "123+", "0.-="]
+
     var body: some View {
         GeometryReader { geometry in
             let height = geometry.size.height
-            let spacing = CGFloat(4)
-            let buttonHeight = (height - 4 * spacing) / 5
+            let spacing = CGFloat(3)
+            let buttonHeight = (height - (5 - 1) * spacing) / 5
 
             let width = geometry.size.width
-            let buttonWidth = (width - 3 * spacing) / 4
+            let buttonWidth = (width - (4 - 1) * spacing) / 4
+
 
             VStack(spacing: spacing) {
-                HStack(spacing: 4) {
-                    PentaButton("?", background: .blue, width: buttonWidth, height: buttonHeight) { print("?") }
-                    PentaButton("\u{00B1}", width: buttonWidth, height: buttonHeight) { print("\u{00B1}") }
-                    PentaButton("%", width: buttonWidth, height: buttonHeight) { print("%") }
-                    PentaButton("C", background: .orange, width: buttonWidth, height: buttonHeight) { print("C") }
-                }
-                HStack(spacing: 4) {
-                    PentaButton("7", width: buttonWidth, height: buttonHeight) { print("7") }
-                    PentaButton("8", width: buttonWidth, height: buttonHeight) { print("8") }
-                    PentaButton("9", width: buttonWidth, height: buttonHeight) { print("9") }
-                    PentaButton("\u{00F7}", width: buttonWidth, height: buttonHeight) { print("\u{00F7}") }
-                }
-                HStack(spacing: 4) {
-                    PentaButton("4", width: buttonWidth, height: buttonHeight) { print("4") }
-                    PentaButton("5", width: buttonWidth, height: buttonHeight) { print("5") }
-                    PentaButton("6", width: buttonWidth, height: buttonHeight) { print("6") }
-                    PentaButton("\u{00D7}", width: buttonWidth, height: buttonHeight) { print("\u{00D7}") }
-                }
-                HStack(spacing: 4) {
-                    PentaButton("1", width: buttonWidth, height: buttonHeight) { print("1") }
-                    PentaButton("2", width: buttonWidth, height: buttonHeight) { print("2") }
-                    PentaButton("3", width: buttonWidth, height: buttonHeight) { print("3") }
-                    PentaButton("+", width: buttonWidth, height: buttonHeight) { print("+") }
-                }
-                HStack(spacing: 4) {
-                    PentaButton("0", width: buttonWidth, height: buttonHeight) { print("0") }
-                    PentaButton("\u{00B7}", width: buttonWidth, height: buttonHeight) { print("\u{00B7}") }
-                    PentaButton("-", width: buttonWidth, height: buttonHeight) { print("-") }
-                    PentaButton("=", width: buttonWidth, height: buttonHeight) { print("=") }
+                ForEach(0..<KeyboardView.rowCount, id: \.self) { rowIndex in
+                    HStack(spacing: spacing) {
+                        ForEach(0..<KeyboardView.columnCount, id: \.self) { columnIndex in
+                            let row = KeyboardView.keys[rowIndex]
+                            let keyIndex = row.index(row.startIndex, offsetBy: columnIndex)
+                            PentaButton(key: row[keyIndex], 
+                                        width: buttonWidth,
+                                        height: buttonHeight,
+                                        displayText: $displayString)
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+#Preview {
+    KeyboardView(displayString: .constant("PENTATRONICS"))
+}
