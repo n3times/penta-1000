@@ -13,8 +13,7 @@ private struct PentaButton: View {
     let key: Character
     let width: CGFloat
     let height: CGFloat
-    let penta1000 = Penta1000.shared
-    @Binding var displayText: String
+    let onButtonTapped: (Character) -> Void
 
     private var background: Color {
         switch key {
@@ -35,28 +34,17 @@ private struct PentaButton: View {
         return keyToLabelMap[key] ?? String(key)
     }
 
-    init(key: Character, width: CGFloat, height: CGFloat, displayText: Binding<String>) {
+    init(key: Character, width: CGFloat, height: CGFloat, displayText: Binding<String>,
+         onButtonTapped: @escaping (Character) -> Void
+    ) {
         self.key = key
         self.width = width
         self.height = height
-        self._displayText = displayText
-    }
-
-    private func press(key: Character) {
-        WKInterfaceDevice.current().play(WKHapticType.click)
-
-        while penta1000.isAnimating() {
-            penta1000.advanceFrame()
-        }
-        penta1000.pressKey(key)
-        while penta1000.isAnimating() {
-            penta1000.advanceFrame()
-        }
-        displayText = penta1000.display()
+        self.onButtonTapped = onButtonTapped
     }
 
     var body: some View {
-        Button(action: { press(key: key) }) {
+        Button(action: { onButtonTapped(key) }) {
             Text(label)
                 .foregroundColor(.black)
         }
@@ -69,7 +57,9 @@ private struct PentaButton: View {
 }
 
 #Preview {
-    PentaButton(key:"h", width: 80, height: 25, displayText: .constant("PENTATRONICS"))
+    PentaButton(key:"h", width: 80, height: 25, displayText: .constant("PENTATRONICS")) { key in
+        print(key)
+    }
 }
 
 struct KeyboardView: View {
@@ -78,6 +68,26 @@ struct KeyboardView: View {
     private static let rowCount = 5
     private static let columnCount = 4
     private static let keys = ["h~%c", "789/", "456*", "123+", "0.-="]
+
+    private let penta1000 = Penta1000()
+
+    private func runDisplayAnimationLoop() {
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            // Advance up to 5 frames at a time, for performance reasons.
+            for _ in 0..<5 {
+                penta1000.advanceFrame()
+                if !penta1000.isAnimating() {
+                    break
+                }
+            }
+
+            displayString = penta1000.display()
+
+            if !penta1000.isAnimating() {
+                timer.invalidate()
+            }
+        }
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -98,7 +108,17 @@ struct KeyboardView: View {
                             PentaButton(key: row[keyIndex], 
                                         width: buttonWidth,
                                         height: buttonHeight,
-                                        displayText: $displayString)
+                                        displayText: $displayString) { key in
+                                WKInterfaceDevice.current().play(WKHapticType.click)
+
+                                let wasAnimating = penta1000.isAnimating()
+                                penta1000.pressKey(key)
+                                displayString = penta1000.display()
+                                let isAnimating = penta1000.isAnimating()
+                                if !wasAnimating && isAnimating {
+                                    runDisplayAnimationLoop()
+                                }
+                            }
                         }
                     }
                 }
