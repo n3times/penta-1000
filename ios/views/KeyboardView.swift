@@ -45,14 +45,6 @@ struct KeyboardView: View {
         }
     }
 
-    private func saveHiscore() {
-        let stateHiscore = penta1000.getStateHiscore()
-        let savedHiscore = penta1000.getSavedHiscore()
-        if stateHiscore > savedHiscore {
-            penta1000.setSavedHiscore(hiscore: Int(stateHiscore))
-        }
-    }
-
     private func runDisplayAnimationLoop() {
         Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
             let oldHiscore = penta1000.getStateHiscore()
@@ -66,7 +58,7 @@ struct KeyboardView: View {
             }
 
             let newHiscore = penta1000.getStateHiscore()
-            if newHiscore > oldHiscore { saveHiscore() }
+            if newHiscore > oldHiscore { penta1000.synchronizeHiscore() }
             displayText = penta1000.display()
 
             if !penta1000.isAnimating() {
@@ -121,7 +113,7 @@ struct KeyboardView: View {
                                 // Reflect the new state, if there was a change.
                                 let newHiscore = penta1000.getStateHiscore()
                                 if newHiscore > oldHiscore {
-                                    saveHiscore()
+                                    penta1000.synchronizeHiscore()
                                 }
                                 let isAnimating = penta1000.isAnimating()
                                 displayText = penta1000.display()
@@ -145,8 +137,6 @@ struct KeyboardView: View {
     }
 }
 
-struct KeyboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        KeyboardView(penta1000: Penta1000.shared, displayText: .constant("test"))
-    }
+#Preview {
+    KeyboardView(penta1000: Penta1000.shared, displayText: .constant("test"))
 }

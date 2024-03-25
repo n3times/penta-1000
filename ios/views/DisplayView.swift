@@ -31,7 +31,7 @@ private struct LedSegmentData {
     }
 
     /// Describes the shape of each one of the 14 segments.
-    static let segmentData: [SegmentData] = [
+    fileprivate static let segmentData: [SegmentData] = [
         .straight(CGRect(x: 0, y: 0, width: 19, height: 3)),
         .straight(CGRect(x: 0, y: 0, width: 3, height: 15)),
         .angled([CGPoint(x: 1, y: 1), CGPoint(x: 1+2, y: 1), CGPoint(x: 10, y: 15-3),
@@ -53,7 +53,7 @@ private struct LedSegmentData {
     ]
 
     /// Combines 2 adjacent segments into one, with no gap.
-    static let combinedData: [Pair<Int>: SegmentData] = [
+    fileprivate static let combinedData: [Pair<Int>: SegmentData] = [
         Pair(1, 8): .straight(CGRect(x: 0, y: 0, width: 3, height: 29)),
         Pair(3, 10): .straight(CGRect(x: 8, y: 0, width: 3, height: 29)),
         Pair(5, 12): .straight(CGRect(x: 16, y: 0, width: 3, height: 29)),
@@ -66,7 +66,7 @@ private struct LedSegmentData {
 
     /// Used for some characters (such as "X" or "+") that look better when the combined segments
     /// are a little shorter.
-    static let combinedShoterData: [Pair<Int>: SegmentData] = [
+    fileprivate static let combinedShoterData: [Pair<Int>: SegmentData] = [
         Pair(1, 8): .straight(CGRect(x: 0, y: 4, width: 3, height: 23)),
         Pair(3, 10): .straight(CGRect(x: 8, y: 4, width: 3, height: 23)),
         Pair(5, 12): .straight(CGRect(x: 16, y: 4, width: 3, height: 23)),
@@ -78,7 +78,10 @@ private struct LedSegmentData {
     ]
 
     /// The data for the decimal dot.
-    static let dotData = SegmentData.straight(CGRect(x: 22, y: 25, width: 4, height: 4))
+    fileprivate static let defaultDotData =
+        SegmentData.straight(CGRect(x: 22, y: 25, width: 4, height: 4))
+    fileprivate static let watchDotData =
+        SegmentData.straight(CGRect(x: 22, y: 25, width: 5, height: 5))
 }
 
 /**
@@ -88,23 +91,28 @@ private struct LedSegmentData {
  * Note that the actual TI-57 has 7-segment LEDs but RCL-57 supports alpha mode.
  */
 struct DisplayView: View {
-    private static let ledColor = Color.red
+    private static let defaultLedColor = Color.red
     private static let maxLedCount = 12
     private static let segmentCount = 14
     private static let ledWidth = 19.0
     private static let ledHeight = 26.0
-    private static let interLedX = 32.0
+    private static let defaultInterLedX = 32.0
     private static let slant = 0.05
-    private static let displayToCalculatorWidthRatio = CGFloat(0.85)
+    private static let defaultWidthRatio = CGFloat(0.85)
+
+    private static let watchLedColor = Color(red: 1.0, green: 0.3, blue: 0.3)
+    private static let watchInterLedX = 28.0
+    private static let watchWidthRatio = CGFloat(0.95)
 
     /// A string composed of up to 12 non-dot characters, each one optionally followed by a
     /// a dot. The string will be right-justified within the display.
     @Binding var displayString: String
+    let isWatchOS: Bool
 
     /// A device independent rectangle where the display is drawn. The display is eventually
     /// scaled to fit the device resolution.
     private static var displayPathRect: CGRect {
-        let width = Double(maxLedCount - 1) * interLedX + ledWidth
+        let width = Double(maxLedCount - 1) * defaultInterLedX + ledWidth
         return CGRect(x: 0, y: 0, width: width, height: ledHeight)
     }
 
@@ -203,7 +211,10 @@ struct DisplayView: View {
 
         // Draw the dot if present.
         if hasDot {
-            switch LedSegmentData.dotData {
+            let dotSegmentData = isWatchOS ? LedSegmentData.watchDotData
+                                           : LedSegmentData.defaultDotData
+
+            switch dotSegmentData {
             case .angled:
                 break
             case .straight(let rect):
@@ -241,7 +252,7 @@ struct DisplayView: View {
             let position = index + (DisplayView.maxLedCount - ledCount)
             let hasDot = i < displayCharacters.count - 1 && displayCharacters[i + 1] == "."
             let ledPath = ledPath(forCharacter: displayCharacters[i],
-                                  startX: DisplayView.interLedX * CGFloat(position),
+                                  startX: DisplayView.defaultInterLedX * CGFloat(position),
                                   hasDot: hasDot,
                                   combineSegments: true)
             if let ledPath { path.addPath(ledPath) }
@@ -259,6 +270,11 @@ struct DisplayView: View {
         return slantedPath
     }
 
+    init(displayString: Binding<String>, isWatchOS: Bool = false) {
+        self._displayString = displayString
+        self.isWatchOS = isWatchOS
+    }
+
     var body: some View {
         let displayRect = DisplayView.displayPathRect
 
@@ -266,21 +282,20 @@ struct DisplayView: View {
             let width = proxy.size.width
             let height = proxy.size.height
             let boundingRect = CGRect(x: 0, y: 0, width: width, height: height)
+            let widthRatio = isWatchOS ? DisplayView.watchWidthRatio : DisplayView.defaultWidthRatio
             let scaleFactor =
-                DisplayView.displayToCalculatorWidthRatio * boundingRect.width / displayRect.width
+                widthRatio * boundingRect.width / displayRect.width
 
             // Center and scale the display to fit the device resolution.
             displayPath(forDisplayString: displayString, boundingRect: boundingRect)
                 .offset(x: (boundingRect.width - displayRect.width) / 2,
                         y: (boundingRect.height - displayRect.height) / 2)
                 .scale(scaleFactor)
-                .fill(DisplayView.ledColor)
+                .fill(isWatchOS ? DisplayView.watchLedColor : DisplayView.defaultLedColor)
         }
     }
 }
 
-struct DisplayView_Previews: PreviewProvider {
-    static var previews: some View {
-        DisplayView(displayString: .constant("READY"))
-    }
+#Preview {
+    DisplayView(displayString: .constant("READY"))
 }

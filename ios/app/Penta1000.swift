@@ -1,9 +1,11 @@
 import Foundation
 
+import WatchConnectivity
+
 /// The Pentatronics 1000 object used to run the emulator.
 ///
 /// This is a wrapper around the Pentatronics 1000 C library.
-class Penta1000 {
+class Penta1000: NSObject, WCSessionDelegate {
     private static let hiscoreKey = "hiscore"
     static let stateFilename = "penta1000.dat"
 
@@ -45,13 +47,19 @@ class Penta1000 {
     /// Initializes a Penta1000 object from the standard state file.
     ///
     /// Otherwise initializes from a blank state.
-    init() {
-        guard let p1 = Penta1000.p1(fromFilename: Penta1000.stateFilename) else {
-            self.p1 = p1_new(Int.random(in: 0...1_000_000))
-            return
+    override init() {
+        self.p1 = Penta1000.p1(
+            fromFilename: Penta1000.stateFilename) ?? p1_new(Int.random(in: 0...1_000_000))
+
+        super.init()
+
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
         }
 
-        self.p1 = p1
+        synchronizeHiscore()
     }
 
     deinit {
@@ -147,5 +155,46 @@ class Penta1000 {
     func getSavedHiscore() -> Int {
         let hiscore = UserDefaults.standard.integer(forKey: Penta1000.hiscoreKey)
         return hiscore
+    }
+
+    func synchronizeHiscore(remoteHiscore: Int? = nil) {
+        let savedHiscore = getSavedHiscore()
+        let stateHiscore = getStateHiscore()
+        let newHiscore = remoteHiscore ?? 0
+        let maxScore = max(savedHiscore, Int(stateHiscore), newHiscore)
+
+        if maxScore > savedHiscore { setSavedHiscore(hiscore: maxScore)}
+        if maxScore > stateHiscore { setStateHiscore(hiscore: Int32(maxScore))}
+
+        if remoteHiscore == nil {
+            do {
+                try WCSession.default.updateApplicationContext(["hiscore": getStateHiscore()])
+            } catch {
+                print("Error sending high score: \(error.localizedDescription)")
+            }
+            return
+        }
+    }
+
+    // MARK: WCSessionDelegate
+
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
+
+    }
+
+    #if os(iOS)
+    func sessionDidBecomeInactive(_ session: WCSession) {
+
+    }
+
+    func sessionDidDeactivate(_ session: WCSession) {
+
+    }
+    #endif
+
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        if let hiscore = applicationContext["hiscore"] {
+            synchronizeHiscore(remoteHiscore: hiscore as? Int)
+        }
     }
 }

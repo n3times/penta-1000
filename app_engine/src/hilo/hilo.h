@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef enum hilo_state_e {
     // App has been entered.
@@ -26,7 +27,7 @@ typedef struct hilo_s {
     // time and when the game is recreated from a state.
     app_t app;
     // Used by the random number generator.
-    long rng;
+    uint64_t rng;
     // Mystery number the user has to guess.
     int target;
     // Latest user guess.

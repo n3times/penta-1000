@@ -56,8 +56,6 @@ struct Penta1000View: View {
     }
 }
 
-struct Penta1000View_Previews: PreviewProvider {
-    static var previews: some View {
-        Penta1000View()
-    }
+#Preview {
+    Penta1000View()
 }

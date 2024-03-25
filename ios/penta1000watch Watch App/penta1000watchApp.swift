@@ -10,9 +10,17 @@ import SwiftUI
 
 @main
 struct penta1000watch_Watch_AppApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
             Penta1000View()
+                .ignoresSafeArea(edges: [.bottom, .leading, .trailing])
+        }
+        .onChange(of: scenePhase) { oldScenePhase, newScenePhase in
+            if oldScenePhase == .active && newScenePhase == .inactive {
+                _ = Penta1000.shared.save()
+            }
         }
     }
 }
